@@ -4,7 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+// import swaggerUI from "swagger-ui-express";
 import userRoutes from "./routes/user.js";
+// import swaggerDocs from "./swaggerDocs.json" assert { type: "json" };
 
 // Constants
 const PORT = process.env.PORT || 8000;
@@ -41,6 +43,9 @@ mongoose.connect(
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}.`);
 });
+
+// Swagger
+// app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // Routes
 app.use("/api/user", userRoutes);
