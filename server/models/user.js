@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
-import { ROLES, STATUS } from "../constants";
+import validator from "validator";
+import { ROLES, STATUS } from "../constants.js";
 
 const userSchema = new Schema(
   {
@@ -8,10 +9,11 @@ const userSchema = new Schema(
       require: [true, "Email cannot be blank."],
       trim: true,
       unique: true,
-      match: [
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-        "Email is not a valid email address.",
-      ],
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Email is invalid!");
+        }
+      },
     },
     fullName: {
       type: String,
@@ -31,6 +33,7 @@ const userSchema = new Schema(
     money: {
       type: String,
       trim: true,
+      default: 0,
     },
     roleID: {
       type: String,
@@ -40,7 +43,7 @@ const userSchema = new Schema(
     status: {
       type: String,
       enum: Object.keys(STATUS),
-      default: Object.keys(ROLES)[0],
+      default: Object.keys(STATUS)[0],
     },
     bannedReason: {
       type: String,

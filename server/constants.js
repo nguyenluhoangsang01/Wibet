@@ -1,11 +1,11 @@
 export const ROLES = {
-  Admin: 1,
-  User: 2,
-  Guest: 3,
+  Admin: "Admin",
+  User: "User",
+  Guest: "Guest",
 };
 
 export const STATUS = {
-  Inactive: 0,
-  Active: 1,
-  "Unconfirmed email": 2,
+  Inactive: "Inactive",
+  Active: "Active",
+  "Unconfirmed email": "Unconfirmed email",
 };

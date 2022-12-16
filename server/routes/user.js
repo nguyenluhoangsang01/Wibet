@@ -1,24 +1,42 @@
 import express from "express";
 import {
-	createUser,
-	login,
-	logout,
-	updateUser,
-	updateUserById
+  createUser,
+  deleteUserById,
+  getUserById,
+  login,
+  logout,
+  updatePassword,
+  updateUser,
+  updateUserById,
 } from "../controllers/user.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
+
+// @route GET api/user/logout
+// @desc Logout user
+// @access Private
+router.get("/logout", verifyToken, logout);
+
+// @route GET api/user/:id
+// @desc Get user
+// @access Private
+router.get("/:id", verifyToken, getUserById);
+
+// @route POST api/user/login
+// @desc Login user
+// @access Public
+router.post("/login", login);
 
 // @route POST api/user
 // @desc Register user
 // @access Private
 router.post("/", verifyToken, createUser);
 
-// @route POST api/user/login
-// @desc Login user
-// @access Public
-router.post("/login", login);
+// @route DELETE api/user/:id
+// @desc Delete user
+// @access Private
+router.delete("/:id", verifyToken, deleteUserById);
 
 // @route PATCH api/user
 // @desc Update user logged
@@ -30,9 +48,9 @@ router.patch("/", verifyToken, updateUser);
 // @access Private
 router.patch("/:id", verifyToken, updateUserById);
 
-// @route POST api/user/logout
-// @desc Logout user
+// @route PATCH api/user/password
+// @desc Update password
 // @access Private
-router.post("/logout", verifyToken, logout);
+router.patch("/update/password", verifyToken, updatePassword);
 
 export default router;
