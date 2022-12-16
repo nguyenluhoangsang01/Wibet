@@ -6,17 +6,21 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.js";
 
+// Constants
 const PORT = process.env.PORT || 8000;
 
+// Config
 const app = express();
 dotenv.config();
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Set up mongoose connect
 mongoose.set("strictQuery", false);
 mongoose.connect(
   process.env.MONGO_URI,
@@ -33,12 +37,15 @@ mongoose.connect(
   }
 );
 
+// Server running
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.`);
 });
 
+// Routes
 app.use("/api/user", userRoutes);
 
-app.use("/*", (req, res) => {
+// Route not found
+app.use("/*", (_, res) => {
   res.status(501).send("Not implemented.");
 });
