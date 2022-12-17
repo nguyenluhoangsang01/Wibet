@@ -16,8 +16,8 @@ const teamSchema = new Schema(
     },
     flag: {
       type: String,
-      require: [true, "Flag cannot be blank."],
       trim: true,
+      default: "flag.png",
     },
   },
   { timestamps: true }

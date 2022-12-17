@@ -1,17 +1,23 @@
 import express from "express";
 import {
-  createUser,
-  deleteUserById,
-  getUserById,
-  login,
-  logout,
-  updatePassword,
-  updateUser,
-  updateUserById,
+	createUser,
+	deleteUserById,
+	getAllUsers,
+	getUserById,
+	login,
+	logout,
+	updatePassword,
+	updateUser,
+	updateUserById
 } from "../controllers/user.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
+
+// @route GET api/user
+// @desc Get all users
+// @access Private
+router.get("/", verifyToken, getAllUsers);
 
 // @route GET api/user/logout
 // @desc Logout user
@@ -31,7 +37,7 @@ router.post("/login", login);
 // @route POST api/user
 // @desc Register user
 // @access Private
-router.post("/", verifyToken, createUser);
+router.post("/",  createUser);
 
 // @route DELETE api/user/:id
 // @desc Delete user

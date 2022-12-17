@@ -253,18 +253,18 @@ export const deleteUserById = async (req, res, next) => {
     // Get id from params
     const { id } = req.params;
 
-    // Check if user not exists
-    const user = await User.findById(id);
+    // Check if user not exist and delete user
+    const user = await User.findByIdAndDelete(id);
     if (!user) return sendError(res, "User not found", 404);
 
-    // Delete user
-    await User.findByIdAndDelete(id);
-
     // Get all users after delete
-    const users = await User.find();
+    const users = await User.find().select("-__v -password");
 
     // Send success notification
-    return sendSuccess(res, "Delete user successfully!", users);
+    return sendSuccess(res, "Delete user successfully!", {
+      length: users.length,
+      users,
+    });
   } catch (error) {
     next(error);
   }
@@ -330,6 +330,22 @@ export const updatePassword = async (req, res, next) => {
 
     // Send success notification
     return sendSuccess(res, "Update password successfully!");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllUsers = async (req, res, next) => {
+  try {
+    // Get all users
+    const users = await User.find().select("-__v -password");
+    if (!users) return sendError(res, "No results found", 404);
+
+    // Send success notification
+    return sendSuccess(res, "Retrieving users successfully!", {
+      length: users.length,
+      users,
+    });
   } catch (error) {
     next(error);
   }

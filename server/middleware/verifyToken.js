@@ -4,7 +4,7 @@ import sendError from "../helpers/sendError.js";
 const verifyToken = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    const accessToken = authHeader && authHeader.split(" ")[1];
+    const accessToken = authHeader?.split(" ")[1];
 
     if (!accessToken)
       return sendError(res, "You are not authenticated, please login", 401);
