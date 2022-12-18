@@ -74,7 +74,7 @@ export const login = async (req, res, next) => {
     // Set up access token
     const accessToken = jwt.sign(
       {
-        id: isExistingUser._id,
+        userId: isExistingUser._id,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
@@ -85,7 +85,9 @@ export const login = async (req, res, next) => {
     // Send HTTP-only cookie
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+      expires: new Date(Date.now() + 1000 * 24 * 60 * 60),
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production",
     });
 
     // Get user logged
@@ -94,7 +96,10 @@ export const login = async (req, res, next) => {
     );
 
     // Send success notification
-    return sendSuccess(res, "Logged successfully!", { accessToken, user });
+    return sendSuccess(res, "Logged successfully!", {
+      accessToken,
+      user,
+    });
   } catch (error) {
     next(error);
   }
