@@ -28,8 +28,19 @@ export const createTeam = async (req, res, next) => {
     const newTeam = await Team.create({ ...req.body });
     await newTeam.save();
 
+    // Fin all teams
+    const teams = await Team.find().select("-__v");
+
     // Send success notification
-    return sendSuccess(res, "Create team successfully!", null, 201);
+    return sendSuccess(
+      res,
+      "Create team successfully!",
+      {
+        length: teams.length,
+        teams,
+      },
+      201
+    );
   } catch (error) {
     next(error);
   }
@@ -69,7 +80,10 @@ export const updateTeam = async (req, res, next) => {
     // Get all teams
     const teams = await Team.find().select("-__v");
 
-    return sendSuccess(res, "Update team successfully!", teams);
+    return sendSuccess(res, "Update team successfully!", {
+      length: teams.length,
+      teams,
+    });
   } catch (error) {
     next(error);
   }
