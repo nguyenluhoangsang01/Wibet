@@ -14,7 +14,7 @@ import userRoutes from "./routes/user.js";
 // Constants
 const PORT = process.env.PORT || 8000;
 
-// Config
+// Config app
 const app = express();
 dotenv.config();
 
