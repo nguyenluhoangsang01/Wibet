@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import rankingRoutes from "./routes/ranking.js";
 import teamRoutes from "./routes/team.js";
 import userRoutes from "./routes/user.js";
 
@@ -55,6 +56,7 @@ app.listen(PORT, () => {
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/team", teamRoutes);
+app.use("/api/ranking", rankingRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
