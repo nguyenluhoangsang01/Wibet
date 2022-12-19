@@ -42,8 +42,19 @@ export const createUser = async (req, res, next) => {
     });
     await newUser.save();
 
+    // Get all users
+    const users = await User.find().select("-__v -password");
+
     // Send success notification
-    return sendSuccess(res, "Create user successfully!", null, 201);
+    return sendSuccess(
+      res,
+      "Create user successfully!",
+      {
+        length: users.length,
+        users,
+      },
+      201
+    );
   } catch (error) {
     next(error);
   }
@@ -297,6 +308,7 @@ export const updatePassword = async (req, res, next) => {
     const { userId } = req;
     // Get data from request body
     const { currentPassword, newPassword } = req.body;
+    let updatedUser = null;
 
     // Validate
     if (!currentPassword)
@@ -314,15 +326,18 @@ export const updatePassword = async (req, res, next) => {
     if (!comparedCurrentPassword)
       return sendError(res, "Current password incorrect");
 
+    // Compare new password with old password
+    const comparedNewPassword = bcrypt.compareSync(newPassword, user.password);
+
     // Check if password is empty or not
-    if (newPassword) {
+    if (newPassword && !comparedNewPassword) {
       if (newPassword.length < 3)
         return sendError(res, "Password should contain at least 3 characters.");
 
       const hashedPassword = bcrypt.hashSync(newPassword, 10);
 
       // Update user with new password
-      await User.findByIdAndUpdate(
+      updatedUser = await User.findByIdAndUpdate(
         userId,
         {
           password: hashedPassword,
@@ -330,11 +345,16 @@ export const updatePassword = async (req, res, next) => {
         {
           new: true,
         }
-      );
-    }
+      ).select("-__v -password");
 
-    // Send success notification
-    return sendSuccess(res, "Update password successfully!");
+      // Send success notification
+      return sendSuccess(res, "Update password successfully!", {
+        user: updatedUser,
+      });
+    } else {
+      // Send success notification
+      return sendSuccess(res, "Password has not been changed.");
+    }
   } catch (error) {
     next(error);
   }

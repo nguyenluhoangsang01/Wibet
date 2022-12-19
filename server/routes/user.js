@@ -1,14 +1,14 @@
 import express from "express";
 import {
-	createUser,
-	deleteUserById,
-	getAllUsers,
-	getUserById,
-	login,
-	logout,
-	updatePassword,
-	updateUser,
-	updateUserById
+  createUser,
+  deleteUserById,
+  getAllUsers,
+  getUserById,
+  login,
+  logout,
+  updatePassword,
+  updateUser,
+  updateUserById,
 } from "../controllers/user.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -37,7 +37,7 @@ router.post("/login", login);
 // @route POST api/user
 // @desc Register user
 // @access Private
-router.post("/",  createUser);
+router.post("/", verifyToken, createUser);
 
 // @route DELETE api/user/:id
 // @desc Delete user
