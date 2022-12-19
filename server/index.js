@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import { v2 as cloudinary } from "cloudinary";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -37,6 +38,14 @@ mongoose.connect(
     }
   }
 );
+
+// Config cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 // Server running
 app.listen(PORT, () => {
