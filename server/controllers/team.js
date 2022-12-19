@@ -1,18 +1,18 @@
+import { v2 as cloudinary } from "cloudinary";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Team from "../models/team.js";
 
 export const createTeam = async (req, res, next) => {
   try {
-    // Get data from request body
-    const { name, fullName } = req.body;
     // Get file from request
     const { file } = req;
+    // Get data from request body
+    const { name, fullName } = req.body;
 
     // Validate
     if (!name) return sendError(res, "Name cannot be blank.");
     if (!fullName) return sendError(res, "Full name cannot be blank.");
-    if (!file) return sendError(res, "No file was uploaded.", 404);
 
     const isExistingWithName = await Team.findOne({ name });
     if (isExistingWithName)
@@ -27,9 +27,29 @@ export const createTeam = async (req, res, next) => {
         `Full name ${isExistingWithName.fullName} has already been taken.`
       );
 
-    // Create new team
-    const newTeam = await Team.create({ ...req.body });
-    await newTeam.save();
+    if (file) {
+      // Upload image to cloudinary
+      await cloudinary.uploader
+        .upload(file.path, {
+          folder: "images",
+          unique_filename: true,
+          resource_type: "image",
+          use_filename: true,
+          overwrite: true,
+        })
+        .then(async (result) => {
+          // Create new team
+          const newTeam = await Team.create({
+            ...req.body,
+            flag: result.secure_url,
+          });
+          await newTeam.save();
+        });
+    } else {
+      // Create new team
+      const newTeam = await Team.create({ ...req.body });
+      await newTeam.save();
+    }
 
     // Find all teams
     const teams = await Team.find().select("-__v");
@@ -45,7 +65,7 @@ export const createTeam = async (req, res, next) => {
       201
     );
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 };
 
