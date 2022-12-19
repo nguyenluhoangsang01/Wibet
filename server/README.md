@@ -1,8 +1,8 @@
 Finish:
 	USER
-Process:
 	TEAM
-Unfinished:
-	COMMENT
+Process:
 	MATCH
 	RANKING
+Unfinished:
+	COMMENT
