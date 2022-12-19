@@ -6,10 +6,13 @@ export const createTeam = async (req, res, next) => {
   try {
     // Get data from request body
     const { name, fullName } = req.body;
+    // Get file from request
+    const { file } = req;
 
     // Validate
     if (!name) return sendError(res, "Name cannot be blank.");
     if (!fullName) return sendError(res, "Full name cannot be blank.");
+    if (!file) return sendError(res, "No file was uploaded.", 404);
 
     const isExistingWithName = await Team.findOne({ name });
     if (isExistingWithName)
@@ -28,7 +31,7 @@ export const createTeam = async (req, res, next) => {
     const newTeam = await Team.create({ ...req.body });
     await newTeam.save();
 
-    // Fin all teams
+    // Find all teams
     const teams = await Team.find().select("-__v");
 
     // Send success notification
@@ -42,7 +45,7 @@ export const createTeam = async (req, res, next) => {
       201
     );
   } catch (error) {
-    next(error);
+    next(error.message);
   }
 };
 

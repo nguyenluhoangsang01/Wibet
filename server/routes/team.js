@@ -1,18 +1,23 @@
 import express from "express";
+import multer from "multer";
 import {
-	createTeam,
-	deleteTeam,
-	getAllTeams,
-	updateTeam
+  createTeam,
+  deleteTeam,
+  getAllTeams,
+  updateTeam,
 } from "../controllers/team.js";
 import verifyToken from "../middleware/verifyToken.js";
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+const uploadSingleFile = upload.single("file");
 
 const router = express.Router();
 
 // @route POST api/team
 // @desc Create team
 // @access Private
-router.post("/", verifyToken, createTeam);
+router.post("/", uploadSingleFile, verifyToken, createTeam);
 
 // @route POST api/team/:id
 // @desc Update team
