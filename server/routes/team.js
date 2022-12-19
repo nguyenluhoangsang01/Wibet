@@ -10,14 +10,13 @@ import verifyToken from "../middleware/verifyToken.js";
 
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
-const uploadSingleFile = upload.single("file");
 
 const router = express.Router();
 
 // @route POST api/team
 // @desc Create team
 // @access Private
-router.post("/", uploadSingleFile, verifyToken, createTeam);
+router.post("/", verifyToken, upload.single("image"), createTeam);
 
 // @route POST api/team/:id
 // @desc Update team
