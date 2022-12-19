@@ -17,11 +17,19 @@ const app = express();
 dotenv.config();
 
 // Middleware
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? process.env.API_BASE_ENDPOINT_CLIENT
+        : [`http://${HOST}`, `https://${HOST}`],
+    credentials: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 
 // Set up mongoose connect
 mongoose.set("strictQuery", false);
