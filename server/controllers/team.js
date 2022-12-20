@@ -5,10 +5,10 @@ import Team from "../models/team.js";
 
 export const createTeam = async (req, res, next) => {
   try {
-    // Get file from request
-    const { file } = req;
     // Get data from request body
     const { name, fullName } = req.body;
+    // Get file from request
+    const { file } = req;
 
     // Validate
     if (!name) return sendError(res, "Name cannot be blank.");
@@ -24,9 +24,10 @@ export const createTeam = async (req, res, next) => {
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithName.fullName} has already been taken.`
+        `Full name ${isExistingWithFullName.fullName} has already been taken.`
       );
 
+    // Check if file exists
     if (file) {
       // Upload image to cloudinary
       await cloudinary.uploader
@@ -86,7 +87,7 @@ export const updateTeam = async (req, res, next) => {
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithName.fullName} has already been taken.`
+        `Full name ${isExistingWithFullName.fullName} has already been taken.`
       );
 
     // Update team
@@ -103,6 +104,7 @@ export const updateTeam = async (req, res, next) => {
     // Get all teams
     const teams = await Team.find().select("-__v");
 
+    // Send success notification
     return sendSuccess(res, "Update team successfully!", {
       length: teams.length,
       teams,
