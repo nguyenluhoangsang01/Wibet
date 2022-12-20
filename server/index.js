@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import betRoutes from "./routes/bet.js";
 import commentRoutes from "./routes/comment.js";
 import matchRoutes from "./routes/match.js";
 import rankingRoutes from "./routes/ranking.js";
@@ -69,6 +70,7 @@ app.use("/api/team", teamRoutes);
 app.use("/api/ranking", rankingRoutes);
 app.use("/api/match", matchRoutes);
 app.use("/api/comment", commentRoutes);
+app.use("/api/bet", betRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {

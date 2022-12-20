@@ -12,7 +12,6 @@ const matchSchema = new Schema(
     },
     matchDate: {
       type: Date,
-      default: new Date(Date.now()),
       require: [true, "Match Date cannot be blank."],
     },
     rate: {

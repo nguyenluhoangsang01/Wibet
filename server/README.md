@@ -6,3 +6,5 @@ Process:
 	RANKING
 Unfinished:
 	COMMENT
+
+	CHi duoc cap nhat ket qua tran da 1 lan
