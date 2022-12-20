@@ -200,22 +200,26 @@ export const updateUserById = async (req, res, next) => {
       return sendError(res, "Email is not a valid email address.");
     if (!username) return sendError(res, "Username cannot be blank.");
 
-    const isExistingWithEmail = await User.findOne({ email });
+    // Check if user not exists
+    const user = await User.findById(id);
+    if (!user) return sendError(res, "User not found", 404);
+
+    const isExistingWithEmail = await User.findOne({
+      email: { $ne: user.email, $eq: email },
+    });
     if (isExistingWithEmail)
       return sendError(
         res,
         `Email ${isExistingWithEmail.email} has already been taken.`
       );
-    const isExistingWithUsername = await User.findOne({ username });
+    const isExistingWithUsername = await User.findOne({
+      username: { $ne: user.username, $eq: username },
+    });
     if (isExistingWithUsername)
       return sendError(
         res,
         `Username ${isExistingWithUsername.username} has already been taken.`
       );
-
-    // Check if user not exists
-    const user = await User.findById(id);
-    if (!user) return sendError(res, "User not found", 404);
 
     // Check if password exist
     if (newPassword) {
