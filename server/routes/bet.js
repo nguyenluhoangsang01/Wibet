@@ -22,11 +22,11 @@ router.patch("/:betId/:matchId", verifyToken, updateBetById);
 // @route DELETE api/bet/:betId
 // @desc Delete bet by bet id
 // @access Private
-router.delete("/:betId", verifyToken, deleteBetById);
+router.delete("/:betId", verifyToken, deleteBetById); //
 
 // @route GET api/bet/:matchId
 // @desc Get bet by match id
 // @access Private
-router.get("/:matchId", verifyToken, getBetById);
+router.get("/:betId", verifyToken, getBetById); //
 
 export default router;
