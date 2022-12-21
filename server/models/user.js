@@ -31,9 +31,9 @@ const userSchema = new Schema(
       minLength: [3, "Password should contain at least 3 characters."],
     },
     money: {
-      type: String,
+      type: Number,
       trim: true,
-      default: 0,
+      default: 200,
     },
     roleID: {
       type: String,

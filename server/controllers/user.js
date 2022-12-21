@@ -120,7 +120,7 @@ export const updateUser = async (req, res, next) => {
   try {
     // Get user id from request
     const { userId } = req;
-    const { email, username, newPassword } = req.body;
+    const { email, username, newPassword, money } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
@@ -154,14 +154,14 @@ export const updateUser = async (req, res, next) => {
       if (newPassword.length < 3)
         return sendError(res, "Password should contain at least 3 characters.");
 
-      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+      const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
       // Update user with new password
       await User.findByIdAndUpdate(
         userId,
         {
           ...req.body,
-          password: hashedPassword,
+          password: hashedNewPassword,
         },
         {
           new: true,
@@ -174,6 +174,7 @@ export const updateUser = async (req, res, next) => {
       userId,
       {
         ...req.body,
+        money: money ? Number(money) + Number(user.money) : user.money,
       },
       {
         new: true,
@@ -226,14 +227,14 @@ export const updateUserById = async (req, res, next) => {
       if (newPassword.length < 3)
         return sendError(res, "Password should contain at least 3 characters.");
 
-      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+      const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
       // Update user with new password
       await User.findByIdAndUpdate(
         id,
         {
           ...req.body,
-          password: hashedPassword,
+          password: hashedNewPassword,
         },
         {
           new: true,
@@ -246,6 +247,7 @@ export const updateUserById = async (req, res, next) => {
       id,
       {
         ...req.body,
+        money: money ? Number(money) + Number(user.money) : user.money,
       },
       {
         new: true,
