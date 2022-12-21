@@ -4,6 +4,9 @@ import {
   deleteMatchById,
   getAllMatches,
   getMatchById,
+  updateMatchById,
+  updateResultById,
+  updateScoreById,
 } from "../controllers/match.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -28,5 +31,15 @@ router.get("/", verifyToken, getAllMatches);
 // @desc Get match by id
 // @access Private
 router.get("/:id", verifyToken, getMatchById);
+
+// @route PATCH api/match/:id
+// @desc Update match by id
+// @access Private
+router.patch("/:id", verifyToken, updateMatchById);
+
+// @route PATCH api/match/:id/score
+// @desc Update score of match by id
+// @access Private
+router.patch("/:id/score", verifyToken, updateScoreById);
 
 export default router;

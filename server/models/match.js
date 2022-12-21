@@ -6,10 +6,12 @@ const matchSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Team",
     },
+    resultOfTeam1: Number,
     team2: {
       type: Schema.Types.ObjectId,
       ref: "Team",
     },
+    resultOfTeam2: Number,
     matchDate: {
       type: Date,
       require: [true, "Match Date cannot be blank."],
