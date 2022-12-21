@@ -5,7 +5,6 @@ import {
   getAllMatches,
   getMatchById,
   updateMatchById,
-  updateResultById,
   updateScoreById,
 } from "../controllers/match.js";
 import verifyToken from "../middleware/verifyToken.js";
