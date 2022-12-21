@@ -102,7 +102,10 @@ export const getMatchById = async (req, res, next) => {
     const { id } = req.params;
 
     // Check if match not exists
-    const match = await Match.findById(id).select("-__v");
+    const match = await Match.findById(id)
+      .select("-__v")
+      .populate("team1 team2", "fullName")
+      .select("-__v");
     if (!match) return sendError(res, sendError("Match not found", 404));
 
     // Send notification success
