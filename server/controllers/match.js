@@ -81,7 +81,7 @@ export const getAllMatches = async (req, res, next) => {
   try {
     // Get all matches
     const matches = await Match.find()
-      .populate("team1 team2", "fullName")
+      .populate("team1 team2", "fullName flag")
       .select("-__v");
     // Check if matches not found
     if (!matches) return sendError(res, "No results found", 404);
