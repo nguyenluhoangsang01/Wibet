@@ -108,12 +108,22 @@ export const getBetById = async (req, res, next) => {
     const { betId } = req.params;
 
     // Find bet by id and delete it
-    const bet = await Bet.findById(betId);
+    const bet = await Bet.findById(betId)
+      .populate("team user", "name fullName flag email username money")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
     // Check if bet not exists
     if (!bet) return sendError(res, "Bet not found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Get bet successfully!");
+    return sendSuccess(res, "Get bet successfully!", bet);
   } catch (error) {
     next(error);
   }
