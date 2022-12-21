@@ -5,11 +5,13 @@ const matchSchema = new Schema(
     team1: {
       type: Schema.Types.ObjectId,
       ref: "Team",
+      require: true,
     },
     resultOfTeam1: Number,
     team2: {
       type: Schema.Types.ObjectId,
       ref: "Team",
+      require: true,
     },
     resultOfTeam2: Number,
     matchDate: {
