@@ -43,10 +43,15 @@ export const createMatch = async (req, res, next) => {
       .select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "Create match successfully!", {
-      length: matches.length,
-      matches,
-    });
+    return sendSuccess(
+      res,
+      "Create match successfully!",
+      {
+        length: matches.length,
+        matches,
+      },
+      201
+    );
   } catch (error) {
     next(error);
   }

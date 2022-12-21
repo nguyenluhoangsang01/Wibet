@@ -1,9 +1,9 @@
 import express from "express";
 import {
-	createBetById,
-	deleteBetById,
-	getBetById,
-	updateBetById
+  createBetById,
+  deleteBetById,
+  getBetById,
+  updateBetById,
 } from "../controllers/bet.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -17,7 +17,7 @@ router.post("/:matchId", verifyToken, createBetById);
 // @route UPDATE api/bet/:betId
 // @desc Update bet by bet id
 // @access Private
-router.patch("/:betId", verifyToken, updateBetById);
+router.patch("/:betId/:matchId", verifyToken, updateBetById);
 
 // @route DELETE api/bet/:betId
 // @desc Delete bet by bet id
