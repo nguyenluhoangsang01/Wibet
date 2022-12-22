@@ -224,3 +224,86 @@ export const updateBetById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAllBets = async (req, res, next) => {
+  try {
+    // Get all bets
+    const bets = await Bet.find()
+      .select("-__v")
+      .populate("team user", "name fullName flag email username money")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
+    // Check if bets not found
+    if (!bets) return sendError(res, "No results found.");
+
+    // Send success notification
+    return sendSuccess(res, "Retrieving bets successfully!", {
+      length: bets.length,
+      bets,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const withdrawMoney = async (req, res, next) => {
+  try {
+    // Get bet id from request params
+    const { betId } = req.params;
+    // Get user id from request
+    const { userId } = req;
+
+    // Check if bet and user not found and check
+    const findBet = await Bet.findById(betId)
+      .populate("team user", "name fullName flag email username money")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
+    const findUser = await User.findById(userId);
+    if (!findBet) return sendError(res, "Bet not found", 404);
+    if (!findUser) return sendError(res, "User not found", 404);
+    if (findBet.user.email.toString() !== findUser.email.toString())
+      return sendError(res, "Can only withdraw your own money.");
+
+    // Get bet by id and delete it
+    const bet = await Bet.findByIdAndDelete(betId)
+      .populate("team user", "name fullName flag email username money")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
+
+    // Get user by id and withdraw money betted
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        money: Number(bet.money) + Number(bet.user.money),
+      },
+      { new: true }
+    ).select("-__v -password");
+
+    // Send success notification
+    return sendSuccess(res, "Withdraw and delete bet successfully!", user);
+  } catch (error) {
+    next(error);
+  }
+};
