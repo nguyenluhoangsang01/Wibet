@@ -8,7 +8,9 @@ const Default = () => {
     <>
       <Navbar />
 
-      <Outlet />
+      <main className="px-4 sm:px-10 py-6">
+        <Outlet />
+      </main>
 
       <Footer />
     </>
