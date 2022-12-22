@@ -71,6 +71,7 @@ app.use("/api/ranking", rankingRoutes);
 app.use("/api/match", matchRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/bet", betRoutes);
+app.use("/api/comment", commentRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
