@@ -1,0 +1,69 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { accountRoutes, navbarRoutes } from "../../constants";
+
+const Navbar = () => {
+  // State
+  const [isClicked, setIsClicked] = useState(false);
+
+  return (
+    <nav className="h-[50px] bg-[black] text-[white]">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
+        {/* Navbar left */}
+        <Link className="flex items-center gap-2" to="/">
+          <img
+            src="https://res.cloudinary.com/wibet/image/upload/v1671551332/images/630604_hdtlx0.png"
+            alt="WIBET"
+            className="w-[40px] h-[40px]"
+          />
+          <span className="uppercase font-bold text-[18px]">WIBET</span>
+        </Link>
+
+        {/* Navbar right */}
+        <ul className="flex items-center h-full">
+          {navbarRoutes.map((route) => (
+            <Link
+              key={route.name}
+              to={route.path}
+              className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+            >
+              <li className="uppercase font-bold text-[15px]">{route.name}</li>
+            </Link>
+          ))}
+
+          <li className="relative px-2 h-full">
+            <button
+              onClick={() => setIsClicked(!isClicked)}
+              className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+            >
+              <span className="uppercase font-bold text-[15px]">username</span>
+            </button>
+
+            {isClicked && (
+              <div className="absolute shadow-2xl w-48 py-4 pb-0 top-[34px] right-0 text-[black] leading-loose">
+                {accountRoutes.map((route) =>
+                  route.path ? (
+                    <Link key={route.name} to={route.path}>
+                      <div className="uppercase font-medium text-[15px] h-[40px] flex items-center px-4 transition hover:bg-[black] hover:text-white">
+                        {route.name}
+                      </div>
+                    </Link>
+                  ) : (
+                    <button
+                      key={route.name}
+                      className="uppercase font-medium text-[15px] h-[40px] transition hover:bg-[black] hover:text-white px-4 w-full text-start"
+                    >
+                      <span className="w-full h-full">{route.name}</span>
+                    </button>
+                  )
+                )}
+              </div>
+            )}
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
