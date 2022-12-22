@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MdOutlineMenu } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { accountRoutes, navbarRoutes } from "../../constants";
 
@@ -7,8 +8,8 @@ const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <nav className="h-[50px] bg-[black] text-[white]">
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
+    <nav className="h-[50px] bg-black text-white">
+      <div className="mx-auto flex items-center justify-between h-full transition px-4 sm:px-10">
         {/* Navbar left */}
         <Link className="flex items-center gap-2" to="/">
           <img
@@ -19,8 +20,11 @@ const Navbar = () => {
           <span className="uppercase font-bold text-[18px]">WIBET</span>
         </Link>
 
+        {/* Menu icon */}
+        <MdOutlineMenu className="text-3xl cursor-pointer lg:hidden" />
+
         {/* Navbar right */}
-        <ul className="flex items-center h-full">
+        <ul className="items-center h-full hidden lg:flex">
           {navbarRoutes.map((route) => (
             <Link
               key={route.name}
@@ -32,6 +36,7 @@ const Navbar = () => {
           ))}
 
           <li className="relative px-2 h-full">
+            {/* Button to show dropdown */}
             <button
               onClick={() => setIsClicked(!isClicked)}
               className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
@@ -39,8 +44,9 @@ const Navbar = () => {
               <span className="uppercase font-bold text-[15px]">username</span>
             </button>
 
+            {/* Check if username clicked */}
             {isClicked && (
-              <div className="absolute shadow-2xl w-48 py-4 pb-0 top-[34px] right-0 text-[black] leading-loose">
+              <div className="absolute shadow-2xl w-48 py-4 pb-0 top-[34px] right-0 text-[black]">
                 {accountRoutes.map((route) =>
                   route.path ? (
                     <Link key={route.name} to={route.path}>
