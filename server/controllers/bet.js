@@ -46,6 +46,10 @@ export const createBetById = async (req, res, next) => {
     )
       return sendError(res, "The selected team is not valid.");
 
+    // Check if the match is over
+    if (match.resultOfTeam1 || match.resultOfTeam2)
+      return sendError(res, "The match is over");
+
     // Update current money of user
     await User.findByIdAndUpdate(
       userId,
