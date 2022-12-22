@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdOutlineMenu } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { accountRoutes, navbarRoutes } from "../../constants";
 
 const Navbar = () => {
@@ -26,16 +26,20 @@ const Navbar = () => {
         {/* Navbar right */}
         <ul className="items-center h-full hidden lg:flex">
           {navbarRoutes.map((route) => (
-            <Link
+            <NavLink
               key={route.name}
               to={route.path}
-              className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+              className={({ isActive }) =>
+                isActive
+                  ? "w-full h-full flex items-center px-3 transition hover:scale-105 text-[black] bg-[white]"
+                  : "w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+              }
             >
               <li className="uppercase font-bold text-[15px]">{route.name}</li>
-            </Link>
+            </NavLink>
           ))}
 
-          <li className="relative px-2 h-full">
+          <li className="relative px-2 h-full z-30">
             {/* Button to show dropdown */}
             <button
               onClick={() => setIsClicked(!isClicked)}
@@ -46,7 +50,7 @@ const Navbar = () => {
 
             {/* Check if username clicked */}
             {isClicked && (
-              <div className="absolute shadow-2xl w-48 rounded-md overflow-hidden pb-0 top-[60px] right-0 text-[black] bg-white">
+              <div className="absolute shadow-2xl w-48 overflow-hidden pb-0 top-[61px] right-0 text-[black] bg-white rounded-b-md">
                 {accountRoutes.map((route) =>
                   route.path ? (
                     <Link key={route.name} to={route.path}>
