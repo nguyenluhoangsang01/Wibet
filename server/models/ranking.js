@@ -6,6 +6,14 @@ const rankingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    bet: {
+      type: Schema.Types.ObjectId,
+      ref: "Bet",
+    },
+    betTimes: Number,
+    winTimes: Number,
+    winRate: Number,
+    total: Number,
   },
   { timestamps: true }
 );
