@@ -1,17 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import Default from "./layouts/Default";
 import {
-  Account,
-  Analysis,
-  Brackets,
-  Comments,
-  Home,
-  Matches,
-  Profile,
-  Ranking,
-  Rules,
-  Team,
-  Users,
+	Account,
+	Analysis,
+	Brackets,
+	Comments,
+	Home,
+	Login,
+	Matches,
+	Profile,
+	Ranking,
+	Rules,
+	Team,
+	Users
 } from "./views";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
     </div>
