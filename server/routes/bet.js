@@ -1,11 +1,11 @@
 import express from "express";
 import {
-	createBetById,
-	deleteBetById,
-	getAllBets,
-	getBetById,
-	updateBetById,
-	withdrawMoney
+  createBetById,
+  deleteBetById,
+  getAllBets,
+  getBetById,
+  updateBetById,
+  withdrawMoney,
 } from "../controllers/bet.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -14,7 +14,7 @@ const router = express.Router();
 // @route POST api/bet/:matchId
 // @desc Create bet by match id
 // @access Private
-router.post("/:matchId", verifyToken, createBetById);
+router.post("/:matchId", verifyToken, createBetById); //
 
 // @route UPDATE api/bet/:betId
 // @desc Update bet by bet id
@@ -24,12 +24,12 @@ router.patch("/:betId/:matchId", verifyToken, updateBetById);
 // @route DELETE api/bet/:betId
 // @desc Delete bet by bet id
 // @access Private
-router.delete("/:betId", verifyToken, deleteBetById); //
+router.delete("/:betId", verifyToken, deleteBetById);
 
 // @route GET api/bet/:matchId
 // @desc Get bet by match id
 // @access Private
-router.get("/:betId", verifyToken, getBetById); //
+router.get("/:betId", verifyToken, getBetById);
 
 // @route GET api/bet
 // @desc Get all bets
