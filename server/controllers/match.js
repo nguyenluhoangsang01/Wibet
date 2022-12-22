@@ -14,6 +14,9 @@ export const createMatch = async (req, res, next) => {
     if (!matchDate) return sendError(res, "Match Date cannot be blank.");
     if (!rate) return sendError(res, "Rate cannot be blank.");
 
+    // Check if team 1 equal team 2
+    if (team1 === team2) return sendError(res, "Cannot choose the same team");
+
     // Check if team 1 and team 2 not exists
     const team1IsExisting = await Team.findById(team1);
     const team2IsExisting = await Team.findById(team2);
