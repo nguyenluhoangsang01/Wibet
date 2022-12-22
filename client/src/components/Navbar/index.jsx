@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <nav className="h-[50px] bg-black text-white">
+    <nav className="h-[60px] bg-black text-white">
       <div className="mx-auto flex items-center justify-between h-full transition px-4 sm:px-10">
         {/* Navbar left */}
         <Link className="flex items-center gap-2" to="/">
@@ -46,7 +46,7 @@ const Navbar = () => {
 
             {/* Check if username clicked */}
             {isClicked && (
-              <div className="absolute shadow-2xl w-48 py-4 pb-0 top-[34px] right-0 text-[black]">
+              <div className="absolute shadow-2xl w-48 rounded-md overflow-hidden pb-0 top-[60px] right-0 text-[black] bg-white">
                 {accountRoutes.map((route) =>
                   route.path ? (
                     <Link key={route.name} to={route.path}>

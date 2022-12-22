@@ -51,3 +51,80 @@ export const accountRoutes = [
     name: "logout",
   },
 ];
+
+export const ruleRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "rules",
+  },
+];
+
+export const rankingRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "ranking",
+  },
+];
+
+export const matchesRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "matches",
+  },
+];
+
+export const usersRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "users",
+  },
+];
+
+export const teamRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "team",
+  },
+];
+
+export const accountRoutesB = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "account",
+  },
+];
+
+export const profileRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "profile",
+  },
+];
