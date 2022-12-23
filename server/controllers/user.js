@@ -93,14 +93,6 @@ export const login = async (req, res, next) => {
       }
     );
 
-    // Send HTTP-only cookie
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 24 * 60 * 60),
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production",
-    });
-
     // Get user logged
     const user = await User.findById(isExistingUser._id).select(
       "-__v -password"

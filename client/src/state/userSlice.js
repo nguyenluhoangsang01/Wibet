@@ -18,6 +18,7 @@ export const userSlice = createSlice({
     logoutReducer: (state) => {
       state.accessToken = null;
       state.user = null;
+      localStorage.removeItem("persist:user");
     },
   },
 });
@@ -38,17 +39,20 @@ export const logoutReducerAsync = () => async (dispatch) => {
   try {
     const res = await axios.get("/user/logout", {
       headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2EyNjk2YzI4ZjdiMmM0MjI2NzA2YjMiLCJpYXQiOjE2NzE3Njg0NjcsImV4cCI6MTY3MTg1NDg2N30.yyAt71iIDU9aDNwqMcx96F6O6ahpb5JQdZBNs9hkmfU",
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken.replaceAll('"', "")}`,
       },
     });
 
-    console.log(res);
+    if (res.data) {
+      dispatch(logoutReducer());
+    }
   } catch (error) {
     console.log(error.message);
   }
 };
 
 export const selectUser = (state) => state.user;
-export const { loginReducer } = userSlice.actions;
+export const { loginReducer, logoutReducer } = userSlice.actions;
 export default userSlice.reducer;

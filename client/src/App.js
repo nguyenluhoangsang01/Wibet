@@ -4,10 +4,11 @@ import { defaultLayout } from "./constants";
 import Default from "./layouts/Default";
 
 axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.headers.common = `Bearer ${JSON.parse(
+  localStorage.getItem("persist:user")
+)?.accessToken.replaceAll('"', "")}`;
 
 function App() {
-  console.log(JSON.parse(localStorage.getItem("persist:user")).accessToken);
-
   return (
     <div>
       <Routes>
