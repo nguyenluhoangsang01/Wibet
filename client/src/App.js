@@ -1,37 +1,20 @@
+import axios from "axios";
 import { Route, Routes } from "react-router-dom";
+import { defaultLayout } from "./constants";
 import Default from "./layouts/Default";
-import {
-	Account,
-	Analysis,
-	Brackets,
-	Comments,
-	Home,
-	Login,
-	Matches,
-	Profile,
-	Ranking,
-	Rules,
-	Team,
-	Users
-} from "./views";
+
+axios.defaults.baseURL = "http://localhost:8000/api";
 
 function App() {
+  console.log(JSON.parse(localStorage.getItem("persist:user")).accessToken);
+
   return (
     <div>
       <Routes>
         <Route element={<Default />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/rules" element={<Rules />} />
-          <Route path="/brackets" element={<Brackets />} />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/comments" element={<Comments />} />
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/matches" element={<Matches />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<Login />} />
+          {defaultLayout.map((item) => (
+            <Route key={item.path} path={item.path} element={item.element} />
+          ))}
         </Route>
       </Routes>
     </div>

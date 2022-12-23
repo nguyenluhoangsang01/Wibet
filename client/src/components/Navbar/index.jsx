@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { MdOutlineMenu } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { accountRoutes, navbarRoutes } from "../../constants";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const Navbar = () => {
   // State
   const [isClicked, setIsClicked] = useState(false);
+  // Get user from global state
   const { user } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutReducerAsync());
+  };
 
   return (
     <nav className="h-[60px] bg-black text-white">
@@ -29,12 +37,15 @@ const Navbar = () => {
         {/* Navbar right */}
         <ul className="items-center h-full hidden lg:flex">
           {navbarRoutes
-            .filter(
-              (route) =>
-                !user &&
-                route.name !== "users" &&
-                route.name !== "team" &&
-                route.name !== "matches"
+            .filter((route) =>
+              user?.roleID === "Admin"
+                ? route
+                : user?.roleID === "User"
+                ? route.name !== "users" && route.name !== "team"
+                : !user &&
+                  route.name !== "users" &&
+                  route.name !== "team" &&
+                  route.name !== "matches"
             )
             .map((route) => (
               <NavLink
@@ -52,21 +63,25 @@ const Navbar = () => {
               </NavLink>
             ))}
 
+          {/* Check if user is exists show user information */}
           {user ? (
             <li className="relative px-2 h-full z-30">
               {/* Show dropdown */}
               <button
                 onClick={() => setIsClicked(!isClicked)}
-                className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+                className="w-full h-full flex items-center px-3 transition hover:scale-105"
               >
-                <span className="uppercase font-bold text-[15px]">
-                  username
-                </span>
+                <p className="uppercase font-bold text-[15px] flex items-center gap-2">
+                  <span>{user.username}</span>{" "}
+                  <span className="rounded-md bg-[orange] text-black px-2 py-1">
+                    {user.money}
+                  </span>
+                </p>
               </button>
 
               {/* Check if username clicked */}
               {isClicked && (
-                <div className="absolute shadow-2xl w-48 overflow-hidden pb-0 top-[61px] right-0 text-[black] bg-white rounded-b-md">
+                <div className="absolute shadow-2xl w-48 overflow-hidden pb-0 top-[60px] right-[16px] text-[black] bg-white rounded-b-md">
                   {accountRoutes.map((route) =>
                     route.path ? (
                       <Link key={route.name} to={route.path}>
@@ -78,6 +93,7 @@ const Navbar = () => {
                       <button
                         key={route.name}
                         className="uppercase font-medium text-[15px] h-[40px] transition hover:bg-[black] hover:text-white px-4 w-full text-start"
+                        onClick={route.name === "logout" && handleLogout}
                       >
                         <span className="w-full h-full">{route.name}</span>
                       </button>

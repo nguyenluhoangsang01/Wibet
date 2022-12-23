@@ -1,3 +1,69 @@
+import {
+	Account,
+	Analysis,
+	Brackets,
+	Comments,
+	Home,
+	Login,
+	Matches,
+	Profile,
+	Ranking,
+	Rules,
+	Team,
+	Users
+} from "./views";
+
+export const defaultLayout = [
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/rules",
+    element: <Rules />,
+  },
+  {
+    path: "/brackets",
+    element: <Brackets />,
+  },
+  {
+    path: "/analysis",
+    element: <Analysis />,
+  },
+  {
+    path: "/comments",
+    element: <Comments />,
+  },
+  {
+    path: "/ranking",
+    element: <Ranking />,
+  },
+  {
+    path: "/matches",
+    element: <Matches />,
+  },
+  {
+    path: "/users",
+    element: <Users />,
+  },
+  {
+    path: "/team",
+    element: <Team />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/account",
+    element: <Account />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+];
+
 export const navbarRoutes = [
   {
     path: "/",
@@ -126,5 +192,16 @@ export const profileRoutes = [
   {
     path: "",
     name: "profile",
+  },
+];
+
+export const loginRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "login",
   },
 ];
