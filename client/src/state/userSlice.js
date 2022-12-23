@@ -13,6 +13,8 @@ export const userSlice = createSlice({
     loginReducer: (state, { payload }) => {
       state.accessToken = payload.accessToken;
       state.user = payload.user;
+
+      console.log(payload);
     },
 
     logoutReducer: (state) => {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import { defaultLayout } from "./constants";
 import Default from "./layouts/Default";
@@ -12,6 +13,8 @@ axios.defaults.headers.common = `Bearer ${JSON.parse(
 function App() {
   return (
     <div>
+      <Toaster />
+
       <Routes>
         <Route element={<Default />}>
           {defaultLayout.map((item) => (
