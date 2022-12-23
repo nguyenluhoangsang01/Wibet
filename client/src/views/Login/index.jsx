@@ -40,7 +40,7 @@ const Login = () => {
           span: 6,
         }}
         initialValues={{
-          remember: true,
+          remember: false,
         }}
         onFinish={onFinish}
         autoComplete="off"

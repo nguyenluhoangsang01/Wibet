@@ -1,15 +1,25 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { profileRoutes } from "../../constants";
+import { selectUser } from "../../state/userSlice";
 
 const Profile = () => {
+  // Get pathname from location
   const { pathname } = useLocation();
+  // Get user form global state
+  const { user } = useSelector(selectUser);
+
+  // Check if user is null
+  if (!user) return <Navigate to="/" />;
 
   return (
     <div>
+      {/* Breadcrumbs */}
       <Breadcrumbs routes={profileRoutes} />
+      {/* Heading */}
       <Heading title={pathname.slice(1)} />
     </div>
   );
