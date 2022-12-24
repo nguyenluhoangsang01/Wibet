@@ -8,7 +8,7 @@ import { NotFound } from "./views";
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common = `Bearer ${JSON.parse(
   localStorage.getItem("persist:user")
-)?.accessToken.replaceAll('"', "")}`;
+)?.accessToken?.replaceAll('"', "")}`;
 
 function App() {
   return (
