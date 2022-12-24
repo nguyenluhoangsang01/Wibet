@@ -326,23 +326,29 @@ export const updatePassword = async (req, res, next) => {
       user.password
     );
     if (!comparedCurrentPassword)
-      return sendError(res, "Current password incorrect");
+      return sendError(res, "Current password is incorrect");
 
-    // Compare new password with old password
-    const comparedNewPassword = bcrypt.compareSync(newPassword, user.password);
+    // Compare new password with old password if new password is not empty
+    let comparedNewPassword;
+    if (newPassword) {
+      comparedNewPassword = bcrypt.compareSync(newPassword, user.password);
+    } else {
+      // Send success notification
+      return sendSuccess(res, "Password has not been changed.", { user });
+    }
 
     // Check if password is empty or not
     if (newPassword && !comparedNewPassword) {
       if (newPassword.length < 3)
         return sendError(res, "Password should contain at least 3 characters.");
 
-      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+      const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
       // Update user with new password
       updatedUser = await User.findByIdAndUpdate(
         userId,
         {
-          password: hashedPassword,
+          password: hashedNewPassword,
         },
         {
           new: true,
@@ -355,7 +361,7 @@ export const updatePassword = async (req, res, next) => {
       });
     } else {
       // Send success notification
-      return sendSuccess(res, "Password has not been changed.");
+      return sendSuccess(res, "Password has not been changed.", { user });
     }
   } catch (error) {
     next(error);

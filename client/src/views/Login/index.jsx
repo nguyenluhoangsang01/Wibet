@@ -46,6 +46,7 @@ const Login = () => {
       // When login success
       setIsFinish(false);
     } catch (error) {
+      // When update failured
       toast.error(error.message);
 
       setIsFinish(false);
@@ -54,8 +55,6 @@ const Login = () => {
 
   // Check if user not logged
   if (user) return <Navigate to="/" />;
-
-  isValidEmail();
 
   return (
     <div>

@@ -34,13 +34,23 @@ export const userSlice = createSlice({
 
         toast.success(payload.message);
       } else {
-        toast.success(payload.message);
+        toast.error(payload.message);
       }
     },
 
     getAllUsersReducer: (state, { payload }) => {
       if (payload.success) {
         state.users = payload.data;
+      }
+    },
+
+    updatePasswordReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.user = payload.data.user;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
       }
     },
   },
@@ -100,7 +110,31 @@ export const getAllUsersReducerAsync = () => async (dispatch) => {
   }
 };
 
+export const updatePasswordReducerAsync = (values) => async (dispatch) => {
+  try {
+    const res = await axios.patch("/user/update/password", values, {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken?.replaceAll('"', "")}`,
+      },
+    });
+
+    if (res.data) {
+      dispatch(updatePasswordReducer(res.data));
+    }
+  } catch ({ response }) {
+    if (response.data) {
+      dispatch(updatePasswordReducer(response.data));
+    }
+  }
+};
+
 export const selectUser = (state) => state.user;
-export const { loginReducer, logoutReducer, getAllUsersReducer } =
-  userSlice.actions;
+export const {
+  loginReducer,
+  logoutReducer,
+  getAllUsersReducer,
+  updatePasswordReducer,
+} = userSlice.actions;
 export default userSlice.reducer;
