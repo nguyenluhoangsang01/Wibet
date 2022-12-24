@@ -1,10 +1,13 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { loginRoutes } from "../../constants";
+import { isValidEmail } from "../../helper";
 import { loginReducerAsync, selectUser } from "../../state/userSlice";
 
 const Login = () => {
@@ -14,14 +17,45 @@ const Login = () => {
   const dispatch = useDispatch();
   // Get user from global state
   const { user } = useSelector(selectUser);
+  // State
+  const [isFinish, setIsFinish] = useState(false);
 
   // Handle submit finish
-  const onFinish = (values) => {
-    dispatch(loginReducerAsync(values));
+  const onFinish = async (values) => {
+    // Initial loading with true when user click login button
+    setIsFinish(true);
+
+    try {
+      // Initial variables
+      let email, username;
+
+      // Check if emailOrUsername is email or username
+      isValidEmail(values.emailOrUsername)
+        ? (email = values.emailOrUsername)
+        : (username = values.emailOrUsername);
+
+      // Dispatch login reducer async action with 3 values: email or phone, password
+      await dispatch(
+        loginReducerAsync({
+          ...values,
+          email,
+          username,
+        })
+      );
+
+      // When login success
+      setIsFinish(false);
+    } catch (error) {
+      toast.error(error.message);
+
+      setIsFinish(false);
+    }
   };
 
   // Check if user not logged
   if (user) return <Navigate to="/" />;
+
+  isValidEmail();
 
   return (
     <div>
@@ -49,7 +83,7 @@ const Login = () => {
         {/* Email / Username input */}
         <Form.Item
           label="Email / Username"
-          name="username"
+          name="emailOrUsername"
           rules={[
             {
               required: true,
@@ -93,8 +127,13 @@ const Login = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" className="bg-black">
-            Login
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="bg-black flex items-center gap-2"
+          >
+            {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
+            <span>Login</span>
           </Button>
         </Form.Item>
       </Form>
