@@ -1,3 +1,4 @@
+import { v2 as cloudinary } from "cloudinary";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Comment from "../models/comment.js";
@@ -7,18 +8,40 @@ export const createComment = async (req, res, next) => {
   try {
     // Get data from request body
     const { content } = req.body;
-    // Get user id from request
-    const { userId } = req;
+    // Get user id and file from request
+    const { userId, file } = req;
 
     // Check if content not found
     if (!content) return sendError(res, "Content cannot be blank.");
 
-    // Create a new comment
-    const newComment = await Comment.create({
-      ...req.body,
-      user: userId,
-    });
-    await newComment.save();
+    // Check if file exists
+    if (file) {
+      // Upload image to cloudinary
+      await cloudinary.uploader
+        .upload(file.path, {
+          folder: "images",
+          unique_filename: true,
+          resource_type: "image",
+          use_filename: true,
+          overwrite: true,
+        })
+        .then(async (result) => {
+          // Create a new comment
+          const newComment = await Comment.create({
+            ...req.body,
+            user: userId,
+            picture: result.secure_url,
+          });
+          await newComment.save();
+        });
+    } else {
+      // Create a new comment
+      const newComment = await Comment.create({
+        ...req.body,
+        user: userId,
+      });
+      await newComment.save();
+    }
 
     // Get all comments
     const comments = await Comment.find()
@@ -86,8 +109,8 @@ export const updateCommentById = async (req, res, next) => {
     const { content } = req.body;
     // Get comment id from request params
     const { id } = req.params;
-    // Get user id from request
-    const { userId } = req;
+    // Get user id and file from request
+    const { userId, file } = req;
 
     // Get user by id
     const findUser = await User.findById(userId);
@@ -100,18 +123,37 @@ export const updateCommentById = async (req, res, next) => {
     // Check if content not found
     if (!content) return sendError(res, "Content cannot be blank.");
 
-    // Find and update comment
-    const comment = await Comment.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      {
-        new: true,
-      }
-    );
-    // Check if comment not found
-    if (!comment) return sendError(res, "Comment not found", 404);
+    // Check if file exists
+    if (file) {
+      // Upload image to cloudinary
+      await cloudinary.uploader
+        .upload(file.path, {
+          folder: "images",
+          unique_filename: true,
+          resource_type: "image",
+          use_filename: true,
+          overwrite: true,
+        })
+        .then(async (result) => {
+          // Find and update comment
+          const comment = await Comment.findByIdAndUpdate(
+            id,
+            { ...req.body, picture: result.secure_url },
+            { new: true }
+          );
+          // Check if comment not found
+          if (!comment) return sendError(res, "Comment not found", 404);
+        });
+    } else {
+      // Find and update comment
+      const comment = await Comment.findByIdAndUpdate(
+        id,
+        { ...req.body },
+        { new: true }
+      );
+      // Check if comment not found
+      if (!comment) return sendError(res, "Comment not found", 404);
+    }
 
     // Get all comment after updated
     const comments = await Comment.find()
