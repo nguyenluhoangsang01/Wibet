@@ -12,4 +12,25 @@
     box-sizing: border-box;
     overflow-x: hidden;
   }
+
+  table > thead > tr > th {
+    background: #000 !important;
+    color: #fff !important;
+    font-size: 16px;
+  }
+
+  table > thead > tr > th:first-child,
+  table > thead > tr > th:nth-child(4) {
+    display: flex;
+    justify-content: center;
+  }
+
+  table > thead > tr > th > div > span {
+    text-align: center;
+  }
+
+  a > svg,
+  button > svg {
+    @apply rounded-sm text-white w-8 h-8 p-2 hover:scale-110 active:scale-100 transition;
+  }
 }

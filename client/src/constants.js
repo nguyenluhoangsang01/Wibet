@@ -6,6 +6,7 @@ import {
 	Home,
 	Login,
 	Matches,
+	NotFound,
 	Profile,
 	Ranking,
 	Rules,
@@ -13,7 +14,7 @@ import {
 	Users
 } from "./views";
 
-export const defaultLayout = [
+export const routes = [
   {
     path: "/",
     element: <Home />,
@@ -47,7 +48,7 @@ export const defaultLayout = [
     element: <Users />,
   },
   {
-    path: "/team",
+    path: "/teams",
     element: <Team />,
   },
   {
@@ -61,6 +62,10 @@ export const defaultLayout = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/*",
+    element: <NotFound />,
   },
 ];
 
@@ -98,8 +103,8 @@ export const navbarRoutes = [
     name: "users",
   },
   {
-    path: "/team",
-    name: "team",
+    path: "/teams",
+    name: "teams",
   },
 ];
 
@@ -169,7 +174,7 @@ export const teamRoutes = [
   },
   {
     path: "",
-    name: "team",
+    name: "teams",
   },
 ];
 
