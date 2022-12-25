@@ -8,12 +8,13 @@ import User from "../models/user.js";
 export const createUser = async (req, res, next) => {
   try {
     // Get data from request body
-    const { email, username, password } = req.body;
+    const { email, fullName, username, password } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
+    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
     if (!password) return sendError(res, "Password cannot be blank.");
     if (password.length < 3)
@@ -112,12 +113,13 @@ export const updateUser = async (req, res, next) => {
   try {
     // Get user id from request
     const { userId } = req;
-    const { email, username, newPassword, money } = req.body;
+    const { email, fullName, username, newPassword, money } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
+    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
 
     // Check if user not exists
@@ -185,12 +187,13 @@ export const updateUserById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
-    const { email, username, newPassword } = req.body;
+    const { email, fullName, username, newPassword } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
+    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
 
     // Check if user not exists

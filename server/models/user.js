@@ -17,6 +17,7 @@ const userSchema = new Schema(
     },
     fullName: {
       type: String,
+      require: [true, "Full Name cannot be blank."],
       trim: true,
     },
     username: {
@@ -49,9 +50,15 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
-    loggedInAt: String,
+    loggedInAt: {
+      type: String,
+      default: "(not set)",
+    },
     createdBy: String,
-    bannedAt: String,
+    bannedAt: {
+      type: String,
+      default: "(not set)",
+    },
   },
   {
     timestamps: true,
