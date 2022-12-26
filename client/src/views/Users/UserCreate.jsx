@@ -207,13 +207,14 @@ const UserCreate = () => {
         <Form.Item
           name="banned"
           valuePropName="checked"
-          wrapperCol={{ offset: 5, span: 16 }}
+          wrapperCol={{ offset: 5 }}
+          className="w-fit md:w-full"
         >
           <Checkbox value="checked">Banned</Checkbox>
         </Form.Item>
 
         {/* Create button */}
-        <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 5 }} className="w-fit md:w-full">
           <Button
             type="primary"
             htmlType="submit"

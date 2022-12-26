@@ -269,8 +269,8 @@ const Users = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      <div className="flex items-center justify-between mb-6">
-        <p>
+      <div className="md:flex items-center justify-between mb-6">
+        <p className="flex items-center justify-center gap-1">
           Showing{" "}
           <span className="font-bold">
             1-{users.length - 1 < 10 ? users.length - 1 : 10}
@@ -278,7 +278,7 @@ const Users = () => {
           of <span className="font-bold">{users.length - 1}</span> items.
         </p>
 
-        <div className="flex items-center gap-4 action-details">
+        <div className="flex items-center justify-between gap-4 action-details">
           <Link to="/users/create" className="bg-black text-white">
             Create User
           </Link>
