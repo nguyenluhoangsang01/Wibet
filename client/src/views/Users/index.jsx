@@ -98,7 +98,6 @@ const Users = () => {
       render: (text, record, index) => (
         <span className="text-center">{index + 1}</span>
       ),
-      fixed: "left",
     },
     {
       title: "Username",
@@ -114,7 +113,6 @@ const Users = () => {
           {text}
         </p>
       ),
-      fixed: "left",
     },
     {
       title: "Role",
@@ -154,7 +152,7 @@ const Users = () => {
       render: (text) => (
         <a
           href={`mailto:${text}`}
-          className="text-center truncate block"
+          className="text-center truncate block text-[#2A6496] transition hover:underline"
           title={text}
         >
           {text}
@@ -184,7 +182,7 @@ const Users = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      width: 200,
+      width: 150,
       sorter: (a, b) => {
         if (a.money < b.money) return -1;
         if (a.money > b.money) return 1;
@@ -199,7 +197,7 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-      width: 200,
+      width: 150,
       sorter: (a, b) => {
         if (a.loggedInAt < b.loggedInAt) return -1;
         if (a.loggedInAt > b.loggedInAt) return 1;
@@ -218,7 +216,7 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
-      width: 200,
+      width: 150,
       sorter: (a, b) => {
         if (a.bannedAt < b.bannedAt) return -1;
         if (a.bannedAt > b.bannedAt) return 1;
@@ -236,20 +234,20 @@ const Users = () => {
     {
       title: "",
       dataIndex: "action",
-      width: 150,
+      width: 100,
       fixed: "right",
       render: (text, record) => (
         <div className="flex items-center justify-center">
           <Link to={`${record._id}/view-details`}>
-            <IoEyeSharp className="text-black" />
+            <IoEyeSharp className="text-[#428bca]" />
           </Link>
 
           <button onClick={() => handleUpdateUser(record)}>
-            <BsPencilFill className="text-black" />
+            <BsPencilFill className="text-[#428bca]" />
           </button>
 
           <button onClick={() => handleDeleteUser(record._id, record.username)}>
-            <BsTrashFill className="text-black" />
+            <BsTrashFill className="text-[#428bca]" />
           </button>
         </div>
       ),
@@ -271,7 +269,7 @@ const Users = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <p>
           Showing{" "}
           <span className="font-bold">
@@ -280,7 +278,7 @@ const Users = () => {
           of <span className="font-bold">{users.length - 1}</span> items.
         </p>
 
-        <div className="flex items-center gap-4 mb-6 action-details">
+        <div className="flex items-center gap-4 action-details">
           <Link to="/users/create" className="bg-black text-white">
             Create User
           </Link>
