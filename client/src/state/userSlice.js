@@ -53,6 +53,24 @@ export const userSlice = createSlice({
         toast.error(payload.message);
       }
     },
+
+    deleteUserReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.users = payload.data.users;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
+
+    updateUserByIdReducer: (state, { payload }) => {
+      if (payload.success) {
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
   },
 });
 
@@ -130,11 +148,53 @@ export const updatePasswordReducerAsync = (values) => async (dispatch) => {
   }
 };
 
+export const deleteUserReducerAsync = (_id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/user/${_id}`, {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken?.replaceAll('"', "")}`,
+      },
+    });
+
+    if (res.data) {
+      dispatch(deleteUserReducer(res.data));
+    }
+  } catch ({ response }) {
+    if (response.data) {
+      dispatch(deleteUserReducer(response.data));
+    }
+  }
+};
+
+export const updateUserByIdReducerAsync = (_id, values) => async (dispatch) => {
+  try {
+    const res = await axios.patch(`/user/${_id}`, values, {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken?.replaceAll('"', "")}`,
+      },
+    });
+
+    if (res.data) {
+      dispatch(updateUserByIdReducer(res.data));
+    }
+  } catch ({ response }) {
+    if (response.data) {
+      dispatch(updateUserByIdReducer(response.data));
+    }
+  }
+};
+
 export const selectUser = (state) => state.user;
 export const {
   loginReducer,
   logoutReducer,
   getAllUsersReducer,
   updatePasswordReducer,
+  deleteUserReducer,
+  updateUserByIdReducer,
 } = userSlice.actions;
 export default userSlice.reducer;

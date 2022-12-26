@@ -1,17 +1,17 @@
 import {
-	Account,
-	Analysis,
-	Brackets,
-	Comments,
-	Home,
-	Login,
-	Matches,
-	NotFound,
-	Profile,
-	Ranking,
-	Rules,
-	Team,
-	Users
+  Account,
+  Analysis,
+  Brackets,
+  Comments,
+  Home,
+  Login,
+  Matches,
+  NotFound,
+  Profile,
+  Ranking,
+  Rules,
+  Team,
+  Users,
 } from "./views";
 
 export const routes = [
@@ -210,3 +210,60 @@ export const loginRoutes = [
     name: "login",
   },
 ];
+
+export const createUserRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "/users",
+    name: "users",
+  },
+  {
+    path: "",
+    name: "create user",
+  },
+];
+
+export const ROLES = [
+  {
+    value: "Admin",
+    label: "Admin",
+  },
+  {
+    value: "User",
+    label: "User",
+  },
+  {
+    value: "Guest",
+    label: "Guest",
+  },
+];
+
+export const STATUS = [
+  {
+    value: "Inactive",
+    label: "Inactive",
+  },
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "Unconfirmed email",
+    label: "Unconfirmed email",
+  },
+];
+
+export const ROLESDEFAULT = {
+  Admin: "Admin",
+  User: "User",
+  Guest: "Guest",
+};
+
+export const STATUSDEFAULT = {
+  Inactive: "Inactive",
+  Active: "Active",
+  "Unconfirmed email": "Unconfirmed email",
+};

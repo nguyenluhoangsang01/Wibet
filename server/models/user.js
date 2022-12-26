@@ -15,11 +15,7 @@ const userSchema = new Schema(
         }
       },
     },
-    fullName: {
-      type: String,
-      require: [true, "Full Name cannot be blank."],
-      trim: true,
-    },
+    fullName: String,
     username: {
       type: String,
       require: [true, "Username cannot be blank."],
@@ -46,19 +42,11 @@ const userSchema = new Schema(
       enum: Object.keys(STATUS),
       default: Object.keys(STATUS)[0],
     },
-    bannedReason: {
-      type: String,
-      trim: true,
-    },
-    loggedInAt: {
-      type: String,
-      default: "(not set)",
-    },
+    bannedReason: String,
+    loggedInAt: String,
     createdBy: String,
-    bannedAt: {
-      type: String,
-      default: "(not set)",
-    },
+    bannedAt: String,
+    loggedInAt: String,
   },
   {
     timestamps: true,

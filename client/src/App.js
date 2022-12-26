@@ -3,6 +3,13 @@ import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import { routes } from "./constants";
 import Default from "./layouts/Default";
+import {
+  TeamCreate,
+  TeamUpdate,
+  UserCreate,
+  UserUpdate,
+  UserViewDetails,
+} from "./views";
 
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common = `Bearer ${JSON.parse(
@@ -19,6 +26,15 @@ function App() {
           {routes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element} />
           ))}
+
+          {/* Nested routes of user */}
+          <Route path="/users/create" element={<UserCreate />} />
+          <Route path="/users/:id/view-details" element={<UserViewDetails />} />
+          <Route path="/users/:id/update" element={<UserUpdate />} />
+
+          {/* Nested routes of team */}
+          <Route path="/teams/:id/create" element={<TeamCreate />} />
+          <Route path="/teams/:id/update" element={<TeamUpdate />} />
         </Route>
       </Routes>
     </div>

@@ -19,6 +19,10 @@
     font-size: 16px;
   }
 
+  table > tbody {
+    font-size: 15px !important;
+  }
+
   table > thead > tr > th:first-child,
   table > thead > tr > th:nth-child(4) {
     display: flex;
@@ -32,5 +36,23 @@
   a > svg,
   button > svg {
     @apply rounded-sm text-white w-8 h-8 p-2 hover:scale-110 active:scale-100 transition;
+  }
+
+  .action-details > a,
+  .action-details > button {
+    @apply rounded-md py-2 px-4 transition hover:scale-105 active:scale-100;
+  }
+
+  .group > tbody > tr {
+    @apply h-[50px] border-t-[1px] text-center;
+  }
+
+  .group > tbody > tr:nth-child(odd) {
+    @apply bg-[#F9F9F9];
+  }
+
+  .group > tbody > tr > th,
+  .group > tbody > tr > td {
+    @apply w-[50%];
   }
 }

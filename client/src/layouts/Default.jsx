@@ -8,7 +8,7 @@ const Default = () => {
     <>
       <Navbar />
 
-      <main className="px-4 sm:px-10 py-6">
+      <main className="px-4 sm:px-10 py-6 pt-[84px]">
         <Outlet />
       </main>
 

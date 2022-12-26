@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="h-[60px] bg-black text-white">
+    <nav className="h-[60px] bg-black text-white w-full fixed z-40 shadow-lg">
       <div className="mx-auto flex items-center justify-between h-full transition px-4 sm:px-10 relative">
         {/* Navbar left */}
         <Link
@@ -76,10 +76,10 @@ const Navbar = () => {
               user?.roleID === "Admin"
                 ? route
                 : user?.roleID === "User"
-                ? route.name !== "users" && route.name !== "team"
+                ? route.name !== "users" && route.name !== "teams"
                 : !user &&
                   route.name !== "users" &&
-                  route.name !== "team" &&
+                  route.name !== "teams" &&
                   route.name !== "matches"
             )
             .map((route) => (

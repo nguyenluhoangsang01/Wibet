@@ -8,13 +8,18 @@ import User from "../models/user.js";
 export const createUser = async (req, res, next) => {
   try {
     // Get data from request body
-    const { email, fullName, username, password } = req.body;
+    const { email, username, password } = req.body;
+    // Get user id from request
+    const { userId } = req;
+
+    // Get user by id
+    const user = await User.findById(userId);
+    if (!user) return sendError(res, "User not found", 404);
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
-    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
     if (!password) return sendError(res, "Password cannot be blank.");
     if (password.length < 3)
@@ -40,20 +45,19 @@ export const createUser = async (req, res, next) => {
     const newUser = await User.create({
       ...req.body,
       password: hashedPassword,
+      createdBy: user.username,
     });
     await newUser.save();
 
-    // Get all users
-    const users = await User.find().select("-__v -password");
+    const getNewCreatedNewUser = await User.findById(newUser._id).select(
+      "-__v -password"
+    );
 
     // Send success notification
     return sendSuccess(
       res,
       "Create user successfully!",
-      {
-        length: users.length,
-        users,
-      },
+      { user: getNewCreatedNewUser },
       201
     );
   } catch (error) {
@@ -95,9 +99,9 @@ export const login = async (req, res, next) => {
     );
 
     // Get user logged
-    const user = await User.findById(isExistingUser._id).select(
-      "-__v -password"
-    );
+    const user = await User.findByIdAndUpdate(isExistingUser._id, {
+      loggedInAt: new Date(Date.now()),
+    }).select("-__v -password");
 
     // Send success notification
     return sendSuccess(res, "Logged successfully!", {
@@ -113,13 +117,12 @@ export const updateUser = async (req, res, next) => {
   try {
     // Get user id from request
     const { userId } = req;
-    const { email, fullName, username, newPassword, money } = req.body;
+    const { email, username, newPassword, money } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
-    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
 
     // Check if user not exists
@@ -187,13 +190,12 @@ export const updateUserById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
-    const { email, fullName, username, newPassword } = req.body;
+    const { email, username, newPassword, money, banned } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
     if (!validator.isEmail(email))
       return sendError(res, "Email is not a valid email address.");
-    if (!fullName) return sendError(res, "Full name cannot be blank.");
     if (!username) return sendError(res, "Username cannot be blank.");
 
     // Check if user not exists
@@ -230,6 +232,7 @@ export const updateUserById = async (req, res, next) => {
         {
           ...req.body,
           password: hashedNewPassword,
+          bannedAt: banned && new Date(Date.now()),
         },
         {
           new: true,
@@ -249,9 +252,7 @@ export const updateUserById = async (req, res, next) => {
       }
     );
 
-    const updatedUser = await User.findById(id).select("-__v -password");
-
-    return sendSuccess(res, "Update user successfully!", updatedUser);
+    return sendSuccess(res, "Update user successfully!");
   } catch (error) {
     next(error);
   }

@@ -1,12 +1,12 @@
 import { Image, Table } from "antd";
-import React, { useEffect, useState } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import React, { useEffect } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { teamRoutes } from "../../constants";
+import { capitalize } from "../../helper";
 import { getAllTeamsReducerAsync, selectTeam } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -19,36 +19,22 @@ const Team = () => {
   const { teams } = useSelector(selectTeam);
   // Initial dispatch
   const dispatch = useDispatch();
-  // Initial state
-  const [isUpdated, setIsUpdated] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
+
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  });
 
   // Get all teams
   useEffect(() => {
     dispatch(getAllTeamsReducerAsync());
-  }, [dispatch]);
+  }, [dispatch, teams]);
 
   // Handle update team
-  const handleUpdateTeam = (_id) => {
-    setIsUpdated(true);
-
-    try {
-      setIsUpdated(false);
-    } catch (error) {
-      setIsUpdated(false);
-    }
-  };
+  const handleUpdateTeam = (_id) => {};
 
   // Handle delete team
-  const handleDeleteTeam = (_id) => {
-    setIsDeleted(true);
-
-    try {
-      setIsDeleted(false);
-    } catch (error) {
-      setIsDeleted(false);
-    }
-  };
+  const handleDeleteTeam = (_id) => {};
 
   // Columns for table
   const columns = [
@@ -56,6 +42,7 @@ const Team = () => {
       title: "Id",
       dataIndex: "_id",
       key: "_id",
+      width: 64.16,
       render: (text, record, index) => (
         <span className="flex items-center justify-center">{index + 1}</span>
       ),
@@ -106,23 +93,11 @@ const Team = () => {
             to={`${record._id}/update`}
             onClick={() => handleUpdateTeam(record._id)}
           >
-            {isUpdated ? (
-              <div className="bg-[orange] w-8 h-8 flex items-center justify-center">
-                <AiOutlineLoading3Quarters className="animate-spin text-white" />
-              </div>
-            ) : (
-              <BsPencilFill className="bg-[orange]" />
-            )}
+            <BsPencilFill className="bg-[orange]" />
           </Link>
 
           <button onClick={() => handleDeleteTeam(record._id)}>
-            {isDeleted ? (
-              <div className="bg-[orange] w-8 h-8 flex items-center justify-center">
-                <AiOutlineLoading3Quarters className="animate-spin text-white" />
-              </div>
-            ) : (
-              <BsTrashFill className="bg-[red]" />
-            )}
+            <BsTrashFill className="bg-[red]" />
           </button>
         </div>
       ),

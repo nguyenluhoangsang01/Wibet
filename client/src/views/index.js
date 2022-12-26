@@ -10,4 +10,10 @@ export { default as Profile } from "./Profile";
 export { default as Ranking } from "./Ranking";
 export { default as Rules } from "./Rules";
 export { default as Team } from "./Team";
+export { default as TeamCreate } from "./Team/TeamCreate";
+export { default as TeamUpdate } from "./Team/TeamUpdate";
 export { default as Users } from "./Users";
+export { default as UserCreate } from "./Users/UserCreate";
+export { default as UserUpdate } from "./Users/UserUpdate";
+export { default as UserViewDetails } from "./Users/UserViewDetails";
+

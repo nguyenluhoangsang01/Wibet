@@ -23,3 +23,23 @@ export function useOutsideClick(callback) {
 
   return ref;
 }
+
+export function capitalize(word) {
+  const lower = word?.toLowerCase();
+  return word?.charAt(0)?.toUpperCase() + lower?.slice(1);
+}
+
+export function formatTime(time) {
+  if (!time) return null;
+
+  const split = time?.split("T");
+
+  const HH = Number(split[1].slice(0, 2)) + 7;
+  const mm = split[1].slice(3, 5);
+  const ss = split[1].slice(6, 8);
+  const dd = split[0].slice(8, 10);
+  const MM = split[0].slice(5, 7);
+  const yyyy = split[0].slice(0, 4);
+
+  return `${HH}:${mm}:${ss} - ${dd}/${MM}/${yyyy}`;
+}
