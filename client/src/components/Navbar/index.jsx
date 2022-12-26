@@ -90,9 +90,7 @@ const Navbar = () => {
                   `w-full ${
                     isShowMenu ? "h-[40px] flex justify-center" : "h-full px-3"
                   } flex items-center transition hover:scale-105 ${
-                    isActive
-                      ? "text-[black] bg-[white]"
-                      : "hover:text-[black] hover:bg-[white]"
+                    isActive ? "text-[black] bg-[white]" : "hover:bg-[#555555]"
                   }`
                 }
                 onClick={() => setIsShowMenu(false)}
