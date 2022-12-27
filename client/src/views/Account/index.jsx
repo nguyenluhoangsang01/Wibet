@@ -1,13 +1,13 @@
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { accountRoutesB } from "../../constants";
-import { selectUser, updatePasswordReducerAsync } from "../../state/userSlice";
+import { selectUser, updatePasswordReducer } from "../../state/userSlice";
 
 const Account = () => {
   // Get pathname from location
@@ -18,6 +18,8 @@ const Account = () => {
   const [isFinish, setIsFinish] = useState(false);
   // Redux
   const dispatch = useDispatch();
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Check if user is null
   if (!user) return <Navigate to="/" />;
@@ -28,16 +30,30 @@ const Account = () => {
     setIsFinish(true);
 
     try {
-      // Dispatch update password reducer async
-      await dispatch(updatePasswordReducerAsync(values));
+      // Update current user with values get from form
+      const res = await axios.patch("/user/update/password", values, {
+        headers: {
+          authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("persist:user")
+          )?.accessToken?.replaceAll('"', "")}`,
+        },
+      });
 
-      // When update success
-      setIsFinish(false);
-    } catch (error) {
-      // When update failured
-      toast.error(error.message);
+      // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
+      if (res.data) {
+        dispatch(updatePasswordReducer(res.data));
 
-      setIsFinish(false);
+        setIsFinish(false);
+
+        navigate("/");
+      }
+    } catch ({ response }) {
+      // Check if response return data, set is finish to false and dispatch update password reducer action to update new user information (maybe)
+      if (response.data) {
+        dispatch(updatePasswordReducer(response.data));
+
+        setIsFinish(false);
+      }
     }
   };
 
