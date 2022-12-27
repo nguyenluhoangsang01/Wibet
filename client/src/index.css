@@ -29,8 +29,9 @@
     justify-content: center;
   }
 
+  .ant-table-cell,
   table > thead > tr > th > div > span {
-    text-align: center;
+    text-align: center !important;
   }
 
   a > svg,
@@ -61,10 +62,6 @@
 
   table > tbody > tr > td {
     @apply !p-2 !text-center;
-  }
-
-  .ant-table-measure-row {
-    display: none !important;
   }
 
   .ant-image-preview-img {

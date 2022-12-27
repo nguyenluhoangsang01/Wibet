@@ -89,7 +89,7 @@ export const getAllMatches = async (req, res, next) => {
   try {
     // Get all matches
     const matches = await Match.find()
-      .populate("team1 team2", "fullName flag")
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
     // Check if matches not found
     if (!matches) return sendError(res, "No results found", 404);
@@ -112,7 +112,7 @@ export const getMatchById = async (req, res, next) => {
     // Check if match not exists
     const match = await Match.findById(id)
       .select("-__v")
-      .populate("team1 team2", "fullName flag")
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
     if (!match) return sendError(res, sendError("Match not found", 404));
 

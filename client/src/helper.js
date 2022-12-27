@@ -41,7 +41,7 @@ export function formatTime(time) {
   const MM = split[0].slice(5, 7);
   const yyyy = split[0].slice(0, 4);
 
-  return `${HH < 10 ? `0${HH}` : HH}:${mm < 10 ? `0${mm}` : mm}:${
-    ss < 10 ? `0${ss}` : ss
-  } - ${yyyy}/${MM < 10 ? `0${MM}` : MM}/${dd < 10 ? `0${dd}` : dd}`;
+  return `${HH < 10 ? `0${HH}` : HH}:${mm}:${ss} - ${yyyy}/${
+    MM < 10 ? `0${MM}` : MM
+  }/${dd < 10 ? `0${dd}` : dd}`;
 }

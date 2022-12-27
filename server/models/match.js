@@ -25,6 +25,10 @@ const matchSchema = new Schema(
     },
     description: String,
     betResult: String,
+    isShow: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
