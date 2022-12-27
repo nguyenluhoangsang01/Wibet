@@ -48,6 +48,10 @@ const userSchema = new Schema(
     bannedAt: String,
     loggedInAt: String,
     timezone: String,
+    banned: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
