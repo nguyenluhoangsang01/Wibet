@@ -1,12 +1,12 @@
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { updateTeamReducerAsync } from "../../state/teamSlice";
+import { updateTeamReducer } from "../../state/teamSlice";
 
 const TeamUpdate = () => {
   // Initial location
@@ -42,24 +42,35 @@ const TeamUpdate = () => {
 
   // Handle on finish
   const onFinish = async (values) => {
-    // Initial loading with true when user click update button
+    // Initial loading with true when user click create button
     setIsFinish(true);
 
     try {
-      // Dispatch update team by id reducer async
-      await dispatch(updateTeamReducerAsync(team?._id, { ...values }));
+      const res = await axios.patch(
+        `/team/${team._id}`,
+        { ...values },
+        {
+          headers: {
+            authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("persist:user")
+            )?.accessToken?.replaceAll('"', "")}`,
+          },
+        }
+      );
 
-      // After set is finish to false
-      setIsFinish(false);
+      if (res.data) {
+        dispatch(updateTeamReducer(res.data));
 
-      // And navigate
-      navigate(`/teams`);
-    } catch (error) {
-      // When update failured
-      toast.error(error.message);
+        setIsFinish(false);
 
-      // After set is finish to false
-      setIsFinish(false);
+        navigate("/teams");
+      }
+    } catch ({ response }) {
+      if (response.data) {
+        dispatch(updateTeamReducer(response.data));
+
+        setIsFinish(false);
+      }
     }
   };
 

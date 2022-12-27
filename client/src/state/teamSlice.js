@@ -26,7 +26,15 @@ export const teamSlice = createSlice({
       }
     },
 
-    updateTeamReducer: (state, { payload }) => {},
+    updateTeamReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.teams = payload.data;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
 
     deleteTeamReducer: (state, { payload }) => {
       if (payload.success) {
@@ -56,32 +64,6 @@ export const getAllTeamsReducerAsync = () => async (dispatch) => {
   } catch ({ response }) {
     if (response.data) {
       dispatch(getAllTeamsReducer(response.data));
-    }
-  }
-};
-
-export const updateTeamReducerAsync = (_id, values) => async (dispatch) => {
-  try {
-    const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("fullName", values.fullName);
-    formData.append("image", values.image);
-
-    const res = await axios.patch(`/team/${_id}`, formData, {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-      "Content-Type": "multipart/form-data",
-    });
-
-    if (res.data) {
-      dispatch(updateTeamReducer(res.data));
-    }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(updateTeamReducer(response.data));
     }
   }
 };

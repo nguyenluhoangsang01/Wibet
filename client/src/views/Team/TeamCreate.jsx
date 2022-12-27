@@ -41,8 +41,6 @@ const TeamCreate = () => {
             authorization: `Bearer ${JSON.parse(
               localStorage.getItem("persist:user")
             )?.accessToken?.replaceAll('"', "")}`,
-
-            "Content-Type": "multipart/form-data",
           },
         }
       );
