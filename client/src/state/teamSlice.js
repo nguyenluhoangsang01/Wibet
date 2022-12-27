@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const initialState = {
   teams: [],
@@ -15,11 +16,27 @@ export const teamSlice = createSlice({
       }
     },
 
-    createTeamReducer: (state, { payload }) => {},
+    createTeamReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.teams = payload.data;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
 
     updateTeamReducer: (state, { payload }) => {},
 
-    deleteTeamReducer: (state, { payload }) => {},
+    deleteTeamReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.teams = payload.data;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
   },
 });
 
@@ -43,11 +60,51 @@ export const getAllTeamsReducerAsync = () => async (dispatch) => {
   }
 };
 
-export const createTeamReducerAsync = () => async (dispatch) => {};
+export const updateTeamReducerAsync = (_id, values) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("fullName", values.fullName);
+    formData.append("image", values.image);
 
-export const updateTeamReducerAsync = () => async (dispatch) => {};
+    const res = await axios.patch(`/team/${_id}`, formData, {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken?.replaceAll('"', "")}`,
+      },
+      "Content-Type": "multipart/form-data",
+    });
 
-export const deleteTeamReducerAsync = () => async (dispatch) => {};
+    if (res.data) {
+      dispatch(updateTeamReducer(res.data));
+    }
+  } catch ({ response }) {
+    if (response.data) {
+      dispatch(updateTeamReducer(response.data));
+    }
+  }
+};
+
+export const deleteTeamReducerAsync = (_id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/team/${_id}`, {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("persist:user")
+        )?.accessToken?.replaceAll('"', "")}`,
+      },
+    });
+
+    if (res.data) {
+      dispatch(deleteTeamReducer(res.data));
+    }
+  } catch ({ response }) {
+    if (response.data) {
+      dispatch(deleteTeamReducer(response.data));
+    }
+  }
+};
 
 export const selectTeam = (state) => state.team;
 export const {
