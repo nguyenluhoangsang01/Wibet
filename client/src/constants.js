@@ -226,6 +226,21 @@ export const createUserRoutes = [
   },
 ];
 
+export const createTeamRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "/teams",
+    name: "teams",
+  },
+  {
+    path: "",
+    name: "create team",
+  },
+];
+
 export const ROLES = [
   {
     value: "Admin",
@@ -267,3 +282,6 @@ export const STATUSDEFAULT = {
   Active: "Active",
   "Unconfirmed email": "Unconfirmed email",
 };
+
+export const DEFAULT_IMAGE =
+  "https://res.cloudinary.com/wibet/image/upload/v1672115166/img_aff_mecup2022_logo_cyykbh.png";
