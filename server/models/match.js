@@ -24,6 +24,7 @@ const matchSchema = new Schema(
       trim: true,
     },
     description: String,
+    betResult: String,
   },
   { timestamps: true }
 );
