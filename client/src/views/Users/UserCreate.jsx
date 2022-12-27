@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import {
-	createUserRoutes,
-	ROLES,
-	ROLESDEFAULT,
-	STATUS,
-	STATUSDEFAULT
+  createUserRoutes,
+  ROLES,
+  ROLESDEFAULT,
+  STATUS,
+  STATUSDEFAULT,
 } from "../../constants";
 import { selectUser } from "../../state/userSlice";
 
@@ -103,8 +103,10 @@ const UserCreate = () => {
         }}
         onFinish={onFinish}
         autoComplete="off"
-        initialvalues={{
+        initialValues={{
           banned: false,
+          status: Object.keys(STATUSDEFAULT)[0],
+          roleID: Object.keys(ROLESDEFAULT)[1],
         }}
         className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"
       >
@@ -164,11 +166,7 @@ const UserCreate = () => {
             name="status"
             wrapperCol={{ span: 16, offset: 1 }}
           >
-            <Select
-              defaultValue={Object.keys(STATUSDEFAULT)[0]}
-              onChange={handleChangeStatus}
-              options={STATUS}
-            />
+            <Select onChange={handleChangeStatus} options={STATUS} />
           </Form.Item>
         </div>
 
@@ -207,11 +205,7 @@ const UserCreate = () => {
             name="roleID"
             wrapperCol={{ span: 16, offset: 1 }}
           >
-            <Select
-              defaultValue={Object.keys(ROLESDEFAULT)[1]}
-              onChange={handleChangeRoleID}
-              options={ROLES}
-            />
+            <Select onChange={handleChangeRoleID} options={ROLES} />
           </Form.Item>
 
           {/* Banned Reason input */}

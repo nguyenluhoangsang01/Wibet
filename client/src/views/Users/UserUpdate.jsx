@@ -62,8 +62,6 @@ const UserUpdate = () => {
     // Initial loading with true when user click update button
     setIsFinish(true);
 
-    console.log(values);
-
     try {
       // Dispatch update user by id reducer async with 2 values includes userId and values
       await dispatch(
@@ -134,6 +132,10 @@ const UserUpdate = () => {
                 required: true,
                 message: "Email cannot be blank.",
               },
+              {
+                type: "email",
+                message: "Email is not a valid email address.",
+              },
             ]}
             wrapperCol={{ span: 16, offset: 1 }}
           >
@@ -195,6 +197,12 @@ const UserUpdate = () => {
             label="New Password"
             name="newPassword"
             wrapperCol={{ span: 16, offset: 1 }}
+            rules={[
+              {
+                min: 3,
+                message: "New Password should contain at least 3 characters.",
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>
