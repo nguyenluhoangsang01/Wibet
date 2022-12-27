@@ -17,7 +17,7 @@ const Login = () => {
   const dispatch = useDispatch();
   // Get user from global state
   const { user } = useSelector(selectUser);
-  // State
+  // Initial state
   const [isFinish, setIsFinish] = useState(false);
 
   // Handle submit finish
@@ -66,15 +66,9 @@ const Login = () => {
       {/* Form */}
       <Form
         name="login"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 6,
-        }}
-        initialValues={{
-          remember: false,
-        }}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 6 }}
+        initialValues={{ remember: false }}
         onFinish={onFinish}
         autoComplete="off"
         className="h-[calc(100vh-60px*2-24px*2-32px-16px-40px-36px)]"
@@ -111,21 +105,13 @@ const Login = () => {
         <Form.Item
           name="remember"
           valuePropName="checked"
-          wrapperCol={{
-            offset: 4,
-            span: 16,
-          }}
+          wrapperCol={{ offset: 4, span: 16 }}
         >
           <Checkbox value="checked">Remember Me</Checkbox>
         </Form.Item>
 
         {/* Login button */}
-        <Form.Item
-          wrapperCol={{
-            offset: 4,
-            span: 16,
-          }}
-        >
+        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
           <Button
             type="primary"
             htmlType="submit"
