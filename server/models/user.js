@@ -47,6 +47,7 @@ const userSchema = new Schema(
     createdBy: String,
     bannedAt: String,
     loggedInAt: String,
+    timezone: String,
   },
   {
     timestamps: true,
