@@ -51,7 +51,9 @@
   }
 
   table > tbody > tr:nth-child(even),
-  .group > tbody > tr {
+  table > tbody > tr:nth-child(even) > td:nth-child(1),
+  table > tbody > tr:nth-child(even) > td:nth-child(2),
+  .group > tbody > tr:nth-child(even) {
     @apply !bg-[#F9F9F9];
   }
 

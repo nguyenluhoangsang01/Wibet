@@ -1,18 +1,20 @@
 import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import {
-  createUserRoutes,
-  ROLES,
-  ROLESDEFAULT,
-  STATUS,
-  STATUSDEFAULT,
+	createUserRoutes,
+	ROLES,
+	ROLESDEFAULT,
+	STATUS,
+	STATUSDEFAULT
 } from "../../constants";
+import { selectUser } from "../../state/userSlice";
 
 const UserCreate = () => {
   // Initial state
@@ -21,6 +23,15 @@ const UserCreate = () => {
   const [roleID, setRoleID] = useState(Object.keys(ROLESDEFAULT)[1]);
   // Initial navigate
   const navigate = useNavigate();
+
+  const { user } = useSelector(selectUser);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   // Handle on finish
   const onFinish = async (values) => {
@@ -176,6 +187,16 @@ const UserCreate = () => {
             label="Password"
             name="password"
             wrapperCol={{ span: 16, offset: 1 }}
+            rules={[
+              {
+                required: true,
+                message: "Password cannot be blank.",
+              },
+              {
+                min: 3,
+                message: "Password should contain at least 3 characters.",
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>

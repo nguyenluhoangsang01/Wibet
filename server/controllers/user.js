@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import moment from "moment/moment.js";
 import validator from "validator";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
@@ -100,7 +101,7 @@ export const login = async (req, res, next) => {
 
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
-      loggedInAt: new Date(Date.now()),
+      loggedInAt: moment().format("hh:mm:ss - yyyy/MM/DD"),
     }).select("-__v -password");
 
     // Send success notification
@@ -232,7 +233,7 @@ export const updateUserById = async (req, res, next) => {
         {
           ...req.body,
           password: hashedNewPassword,
-          bannedAt: banned && new Date(Date.now()),
+          bannedAt: banned && moment().format("hh:mm:ss - yyyy/MM/DD"),
         },
         {
           new: true,
@@ -246,6 +247,7 @@ export const updateUserById = async (req, res, next) => {
       {
         ...req.body,
         money: money ? Number(money) + Number(user.money) : user.money,
+        bannedAt: banned && moment().format("hh:mm:ss - yyyy/MM/DD"),
       },
       {
         new: true,

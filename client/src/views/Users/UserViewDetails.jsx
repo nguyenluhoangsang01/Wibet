@@ -1,12 +1,12 @@
 import { Button, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { capitalize, formatTime } from "../../helper";
-import { deleteUserReducerAsync } from "../../state/userSlice";
+import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserViewDetails = () => {
   // Get id from params
@@ -19,6 +19,14 @@ const UserViewDetails = () => {
   const navigate = useNavigate();
   // Initial dispatch from redux
   const dispatch = useDispatch();
+  const getData = useSelector(selectUser);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!getData.user) {
+      navigate("/");
+    }
+  }, [getData.user, navigate]);
 
   // Set title
   useEffect(() => {

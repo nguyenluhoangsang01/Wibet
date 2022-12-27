@@ -2,13 +2,13 @@ import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { ROLES, STATUS } from "../../constants";
 import { capitalize } from "../../helper";
-import { updateUserByIdReducerAsync } from "../../state/userSlice";
+import { selectUser, updateUserByIdReducerAsync } from "../../state/userSlice";
 
 const UserUpdate = () => {
   // Initial location
@@ -19,10 +19,18 @@ const UserUpdate = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [status, setStatus] = useState(user.status);
   const [roleID, setRoleID] = useState(user.roleID);
-  // Initial dispatch
-  const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+  // Initial dispatch
+  const dispatch = useDispatch();
+  const getData = useSelector(selectUser);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!getData.user) {
+      navigate("/");
+    }
+  }, [getData.user, navigate]);
 
   // Set title
   useEffect(() => {
@@ -53,6 +61,8 @@ const UserUpdate = () => {
   const onFinish = async (values) => {
     // Initial loading with true when user click update button
     setIsFinish(true);
+
+    console.log(values);
 
     try {
       // Dispatch update user by id reducer async with 2 values includes userId and values
@@ -102,8 +112,15 @@ const UserUpdate = () => {
         }}
         onFinish={onFinish}
         autoComplete="off"
-        initialvalues={{
-          banned: false,
+        initialValues={{
+          email: user.email,
+          username: user.username,
+          money: user.money,
+          status: user.status,
+          fullName: user.fullName,
+          roleID: user.roleID,
+          banned: user.bannedAt ? true : false,
+          bannedReason: user.bannedReason,
         }}
         className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"
       >
@@ -119,7 +136,6 @@ const UserUpdate = () => {
               },
             ]}
             wrapperCol={{ span: 16, offset: 1 }}
-            initialValue={user.email}
           >
             <Input />
           </Form.Item>
@@ -135,7 +151,6 @@ const UserUpdate = () => {
               },
             ]}
             wrapperCol={{ span: 16, offset: 1 }}
-            initialValue={user.username}
           >
             <Input />
           </Form.Item>
@@ -145,7 +160,6 @@ const UserUpdate = () => {
             label="Money"
             name="money"
             wrapperCol={{ span: 16, offset: 1 }}
-            initialValue={user.money}
             rules={[
               {
                 type: "number",
@@ -162,11 +176,7 @@ const UserUpdate = () => {
             name="status"
             wrapperCol={{ span: 16, offset: 1 }}
           >
-            <Select
-              defaultValue={user.status}
-              onChange={handleChangeStatus}
-              options={STATUS}
-            />
+            <Select onChange={handleChangeStatus} options={STATUS} />
           </Form.Item>
         </div>
 
@@ -176,7 +186,6 @@ const UserUpdate = () => {
             label="Full Name"
             name="fullName"
             wrapperCol={{ span: 16, offset: 1 }}
-            initialValue={user.fullName}
           >
             <Input />
           </Form.Item>
@@ -196,11 +205,7 @@ const UserUpdate = () => {
             name="roleID"
             wrapperCol={{ span: 16, offset: 1 }}
           >
-            <Select
-              defaultValue={user.roleID}
-              onChange={handleChangeRoleID}
-              options={ROLES}
-            />
+            <Select onChange={handleChangeRoleID} options={ROLES} />
           </Form.Item>
 
           {/* Banned Reason input */}
@@ -208,7 +213,6 @@ const UserUpdate = () => {
             label="Banned Reason"
             name="bannedReason"
             wrapperCol={{ span: 16, offset: 1 }}
-            initialValue={user.bannedReason}
           >
             <Input />
           </Form.Item>

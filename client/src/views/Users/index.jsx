@@ -95,8 +95,9 @@ const Users = () => {
       dataIndex: "_id",
       key: "_id",
       width: 50,
+      fixed: "left",
       render: (text, record, index) => (
-        <span className="text-center">{index + 1}</span>
+        <p className="text-center">{index + 1}</p>
       ),
     },
     {
@@ -104,6 +105,7 @@ const Users = () => {
       dataIndex: "username",
       key: "username",
       width: 200,
+      fixed: "left",
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
