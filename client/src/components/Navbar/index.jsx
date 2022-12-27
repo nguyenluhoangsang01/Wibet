@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AiFillCaretDown } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -112,14 +113,15 @@ const Navbar = () => {
                 } flex items-center transition hover:scale-105 active:scale-100`}
               >
                 <p
-                  className={`uppercase h-full font-bold text-[15px] flex items-center gap-2 ${
+                  className={`uppercase h-full font-bold text-[15px] flex items-center gap-1 ${
                     isShowMenu ? "justify-center w-full" : ""
                   }`}
                 >
                   <span>{user.username}</span>{" "}
-                  <span className="rounded-md bg-[orange] text-black px-2 py-1">
+                  <span className="rounded-md bg-[#FFC107] text-black px-2 py-1">
                     {user.money}
                   </span>
+                  <AiFillCaretDown />
                 </p>
               </button>
 
