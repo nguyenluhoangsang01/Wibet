@@ -33,7 +33,7 @@ function App() {
           <Route path="/users/:id/update" element={<UserUpdate />} />
 
           {/* Nested routes of team */}
-          <Route path="/teams/:id/create" element={<TeamCreate />} />
+          <Route path="/teams/create" element={<TeamCreate />} />
           <Route path="/teams/:id/update" element={<TeamUpdate />} />
         </Route>
       </Routes>
