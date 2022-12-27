@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { DEFAULT_IMAGE } from "../constants.js";
 
 const teamSchema = new Schema(
   {
@@ -17,7 +18,7 @@ const teamSchema = new Schema(
     flag: {
       type: String,
       trim: true,
-      default: "flag.png",
+      default: DEFAULT_IMAGE,
     },
   },
   { timestamps: true }
