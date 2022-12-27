@@ -23,7 +23,7 @@ const UserCreate = () => {
   const [roleID, setRoleID] = useState(Object.keys(ROLESDEFAULT)[1]);
   // Initial navigate
   const navigate = useNavigate();
-
+  // Get user from global state
   const { user } = useSelector(selectUser);
 
   // Check if user not exists

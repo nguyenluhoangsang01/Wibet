@@ -35,10 +35,10 @@ const UserUpdate = () => {
   // Set title
   useEffect(() => {
     document.title = `UPDATE USER: ${capitalize(user.username)}`;
-  });
+  }, [user.username]);
 
   // Breadcrumbs
-  const userViewDetailsRules = [
+  const userViewDetailsUpdateRules = [
     {
       path: "/",
       name: "home",
@@ -95,7 +95,7 @@ const UserUpdate = () => {
   return (
     <div>
       {/* Breadcrumbs */}
-      <Breadcrumbs routes={userViewDetailsRules} key={user._id} />
+      <Breadcrumbs routes={userViewDetailsUpdateRules} key={user._id} />
       {/* Heading */}
       <Heading title={`update user: ${user.username}`} />
 
@@ -117,7 +117,7 @@ const UserUpdate = () => {
           status: user.status,
           fullName: user.fullName,
           roleID: user.roleID,
-          banned: user.bannedAt ? true : false,
+          banned: user.banned,
           bannedReason: user.bannedReason,
         }}
         className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"

@@ -34,12 +34,15 @@ const Users = () => {
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
-  });
+  }, [pathname]);
 
   // Get all users
   useEffect(() => {
     dispatch(getAllUsersReducerAsync());
-  }, [dispatch, users]);
+  }, [dispatch]);
+
+  // Check if user role ID is difference Admin back to home page
+  if (user?.roleID !== "Admin") return <Navigate to="/" />;
 
   // Handle delete user
   const handleDeleteUser = (_id, username) => {
@@ -82,7 +85,7 @@ const Users = () => {
 
   // Handle update user
   const handleUpdateUser = (record) => {
-    navigate(`/users/${user._id}/update`, {
+    navigate(`/users/${record._id}/update`, {
       state: {
         user: record,
       },
@@ -120,11 +123,11 @@ const Users = () => {
       title: "Role",
       dataIndex: "roleID",
       key: "roleID",
+      width: 100,
       sorter: (a, b) => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
       },
-      width: 100,
       render: (text) => (
         <span className="text-center truncate block">{text}</span>
       ),
@@ -133,11 +136,11 @@ const Users = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      width: 100,
       sorter: (a, b) => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
       },
-      width: 100,
       render: (text) => (
         <span className="text-center truncate block">{text}</span>
       ),
@@ -256,9 +259,6 @@ const Users = () => {
     },
   ];
 
-  // Check if user role ID is difference Admin back to home page
-  if (user?.roleID !== "Admin") return <Navigate to="/" />;
-
   // Handle show history
   const handleShowHistory = () => {
     console.log("handleShowHistory");
@@ -272,12 +272,13 @@ const Users = () => {
       <Heading title={pathname.slice(1)} />
 
       <div className="md:flex items-center justify-between mb-6">
-        <p className="flex items-center justify-center gap-1">
+        <p className="flex items-center justify-center gap-1 mb-2 md:mb-0">
           Showing{" "}
           <span className="font-bold">
             1-{users.length - 1 < 10 ? users.length - 1 : 10}
           </span>{" "}
-          of <span className="font-bold">{users.length - 1}</span> items.
+          of <span className="font-bold">{users.length - 1}</span> user
+          {users.length - 1 > 1 ? "s" : ""}.
         </p>
 
         <div className="flex items-center justify-between gap-4 action-details">
@@ -297,10 +298,10 @@ const Users = () => {
         dataSource={users.users
           ?.filter((item) => item._id !== user._id)
           .reverse()}
-        scroll={{
-          x: 1300,
-        }}
+        scroll={{ x: 1400 }}
       />
+
+      {/* Modal */}
       <Modal
         title="Delete"
         open={open}

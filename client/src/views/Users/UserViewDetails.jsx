@@ -189,8 +189,12 @@ const UserViewDetails = () => {
           <tr>
             <th>Banned At</th>
             <td>
-              {user.bannedAt ? (
-                user.bannedAt
+              {Boolean(user.bannedAt) ? (
+                user.bannedAt === "false" ? (
+                  <span className="text-[red] italic">(not set)</span>
+                ) : (
+                  user.bannedAt
+                )
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
