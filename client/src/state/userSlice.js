@@ -56,7 +56,7 @@ export const userSlice = createSlice({
 
     deleteUserReducer: (state, { payload }) => {
       if (payload.success) {
-        state.users = payload.data.users;
+        state.users = payload.data;
 
         toast.success(payload.message);
       } else {
@@ -124,26 +124,6 @@ export const getAllUsersReducerAsync = () => async (dispatch) => {
   } catch ({ response }) {
     if (response.data) {
       dispatch(getAllUsersReducer(response.data));
-    }
-  }
-};
-
-export const updatePasswordReducerAsync = (values) => async (dispatch) => {
-  try {
-    const res = await axios.patch("/user/update/password", values, {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-    });
-
-    if (res.data) {
-      dispatch(updatePasswordReducer(res.data));
-    }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(updatePasswordReducer(response.data));
     }
   }
 };
