@@ -33,9 +33,6 @@
     text-align: center;
   }
 
-  table > tbody > tr {
-  }
-
   a > svg,
   button > svg {
     @apply rounded-sm text-white w-8 h-8 p-2 hover:scale-110 active:scale-100 transition;
@@ -43,7 +40,7 @@
 
   .action-details > a,
   .action-details > button {
-    @apply rounded-md py-2 px-4 transition hover:scale-105 active:scale-100;
+    @apply rounded-md py-2 px-4 transition hover:scale-105 active:scale-100  text-sm;
   }
 
   .group > tbody > tr {
@@ -66,7 +63,12 @@
     @apply !p-2 !text-center;
   }
 
-  table > tbody > tr:first-child {
-    @apply hidden;
+  .ant-table-measure-row {
+    display: none !important;
+  }
+
+  .ant-image-preview-img {
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
