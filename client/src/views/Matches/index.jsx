@@ -1,17 +1,25 @@
-import { Image, Table } from "antd";
-import React, { useEffect } from "react";
+import { Button, Image, Modal, Table } from "antd";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { BsCloudMinusFill, BsEyeSlashFill, BsPencilFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FaShare } from "react-icons/fa";
+import { IoEyeSharp } from "react-icons/io5";
 import { MdViewWeek } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { matchesRoutes } from "../../constants";
+import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatTime } from "../../helper";
-import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
+import {
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
+} from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Matches = () => {
@@ -23,6 +31,19 @@ const Matches = () => {
   const { matches } = useSelector(selectMatch);
   // Initial dispatch
   const dispatch = useDispatch();
+  // Initial state
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [deleteMatch, setDeleteMatch] = useState({
+    _id: "",
+    team1: "",
+    team2: "",
+  });
+  const [openHide, setOpenHide] = useState(false);
+  const [confirmLoadingHide, setConfirmLoadingHide] = useState(false);
+  const [record, setRecord] = useState({});
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Get all users
   useEffect(() => {
@@ -41,35 +62,152 @@ const Matches = () => {
   const handleBet = () => {
     console.log("handleBet");
   };
+
   // Handle view all bets
   const handleViewAllBet = () => {
     console.log("handleViewAllBet");
   };
+
   // Handle update info
-  const handleUpdateInfo = () => {
-    console.log("handleUpdateInfo");
+  const handleUpdateInfo = (record) => {
+    navigate(`/matches/${record._id}/update-info`, {
+      state: {
+        match: record,
+      },
+    });
   };
+
   // Handle update score
-  const handleUpdateScore = () => {
-    console.log("handleUpdateScore");
+  const handleUpdateScore = (record) => {
+    navigate(`/matches/${record._id}/update-score`);
   };
+
   // Handle view detail
-  const handleViewDetail = () => {
-    console.log("handleViewDetail");
+  const handleViewDetail = (record) => {
+    navigate(`/matches/${record._id}/view-details`, {
+      state: {
+        match: record,
+      },
+    });
   };
+
   // Handle delete
-  const handleDelete = () => {
-    console.log("handleDelete");
+  const handleDelete = (_id, team1, team2) => {
+    // Open modal when user click trash icon
+    setOpen(true);
+
+    // Set _id, team1 and team2
+    setDeleteMatch({
+      _id,
+      team1,
+      team2,
+    });
   };
+
+  // Handle confirm ok when user delete
+  const handleOk = async () => {
+    // Set loading to true first
+    setConfirmLoading(true);
+
+    try {
+      // Dispatch delete user reducer async action
+      await dispatch(deleteMatchReducerAsync(deleteMatch._id));
+
+      // After set loading to false
+      setConfirmLoading(false);
+
+      // And delete successfully hide modal
+      setOpen(false);
+    } catch (error) {
+      // Set loading to false if have error
+      setConfirmLoading(false);
+
+      // After delete successfully hide modal
+      setOpen(false);
+    }
+  };
+
+  // Handle cancel when user no delete
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   // Handle hide
-  const handleHide = () => {
-    console.log("handleHide");
+  const handleHide = async (record) => {
+    // Open modal when user click eyes icon
+    setOpenHide(true);
+
+    // Set record
+    setRecord(record);
   };
+
+  // Handle ok hide
+  const handleOkHide = async () => {
+    // Set loading to true first
+    setConfirmLoadingHide(true);
+
+    try {
+      if (record.isShow) {
+        const res = await axios.patch(
+          `/match/${record._id}`,
+          {
+            ...record,
+            isShow: false,
+          },
+          { headers }
+        );
+        if (res.data) {
+          dispatch(getAllMatchesReducer(res.data));
+
+          // Send success notification
+          toast.success(
+            `Hide the match ${record.team1.fullName} and ${record.team2.fullName} successfully!`
+          );
+        }
+      } else {
+        const res = await axios.patch(
+          `/match/${record._id}`,
+          {
+            ...record,
+            isShow: true,
+          },
+          { headers }
+        );
+        if (res.data) {
+          dispatch(getAllMatchesReducer(res.data));
+
+          // Send success notification
+          toast.success(
+            `Show the match ${record.team1.fullName} and ${record.team2.fullName} successfully!`
+          );
+        }
+      }
+
+      // Set loading to false
+      setConfirmLoadingHide(false);
+
+      // Set open hide to false
+      setOpenHide(false);
+    } catch ({ response }) {
+      // When update failured
+      toast.error(response.data.message);
+
+      // Set loading to false
+      setConfirmLoadingHide(false);
+    }
+  };
+
+  // Handle cancel hide
+  const handleCancelHide = () => {
+    setOpenHide(false);
+  };
+
   // Handle withdraw
   const handleWithdraw = () => {
     console.log("handleWithdraw");
   };
 
+  // Cols of matches table
   const columns = [
     {
       title: "#",
@@ -93,13 +231,13 @@ const Matches = () => {
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[30px] h-[30px] bg-white rounded-md flex items-center justify-center p-1 shadow-2xl">
             <Image
-              src={text.flag}
+              src={text?.flag}
               width={30}
               preview={false}
-              alt={text.fullName}
+              alt={text?.fullName}
             />
           </div>
-          <span className="font-bold">{text.fullName}</span>
+          <span className="font-bold">{text?.fullName}</span>
         </div>
       ),
     },
@@ -142,13 +280,13 @@ const Matches = () => {
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[30px] h-[30px] bg-white rounded-md flex items-center justify-center p-1 shadow-2xl">
             <Image
-              src={text.flag}
+              src={text?.flag}
               width={30}
               preview={false}
-              alt={text.fullName}
+              alt={text?.fullName}
             />
           </div>
-          <span className="font-bold">{text.fullName}</span>
+          <span className="font-bold">{text?.fullName}</span>
         </div>
       ),
     },
@@ -161,7 +299,9 @@ const Matches = () => {
         if (a.rate < b.rate) return -2;
         if (a.rate > b.rate) return 1;
       },
-      render: (text) => <p className="text-center truncate block">{text}</p>,
+      render: (text) => (
+        <p className="text-center truncate block">0 : {text}</p>
+      ),
     },
     {
       title: "Match Date",
@@ -187,11 +327,13 @@ const Matches = () => {
       },
       render: (text, record) => (
         <p className="text-center truncate block">
-          {`${record.team1.name} [${
-            record.resultOfTeam1 ? record.resultOfTeam1 : "-"
-          } : ${record.resultOfTeam2 ? record.resultOfTeam2 : "-"}] ${
-            record.team2.name
-          }`}
+          {`${record?.team1?.name} [${
+            record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
+          } : ${
+            record?.resultOfTeam2
+              ? Number(record?.resultOfTeam2) + Number(record?.rate)
+              : "-"
+          }] ${record?.team2?.name}`}
         </p>
       ),
     },
@@ -223,57 +365,72 @@ const Matches = () => {
     {
       title: "Actions",
       dataIndex: "actions",
-      width: 200,
+      width: 100,
       render: (text, record) => (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center gap-2">
           <button
-            className="rounded-md overflow-hidden"
+            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleViewAllBet(record)}
           >
             <FaShare className="bg-[#222222]" />
           </button>
 
           <button
-            className="rounded-md overflow-hidden"
+            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleUpdateInfo(record)}
+            disabled={record.result}
           >
             <BsPencilFill className="bg-[#f0ad4e]" />
           </button>
 
-          <button
-            className="rounded-md overflow-hidden"
-            onClick={() => handleUpdateScore(record)}
-          >
-            <TiTick className="bg-[#47a447]" />
-          </button>
-          <button
-            className="rounded-md overflow-hidden"
-            onClick={() => handleViewDetail(record)}
-          >
-            <MdViewWeek className="bg-[#5bc0de]" />
-          </button>
+          {record.result ? (
+            <button
+              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
+              onClick={() => handleViewDetail(record)}
+            >
+              <MdViewWeek className="bg-[#5bc0de]" />
+            </button>
+          ) : (
+            <button
+              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
+              onClick={() => handleUpdateScore(record)}
+            >
+              <TiTick className="bg-[#47a447]" />
+            </button>
+          )}
 
           <button
-            className="rounded-md overflow-hidden"
-            onClick={() => handleDelete(record)}
+            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
+            onClick={() =>
+              handleDelete(
+                record._id,
+                record.team1.fullName,
+                record.team2.fullName
+              )
+            }
           >
             <CgClose className="bg-[#d9534f]" />
           </button>
 
           <button
-            className="rounded-md overflow-hidden"
+            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleHide(record)}
           >
-            <BsEyeSlashFill className="bg-[#f0ad4e]" />
-            {/* <IoEyeSharp className="bg-[#5bc0de]" /> */}
+            {record.isShow ? (
+              <BsEyeSlashFill className="bg-[#f0ad4e]" />
+            ) : (
+              <IoEyeSharp className="bg-[#5bc0de]" />
+            )}
           </button>
 
-          <button
-            className="rounded-md overflow-hidden"
-            onClick={() => handleWithdraw(record)}
-          >
-            <BsCloudMinusFill className="bg-[#d2322d]" />
-          </button>
+          {!record.result && (
+            <button
+              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
+              onClick={() => handleWithdraw(record)}
+            >
+              <BsCloudMinusFill className="bg-[#d2322d]" />
+            </button>
+          )}
         </div>
       ),
     },
@@ -291,8 +448,79 @@ const Matches = () => {
         rowKey="_id"
         columns={columns}
         dataSource={matches.matches}
-        scroll={{ x: 1550 }}
+        scroll={{ x: 1450 }}
       />
+
+      {/* Delete Modal */}
+      <Modal
+        title="Delete match"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="cancel" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button
+            key="ok"
+            type="primary"
+            loading={confirmLoading}
+            onClick={handleOk}
+            className="bg-black"
+          >
+            Ok
+          </Button>,
+        ]}
+      >
+        <p>
+          Are you sure you want to delete the match between{" "}
+          <span className="capitalize font-bold">
+            {deleteMatch.team1 ? deleteMatch.team1 : "Team 1"}
+          </span>{" "}
+          and{" "}
+          <span className="capitalize font-bold">
+            {deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}
+          </span>
+          ?
+        </p>
+      </Modal>
+
+      {/* Hide Modal */}
+      <Modal
+        title="Hide match"
+        open={openHide}
+        onOk={handleOkHide}
+        confirmLoading={confirmLoadingHide}
+        onCancel={handleCancelHide}
+        footer={[
+          <Button key="cancel" onClick={handleCancelHide}>
+            Cancel
+          </Button>,
+          <Button
+            key="ok"
+            type="primary"
+            loading={confirmLoadingHide}
+            onClick={handleOkHide}
+            className="bg-black"
+          >
+            Ok
+          </Button>,
+        ]}
+      >
+        <p>
+          Are you sure you want to {record.isShow ? "hide" : "show"} the match
+          between{" "}
+          <span className="capitalize font-bold">
+            {deleteMatch.team1 ? deleteMatch.team1 : "Team 1"}
+          </span>{" "}
+          and{" "}
+          <span className="capitalize font-bold">
+            {deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}
+          </span>
+          ?
+        </p>
+      </Modal>
     </div>
   );
 };

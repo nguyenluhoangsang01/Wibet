@@ -4,12 +4,15 @@ import { Route, Routes } from "react-router-dom";
 import { routes } from "./constants";
 import Default from "./layouts/Default";
 import {
-  TeamCreate,
-  TeamUpdate,
-  UserCreate,
-  UserUpdate,
-  UserViewDetails,
+	TeamCreate,
+	TeamUpdate,
+	UserCreate,
+	UserUpdate,
+	UserViewDetails
 } from "./views";
+import MatchUpdateInfo from "./views/Matches/MatchUpdateInfo";
+import MatchUpdateScore from "./views/Matches/MatchUpdateScore";
+import MatchViewDetails from "./views/Matches/MatchViewDetails";
 
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common = `Bearer ${JSON.parse(
@@ -26,6 +29,20 @@ function App() {
           {routes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element} />
           ))}
+
+          {/* Nested routes of match */}
+          <Route
+            path="/matches/:id/view-details"
+            element={<MatchViewDetails />}
+          />
+          <Route
+            path="/matches/:id/update-score"
+            element={<MatchUpdateScore />}
+          />
+          <Route
+            path="/matches/:id/update-info"
+            element={<MatchUpdateInfo />}
+          />
 
           {/* Nested routes of user */}
           <Route path="/users/create" element={<UserCreate />} />

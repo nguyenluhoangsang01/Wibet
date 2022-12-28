@@ -19,13 +19,17 @@ const matchSchema = new Schema(
       require: [true, "Match Date cannot be blank."],
     },
     rate: {
-      type: String,
+      type: Number,
       require: [true, "Rate cannot be blank."],
       trim: true,
     },
     description: String,
-    betResult: String,
+    result: String,
     isShow: {
+      type: Boolean,
+      default: false,
+    },
+    isCanceled: {
       type: Boolean,
       default: false,
     },

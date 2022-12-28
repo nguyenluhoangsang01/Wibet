@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { accountRoutesB } from "../../constants";
+import { accountRoutesB, headers } from "../../constants";
 import { selectUser, updatePasswordReducer } from "../../state/userSlice";
 
 const Account = () => {
@@ -32,11 +32,7 @@ const Account = () => {
     try {
       // Update current user with values get from form
       const res = await axios.patch("/user/update/password", values, {
-        headers: {
-          authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("persist:user")
-          )?.accessToken?.replaceAll('"', "")}`,
-        },
+        headers,
       });
 
       // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page

@@ -8,9 +8,9 @@ import Heading from "../../components/Heading";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-  deleteTeamReducerAsync,
-  getAllTeamsReducerAsync,
-  selectTeam,
+	deleteTeamReducerAsync,
+	getAllTeamsReducerAsync,
+	selectTeam
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -206,7 +206,7 @@ const Team = () => {
 
       {/* Modal */}
       <Modal
-        title="Delete"
+        title="Delete team"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}

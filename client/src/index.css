@@ -55,6 +55,10 @@
     @apply !bg-[#F9F9F9];
   }
 
+  .group > tbody > tr:hover {
+    @apply !bg-[#F9F9F9] transition;
+  }
+
   .group > tbody > tr > th,
   .group > tbody > tr > td {
     @apply w-[50%];

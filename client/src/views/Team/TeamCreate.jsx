@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { createTeamRoutes } from "../../constants";
-import { createTeamReducer } from "../../state/teamSlice";
+import { createTeamRoutes, headers } from "../../constants";
+import { updateTeamReducer } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
 const TeamCreate = () => {
@@ -33,20 +33,10 @@ const TeamCreate = () => {
     setIsFinish(true);
 
     try {
-      const res = await axios.post(
-        `/team`,
-        { ...values },
-        {
-          headers: {
-            authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("persist:user")
-            )?.accessToken?.replaceAll('"', "")}`,
-          },
-        }
-      );
+      const res = await axios.post(`/team`, { ...values }, { headers });
 
       if (res.data) {
-        dispatch(createTeamReducer(res.data));
+        dispatch(updateTeamReducer(res.data));
 
         setIsFinish(false);
 
@@ -54,7 +44,7 @@ const TeamCreate = () => {
       }
     } catch ({ response }) {
       if (response.data) {
-        dispatch(createTeamReducer(response.data));
+        dispatch(updateTeamReducer(response.data));
 
         setIsFinish(false);
       }

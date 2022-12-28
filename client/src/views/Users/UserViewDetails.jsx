@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import { headers } from "../../constants";
 import { capitalize, formatTime } from "../../helper";
 import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -37,13 +38,7 @@ const UserViewDetails = () => {
     (async () => {
       try {
         // Get user by id
-        const { data } = await axios.get(`/user/${id}`, {
-          headers: {
-            authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("persist:user")
-            )?.accessToken?.replaceAll('"', "")}`,
-          },
-        });
+        const { data } = await axios.get(`/user/${id}`, { headers });
 
         // Set data
         setUser(data.data);

@@ -303,7 +303,7 @@ const Users = () => {
 
       {/* Modal */}
       <Modal
-        title="Delete"
+        title="Delete user"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}

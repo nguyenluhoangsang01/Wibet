@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import { headers } from "../../constants";
 import { updateTeamReducer } from "../../state/teamSlice";
 
 const TeamUpdate = () => {
@@ -49,13 +50,7 @@ const TeamUpdate = () => {
       const res = await axios.patch(
         `/team/${team._id}`,
         { ...values },
-        {
-          headers: {
-            authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("persist:user")
-            )?.accessToken?.replaceAll('"', "")}`,
-          },
-        }
+        { headers }
       );
 
       if (res.data) {

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { headers } from "../constants";
 
 const initialState = {
   accessToken: null,
@@ -90,13 +91,7 @@ export const loginReducerAsync = (values) => async (dispatch) => {
 
 export const logoutReducerAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get("/user/logout", {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-    });
+    const res = await axios.get("/user/logout", { headers });
 
     if (res.data) {
       dispatch(logoutReducer(res.data));
@@ -110,13 +105,7 @@ export const logoutReducerAsync = () => async (dispatch) => {
 
 export const getAllUsersReducerAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get("/user", {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-    });
+    const res = await axios.get("/user",{ headers });
 
     if (res.data) {
       dispatch(getAllUsersReducer(res.data));
@@ -130,13 +119,7 @@ export const getAllUsersReducerAsync = () => async (dispatch) => {
 
 export const deleteUserReducerAsync = (_id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/user/${_id}`, {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-    });
+    const res = await axios.delete(`/user/${_id}`,{ headers });
 
     if (res.data) {
       dispatch(deleteUserReducer(res.data));
@@ -150,13 +133,7 @@ export const deleteUserReducerAsync = (_id) => async (dispatch) => {
 
 export const updateUserByIdReducerAsync = (_id, values) => async (dispatch) => {
   try {
-    const res = await axios.patch(`/user/${_id}`, values, {
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("persist:user")
-        )?.accessToken?.replaceAll('"', "")}`,
-      },
-    });
+    const res = await axios.patch(`/user/${_id}`, values,{ headers });
 
     if (res.data) {
       dispatch(updateUserByIdReducer(res.data));

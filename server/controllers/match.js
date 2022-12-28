@@ -42,7 +42,7 @@ export const createMatch = async (req, res, next) => {
 
     // Get all matches after created
     const matches = await Match.find()
-      .populate("team1 team2", "fullName")
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
 
     // Send success notification
@@ -72,7 +72,7 @@ export const deleteMatchById = async (req, res, next) => {
 
     // Get all matches after delete match
     const matches = await Match.find()
-      .populate("team1 team2", "fullName")
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
 
     // Send success notification
@@ -169,12 +169,15 @@ export const updateMatchById = async (req, res, next) => {
     );
 
     // Get all matches after created
-    const match = await Match.findById(id)
-      .populate("team1 team2", "fullName")
+    const matches = await Match.find()
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "Update match successfully!", match);
+    return sendSuccess(res, "Update match successfully!", {
+      length: matches.length,
+      matches,
+    });
   } catch (error) {
     next(error);
   }
@@ -185,7 +188,7 @@ export const updateScoreById = async (req, res, next) => {
     //  Get id from request params
     const { id } = req.params;
     // Get data from request body
-    const { resultOfTeam1, resultOfTeam2 } = req.body;
+    const { resultOfTeam1, resultOfTeam2, autoGenerate } = req.body;
 
     // Validate
     if (!resultOfTeam1)
@@ -193,21 +196,48 @@ export const updateScoreById = async (req, res, next) => {
     if (!resultOfTeam2)
       return sendError(res, "Result of team 2 cannot be blank.");
 
-    // Update score
-    const match = await Match.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      { new: true }
-    )
-      .populate("team1 team2", "fullName")
+    // Get match by id
+    const getMatch = await Match.findById(id)
+      .populate("team1 team2", "fullName flag name")
       .select("-__v");
-    // Check if match not exists
-    if (!match) return sendError(res, "Match not found", 404);
 
-    // Send success notification
-    return sendSuccess(res, "Update score successfully!", match);
+    // Check if user clock auto generate result
+    if (autoGenerate) {
+      // Update score
+      const match = await Match.findByIdAndUpdate(
+        id,
+        {
+          ...req.body,
+          result:
+            resultOfTeam1 > resultOfTeam2
+              ? getMatch.team1.fullName
+              : resultOfTeam1 < resultOfTeam2
+              ? getMatch.team2.fullName
+              : resultOfTeam1 === resultOfTeam2 && "Draw",
+        },
+        { new: true }
+      )
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+      // Check if match not exists
+      if (!match) return sendError(res, "Match not found", 404);
+
+      // Send success notification
+      return sendSuccess(res, "Update score successfully!");
+    } else {
+      // Update score
+      const match = await Match.findByIdAndUpdate(
+        id,
+        { ...req.body },
+        { new: true }
+      );
+
+      // Check if match not exists
+      if (!match) return sendError(res, "Match not found", 404);
+
+      // Send success notification
+      return sendSuccess(res, "Update score successfully!");
+    }
   } catch (error) {
     next(error);
   }

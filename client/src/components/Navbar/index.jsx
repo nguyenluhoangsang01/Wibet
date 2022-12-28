@@ -117,6 +117,7 @@ const Navbar = () => {
                     isShowMenu ? "justify-center w-full" : ""
                   }`}
                 >
+                  <span className="text-white py-1">{user.username}</span>
                   <span className="rounded-md bg-[#FFC107] text-black px-2 py-1">
                     {user.money}
                   </span>

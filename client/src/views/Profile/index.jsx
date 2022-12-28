@@ -99,12 +99,12 @@ const Profile = () => {
     },
     {
       title: "Bet result",
-      dataIndex: "betResult",
-      key: "betResult",
+      dataIndex: "result",
+      key: "result",
       width: 200,
       sorter: (a, b) => {
-        if (a.betResult < b.betResult) return -1;
-        if (a.betResult > b.betResult) return 1;
+        if (a.result < b.result) return -1;
+        if (a.result > b.result) return 1;
       },
       render: (text) => (
         <p className="text-center truncate block" title={text}>

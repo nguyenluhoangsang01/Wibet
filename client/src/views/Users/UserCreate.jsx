@@ -9,6 +9,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import {
   createUserRoutes,
+  headers,
   ROLES,
   ROLESDEFAULT,
   STATUS,
@@ -48,13 +49,7 @@ const UserCreate = () => {
       const { data } = await axios.post(
         "/user",
         { ...values, status, roleID },
-        {
-          headers: {
-            authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("persist:user")
-            )?.accessToken?.replaceAll('"', "")}`,
-          },
-        }
+        { headers }
       );
 
       // Check if data is success
