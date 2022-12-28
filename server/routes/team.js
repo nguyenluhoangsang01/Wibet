@@ -1,10 +1,10 @@
 import express from "express";
 import multer from "multer";
 import {
-  createTeam,
-  deleteTeam,
-  getAllTeams,
-  updateTeam,
+	createTeam,
+	deleteTeam,
+	getAllTeams,
+	updateTeam
 } from "../controllers/team.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -21,7 +21,7 @@ router.post("/", verifyToken, upload.single("image"), createTeam);
 // @route POST api/team/:id
 // @desc Update team
 // @access Private
-router.patch("/:id", verifyToken, updateTeam);
+router.patch("/:id", verifyToken, upload.single("image"), updateTeam);
 
 // @route DELETE api/team/:id
 // @desc Delete team

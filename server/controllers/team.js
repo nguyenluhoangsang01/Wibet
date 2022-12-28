@@ -76,6 +76,8 @@ export const updateTeam = async (req, res, next) => {
     const { id } = req.params;
     // Get data from request body
     const { name, fullName } = req.body;
+    // Get file from request
+    const { file } = req;
 
     const isExistingWithName = await Team.findOne({ name });
     if (isExistingWithName)
@@ -90,16 +92,29 @@ export const updateTeam = async (req, res, next) => {
         `Full name ${isExistingWithFullName.fullName} has already been taken.`
       );
 
-    // Update team
-    await Team.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      {
-        new: true,
-      }
-    );
+    // Check if file exists
+    if (file) {
+      // Upload image to cloudinary
+      await cloudinary.uploader
+        .upload(file.path, {
+          folder: "images",
+          unique_filename: true,
+          resource_type: "image",
+          use_filename: true,
+          overwrite: true,
+        })
+        .then(async (result) => {
+          // Update team
+          await Team.findByIdAndUpdate(
+            id,
+            { ...req.body, flag: result.secure_url },
+            { new: true }
+          );
+        });
+    } else {
+      // Update team
+      await Team.findByIdAndUpdate(id, { ...req.body }, { new: true });
+    }
 
     // Get all teams
     const teams = await Team.find().select("-__v");

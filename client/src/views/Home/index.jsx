@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
+
+  // Set title
+  useEffect(() => {
+    document.title = `Wibet`;
+  });
 
   return (
     <div className="-mx-4 sm:-mx-10 -my-6 h-[calc(100vh-60px*2)] relative">
