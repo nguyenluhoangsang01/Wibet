@@ -5,6 +5,7 @@ import validator from "validator";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import User from "../models/user.js";
+import IP from "ip";
 
 export const createUser = async (req, res, next) => {
   try {
@@ -12,6 +13,9 @@ export const createUser = async (req, res, next) => {
     const { email, username, password } = req.body;
     // Get user id from request
     const { userId } = req;
+
+    // Get current ip address
+    const currentIpAddress = IP.address();
 
     // Get user by id
     const user = await User.findById(userId);
@@ -47,6 +51,7 @@ export const createUser = async (req, res, next) => {
       ...req.body,
       password: hashedPassword,
       createdBy: user.username,
+      createdIp: currentIpAddress,
     });
     await newUser.save();
 
@@ -70,6 +75,9 @@ export const login = async (req, res, next) => {
   try {
     // Get data from request body
     const { email, username, password } = req.body;
+
+    // Get current ip address
+    const currentIpAddress = IP.address();
 
     // Validate
     if (!email && !username)
@@ -102,6 +110,7 @@ export const login = async (req, res, next) => {
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
       loggedInAt: moment().format("hh:mm:ss - yyyy/MM/DD"),
+      loggedInIp: currentIpAddress,
     }).select("-__v -password");
 
     // Send success notification

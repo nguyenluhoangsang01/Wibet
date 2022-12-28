@@ -44,7 +44,10 @@ const userSchema = new Schema(
     },
     bannedReason: String,
     loggedInAt: String,
-    createdBy: String,
+    createdBy: {
+      type: String,
+      default: "Admin",
+    },
     bannedAt: String,
     loggedInAt: String,
     timezone: String,
@@ -52,6 +55,8 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    loggedInIp: String,
+    createdIp: String,
   },
   {
     timestamps: true,
