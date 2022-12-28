@@ -26,6 +26,11 @@ const UserCreate = () => {
   // Get user from global state
   const { user } = useSelector(selectUser);
 
+  // Set title
+  useEffect(() => {
+    document.title = "Create User";
+  }, []);
+
   // Check if user not exists
   useEffect(() => {
     if (!user) {
