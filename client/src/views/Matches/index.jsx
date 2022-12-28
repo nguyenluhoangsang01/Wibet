@@ -213,7 +213,6 @@ const Matches = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      width: 20,
       render: (text, record, index) => (
         <p className="text-center">{index + 1}</p>
       ),
@@ -222,7 +221,6 @@ const Matches = () => {
       title: "Team 1",
       dataIndex: "team1",
       key: "team1",
-      width: 100,
       sorter: (a, b) => {
         if (a.team1 < b.team1) return -1;
         if (a.team1 > b.team1) return 1;
@@ -245,7 +243,6 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam1",
       key: "resultOfTeam1",
-      width: 20,
       sorter: (a, b) => {
         if (a.resultOfTeam1 < b.resultOfTeam1) return -2;
         if (a.resultOfTeam1 > b.resultOfTeam1) return 1;
@@ -258,7 +255,6 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam2",
       key: "resultOfTeam2",
-      width: 20,
       sorter: (a, b) => {
         if (a.resultOfTeam2 < b.resultOfTeam2) return -2;
         if (a.resultOfTeam2 > b.resultOfTeam2) return 1;
@@ -271,7 +267,6 @@ const Matches = () => {
       title: "Team 2",
       dataIndex: "team2",
       key: "team2",
-      width: 100,
       sorter: (a, b) => {
         if (a.team2 < b.team2) return -1;
         if (a.team2 > b.team2) return 1;
@@ -294,7 +289,6 @@ const Matches = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
-      width: 50,
       sorter: (a, b) => {
         if (a.rate < b.rate) return -2;
         if (a.rate > b.rate) return 1;
@@ -307,7 +301,6 @@ const Matches = () => {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
-      width: 100,
       sorter: (a, b) => {
         if (a.matchDate < b.matchDate) return -2;
         if (a.matchDate > b.matchDate) return 1;
@@ -320,7 +313,6 @@ const Matches = () => {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
-      width: 100,
       sorter: (a, b) => {
         if (a.rate < b.rate) return -2;
         if (a.rate > b.rate) return 1;
@@ -341,7 +333,6 @@ const Matches = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 100,
       render: (text) => (
         <p className="text-center truncate block">{text ? text : "0 / 0"}</p>
       ),
@@ -350,7 +341,6 @@ const Matches = () => {
       title: "Your Bet",
       dataIndex: "bet-action",
       key: "bet-action",
-      width: 100,
       render: (text, record) => (
         <div className="flex items-center justify-center gap-2">
           <button
@@ -365,7 +355,6 @@ const Matches = () => {
     {
       title: "Actions",
       dataIndex: "actions",
-      width: 100,
       render: (text, record) => (
         <div className="flex items-center gap-2">
           <button
@@ -404,8 +393,8 @@ const Matches = () => {
             onClick={() =>
               handleDelete(
                 record._id,
-                record.team1.fullName,
-                record.team2.fullName
+                record?.team1?.fullName,
+                record?.team2?.fullName
               )
             }
           >
@@ -448,7 +437,7 @@ const Matches = () => {
         rowKey="_id"
         columns={columns}
         dataSource={matches.matches}
-        scroll={{ x: 1450 }}
+        className="[& .ant-table-column-sorter-full]:hidden [& .ant-table-measure-row]:hidden"
       />
 
       {/* Delete Modal */}

@@ -294,6 +294,7 @@ const Users = () => {
       {/* Table */}
       <Table
         rowKey="_id"
+        className="[& .ant-table-column-sorter-full]:hidden [.ant-table-tbody > .ant-table-measure-row]:hidden"
         columns={columns}
         dataSource={users.users
           ?.filter((item) => item._id !== user._id)

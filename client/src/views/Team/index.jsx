@@ -8,9 +8,9 @@ import Heading from "../../components/Heading";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-	deleteTeamReducerAsync,
-	getAllTeamsReducerAsync,
-	selectTeam
+  deleteTeamReducerAsync,
+  getAllTeamsReducerAsync,
+  selectTeam,
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -202,6 +202,7 @@ const Team = () => {
         columns={columns}
         dataSource={teams?.teams}
         onChange={onChange}
+        className="[& .ant-table-column-sorter-full]:hidden [& .ant-table-measure-row]:hidden"
       />
 
       {/* Modal */}
