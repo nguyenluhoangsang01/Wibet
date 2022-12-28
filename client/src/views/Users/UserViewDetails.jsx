@@ -147,7 +147,9 @@ const UserViewDetails = () => {
           <tr>
             <th>Email</th>
             <td>
-              <a href={`mailto:${user.email}`}>{user.email}</a>
+              <a href={`mailto:${user.email}`} className="text-[#2A6496]">
+                {user.email}
+              </a>
             </td>
           </tr>
           <tr>
@@ -169,6 +171,16 @@ const UserViewDetails = () => {
             <td>{user.money}</td>
           </tr>
           <tr>
+            <th>Logged In Ip</th>
+            <td>
+              {user.loggedInIp ? (
+                user.loggedInIp
+              ) : (
+                <span className="text-[red] italic">(not set)</span>
+              )}
+            </td>
+          </tr>
+          <tr>
             <th>Logged In At</th>
             <td>
               {user.loggedInAt ? (
@@ -179,8 +191,28 @@ const UserViewDetails = () => {
             </td>
           </tr>
           <tr>
+            <th>Created Ip</th>
+            <td>
+              {user.createdIp ? (
+                user.createdIp
+              ) : (
+                <span className="text-[red] italic">(not set)</span>
+              )}
+            </td>
+          </tr>
+          <tr>
             <th>Created At</th>
             <td>{formatTime(user.createdAt)}</td>
+          </tr>
+          <tr>
+            <th>Created By</th>
+            <td>
+              {user.createdBy ? (
+                user.createdBy
+              ) : (
+                <span className="text-[red] italic">(not set)</span>
+              )}
+            </td>
           </tr>
           <tr>
             <th>Updated At</th>

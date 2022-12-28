@@ -97,7 +97,7 @@ const Users = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      width: 50,
+      width: 20,
       fixed: "left",
       render: (text, record, index) => (
         <p className="text-center">{index + 1}</p>
@@ -107,7 +107,7 @@ const Users = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      width: 200,
+      width: 170,
       fixed: "left",
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
@@ -202,7 +202,7 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-      width: 150,
+      width: 170,
       sorter: (a, b) => {
         if (a.loggedInAt < b.loggedInAt) return -1;
         if (a.loggedInAt > b.loggedInAt) return 1;
@@ -221,7 +221,7 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
-      width: 150,
+      width: 170,
       sorter: (a, b) => {
         if (a.bannedAt < b.bannedAt) return -1;
         if (a.bannedAt > b.bannedAt) return 1;
