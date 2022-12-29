@@ -1,7 +1,6 @@
 import { Button, DatePicker, Form, Image, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -136,11 +135,11 @@ const MatchUpdateInfo = () => {
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
-          team1: match.team1._id,
-          team2: match.team2._id,
-          matchDate: match.matchDate,
-          rate: match.rate,
-          description: match.description,
+          team1: match?.team1?._id,
+          team2: match?.team2?._id,
+          // matchDate: match?.matchDate,
+          rate: match?.rate,
+          description: match?.description,
         }}
       >
         {/* Team 1 select */}
@@ -202,7 +201,7 @@ const MatchUpdateInfo = () => {
             showTime
             style={{ width: "100%" }}
             allowClear={false}
-            disabledDate={(current) => current.isBefore(moment())}
+            // disabledDate={(current) => current.isBefore(moment())}
           />
         </Form.Item>
 
