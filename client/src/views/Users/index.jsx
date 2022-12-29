@@ -9,9 +9,9 @@ import Heading from "../../components/Heading";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-  deleteUserReducerAsync,
-  getAllUsersReducerAsync,
-  selectUser,
+	deleteUserReducerAsync,
+	getAllUsersReducerAsync,
+	selectUser
 } from "../../state/userSlice";
 
 const Users = () => {
@@ -97,7 +97,6 @@ const Users = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      width: 20,
       fixed: "left",
       render: (text, record, index) => (
         <p className="text-center">{index + 1}</p>
@@ -107,7 +106,6 @@ const Users = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      width: 170,
       fixed: "left",
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
@@ -123,7 +121,6 @@ const Users = () => {
       title: "Role",
       dataIndex: "roleID",
       key: "roleID",
-      width: 100,
       sorter: (a, b) => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
@@ -136,7 +133,6 @@ const Users = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 100,
       sorter: (a, b) => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
@@ -149,7 +145,6 @@ const Users = () => {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: 200,
       sorter: (a, b) => {
         if (a.email < b.email) return -1;
         if (a.email > b.email) return 1;
@@ -168,7 +163,6 @@ const Users = () => {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      width: 200,
       sorter: (a, b) => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
@@ -187,7 +181,6 @@ const Users = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      width: 150,
       sorter: (a, b) => {
         if (a.money < b.money) return -1;
         if (a.money > b.money) return 1;
@@ -202,7 +195,6 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-      width: 170,
       sorter: (a, b) => {
         if (a.loggedInAt < b.loggedInAt) return -1;
         if (a.loggedInAt > b.loggedInAt) return 1;
@@ -221,7 +213,6 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
-      width: 170,
       sorter: (a, b) => {
         if (a.bannedAt < b.bannedAt) return -1;
         if (a.bannedAt > b.bannedAt) return 1;
@@ -239,7 +230,6 @@ const Users = () => {
     {
       title: "",
       dataIndex: "action",
-      width: 100,
       fixed: "right",
       render: (text, record) => (
         <div className="flex items-center justify-center">
@@ -294,12 +284,10 @@ const Users = () => {
       {/* Table */}
       <Table
         rowKey="_id"
-        className="[& .ant-table-column-sorter-full]:hidden [.ant-table-tbody > .ant-table-measure-row]:hidden"
         columns={columns}
         dataSource={users.users
           ?.filter((item) => item._id !== user._id)
           .reverse()}
-        scroll={{ x: 1400 }}
       />
 
       {/* Modal */}

@@ -433,12 +433,7 @@ const Matches = () => {
       <Heading title={pathname.slice(1)} />
 
       {/* Table */}
-      <Table
-        rowKey="_id"
-        columns={columns}
-        dataSource={matches.matches}
-        className="[& .ant-table-column-sorter-full]:hidden [& .ant-table-measure-row]:hidden"
-      />
+      <Table rowKey="_id" columns={columns} dataSource={matches.matches} />
 
       {/* Delete Modal */}
       <Modal

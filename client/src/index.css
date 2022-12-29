@@ -73,8 +73,8 @@
     margin-right: auto !important;
   }
 
-  .ant-table-column-sorter-full,
-  .ant-table-column-sorter {
+  table .ant-table-column-sorter-full,
+  table .ant-table-measure-row {
     display: none !important;
   }
 }

@@ -105,7 +105,6 @@ const Team = () => {
       title: "Id",
       dataIndex: "_id",
       key: "_id",
-      width: 50,
       fixed: "left",
       render: (text, record, index) => (
         <p className="text-center">{index + 1}</p>
@@ -139,14 +138,13 @@ const Team = () => {
       key: "flag",
       render: (text, record) => (
         <div className="flex items-center justify-center w-full h-full">
-          <Image src={text} width={80} preview={false} alt={record.fullName} />
+          <Image src={text} width={50} preview={false} alt={record.fullName} />
         </div>
       ),
     },
     {
       title: "",
       dataIndex: "action",
-      width: 50,
       render: (text, record) => (
         <div className="flex items-center gap-2">
           <button onClick={() => handleUpdateTeam(record)}>
@@ -202,7 +200,6 @@ const Team = () => {
         columns={columns}
         dataSource={teams?.teams}
         onChange={onChange}
-        className="[& .ant-table-column-sorter-full]:hidden [& .ant-table-measure-row]:hidden"
       />
 
       {/* Modal */}
