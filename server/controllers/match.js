@@ -165,7 +165,7 @@ export const updateScoreById = async (req, res, next) => {
     //  Get id from request params
     const { id } = req.params;
     // Get data from request body
-    const { resultOfTeam1, resultOfTeam2, autoGenerate } = req.body;
+    const { resultOfTeam1, resultOfTeam2, autoGenerate, rate } = req.body;
 
     // Validate
     if (!resultOfTeam1)
@@ -186,11 +186,11 @@ export const updateScoreById = async (req, res, next) => {
         {
           ...req.body,
           result:
-            resultOfTeam1 > resultOfTeam2
+            resultOfTeam1 > resultOfTeam2 + getMatch.rate
               ? getMatch.team1.fullName
-              : resultOfTeam1 < resultOfTeam2
+              : resultOfTeam1 < resultOfTeam2 + getMatch.rate
               ? getMatch.team2.fullName
-              : resultOfTeam1 === resultOfTeam2 && "Draw",
+              : resultOfTeam1 === resultOfTeam2 + getMatch.rate && "Draw",
         },
         { new: true }
       )

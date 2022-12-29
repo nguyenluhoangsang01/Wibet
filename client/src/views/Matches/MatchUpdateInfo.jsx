@@ -6,17 +6,18 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
 import { capitalize } from "../../helper";
 import { selectTeam } from "../../state/teamSlice";
 
 const MatchUpdateInfo = () => {
-  // Get match id from request params
-  const { id } = useParams();
+  // Initial location
+  const {
+    state: { match },
+  } = useLocation();
   // Initial state
-  const [match, setMatch] = useState({});
   const [isFinish, setIsFinish] = useState(false);
   const [team1Selected, setTeam1Selected] = useState("");
   const [team2Selected, setTeam2Selected] = useState("");
@@ -33,22 +34,6 @@ const MatchUpdateInfo = () => {
       match?.team2?.fullName
     )}`;
   });
-
-  // Get match by id
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(`/match/${id}`, { headers });
-
-        if (data) {
-          setMatch(data.data);
-        }
-      } catch ({ response }) {
-        // When update failured
-        toast.error(response.data.message);
-      }
-    })();
-  }, [id]);
 
   // Check if match had result
   if (match.result || match.isCanceled) return <Navigate to="/matches" />;
@@ -150,6 +135,13 @@ const MatchUpdateInfo = () => {
         wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
+        initialValues={{
+          team1: match.team1._id,
+          team2: match.team2._id,
+          matchDate: match.matchDate,
+          rate: match.rate,
+          description: match.description,
+        }}
       >
         {/* Team 1 select */}
         <Form.Item

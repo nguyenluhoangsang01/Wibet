@@ -13,12 +13,12 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { headers, matchesRoutes } from "../../constants";
-import { capitalize, formatTime } from "../../helper";
+import { capitalize, formatNumber, formatTime } from "../../helper";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -293,7 +293,7 @@ const Matches = () => {
         if (a.rate > b.rate) return 1;
       },
       render: (text) => (
-        <p className="text-center truncate block">0 : {text}</p>
+        <p className="text-center truncate block">0 : {formatNumber(text)}</p>
       ),
     },
     {
@@ -322,7 +322,9 @@ const Matches = () => {
             record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
           } : ${
             record?.resultOfTeam2
-              ? Number(record?.resultOfTeam2) + Number(record?.rate)
+              ? formatNumber(
+                  Number(record?.resultOfTeam2) + Number(record?.rate)
+                )
               : "-"
           }] ${record?.team2?.name}`}
         </p>

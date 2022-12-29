@@ -84,3 +84,7 @@ export function formatTime(time) {
 
   return `${MM} ${dd}, ${yyyy} ${HH}:${mm}:${ss}`;
 }
+
+export function formatNumber(number) {
+  return number.toFixed(2).replaceAll(".00", "");
+}
