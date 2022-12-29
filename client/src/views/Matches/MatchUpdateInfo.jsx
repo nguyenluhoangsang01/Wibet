@@ -112,15 +112,6 @@ const MatchUpdateInfo = () => {
     setTeam2Selected(team2);
   };
 
-  // Handle date picker
-  const onChange = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
-  };
-  const onOk = (value) => {
-    console.log("onOk: ", value);
-  };
-
   return (
     <div>
       {/* Breadcrumbs */}
@@ -154,7 +145,7 @@ const MatchUpdateInfo = () => {
 
       {/* Form */}
       <Form
-        name="update-score"
+        name="update-info"
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 19 }}
         onFinish={onFinish}
@@ -217,8 +208,6 @@ const MatchUpdateInfo = () => {
         >
           <DatePicker
             showTime
-            onChange={onChange}
-            onOk={onOk}
             style={{ width: "100%" }}
             allowClear={false}
             disabledDate={(current) => current.isBefore(moment())}
