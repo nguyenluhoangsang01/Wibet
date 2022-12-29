@@ -42,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="h-[60px] bg-black text-white w-full fixed z-40 shadow-lg">
+    <nav className="h-[50px] bg-black text-white w-full fixed z-40 shadow-lg">
       <div className="mx-auto flex items-center justify-between h-full transition px-4 sm:px-10 relative">
         {/* Navbar left */}
         <Link
@@ -53,9 +53,9 @@ const Navbar = () => {
           <img
             src="https://res.cloudinary.com/wibet/image/upload/v1671719347/images/aff-cup-logo-2022-1612100506_yykfsb.jpg"
             alt="WIBET"
-            className="w-[40px] h-[40px]"
+            className="w-[35px] h-[35px]"
           />
-          <span className="uppercase font-bold text-[18px]">WIBET</span>
+          <span className="text-[22px]">WIBET</span>
         </Link>
 
         {/* Menu icon */}
@@ -68,7 +68,7 @@ const Navbar = () => {
         <ul
           className={`${
             isShowMenu
-              ? "absolute top-[60px] z-40 bg-black w-full -ml-4 pb-2 border-t-2"
+              ? "absolute top-[50px] z-40 bg-black w-full -ml-4 pb-2 border-t-2"
               : "items-center h-full hidden lg:flex"
           }`}
         >
@@ -96,9 +96,7 @@ const Navbar = () => {
                 }
                 onClick={() => setIsShowMenu(false)}
               >
-                <li className="uppercase font-bold text-[15px]">
-                  {route.name}
-                </li>
+                <li className="text-[18px]">{route.name}</li>
               </NavLink>
             ))}
 
@@ -113,7 +111,7 @@ const Navbar = () => {
                 } flex items-center transition hover:scale-105 active:scale-100`}
               >
                 <p
-                  className={`uppercase h-full font-bold text-[15px] flex items-center gap-1 ${
+                  className={`h-full text-[18px] flex items-center gap-1 ${
                     isShowMenu ? "justify-center w-full" : ""
                   }`}
                 >
@@ -130,7 +128,7 @@ const Navbar = () => {
                 <div
                   ref={accountDropdownRef}
                   className={`absolute shadow-2xl ${
-                    isShowMenu ? "w-full" : "w-48 top-[60px] right-[16px]"
+                    isShowMenu ? "w-full" : "w-48 top-[50px] right-[16px]"
                   } overflow-hidden pb-0 text-[black] bg-white rounded-b-md`}
                 >
                   {accountRoutes.map((route) =>
@@ -144,7 +142,7 @@ const Navbar = () => {
                         }}
                       >
                         <div
-                          className={`uppercase font-medium text-[15px] h-[40px] flex items-center px-4 transition hover:bg-[black] hover:text-white ${
+                          className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-[black] hover:text-white ${
                             isShowMenu ? "justify-center" : ""
                           }`}
                         >
@@ -154,7 +152,7 @@ const Navbar = () => {
                     ) : (
                       <button
                         key={route.name}
-                        className={`uppercase font-medium text-[15px] h-[40px] transition px-4 w-full text-start ${
+                        className={`font-medium text-[15px] h-[30px] transition px-4 w-full text-start ${
                           route.name !== "logout"
                             ? "hover:bg-[black] hover:text-white"
                             : "hover:scale-105 active:scale-100"
@@ -181,7 +179,7 @@ const Navbar = () => {
               onClick={() => setIsShowMenu(false)}
             >
               <span
-                className={`uppercase font-bold text-[15px] ${
+                className={`text-[18px] ${
                   isShowMenu
                     ? "flex text-center items-center w-full justify-center h-[40px]"
                     : ""

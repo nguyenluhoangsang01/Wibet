@@ -64,14 +64,6 @@ export const userSlice = createSlice({
         toast.error(payload.message);
       }
     },
-
-    updateUserByIdReducer: (state, { payload }) => {
-      if (payload.success) {
-        toast.success(payload.message);
-      } else {
-        toast.error(payload.message);
-      }
-    },
   },
 });
 
@@ -105,7 +97,7 @@ export const logoutReducerAsync = () => async (dispatch) => {
 
 export const getAllUsersReducerAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get("/user",{ headers });
+    const res = await axios.get("/user", { headers });
 
     if (res.data) {
       dispatch(getAllUsersReducer(res.data));
@@ -119,7 +111,7 @@ export const getAllUsersReducerAsync = () => async (dispatch) => {
 
 export const deleteUserReducerAsync = (_id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/user/${_id}`,{ headers });
+    const res = await axios.delete(`/user/${_id}`, { headers });
 
     if (res.data) {
       dispatch(deleteUserReducer(res.data));
@@ -131,20 +123,6 @@ export const deleteUserReducerAsync = (_id) => async (dispatch) => {
   }
 };
 
-export const updateUserByIdReducerAsync = (_id, values) => async (dispatch) => {
-  try {
-    const res = await axios.patch(`/user/${_id}`, values,{ headers });
-
-    if (res.data) {
-      dispatch(updateUserByIdReducer(res.data));
-    }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(updateUserByIdReducer(response.data));
-    }
-  }
-};
-
 export const selectUser = (state) => state.user;
 export const {
   loginReducer,
@@ -152,6 +130,5 @@ export const {
   getAllUsersReducer,
   updatePasswordReducer,
   deleteUserReducer,
-  updateUserByIdReducer,
 } = userSlice.actions;
 export default userSlice.reducer;

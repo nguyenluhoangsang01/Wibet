@@ -102,7 +102,7 @@ const MatchViewDetails = () => {
       <Breadcrumbs routes={matchViewDetails} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="mb-6 font-bold uppercase text-3xl flex items-center justify-center gap-4">
+      <h1 className="uppercase flex items-center justify-center gap-4 mt-[20px] mb-[10px] text-[36px] font-[arial] font-bold">
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team1?.flag}
@@ -127,14 +127,16 @@ const MatchViewDetails = () => {
       </h1>
 
       {/* Actions */}
-      <div className="flex items-center gap-4 mb-6 action-details">
-        <button onClick={handleMatch} className="bg-[red] text-white">
-          Delete
-        </button>
-      </div>
+      {!match.isCanceled && (
+        <div className="flex items-center gap-4 mb-6 action-details">
+          <button onClick={handleMatch} className="!bg-[#d2322d]">
+            Delete
+          </button>
+        </div>
+      )}
 
       {/* Table */}
-      <table className="table-auto w-full group">
+      <table className="table-auto w-full table-view-details">
         <tbody>
           <tr>
             <th>ID</th>

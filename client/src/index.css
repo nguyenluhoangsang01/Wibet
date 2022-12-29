@@ -1,11 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 @layer base {
   html {
-    font-family: "Roboto", sans-serif;
+    font-family: "Bebas Neue", "Segoe UI", Arial, Helvetica, sans-serif;
   }
 
   body {
@@ -13,68 +13,95 @@
     overflow-x: hidden;
   }
 
-  table > thead > tr > th {
-    background: #000 !important;
-    color: #fff !important;
-    font-size: 16px;
+  label {
+    @apply !font-[calibri] !text-[18px] !font-bold;
   }
+}
 
-  table > tbody {
-    font-size: 15px !important;
-  }
+.action-details > a,
+.action-details > button {
+  @apply pt-[8px] pr-[10px] pb-[5px] pl-[9px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
+}
 
-  table > thead > tr > th:first-child,
-  table > thead > tr > th:nth-child(4) {
-    display: flex;
-    justify-content: center;
-  }
+table > thead > tr > th {
+  @apply !bg-[#212529] !text-white !text-center font-[calibri] text-[18px] !p-2 whitespace-nowrap;
+}
 
-  .ant-table-cell,
-  table > thead > tr > th > div > span {
-    text-align: center !important;
-  }
+table > tbody > tr > td {
+  @apply !py-2 !px-0 !max-w-[200px];
+}
 
-  a > svg,
-  button > svg {
-    @apply rounded-sm text-white w-8 h-8 p-2 hover:scale-110 active:scale-100 transition;
-  }
+.ant-table-column-title {
+  @apply hover:!underline !transition;
+}
 
-  .action-details > a,
-  .action-details > button {
-    @apply rounded-md py-2 px-4 transition hover:scale-105 active:scale-100  text-sm;
-  }
+.ant-table-column-sorter.ant-table-column-sorter-full {
+  @apply !hidden;
+}
 
-  .group > tbody > tr {
-    @apply h-[50px] border-t-[1px] text-center;
-  }
+table > tbody > tr:nth-child(odd) {
+  @apply !bg-[#f9f9f9];
+}
 
-  table > tbody > tr:nth-child(even),
-  table > tbody > tr:nth-child(even) > td:nth-child(1),
-  table > tbody > tr:nth-child(even) > td:nth-child(2),
-  .group > tbody > tr:nth-child(even) {
-    @apply !bg-[#F9F9F9];
-  }
+table > tbody > tr > td,
+table > tbody > tr > td p,
+table > tbody > tr > td span,
+table > tbody > tr > td a {
+  @apply text-[18px] font-[calibri] !text-center !truncate;
+}
 
-  .group > tbody > tr:hover {
-    @apply !bg-[#F9F9F9] transition;
-  }
+.ant-table-measure-row {
+  display: none !important;
+}
 
-  .group > tbody > tr > th,
-  .group > tbody > tr > td {
-    @apply w-[50%];
-  }
+table > tbody > tr > td > div {
+  @apply flex items-center gap-1 !text-[20px];
+}
 
-  table > tbody > tr > td {
-    @apply !p-2 !text-center;
-  }
+table > tbody > tr > td > div > a {
+  @apply !p-0 !text-[20px];
+}
 
-  .ant-image-preview-img {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
+.table-view-details > tbody > tr {
+  @apply border-t-[1px] hover:bg-[#f9f9f9] transition;
+}
 
-  table .ant-table-column-sorter-full,
-  table .ant-table-measure-row {
-    display: none !important;
-  }
+.table-view-details > tbody > tr > th,
+.table-view-details > tbody > tr > td {
+  @apply w-[50%] font-[calibri] text-[18px];
+}
+
+.table-view-details > tbody > tr > td {
+  @apply !max-w-[500px] !truncate !block !mx-auto;
+}
+
+.ant-table-cell > div > button {
+  @apply p-[10px] rounded-md text-white text-[14px];
+}
+
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.disabled-row {
+  @apply opacity-20;
+}
+
+.ant-picker-dropdown table > thead > tr > th,
+.ant-picker-content,
+.ant-picker-time-panel-cell-inner,
+.ant-picker-cell-inner {
+  @apply !text-[14px] font-[calibri];
+}
+
+.ant-picker-dropdown table > thead > tr > th {
+  @apply !bg-white !text-black;
+}
+
+.ant-picker-dropdown button {
+  @apply pt-[8px] pr-[10px] pb-[5px] pl-[9px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
+}
+
+.ant-picker-dropdown table > tbody > tr:nth-child(odd) {
+  @apply !bg-[#fff];
 }

@@ -115,17 +115,15 @@ const UserViewDetails = () => {
       <Heading title={user.username} />
 
       {/* Actions */}
-      <div className="flex items-center gap-4 mb-6 action-details">
-        <button onClick={handleUpdateUser} className="bg-black text-white">
-          Update
-        </button>
-        <button onClick={handleDeleteUser} className="bg-[red] text-white">
+      <div className="flex items-center gap-1 mb-[10px] action-details">
+        <button onClick={handleUpdateUser}>Update</button>
+        <button onClick={handleDeleteUser} className="!bg-[#d9534f]">
           Delete
         </button>
       </div>
 
       {/* Table */}
-      <table className="table-auto w-full group">
+      <table className="table-auto w-full table-view-details">
         <tbody>
           <tr>
             <th>ID</th>

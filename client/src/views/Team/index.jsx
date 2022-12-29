@@ -105,10 +105,7 @@ const Team = () => {
       title: "Id",
       dataIndex: "_id",
       key: "_id",
-      fixed: "left",
-      render: (text, record, index) => (
-        <p className="text-center">{index + 1}</p>
-      ),
+      render: (text, record, index) => <span>{index + 1}</span>,
     },
     {
       title: "Name",
@@ -118,8 +115,7 @@ const Team = () => {
         if (a.name < b.name) return -1;
         if (a.name > b.name) return 1;
       },
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
-      render: (text) => <span className="text-center">{text}</span>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Full Name",
@@ -129,8 +125,7 @@ const Team = () => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
       },
-      onFilter: (value, record) => record.fullName.indexOf(value) === 0,
-      render: (text) => <span className="text-center">{text}</span>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Flag",
@@ -144,15 +139,21 @@ const Team = () => {
     },
     {
       title: "",
-      dataIndex: "action",
+      dataIndex: "actions",
       render: (text, record) => (
-        <div className="flex items-center gap-2">
-          <button onClick={() => handleUpdateTeam(record)}>
-            <BsPencilFill className="bg-[#F0AD4E]" />
+        <div>
+          <button
+            onClick={() => handleUpdateTeam(record)}
+            className="bg-[#f0ad4e] border-[#eea236]"
+          >
+            <BsPencilFill />
           </button>
 
-          <button onClick={() => handleDeleteTeam(record._id, record.fullName)}>
-            <BsTrashFill className="bg-[#D9534F]" />
+          <button
+            onClick={() => handleDeleteTeam(record._id, record.fullName)}
+            className="bg-[#d9534f] border-[#d43f3a]"
+          >
+            <BsTrashFill />
           </button>
         </div>
       ),
@@ -171,28 +172,23 @@ const Team = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      <div className="md:flex items-center justify-between mb-6">
-        <p className="flex items-center justify-center gap-1 mb-2 md:mb-0">
-          Showing{" "}
-          <span className="font-bold">
-            1-{teams.length < 10 ? teams.length : 10}
-          </span>{" "}
-          of <span className="font-bold">{teams.length}</span> team
-          {teams.length > 1 ? "s" : ""}.
-        </p>
-
-        <div className="flex items-center justify-between gap-4 action-details">
-          <button
-            onClick={handleImportExcel}
-            className="bg-[#5CB85C] text-white"
-          >
-            Import Excel
-          </button>
-          <Link to="/teams/create" className="bg-black text-white">
-            Create Team
-          </Link>
-        </div>
+      {/* Actions */}
+      <div className="action-details mb-[10px] flex items-center justify-end gap-1">
+        <button onClick={handleImportExcel} className="!bg-[#5CB85C]">
+          Import Excel
+        </button>
+        <Link to="/teams/create">Create Team</Link>
       </div>
+
+      {/* Total */}
+      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+        Showing{" "}
+        <span className="font-bold">
+          1-{teams.length < 10 ? teams.length : 10}
+        </span>{" "}
+        of <span className="font-bold">{teams.length}</span> team
+        {teams.length > 1 ? "s" : ""}.
+      </p>
 
       {/* Table */}
       <Table

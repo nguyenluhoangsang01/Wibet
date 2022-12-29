@@ -36,8 +36,9 @@ const MatchUpdateScore = () => {
         if (data) {
           setMatch(data.data);
         }
-      } catch (error) {
-        console.log(error);
+      } catch ({ response }) {
+        // When update failured
+        toast.error(response.data.message);
       }
     })();
   }, [id]);
@@ -104,29 +105,13 @@ const MatchUpdateScore = () => {
     setAutoGenerate(e.target.checked);
   };
 
-  // Results
-  const BET_RESULTS = [
-    {
-      value: "Draw",
-      label: "Draw",
-    },
-    {
-      value: match?.team1?.fullName,
-      label: match?.team1?.fullName,
-    },
-    {
-      value: match?.team2?.fullName,
-      label: match?.team2?.fullName,
-    },
-  ];
-
   return (
     <div>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={matchUpdateScore} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="mb-6 font-bold uppercase text-3xl flex items-center justify-center gap-4">
+      <h1 className="uppercase flex items-center justify-center gap-4 mt-[20px] mb-[10px] text-[36px] font-[arial] font-bold">
         <p>update score:</p>
         <div className="flex items-center justify-center gap-2">
           <Image
@@ -152,7 +137,7 @@ const MatchUpdateScore = () => {
       </h1>
 
       {/* Note */}
-      <div className="w-full bg-[#fcf8e3] text-[#8a6d3b] mb-[20px] p-[15px] rounded">
+      <div className="w-full bg-[#fcf8e3] text-[#8a6d3b] mb-[20px] p-[15px] rounded font-[arial]">
         <p>
           <b>Note:</b> After you update score of this match, you cannot update
           this match anymore.
@@ -202,7 +187,11 @@ const MatchUpdateScore = () => {
           valuePropName="checked"
           wrapperCol={{ offset: 3, span: 19 }}
         >
-          <Checkbox checked={autoGenerate} onChange={onChange}>
+          <Checkbox
+            checked={autoGenerate}
+            onChange={onChange}
+            className="select-none !font-normal"
+          >
             Auto generate the bet result of this match.
           </Checkbox>
         </Form.Item>
@@ -211,10 +200,26 @@ const MatchUpdateScore = () => {
           <>
             {/* Bet result select */}
             <Form.Item label="Bet result" name="result">
-              <Select onChange={handleChangeBetResult} options={BET_RESULTS} />
+              <Select
+                onChange={handleChangeBetResult}
+                options={[
+                  {
+                    value: "Draw",
+                    label: "Draw",
+                  },
+                  {
+                    value: match?.team1?.fullName,
+                    label: match?.team1?.fullName,
+                  },
+                  {
+                    value: match?.team2?.fullName,
+                    label: match?.team2?.fullName,
+                  },
+                ]}
+              />
             </Form.Item>
 
-            {/* Description input */}
+            {/* Description textarea */}
             <Form.Item label="Description" name="description">
               <TextArea rows={6} />
             </Form.Item>

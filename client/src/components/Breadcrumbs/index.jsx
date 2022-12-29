@@ -6,7 +6,7 @@ const { Item } = Breadcrumb;
 
 const Breadcrumbs = ({ routes }) => {
   return (
-    <Breadcrumb className="w-full rounded-2xl h-[40px] flex items-center px-4 mb-4 bg-[#f3f1f1]">
+    <Breadcrumb className="w-full rounded-2xl h-[40px] flex items-center px-[15px] py-[8px] mb-5 bg-[#f3f1f1]">
       {routes?.map((route) => (
         <Item key={route.name}>
           {route.path ? (

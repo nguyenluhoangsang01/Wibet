@@ -142,31 +142,8 @@ export const updateMatchById = async (req, res, next) => {
     if (!team1IsExisting) return sendError(res, "Team 1 not found", 404);
     if (!team2IsExisting) return sendError(res, "Team 2 not found", 404);
 
-    // Find team 1 and team 2 in database
-    const matchExistingWithTeam1 = await Match.findOne({ team1 });
-    const matchExistingWithTeam2 = await Match.findOne({ team2 });
-
-    // If team 1 and team 2 is existing in database and id of match is existing with team 1 and team 2
-    if (
-      matchExistingWithTeam1 &&
-      matchExistingWithTeam2 &&
-      matchExistingWithTeam1._id.toString() ===
-        matchExistingWithTeam2._id.toString() &&
-      (id.toString() !== matchExistingWithTeam1._id.toString() ||
-        id.toString() !== matchExistingWithTeam2._id.toString())
-    )
-      return sendError(res, "The match already exists.");
-
     //  Update match
-    await Match.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      {
-        new: true,
-      }
-    );
+    await Match.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
     // Get all matches after created
     const matches = await Match.find()

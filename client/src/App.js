@@ -10,6 +10,7 @@ import {
 	UserUpdate,
 	UserViewDetails
 } from "./views";
+import MatchCreate from "./views/Matches/MatchCreate";
 import MatchUpdateInfo from "./views/Matches/MatchUpdateInfo";
 import MatchUpdateScore from "./views/Matches/MatchUpdateScore";
 import MatchViewDetails from "./views/Matches/MatchViewDetails";
@@ -43,6 +44,7 @@ function App() {
             path="/matches/:id/update-info"
             element={<MatchUpdateInfo />}
           />
+          <Route path="/matches/create" element={<MatchCreate />} />
 
           {/* Nested routes of user */}
           <Route path="/users/create" element={<UserCreate />} />

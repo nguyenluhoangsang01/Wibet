@@ -97,25 +97,17 @@ const Users = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      fixed: "left",
-      render: (text, record, index) => (
-        <p className="text-center">{index + 1}</p>
-      ),
+      render: (text, record, index) => <span>{index + 1}</span>,
     },
     {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      fixed: "left",
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Role",
@@ -125,9 +117,7 @@ const Users = () => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
       },
-      render: (text) => (
-        <span className="text-center truncate block">{text}</span>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Status",
@@ -137,9 +127,7 @@ const Users = () => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
       },
-      render: (text) => (
-        <span className="text-center truncate block">{text}</span>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Email",
@@ -152,8 +140,7 @@ const Users = () => {
       render: (text) => (
         <a
           href={`mailto:${text}`}
-          className="text-center truncate block text-[#2A6496] transition hover:underline"
-          title={text}
+          className="text-[#2A6496] transition hover:underline"
         >
           {text}
         </a>
@@ -167,15 +154,12 @@ const Users = () => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
       },
-      render: (text) => (
-        <span className="text-center block truncate" title={text}>
-          {text ? (
-            text
-          ) : (
-            <span className="text-center text-[red] italic">(not set)</span>
-          )}
-        </span>
-      ),
+      render: (text) =>
+        text ? (
+          <span>{text}</span>
+        ) : (
+          <span className="text-[red] italic">(not set)</span>
+        ),
     },
     {
       title: "Money",
@@ -185,11 +169,7 @@ const Users = () => {
         if (a.money < b.money) return -1;
         if (a.money > b.money) return 1;
       },
-      render: (text) => (
-        <span className="text-center block truncate" title={text}>
-          {text}
-        </span>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Logged In At",
@@ -199,15 +179,12 @@ const Users = () => {
         if (a.loggedInAt < b.loggedInAt) return -1;
         if (a.loggedInAt > b.loggedInAt) return 1;
       },
-      render: (text) => (
-        <span className="text-center block truncate" title={text}>
-          {text ? (
-            text
-          ) : (
-            <span className="text-center text-[red] italic">(not set)</span>
-          )}
-        </span>
-      ),
+      render: (text) =>
+        text ? (
+          <span>{text}</span>
+        ) : (
+          <span className="text-[red] italic">(not set)</span>
+        ),
     },
     {
       title: "Banned At",
@@ -217,22 +194,18 @@ const Users = () => {
         if (a.bannedAt < b.bannedAt) return -1;
         if (a.bannedAt > b.bannedAt) return 1;
       },
-      render: (text) => (
-        <span className="text-center block truncate" title={text}>
-          {text ? (
-            text
-          ) : (
-            <span className="text-center text-[red] italic">(not set)</span>
-          )}
-        </span>
-      ),
+      render: (text) =>
+        text ? (
+          <span>{text}</span>
+        ) : (
+          <span className="text-[red] italic">(not set)</span>
+        ),
     },
     {
       title: "",
       dataIndex: "action",
-      fixed: "right",
       render: (text, record) => (
-        <div className="flex items-center justify-center">
+        <div>
           <Link to={`${record._id}/view-details`}>
             <IoEyeSharp className="text-[#428bca]" />
           </Link>
@@ -261,25 +234,21 @@ const Users = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      <div className="md:flex items-center justify-between mb-6">
-        <p className="flex items-center justify-center gap-1 mb-2 md:mb-0">
-          Showing{" "}
-          <span className="font-bold">
-            1-{users.length - 1 < 10 ? users.length - 1 : 10}
-          </span>{" "}
-          of <span className="font-bold">{users.length - 1}</span> user
-          {users.length - 1 > 1 ? "s" : ""}.
-        </p>
-
-        <div className="flex items-center justify-between gap-4 action-details">
-          <Link to="/users/create" className="bg-black text-white">
-            Create User
-          </Link>
-          <button onClick={handleShowHistory} className="bg-black text-white">
-            Show history
-          </button>
-        </div>
+      {/* Actions */}
+      <div className="action-details mb-[10px] flex items-center justify-end gap-1">
+        <Link to="/users/create">Create User</Link>
+        <button onClick={handleShowHistory}>Show history</button>
       </div>
+
+      {/* Total */}
+      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+        Showing{" "}
+        <span className="font-bold">
+          1-{users.length - 1 < 10 ? users.length - 1 : 10}
+        </span>{" "}
+        of <span className="font-bold">{users.length - 1}</span> user
+        {users.length - 1 > 1 ? "s" : ""}.
+      </p>
 
       {/* Table */}
       <Table
@@ -288,6 +257,9 @@ const Users = () => {
         dataSource={users.users
           ?.filter((item) => item._id !== user._id)
           .reverse()}
+        scroll={{
+          x: 1200,
+        }}
       />
 
       {/* Modal */}

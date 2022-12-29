@@ -9,16 +9,16 @@ import { IoEyeSharp } from "react-icons/io5";
 import { MdViewWeek } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatTime } from "../../helper";
 import {
-  deleteMatchReducerAsync,
-  getAllMatchesReducer,
-  getAllMatchesReducerAsync,
-  selectMatch,
+	deleteMatchReducerAsync,
+	getAllMatchesReducer,
+	getAllMatchesReducerAsync,
+	selectMatch
 } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -161,7 +161,7 @@ const Matches = () => {
 
           // Send success notification
           toast.success(
-            `Hide the match ${record.team1.fullName} and ${record.team2.fullName} successfully!`
+            `Hide the match between ${record.team1.fullName} and ${record.team2.fullName} successfully!`
           );
         }
       } else {
@@ -178,7 +178,7 @@ const Matches = () => {
 
           // Send success notification
           toast.success(
-            `Show the match ${record.team1.fullName} and ${record.team2.fullName} successfully!`
+            `Show the match between ${record.team1.fullName} and ${record.team2.fullName} successfully!`
           );
         }
       }
@@ -214,7 +214,7 @@ const Matches = () => {
       dataIndex: "_id",
       key: "_id",
       render: (text, record, index) => (
-        <p className="text-center">{index + 1}</p>
+        <p className="font-[calibri] text-[18px]">{index + 1}</p>
       ),
     },
     {
@@ -227,15 +227,12 @@ const Matches = () => {
       },
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
-          <div className="w-[30px] h-[30px] bg-white rounded-md flex items-center justify-center p-1 shadow-2xl">
-            <Image
-              src={text?.flag}
-              width={30}
-              preview={false}
-              alt={text?.fullName}
-            />
+          <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+            <Image src={text?.flag} preview={false} alt={text?.fullName} />
           </div>
-          <span className="font-bold">{text?.fullName}</span>
+          <span className="font-semibold font-[arial] text-[14px]">
+            {text?.fullName}
+          </span>
         </div>
       ),
     },
@@ -248,7 +245,7 @@ const Matches = () => {
         if (a.resultOfTeam1 > b.resultOfTeam1) return 1;
       },
       render: (text) => (
-        <p className="text-center truncate block">{text ? text : "-"}</p>
+        <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
     },
     {
@@ -260,7 +257,7 @@ const Matches = () => {
         if (a.resultOfTeam2 > b.resultOfTeam2) return 1;
       },
       render: (text) => (
-        <p className="text-center truncate block">{text ? text : "-"}</p>
+        <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
     },
     {
@@ -273,7 +270,7 @@ const Matches = () => {
       },
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
-          <div className="w-[30px] h-[30px] bg-white rounded-md flex items-center justify-center p-1 shadow-2xl">
+          <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
             <Image
               src={text?.flag}
               width={30}
@@ -281,7 +278,9 @@ const Matches = () => {
               alt={text?.fullName}
             />
           </div>
-          <span className="font-bold">{text?.fullName}</span>
+          <span className="font-semibold font-[arial] text-[14px]">
+            {text?.fullName}
+          </span>
         </div>
       ),
     },
@@ -342,54 +341,62 @@ const Matches = () => {
       dataIndex: "bet-action",
       key: "bet-action",
       render: (text, record) => (
-        <div className="flex items-center justify-center gap-2">
-          <button
-            onClick={() => handleBet(record)}
-            className="bg-[#28a745] flex items-center justify-center pl-3 rounded-full text-white font-semibold"
-          >
-            <span>Bet Now</span> <FaShare />
-          </button>
+        <div className="flex items-center justify-center">
+          {record.result || record.isCanceled ? (
+            <span>-</span>
+          ) : (
+            <div>
+              <button
+                onClick={() => handleBet(record)}
+                className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
+              >
+                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                  Bet Now
+                </span>{" "}
+                <FaShare className="text-white text-[16px]" />
+              </button>
+            </div>
+          )}
         </div>
       ),
     },
     {
-      title: "Actions",
+      title: "",
       dataIndex: "actions",
       render: (text, record) => (
-        <div className="flex items-center gap-2">
+        <div>
           <button
-            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleViewAllBet(record)}
+            className="bg-[#222222]"
           >
-            <FaShare className="bg-[#222222]" />
+            <FaShare />
           </button>
 
           <button
-            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleUpdateInfo(record)}
-            disabled={record.result}
+            disabled={record.result || record.isCanceled}
+            className="bg-[#f0ad4e]"
           >
-            <BsPencilFill className="bg-[#f0ad4e]" />
+            <BsPencilFill />
           </button>
 
           {record.result ? (
             <button
-              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
               onClick={() => handleViewDetail(record)}
+              className="bg-[#5bc0de]"
             >
-              <MdViewWeek className="bg-[#5bc0de]" />
+              <MdViewWeek />
             </button>
           ) : (
             <button
-              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
               onClick={() => handleUpdateScore(record)}
+              className="bg-[#47a447]"
             >
-              <TiTick className="bg-[#47a447]" />
+              <TiTick />
             </button>
           )}
 
           <button
-            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() =>
               handleDelete(
                 record._id,
@@ -397,27 +404,25 @@ const Matches = () => {
                 record?.team2?.fullName
               )
             }
+            className="bg-[#d9534f]"
+            disabled={record.isCanceled}
           >
-            <CgClose className="bg-[#d9534f]" />
+            <CgClose />
           </button>
 
           <button
-            className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => handleHide(record)}
+            className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
           >
-            {record.isShow ? (
-              <BsEyeSlashFill className="bg-[#f0ad4e]" />
-            ) : (
-              <IoEyeSharp className="bg-[#5bc0de]" />
-            )}
+            {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
           </button>
 
           {!record.result && (
             <button
-              className="rounded-md overflow-hidden disabled:cursor-not-allowed disabled:opacity-30"
               onClick={() => handleWithdraw(record)}
+              className="bg-[#d2322d]"
             >
-              <BsCloudMinusFill className="bg-[#d2322d]" />
+              <BsCloudMinusFill />
             </button>
           )}
         </div>
@@ -432,8 +437,30 @@ const Matches = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
+      {/* Action */}
+      <div className="action-details mb-[10px] flex items-center justify-end gap-1">
+        <Link to="/matches/create">Create Match</Link>
+      </div>
+
+      {/* Total */}
+      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+        Showing{" "}
+        <span className="font-bold">
+          1-{matches.length < 10 ? matches.length : 10}
+        </span>{" "}
+        of <span className="font-bold">{matches.length}</span> match
+        {matches.length > 1 ? "es" : ""}.
+      </p>
+
       {/* Table */}
-      <Table rowKey="_id" columns={columns} dataSource={matches.matches} />
+      <Table
+        rowKey="_id"
+        columns={columns}
+        dataSource={matches.matches.filter((match) =>
+          user.roleID === "Admin" ? match : match.isShow === true
+        )}
+        rowClassName={(record) => !record.isShow && "disabled-row"}
+      />
 
       {/* Delete Modal */}
       <Modal
@@ -495,14 +522,8 @@ const Matches = () => {
         <p>
           Are you sure you want to {record.isShow ? "hide" : "show"} the match
           between{" "}
-          <span className="capitalize font-bold">
-            {deleteMatch.team1 ? deleteMatch.team1 : "Team 1"}
-          </span>{" "}
-          and{" "}
-          <span className="capitalize font-bold">
-            {deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}
-          </span>
-          ?
+          <span className="capitalize font-bold">{deleteMatch?.team1}</span> and{" "}
+          <span className="capitalize font-bold">{deleteMatch?.team2}</span>?
         </p>
       </Modal>
     </div>

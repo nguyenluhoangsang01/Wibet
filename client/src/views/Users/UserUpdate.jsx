@@ -1,14 +1,15 @@
 import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { ROLES, STATUS } from "../../constants";
+import { headers, ROLES, STATUS } from "../../constants";
 import { capitalize } from "../../helper";
-import { selectUser, updateUserByIdReducerAsync } from "../../state/userSlice";
+import { selectUser } from "../../state/userSlice";
 
 const UserUpdate = () => {
   // Initial location
@@ -21,8 +22,6 @@ const UserUpdate = () => {
   const [roleID, setRoleID] = useState(user.roleID);
   // Initial navigate
   const navigate = useNavigate();
-  // Initial dispatch
-  const dispatch = useDispatch();
   const getData = useSelector(selectUser);
 
   // Check if user not exists
@@ -63,19 +62,23 @@ const UserUpdate = () => {
     setIsFinish(true);
 
     try {
-      // Dispatch update user by id reducer async with 2 values includes userId and values
-      await dispatch(
-        updateUserByIdReducerAsync(user._id, { ...values, status, roleID })
+      const { data } = await axios.patch(
+        `/user/${user._id}`,
+        { ...values, status, roleID },
+        { headers }
       );
 
       // After set is finish to false
       setIsFinish(false);
 
+      // Send success notification
+      toast.success(data.message);
+
       // And navigate
       navigate(`/users/${user._id}/view-details`);
-    } catch (error) {
+    } catch ({ response }) {
       // When update failured
-      toast.error(error.message);
+      toast.error(response.data.message);
 
       // After set is finish to false
       setIsFinish(false);
