@@ -34,10 +34,10 @@ export const createMatch = async (req, res, next) => {
 
     // Check if match date is exists
     if (
-      moment(matchExistingWithTeam1.matchDate).format(
+      moment(matchExistingWithTeam1?.matchDate).format(
         "hh:mm:ss - yyyy/MM/DD"
       ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD") ||
-      moment(matchExistingWithTeam2.matchDate).format(
+      moment(matchExistingWithTeam2?.matchDate).format(
         "hh:mm:ss - yyyy/MM/DD"
       ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD")
     )
@@ -175,7 +175,7 @@ export const updateScoreById = async (req, res, next) => {
     //  Get id from request params
     const { id } = req.params;
     // Get data from request body
-    const { resultOfTeam1, resultOfTeam2, autoGenerate, rate } = req.body;
+    const { resultOfTeam1, resultOfTeam2, autoGenerate } = req.body;
 
     // Validate
     if (!resultOfTeam1)
@@ -217,7 +217,9 @@ export const updateScoreById = async (req, res, next) => {
         id,
         { ...req.body },
         { new: true }
-      );
+      )
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
 
       // Check if match not exists
       if (!match) return sendError(res, "Match not found", 404);

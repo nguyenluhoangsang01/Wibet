@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import { routes } from "./constants";
+import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
 
 const Default = lazy(() => import("./layouts/Default"));
@@ -25,7 +26,9 @@ axios.defaults.headers.common = `Bearer ${JSON.parse(
 function App() {
   return (
     <div>
-      <Toaster />
+      <Toaster
+        toastOptions={{ className: "font-[calibri] text-[16px] text-center" }}
+      />
 
       <Suspense fallback={<Loading />}>
         <Routes>
@@ -54,7 +57,11 @@ function App() {
             <Route path="/matches/create" element={<MatchCreate />} />
 
             {/* Nested routes of bet */}
-            <Route path="bet/create/:matchId" element={<BetCreate />} />
+            <Route path="/matches/bet/create/:id" element={<BetCreate />} />
+            <Route
+              path="/matches/bet/view-match/:id"
+              element={<BetViewAll />}
+            />
 
             {/* Nested routes of user */}
             <Route path="/users/create" element={<UserCreate />} />

@@ -14,21 +14,26 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
+import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
   deleteMatchReducerAsync,
   getAllMatchesReducer,
   getAllMatchesReducerAsync,
   selectMatch,
 } from "../../state/matchSlice";
-import { selectUser } from "../../state/userSlice";
+import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
 const Matches = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user form global state
   const { user } = useSelector(selectUser);
-  // Get matches form global state
+  // Get all matches form global state
   const { matches } = useSelector(selectMatch);
+  // Get all bets from global state
+  const {
+    bets: { bets },
+  } = useSelector(selectBet);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial state
@@ -42,12 +47,23 @@ const Matches = () => {
   const [openHide, setOpenHide] = useState(false);
   const [confirmLoadingHide, setConfirmLoadingHide] = useState(false);
   const [record, setRecord] = useState({});
+  const [openDeleteBet, setOpenDeleteBet] = useState(false);
+  const [confirmLoadingDeleteBet, setConfirmLoadingDeleteBet] = useState(false);
+  const [selectedBet, setSelectedBet] = useState({
+    betId: null,
+    matchId: null,
+  });
   // Initial navigate
   const navigate = useNavigate();
 
-  // Get all users
+  // Get all matches
   useEffect(() => {
     dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
+
+  // Get all bets
+  useEffect(() => {
+    dispatch(getAllBetsReducerAsync());
   }, [dispatch]);
 
   // Set title
@@ -59,13 +75,17 @@ const Matches = () => {
   if (!user) return <Navigate to="/" />;
 
   // Handle bet
-  const handleBet = () => {
-    console.log("handleBet");
+  const handleBet = (record) => {
+    navigate(`/matches/bet/create/${record._id}`, {
+      state: {
+        match: record,
+      },
+    });
   };
 
   // Handle view all bets
-  const handleViewAllBet = () => {
-    console.log("handleViewAllBet");
+  const handleViewAllBet = (record) => {
+    navigate(`/matches/bet/view-match/${record._id}`);
   };
 
   // Handle update info
@@ -207,6 +227,58 @@ const Matches = () => {
     console.log("handleWithdraw");
   };
 
+  // Handle delete bet
+  const handleDeleteBet = (values) => {
+    // Open modal when user click trash icon
+    setOpenDeleteBet(true);
+
+    // Set selected bet
+    setSelectedBet({ ...values });
+  };
+
+  // Handle update bet
+  const handleUpdateBet = () => {
+    console.log("handleUpdateBet");
+  };
+
+  // Handle ok when delete bet
+  const handleOkDeleteBet = async () => {
+    // Set loading to true first
+    setConfirmLoadingDeleteBet(true);
+
+    try {
+      const res = await axios.delete(
+        `/bet/${selectedBet.betId}/${selectedBet.matchId}`,
+        { headers }
+      );
+
+      if (res.data) {
+        await dispatch(getAllBetsReducerAsync());
+
+        await dispatch(getAllMatchesReducerAsync());
+
+        await dispatch(updateUserAfterDeleteBet(res.data));
+      }
+
+      // Set loading to false
+      setConfirmLoadingDeleteBet(false);
+
+      // Set open delete bet to false
+      setOpenDeleteBet(false);
+    } catch ({ response }) {
+      // When update failured
+      toast.error(response.data.message);
+
+      // Set loading to false
+      setConfirmLoadingDeleteBet(false);
+    }
+  };
+
+  // Handle cancel when do not want delete bet
+  const handleCancelDeleteBet = () => {
+    setOpenDeleteBet(false);
+  };
+
   // Cols of matches table
   const columns = [
     {
@@ -241,7 +313,7 @@ const Matches = () => {
       dataIndex: "resultOfTeam1",
       key: "resultOfTeam1",
       sorter: (a, b) => {
-        if (a.resultOfTeam1 < b.resultOfTeam1) return -2;
+        if (a.resultOfTeam1 < b.resultOfTeam1) return -1;
         if (a.resultOfTeam1 > b.resultOfTeam1) return 1;
       },
       render: (text) => (
@@ -253,7 +325,7 @@ const Matches = () => {
       dataIndex: "resultOfTeam2",
       key: "resultOfTeam2",
       sorter: (a, b) => {
-        if (a.resultOfTeam2 < b.resultOfTeam2) return -2;
+        if (a.resultOfTeam2 < b.resultOfTeam2) return -1;
         if (a.resultOfTeam2 > b.resultOfTeam2) return 1;
       },
       render: (text) => (
@@ -289,35 +361,31 @@ const Matches = () => {
       dataIndex: "rate",
       key: "rate",
       sorter: (a, b) => {
-        if (a.rate < b.rate) return -2;
+        if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block">0 : {formatNumber(text)}</p>
-      ),
+      render: (text) => <span>0:{formatNumber(text)}</span>,
     },
     {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
       sorter: (a, b) => {
-        if (a.matchDate < b.matchDate) return -2;
+        if (a.matchDate < b.matchDate) return -1;
         if (a.matchDate > b.matchDate) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block">{formatTime(text)}</p>
-      ),
+      render: (text) => <span>{formatTime(text)}</span>,
     },
     {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
       sorter: (a, b) => {
-        if (a.rate < b.rate) return -2;
+        if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
       render: (text, record) => (
-        <p className="text-center truncate block">
+        <span>
           {`${record?.team1?.name} [${
             record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
           } : ${
@@ -327,15 +395,15 @@ const Matches = () => {
                 )
               : "-"
           }] ${record?.team2?.name}`}
-        </p>
+        </span>
       ),
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (text) => (
-        <p className="text-center truncate block">{text ? text : "0 / 0"}</p>
+      render: (text, record) => (
+        <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
       ),
     },
     {
@@ -348,15 +416,57 @@ const Matches = () => {
             <span>-</span>
           ) : (
             <div>
-              <button
-                onClick={() => handleBet(record)}
-                className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
-              >
-                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                  Bet Now
-                </span>{" "}
-                <FaShare className="text-white text-[16px]" />
-              </button>
+              {record.statusOfTeam1 === 0 && record.statusOfTeam2 === 0 ? (
+                <button
+                  onClick={() => handleBet(record)}
+                  className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
+                >
+                  <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                    Bet Now
+                  </span>{" "}
+                  <FaShare className="text-white text-[16px]" />
+                </button>
+              ) : (
+                <div>
+                  {bets
+                    .filter(
+                      (bet) =>
+                        bet?.match?._id === record?._id &&
+                        bet?.user?._id === user?._id
+                    )
+                    .map((bet) => (
+                      <div
+                        className="flex items-center divide-x-2 gap-"
+                        key={bet._id}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span className="text-[18px] font-[calibri]">
+                            {bet.team.name}
+                          </span>
+                          <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
+                            {bet.money}p
+                          </span>
+                        </div>
+
+                        <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
+                          <BsPencilFill
+                            onClick={handleUpdateBet}
+                            className="cursor-pointer"
+                          />
+                          <CgClose
+                            onClick={() =>
+                              handleDeleteBet({
+                                betId: bet._id,
+                                matchId: bet.match._id,
+                              })
+                            }
+                            className="cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -436,6 +546,7 @@ const Matches = () => {
     <div>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={matchesRoutes} />
+
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
@@ -527,6 +638,31 @@ const Matches = () => {
           <span className="capitalize font-bold">{deleteMatch?.team1}</span> and{" "}
           <span className="capitalize font-bold">{deleteMatch?.team2}</span>?
         </p>
+      </Modal>
+
+      {/* Delete Bet Modal */}
+      <Modal
+        title="Delete bet"
+        open={openDeleteBet}
+        onOk={handleOkDeleteBet}
+        confirmLoading={confirmLoadingDeleteBet}
+        onCancel={handleCancelDeleteBet}
+        footer={[
+          <Button key="cancel" onClick={handleCancelDeleteBet}>
+            Cancel
+          </Button>,
+          <Button
+            key="ok"
+            type="primary"
+            loading={confirmLoadingDeleteBet}
+            onClick={handleOkDeleteBet}
+            className="bg-black"
+          >
+            Ok
+          </Button>,
+        ]}
+      >
+        <p>Are you sure you want to delete this bet?</p>
       </Modal>
     </div>
   );

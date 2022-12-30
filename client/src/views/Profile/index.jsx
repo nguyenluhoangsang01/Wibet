@@ -23,8 +23,6 @@ const Profile = () => {
   const onFinish = async (values) => {
     // Initial loading with true when user click update button
     setIsFinish(true);
-
-    console.log(values);
   };
 
   const columns = [
@@ -32,85 +30,57 @@ const Profile = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      width: 50,
-      render: (text, record, index) => (
-        <p className="text-center">{index + 1}</p>
-      ),
+      render: (text, record, index) => <span>{index + 1}</span>,
     },
     {
       title: "Team 1 Name",
       dataIndex: "team1",
       key: "team1",
-      width: 200,
       sorter: (a, b) => {
         if (a.team1 < b.team1) return -1;
         if (a.team1 > b.team1) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Team 2 Name",
       dataIndex: "team2",
       key: "team2",
-      width: 200,
       sorter: (a, b) => {
         if (a.team2 < b.team2) return -1;
         if (a.team2 > b.team2) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
-      width: 200,
       sorter: (a, b) => {
         if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      width: 200,
       sorter: (a, b) => {
         if (a.money < b.money) return -1;
         if (a.money > b.money) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
     {
       title: "Bet result",
       dataIndex: "result",
       key: "result",
-      width: 200,
       sorter: (a, b) => {
         if (a.result < b.result) return -1;
         if (a.result > b.result) return 1;
       },
-      render: (text) => (
-        <p className="text-center truncate block" title={text}>
-          {text}
-        </p>
-      ),
+      render: (text) => <span>{text}</span>,
     },
   ];
 

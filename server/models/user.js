@@ -57,6 +57,14 @@ const userSchema = new Schema(
     },
     loggedInIp: String,
     createdIp: String,
+    betTimes: {
+      type: Number,
+      default: 0,
+    },
+    winTimes: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

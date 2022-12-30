@@ -45,9 +45,19 @@ export const userSlice = createSlice({
       }
     },
 
-    updatePasswordReducer: (state, { payload }) => {
+    updateUserReducer: (state, { payload }) => {
       if (payload.success) {
         state.user = payload.data.user;
+
+        toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
+      }
+    },
+
+    updateUserAfterDeleteBet: (state, { payload }) => {
+      if (payload.success) {
+        state.user = payload.data;
 
         toast.success(payload.message);
       } else {
@@ -128,7 +138,8 @@ export const {
   loginReducer,
   logoutReducer,
   getAllUsersReducer,
-  updatePasswordReducer,
+  updateUserReducer,
   deleteUserReducer,
+  updateUserAfterDeleteBet,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -108,10 +108,10 @@ const MatchUpdateInfo = () => {
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team1?.flag}
-            width={140}
+            width={96}
             preview={false}
             alt={match?.team1?.fullName}
-            className="border-4 border-[#DFDFDF] p-2 rounded-md overflow-hidden"
+            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
           />
           <span>{match?.team1?.fullName}</span>
         </div>
@@ -119,10 +119,10 @@ const MatchUpdateInfo = () => {
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team2?.flag}
-            width={140}
+            width={96}
             preview={false}
             alt={match?.team2?.fullName}
-            className="border-4 border-[#DFDFDF] p-2 rounded-md overflow-hidden"
+            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
           />
           <span>{match?.team2?.fullName}</span>
         </div>

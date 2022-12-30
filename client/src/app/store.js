@@ -10,6 +10,7 @@ import {
 	REHYDRATE
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import betReducer from "../state/betSlice";
 import matchReducer from "../state/matchSlice";
 import teamReducer from "../state/teamSlice";
 import userReducer from "../state/userSlice";
@@ -30,11 +31,16 @@ const matchPersistConfig = {
   key: "match",
   storage,
 };
+const betPersistConfig = {
+  key: "bet",
+  storage,
+};
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   team: persistReducer(teamPersistConfig, teamReducer),
   match: persistReducer(matchPersistConfig, matchReducer),
+  bet: persistReducer(betPersistConfig, betReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

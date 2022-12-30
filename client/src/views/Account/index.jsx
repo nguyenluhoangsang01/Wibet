@@ -7,7 +7,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { accountRoutesB, headers } from "../../constants";
-import { selectUser, updatePasswordReducer } from "../../state/userSlice";
+import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const Account = () => {
   // Get pathname from location
@@ -37,7 +37,7 @@ const Account = () => {
 
       // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
       if (res.data) {
-        dispatch(updatePasswordReducer(res.data));
+        dispatch(updateUserReducer(res.data));
 
         setIsFinish(false);
 
@@ -46,7 +46,7 @@ const Account = () => {
     } catch ({ response }) {
       // Check if response return data, set is finish to false and dispatch update password reducer action to update new user information (maybe)
       if (response.data) {
-        dispatch(updatePasswordReducer(response.data));
+        dispatch(updateUserReducer(response.data));
 
         setIsFinish(false);
       }

@@ -24,7 +24,7 @@
 }
 
 table > thead > tr > th {
-  @apply !bg-[#212529] !text-white !text-center font-[calibri] text-[18px] !p-2 whitespace-nowrap;
+  @apply !bg-[#212529] !text-white !text-center font-[calibri] text-[18px] !p-2 whitespace-nowrap select-none;
 }
 
 table > tbody > tr > td {

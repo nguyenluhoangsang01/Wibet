@@ -166,11 +166,6 @@ const Team = () => {
     },
   ];
 
-  // Handle on table change
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
-
   return (
     <div>
       {/* Breadcrumbs */}
@@ -197,12 +192,7 @@ const Team = () => {
       </p>
 
       {/* Table */}
-      <Table
-        rowKey="_id"
-        columns={columns}
-        dataSource={teams?.teams}
-        onChange={onChange}
-      />
+      <Table rowKey="_id" columns={columns} dataSource={teams?.teams} />
 
       {/* Modal */}
       <Modal

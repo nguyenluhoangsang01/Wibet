@@ -25,14 +25,16 @@ export const createBetById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!team) return sendError(res, "Team cannot be blank.");
+    if (!team) return sendError(res, "Option cannot be blank.");
     if (!money) return sendError(res, "Money cannot be blank.");
     if (money < 50)
       return sendError(res, "Money must be greater than or equal to 50.");
     if (money > Number(user.money))
       return sendError(
         res,
-        `Money must be less than or equal to ${user.money}.`
+        user.money < 50
+          ? "The current money is not valid."
+          : `Money must be less than or equal to ${user.money}.`
       );
 
     // Check if team not exists
@@ -56,6 +58,22 @@ export const createBetById = async (req, res, next) => {
       {
         ...req.body,
         money: Number(user.money) - money,
+        betTimes: user.betTimes + 1,
+      },
+      { new: true }
+    );
+
+    // Update status
+    await Match.findByIdAndUpdate(
+      matchId,
+      {
+        ...req.body,
+        statusOfTeam1:
+          match.team1._id.toString() === team.toString() &&
+          match.statusOfTeam1 + money,
+        statusOfTeam2:
+          match.team2._id.toString() === team.toString() &&
+          match.statusOfTeam2 + money,
       },
       { new: true }
     );
@@ -70,7 +88,7 @@ export const createBetById = async (req, res, next) => {
 
     // Get all bet
     const bet = await Bet.findById(newBet._id)
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -92,28 +110,70 @@ export const createBetById = async (req, res, next) => {
 export const deleteBetById = async (req, res, next) => {
   try {
     // Get bet id from request params
-    const { betId } = req.params;
+    const { betId, matchId } = req.params;
+    // Get user id from request
+    const { userId } = req;
 
     // Find bet by id and delete it
     const bet = await Bet.findByIdAndDelete(betId);
     // Check if bet not exists
     if (!bet) return sendError(res, "Bet not found", 404);
 
+    // Check if match not exists
+    const match = await Match.findById(matchId)
+      .populate("team1 team2", "fullName flag")
+      .select("-__v");
+    if (!match) return sendError(res, sendError("Match not found", 404));
+
+    // Get user by id
+    const user = await User.findById(userId);
+    if (!user) return sendError(res, "User not found", 404);
+
+    // Update user
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        money:
+          match.statusOfTeam1 !== 0
+            ? user.money + match.statusOfTeam1
+            : match.statusOfTeam2 !== 0 && user.money + match.statusOfTeam2,
+        betTimes: user.betTimes - 1,
+      },
+      { new: true }
+    );
+
+    // Update status
+    await Match.findByIdAndUpdate(
+      matchId,
+      {
+        ...req.body,
+        statusOfTeam1: 0,
+        statusOfTeam2: 0,
+      },
+      { new: true }
+    );
+
+    // Get user after handle logic
+    const userAfterDelete = await User.findById(userId).select(
+      "-__v -password"
+    );
+
     // Send success notification
-    return sendSuccess(res, "Delete bet successfully!");
+    return sendSuccess(res, "Delete bet successfully!", userAfterDelete);
   } catch (error) {
     next(error);
   }
 };
 
-export const getBetById = async (req, res, next) => {
+export const getBetByBetId = async (req, res, next) => {
   try {
     // Get bet id from request params
     const { betId } = req.params;
 
-    // Find bet by id and delete it
+    // Find bet by bet id
     const bet = await Bet.findById(betId)
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -124,6 +184,32 @@ export const getBetById = async (req, res, next) => {
       })
       .select("-__v");
     // Check if bet not exists
+    if (!bet) return sendError(res, "Bet not found", 404);
+
+    // Send success notification
+    return sendSuccess(res, "Get bet successfully!", bet);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBetByMatchId = async (req, res, next) => {
+  try {
+    // Get match id from request params
+    const { matchId } = req.params;
+
+    // Find bet by match id
+    const bet = await Bet.findOne({ match: matchId })
+      .populate("team user", "-__v -password")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
     if (!bet) return sendError(res, "Bet not found", 404);
 
     // Send success notification
@@ -171,7 +257,7 @@ export const updateBetById = async (req, res, next) => {
 
     // Find bet
     const getBet = await Bet.findById(betId)
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -207,7 +293,7 @@ export const updateBetById = async (req, res, next) => {
       { ...req.body },
       { new: true }
     )
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -230,7 +316,7 @@ export const getAllBets = async (req, res, next) => {
     // Get all bets
     const bets = await Bet.find()
       .select("-__v")
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -262,7 +348,7 @@ export const withdrawMoney = async (req, res, next) => {
 
     // Check if bet and user not found and check
     const findBet = await Bet.findById(betId)
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {
@@ -280,7 +366,7 @@ export const withdrawMoney = async (req, res, next) => {
 
     // Get bet by id and delete it
     const bet = await Bet.findByIdAndDelete(betId)
-      .populate("team user", "name fullName flag email username money")
+      .populate("team user", "-__v -password")
       .populate({
         path: "match",
         populate: {

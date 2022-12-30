@@ -116,7 +116,7 @@ const Navbar = () => {
                   }`}
                 >
                   <span className="text-white py-1">{user.username}</span>
-                  <span className="rounded-md bg-[#FFC107] text-black px-2 py-1">
+                  <span className="rounded-sm bg-[#FFC107] text-black text-[14px] px-[7px] min-w-[10px] h-[20px] flex items-center justify-center">
                     {user.money}
                   </span>
                   <AiFillCaretDown />

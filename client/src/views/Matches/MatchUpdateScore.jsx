@@ -4,10 +4,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
 import { capitalize } from "../../helper";
+import { selectUser } from "../../state/userSlice";
 
 const MatchUpdateScore = () => {
   // Get match id from request params
@@ -19,6 +21,13 @@ const MatchUpdateScore = () => {
   const [result, setResult] = useState("Draw");
   // Initial navigate
   const navigate = useNavigate();
+  // Get user from global state
+  const { user } = useSelector(selectUser);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return <Navigate to="/" />;
+  }, [user]);
 
   // Set title
   useEffect(() => {
@@ -116,10 +125,10 @@ const MatchUpdateScore = () => {
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team1?.flag}
-            width={140}
+            width={96}
             preview={false}
             alt={match?.team1?.fullName}
-            className="border-4 border-[#DFDFDF] p-2 rounded-md overflow-hidden"
+            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
           />
           <span>{match?.team1?.fullName}</span>
         </div>
@@ -127,10 +136,10 @@ const MatchUpdateScore = () => {
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team2?.flag}
-            width={140}
+            width={96}
             preview={false}
             alt={match?.team2?.fullName}
-            className="border-4 border-[#DFDFDF] p-2 rounded-md overflow-hidden"
+            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
           />
           <span>{match?.team2?.fullName}</span>
         </div>

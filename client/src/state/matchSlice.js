@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { headers } from "../constants";
+
 const initialState = {
   matches: [],
 };
