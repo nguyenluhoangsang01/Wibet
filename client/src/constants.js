@@ -291,3 +291,18 @@ export const headers = {
     localStorage.getItem("persist:user")
   )?.accessToken?.replaceAll('"', "")}`,
 };
+
+export const createMatchRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "/matches",
+    name: "matches",
+  },
+  {
+    path: "",
+    name: "create match",
+  },
+];

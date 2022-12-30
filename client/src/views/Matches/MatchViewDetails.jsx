@@ -102,7 +102,7 @@ const MatchViewDetails = () => {
       <Breadcrumbs routes={matchViewDetails} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="uppercase flex items-center justify-center gap-4 mt-[20px] mb-[10px] text-[36px] font-[arial] font-bold">
+      <h1 className="capitalize text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4">
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team1?.flag}
