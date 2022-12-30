@@ -1,3 +1,4 @@
+import moment from "moment/moment.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Match from "../models/match.js";
@@ -24,17 +25,26 @@ export const createMatch = async (req, res, next) => {
     if (!team2IsExisting) return sendError(res, "Team 2 not found", 404);
 
     // Find team 1 and team 2 in database
-    const matchExistingWithTeam1 = await Match.findOne({ team1 });
-    const matchExistingWithTeam2 = await Match.findOne({ team2 });
+    const matchExistingWithTeam1 = await Match.findOne({
+      $or: [{ team1 }, { team2 }],
+    });
+    const matchExistingWithTeam2 = await Match.findOne({
+      $or: [{ team2 }, { team1 }],
+    });
 
-    // If team 1 and team 2 is existing in database and id of match is existing with team 1 and team 2
+    // Check if match date is exists
     if (
-      matchExistingWithTeam1 &&
-      matchExistingWithTeam2 &&
-      matchExistingWithTeam1._id.toString() ===
-        matchExistingWithTeam2._id.toString()
+      moment(matchExistingWithTeam1.matchDate).format(
+        "hh:mm:ss - yyyy/MM/DD"
+      ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD") ||
+      moment(matchExistingWithTeam2.matchDate).format(
+        "hh:mm:ss - yyyy/MM/DD"
+      ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD")
     )
-      return sendError(res, "The match already exists.");
+      return sendError(
+        res,
+        "The match date of the match already exists for both teams."
+      );
 
     // Create new match
     const newMatch = await Match.create({ ...req.body });
