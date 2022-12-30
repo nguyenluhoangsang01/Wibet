@@ -133,7 +133,13 @@ const Team = () => {
       key: "flag",
       render: (text, record) => (
         <div className="flex items-center justify-center w-full h-full">
-          <Image src={text} width={50} preview={false} alt={record.fullName} />
+          <Image
+            src={text}
+            width={50}
+            preview={false}
+            alt={record.fullName}
+            className="shadow-xl"
+          />
         </div>
       ),
     },
