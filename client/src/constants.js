@@ -1,18 +1,18 @@
-import {
-  Account,
-  Analysis,
-  Brackets,
-  Comments,
-  Home,
-  Login,
-  Matches,
-  NotFound,
-  Profile,
-  Ranking,
-  Rules,
-  Team,
-  Users,
-} from "./views";
+import { lazy } from "react";
+
+const Account = lazy(() => import("./views/Account"));
+const Analysis = lazy(() => import("./views/Analysis"));
+const Brackets = lazy(() => import("./views/Brackets"));
+const Comments = lazy(() => import("./views/Comments"));
+const Home = lazy(() => import("./views/Home"));
+const Login = lazy(() => import("./views/Login"));
+const Matches = lazy(() => import("./views/Matches"));
+const NotFound = lazy(() => import("./views/NotFound"));
+const Profile = lazy(() => import("./views/Profile"));
+const Ranking = lazy(() => import("./views/Ranking"));
+const Rules = lazy(() => import("./views/Rules"));
+const Team = lazy(() => import("./views/Team"));
+const Users = lazy(() => import("./views/Users"));
 
 export const routes = [
   {
