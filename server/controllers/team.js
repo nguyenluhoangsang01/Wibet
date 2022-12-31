@@ -174,3 +174,19 @@ export const getAllTeams = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getTeamById = async (req, res, next) => {
+  try {
+    //  Get id from request params
+    const { id } = req.params;
+
+    // Check if team not exists
+    const team = await Team.findById(id).select("-__v");
+    if (!team) return sendError(res, sendError("Team not found", 404));
+
+    // Send notification success
+    return sendSuccess(res, "Get team successfully!", team);
+  } catch (error) {
+    next(error);
+  }
+};

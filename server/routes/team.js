@@ -1,10 +1,11 @@
 import express from "express";
 import multer from "multer";
 import {
-	createTeam,
-	deleteTeam,
-	getAllTeams,
-	updateTeam
+  createTeam,
+  deleteTeam,
+  getAllTeams,
+  getTeamById,
+  updateTeam,
 } from "../controllers/team.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -32,5 +33,10 @@ router.delete("/:id", verifyToken, deleteTeam);
 // @desc Get all teams
 // @access Private
 router.get("/", verifyToken, getAllTeams);
+
+// @route GET api/team/:id
+// @desc Get team by id
+// @access Private
+router.get("/:id", verifyToken, getTeamById);
 
 export default router;

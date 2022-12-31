@@ -2,7 +2,7 @@ import { Button, Image, Modal, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { teamRoutes } from "../../constants";
@@ -28,10 +28,7 @@ const Team = () => {
   // Initial state
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [deleteTeam, setDeleteTeam] = useState({
-    _id: "",
-    fullName: "",
-  });
+  const [deleteTeam, setDeleteTeam] = useState({ _id: null, fullName: null });
 
   // Set title
   useEffect(() => {
@@ -43,8 +40,15 @@ const Team = () => {
     dispatch(getAllTeamsReducerAsync());
   }, [dispatch]);
 
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
   // Check if user role ID is difference Admin back to home page
-  if (user?.roleID !== "Admin") return <Navigate to="/" />;
+  useEffect(() => {
+    if (user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, user?.roleID]);
 
   // Handle confirm ok when user delete
   const handleOk = async () => {
@@ -170,6 +174,7 @@ const Team = () => {
     <div>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={teamRoutes} />
+
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
@@ -192,7 +197,11 @@ const Team = () => {
       </p>
 
       {/* Table */}
-      <Table rowKey="_id" columns={columns} dataSource={teams?.teams} />
+      <Table
+        rowKey="_id"
+        columns={columns}
+        dataSource={[...teams?.teams].reverse()}
+      />
 
       {/* Modal */}
       <Modal

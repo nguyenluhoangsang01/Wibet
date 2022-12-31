@@ -2,16 +2,22 @@ import { Image, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
 import { capitalize } from "../../helper";
+import { selectUser } from "../../state/userSlice";
 
 const BetViewAll = () => {
   // Get match id from params
   const { id } = useParams();
   // Initial state
   const [match, setMatch] = useState({});
+  // Get user from global state
+  const { user } = useSelector(selectUser);
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Set title
   useEffect(() => {
@@ -19,6 +25,16 @@ const BetViewAll = () => {
       match?.team2?.fullName
     )}`;
   });
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
+  // Check if user role id not equal Admin
+  useEffect(() => {
+    if (user.roleID !== "Admin") return navigate("/matches");
+  }, [navigate, user.roleID]);
 
   // Get match by id
   useEffect(() => {

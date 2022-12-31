@@ -1,40 +1,69 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Dropzone from "../../components/Dropzone";
 import Heading from "../../components/Heading";
 import RenderFile from "../../components/RenderFile";
-import { headersFormData } from "../../constants";
+import { headers, headersFormData } from "../../constants";
 import { updateTeamReducer } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
 const TeamUpdate = () => {
-  // Initial location
-  const {
-    state: { team },
-  } = useLocation();
+  // Get team id from params
+  const { id } = useParams();
   // Initial State
   const [isFinish, setIsFinish] = useState(false);
   const [file, setFile] = useState(null);
+  const [team, setTeam] = useState(null);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
   const { user } = useSelector(selectUser);
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
     document.title = "Update Team";
   }, []);
 
+  // Check if user not exists
   useEffect(() => {
     if (!user) return navigate("/");
-  }, [user, navigate]);
+  }, [navigate, user]);
+
+  // Check if user role ID is difference Admin back to home page
+  useEffect(() => {
+    if (user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, user?.roleID]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // Get match by id
+        const { data } = await axios.get(`/team/${id}`, { headers });
+
+        // Check if data exists
+        if (data) {
+          // Set team with data found
+          setTeam(data.data);
+
+          // Reset form
+          form.current.resetFields();
+        }
+      } catch ({ response }) {
+        // When get failured
+        toast.error(response.data.message);
+      }
+    })();
+  }, [id]);
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [
@@ -96,6 +125,7 @@ const TeamUpdate = () => {
     <div>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={teamViewDetailsUpdateRules} key={team?._id} />
+
       {/* Heading */}
       <Heading title={`update team: ${team?.fullName}`} />
 
@@ -106,9 +136,9 @@ const TeamUpdate = () => {
         wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
+        ref={form}
         initialValues={{
-          name: team?.name,
-          fullName: team?.fullName,
+          ...team,
           image: file,
         }}
       >

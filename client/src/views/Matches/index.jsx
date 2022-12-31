@@ -16,10 +16,10 @@ import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-  deleteMatchReducerAsync,
-  getAllMatchesReducer,
-  getAllMatchesReducerAsync,
-  selectMatch,
+	deleteMatchReducerAsync,
+	getAllMatchesReducer,
+	getAllMatchesReducerAsync,
+	selectMatch
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -475,70 +475,71 @@ const Matches = () => {
     {
       title: "",
       dataIndex: "actions",
-      render: (text, record) => (
-        <div>
-          <button
-            onClick={() => handleViewAllBet(record)}
-            className="bg-[#222222]"
-          >
-            <FaShare />
-          </button>
-
-          <button
-            onClick={() => handleUpdateInfo(record)}
-            disabled={record.result || record.isCanceled}
-            className="bg-[#f0ad4e]"
-          >
-            <BsPencilFill />
-          </button>
-
-          {record.result ? (
+      render: (text, record) =>
+        user.roleID === "Admin" && (
+          <div>
             <button
-              onClick={() => handleViewDetail(record)}
-              className="bg-[#5bc0de]"
+              onClick={() => handleViewAllBet(record)}
+              className="bg-[#222222]"
             >
-              <MdViewWeek />
+              <FaShare />
             </button>
-          ) : (
+
             <button
-              onClick={() => handleUpdateScore(record)}
-              className="bg-[#47a447]"
+              onClick={() => handleUpdateInfo(record)}
+              disabled={record.result || record.isCanceled}
+              className="bg-[#f0ad4e]"
             >
-              <TiTick />
+              <BsPencilFill />
             </button>
-          )}
 
-          <button
-            onClick={() =>
-              handleDelete(
-                record._id,
-                record?.team1?.fullName,
-                record?.team2?.fullName
-              )
-            }
-            className="bg-[#d9534f]"
-            disabled={record.isCanceled}
-          >
-            <CgClose />
-          </button>
+            {record.result ? (
+              <button
+                onClick={() => handleViewDetail(record)}
+                className="bg-[#5bc0de]"
+              >
+                <MdViewWeek />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleUpdateScore(record)}
+                className="bg-[#47a447]"
+              >
+                <TiTick />
+              </button>
+            )}
 
-          <button
-            onClick={() => handleHide(record)}
-            className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
-          >
-            {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
-          </button>
-
-          {!record.result && (
             <button
-              onClick={() => handleWithdraw(record)}
-              className="bg-[#d2322d]"
+              onClick={() =>
+                handleDelete(
+                  record._id,
+                  record?.team1?.fullName,
+                  record?.team2?.fullName
+                )
+              }
+              className="bg-[#d9534f]"
+              disabled={record.isCanceled}
             >
-              <BsCloudMinusFill />
+              <CgClose />
             </button>
-          )}
-        </div>
-      ),
+
+            <button
+              onClick={() => handleHide(record)}
+              className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
+            >
+              {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
+            </button>
+
+            {!record.result && (
+              <button
+                onClick={() => handleWithdraw(record)}
+                className="bg-[#d2322d]"
+              >
+                <BsCloudMinusFill />
+              </button>
+            )}
+          </div>
+        ),
     },
   ];
 
@@ -551,9 +552,11 @@ const Matches = () => {
       <Heading title={pathname.slice(1)} />
 
       {/* Action */}
-      <div className="action-details mb-[10px] flex items-center justify-end gap-1">
-        <Link to="/matches/create">Create Match</Link>
-      </div>
+      {user.roleID === "Admin" && (
+        <div className="action-details mb-[10px] flex items-center justify-end gap-1">
+          <Link to="/matches/create">Create Match</Link>
+        </div>
+      )}
 
       {/* Total */}
       <p className="flex items-center gap-1 font-[calibri] text-[18px]">

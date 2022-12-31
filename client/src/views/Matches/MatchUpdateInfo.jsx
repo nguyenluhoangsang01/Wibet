@@ -1,23 +1,23 @@
 import { Button, DatePicker, Form, Image, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
 import { capitalize } from "../../helper";
 import { selectTeam } from "../../state/teamSlice";
-import moment from "moment";
+import { selectUser } from "../../state/userSlice";
 
 const MatchUpdateInfo = () => {
-  // Initial location
-  const {
-    state: { match },
-  } = useLocation();
+  // Get match id from params
+  const { id } = useParams();
   // Initial state
+  const [match, setMatch] = useState(null);
   const [isFinish, setIsFinish] = useState(false);
   const [team1Selected, setTeam1Selected] = useState("");
   const [team2Selected, setTeam2Selected] = useState("");
@@ -27,6 +27,8 @@ const MatchUpdateInfo = () => {
   const {
     teams: { teams },
   } = useSelector(selectTeam);
+  // Get user from global state
+  const { user } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -35,8 +37,32 @@ const MatchUpdateInfo = () => {
     )}`;
   });
 
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
   // Check if match had result
-  if (match.result || match.isCanceled) return <Navigate to="/matches" />;
+  useEffect(() => {
+    if (user.roleID !== "Admin" || match?.result || match?.isCanceled)
+      return navigate("/");
+  }, [match?.isCanceled, match?.result, navigate, user.roleID]);
+
+  // Get match by id
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`/match/${id}`, { headers });
+
+        if (data) {
+          setMatch(data.data);
+        }
+      } catch ({ response }) {
+        // When get failured
+        toast.error(response.data.message);
+      }
+    })();
+  }, [id]);
 
   // Breadcrumbs
   const matchUpdateInfo = [

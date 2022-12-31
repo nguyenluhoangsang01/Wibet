@@ -310,6 +310,6 @@ export const createMatchRoutes = [
   },
   {
     path: "",
-    name: "create match",
+    name: "Create Match",
   },
 ];

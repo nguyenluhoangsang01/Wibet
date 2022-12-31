@@ -121,7 +121,6 @@ export const getMatchById = async (req, res, next) => {
 
     // Check if match not exists
     const match = await Match.findById(id)
-      .select("-__v")
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
     if (!match) return sendError(res, sendError("Match not found", 404));

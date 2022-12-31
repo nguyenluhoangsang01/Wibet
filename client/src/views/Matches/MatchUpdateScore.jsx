@@ -26,8 +26,13 @@ const MatchUpdateScore = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return <Navigate to="/" />;
-  }, [user]);
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
+  // Check if user role id not equal Admin
+  useEffect(() => {
+    if (user.roleID !== "Admin") return navigate("/matches");
+  }, [navigate, user.roleID]);
 
   // Set title
   useEffect(() => {

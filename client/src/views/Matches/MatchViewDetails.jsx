@@ -2,12 +2,13 @@ import { Button, Image, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
 import { capitalize, formatTime } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
+import { selectUser } from "../../state/userSlice";
 
 const MatchViewDetails = () => {
   // Get match id from request params
@@ -21,6 +22,18 @@ const MatchViewDetails = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+  // Get user from global state
+  const { user } = useSelector(selectUser);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
+  // Check if user role id not equal Admin
+  useEffect(() => {
+    if (user.roleID !== "Admin") return navigate("/matches");
+  }, [navigate, user.roleID]);
 
   // Set title
   useEffect(() => {

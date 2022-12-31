@@ -2,7 +2,7 @@ import { Button, DatePicker, Form, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import Heading from "../../components/Heading";
 import { createMatchRoutes, headers } from "../../constants";
 import { updateMatchReducer } from "../../state/matchSlice";
 import { selectTeam } from "../../state/teamSlice";
+import { selectUser } from "../../state/userSlice";
 
 const MatchCreate = () => {
   // Initial state
@@ -25,6 +26,23 @@ const MatchCreate = () => {
   const {
     teams: { teams },
   } = useSelector(selectTeam);
+  // Get user from global state
+  const { user } = useSelector(selectUser);
+
+  // Set title
+  useEffect(() => {
+    document.title = createMatchRoutes[2].name;
+  }, []);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
+  // Check if user role id not equal Admin
+  useEffect(() => {
+    if (user.roleID !== "Admin") return navigate("/matches");
+  }, [navigate, user.roleID]);
 
   // Handle on finish
   const onFinish = async (values) => {

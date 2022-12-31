@@ -31,7 +31,12 @@ const TeamCreate = () => {
   // Check if user not exists
   useEffect(() => {
     if (!user) return navigate("/");
-  }, [user, navigate]);
+  }, [navigate, user]);
+
+  // Check if user role ID is difference Admin back to home page
+  useEffect(() => {
+    if (user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, user?.roleID]);
 
   // Handle on finish
   const onFinish = async (values) => {
@@ -73,6 +78,7 @@ const TeamCreate = () => {
     <div>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={createTeamRoutes} />
+
       {/* Heading */}
       <Heading title={createTeamRoutes[2].name} />
 
