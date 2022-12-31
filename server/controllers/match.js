@@ -35,11 +35,11 @@ export const createMatch = async (req, res, next) => {
     // Check if match date is exists
     if (
       moment(matchExistingWithTeam1?.matchDate).format(
-        "hh:mm:ss - yyyy/MM/DD"
-      ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD") ||
+        "HH:mm:ss - yyyy/MM/DD"
+      ) === moment(matchDate).format("HH:mm:ss - yyyy/MM/DD") ||
       moment(matchExistingWithTeam2?.matchDate).format(
-        "hh:mm:ss - yyyy/MM/DD"
-      ) === moment(matchDate).format("hh:mm:ss - yyyy/MM/DD")
+        "HH:mm:ss - yyyy/MM/DD"
+      ) === moment(matchDate).format("HH:mm:ss - yyyy/MM/DD")
     )
       return sendError(
         res,
