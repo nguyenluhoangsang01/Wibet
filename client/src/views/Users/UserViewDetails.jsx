@@ -21,14 +21,18 @@ const UserViewDetails = () => {
   const navigate = useNavigate();
   // Initial dispatch from redux
   const dispatch = useDispatch();
-  const getData = useSelector(selectUser);
+  // Get user logged
+  const userLogged = useSelector(selectUser);
 
-  // Check if user not exists
+  // Check if user logged not exists
   useEffect(() => {
-    if (!getData.user) {
-      navigate("/");
-    }
-  }, [getData.user, navigate]);
+    if (!userLogged.user) return navigate("/");
+  }, [navigate, userLogged.user]);
+
+  // Check if user logged role ID is difference Admin back to home page
+  useEffect(() => {
+    if (userLogged.user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, userLogged.user?.roleID]);
 
   // Set title
   useEffect(() => {

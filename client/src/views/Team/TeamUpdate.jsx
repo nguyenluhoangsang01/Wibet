@@ -44,10 +44,11 @@ const TeamUpdate = () => {
     if (user?.roleID !== "Admin") return navigate("/");
   }, [navigate, user?.roleID]);
 
+  // Get match by id
   useEffect(() => {
     (async () => {
       try {
-        // Get match by id
+        // Get match by id with get method
         const { data } = await axios.get(`/team/${id}`, { headers });
 
         // Check if data exists

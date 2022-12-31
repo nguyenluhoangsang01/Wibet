@@ -1,10 +1,10 @@
 import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { headers, ROLES, STATUS } from "../../constants";
@@ -12,29 +12,56 @@ import { capitalize } from "../../helper";
 import { selectUser } from "../../state/userSlice";
 
 const UserUpdate = () => {
-  // Initial location
-  const {
-    state: { user },
-  } = useLocation();
+  // Get user id from params
+  const { id } = useParams();
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
-  const [status, setStatus] = useState(user.status);
-  const [roleID, setRoleID] = useState(user.roleID);
+  const [user, setUser] = useState(null);
+  const [status, setStatus] = useState(user?.status);
+  const [roleID, setRoleID] = useState(user?.roleID);
   // Initial navigate
   const navigate = useNavigate();
-  const getData = useSelector(selectUser);
+  // Initial form ref
+  const form = useRef(null);
+  // Get user logged
+  const userLogged = useSelector(selectUser);
 
-  // Check if user not exists
+  // Check if user logged not exists
   useEffect(() => {
-    if (!getData.user) {
-      navigate("/");
-    }
-  }, [getData.user, navigate]);
+    if (!userLogged.user) return navigate("/");
+  }, [navigate, userLogged.user]);
+
+  // Check if user logged role ID is difference Admin back to home page
+  useEffect(() => {
+    if (userLogged.user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, userLogged.user?.roleID]);
 
   // Set title
   useEffect(() => {
-    document.title = `UPDATE USER: ${capitalize(user.username)}`;
-  }, [user.username]);
+    document.title = `Update User: ${capitalize(user?.username)}`;
+  }, [user?.username]);
+
+  // Get user by id
+  useEffect(() => {
+    (async () => {
+      try {
+        // Get user by id with get method
+        const { data } = await axios.get(`/user/${id}`, { headers });
+
+        // Check if data exists
+        if (data) {
+          // Set team with data found
+          setUser(data.data);
+
+          // Reset form
+          form.current.resetFields();
+        }
+      } catch ({ response }) {
+        // When get failured
+        toast.error(response.data.message);
+      }
+    })();
+  }, [id]);
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [
@@ -47,8 +74,8 @@ const UserUpdate = () => {
       name: "users",
     },
     {
-      path: `/users/${user._id}/view-details`,
-      name: user.username || "key",
+      path: `/users/${user?._id}/view-details`,
+      name: user?.username || "key",
     },
     {
       path: "",
@@ -98,9 +125,9 @@ const UserUpdate = () => {
   return (
     <div>
       {/* Breadcrumbs */}
-      <Breadcrumbs routes={userViewDetailsUpdateRules} key={user._id} />
+      <Breadcrumbs routes={userViewDetailsUpdateRules} key={user?._id} />
       {/* Heading */}
-      <Heading title={`update user: ${user.username}`} />
+      <Heading title={`update user: ${user?.username}`} />
 
       {/* Form */}
       <Form
@@ -113,17 +140,9 @@ const UserUpdate = () => {
         }}
         onFinish={onFinish}
         autoComplete="off"
-        initialValues={{
-          email: user.email,
-          username: user.username,
-          money: user.money,
-          status: user.status,
-          fullName: user.fullName,
-          roleID: user.roleID,
-          banned: user.banned,
-          bannedReason: user.bannedReason,
-        }}
+        initialValues={{ ...user }}
         className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"
+        ref={form}
       >
         <div>
           {/* Email input */}

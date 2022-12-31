@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { usersRoutes } from "../../constants";
@@ -41,8 +41,15 @@ const Users = () => {
     dispatch(getAllUsersReducerAsync());
   }, [dispatch]);
 
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
+
   // Check if user role ID is difference Admin back to home page
-  if (user?.roleID !== "Admin") return <Navigate to="/" />;
+  useEffect(() => {
+    if (user?.roleID !== "Admin") return navigate("/");
+  }, [navigate, user?.roleID]);
 
   // Handle delete user
   const handleDeleteUser = (_id, username) => {
@@ -194,9 +201,13 @@ const Users = () => {
         if (a.bannedAt < b.bannedAt) return -1;
         if (a.bannedAt > b.bannedAt) return 1;
       },
-      render: (text) =>
-        text ? (
-          <span>{text}</span>
+      render: (text, record) =>
+        Boolean(record.bannedAt) ? (
+          record.bannedAt === "false" ? (
+            <span className="text-[red] italic">(not set)</span>
+          ) : (
+            record.bannedAt
+          )
         ) : (
           <span className="text-[red] italic">(not set)</span>
         ),
@@ -223,9 +234,9 @@ const Users = () => {
   ];
 
   // Handle show history
-  const handleShowHistory = () => {
-    console.log("handleShowHistory");
-  };
+  // const handleShowHistory = () => {
+  //   console.log("handleShowHistory");
+  // };
 
   return (
     <div>
@@ -237,7 +248,7 @@ const Users = () => {
       {/* Actions */}
       <div className="action-details mb-[10px] flex items-center justify-end gap-1">
         <Link to="/users/create">Create User</Link>
-        <button onClick={handleShowHistory}>Show history</button>
+        {/* <button onClick={handleShowHistory}>Show history</button> */}
       </div>
 
       {/* Total */}
@@ -254,8 +265,8 @@ const Users = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={users.users
-          ?.filter((item) => item._id !== user._id)
+        dataSource={users?.users
+          ?.filter((item) => item._id !== user?._id)
           .reverse()}
         scroll={{
           x: 1200,
