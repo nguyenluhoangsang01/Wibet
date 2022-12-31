@@ -1,32 +1,122 @@
-import React, { useEffect, useState } from "react";
-import Loading from "../../components/Loading";
+import { Image } from "antd";
+import moment from "moment";
+import React, { useEffect } from "react";
+import { AiOutlineSwapRight } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { formatTime } from "../../helper";
+import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
 
 const Home = () => {
-  const [isLoading] = useState(true);
+  // Get all matches from global state
+  const {
+    matches: { matches },
+  } = useSelector(selectMatch);
+  // Initial dispatch
+  const dispatch = useDispatch();
+  // Initial current date
+  const currentDate = moment(new Date());
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Set title
   useEffect(() => {
     document.title = `Wibet`;
   });
 
+  // Get all matches
+  useEffect(() => {
+    dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
+
+  // Get Min date
+  const minDate = new Date(
+    Math.min(
+      ...matches
+        .filter((match) => currentDate.isBefore(match.matchDate))
+        .map((match) => {
+          return new Date(match.matchDate);
+        })
+    )
+  );
+
+  // Handle view all matches
+  const handleViewAllMatches = () => {
+    navigate("/matches");
+  };
+
   return (
-    <div className="-mx-4 sm:-mx-10 -my-6 h-[calc(100vh-60px*2)] relative">
+    <div className="-mx-4 sm:-mx-10 -my-6 relative">
       <img
         src="https://res.cloudinary.com/wibet/image/upload/v1671760274/images/aff-cup-2022-667_as0m3a.jpg"
         alt="home-background"
         className="w-full h-full"
       />
 
-      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 max-w-2xl mx-auto h-44 flex items-center justify-center">
-        {isLoading ? (
-          <div className="flex items-center gap-6">
-            <Loading color="black" />
-            <Loading color="yellow" />
-            <Loading color="grey" />
-          </div>
-        ) : (
-          <p>Render data here</p>
-        )}
+      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-52 shadow-2xl max-w-lg mx-auto flex items-center justify-center">
+        {matches
+          .filter(
+            (match) =>
+              moment(match.matchDate).date() === moment(minDate).date() &&
+              !match.result
+          )
+          .map((match) => {
+            const hours = currentDate.diff(moment(match.matchDate), "hours");
+
+            return (
+              <div
+                key={match._id}
+                className="font-[calibri] text-center flex flex-col gap-2"
+              >
+                <p className="text-[#428BCA] font-semibold text-[24px] text-left mb-4">
+                  {formatTime(match?.matchDate)}
+                </p>
+
+                <div className="flex items-center gap-8">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+                      <Image
+                        src={match.team1.flag}
+                        preview={false}
+                        alt={match.team1.fullName}
+                      />
+                    </div>
+                    <span className="font-semibold font-[arial] text-[18px]">
+                      {match.team1.fullName}
+                    </span>
+                  </div>
+                  <span className="mx-2"> - </span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+                      <Image
+                        src={match.team2.flag}
+                        preview={false}
+                        alt={match.team2.fullName}
+                      />
+                    </div>
+                    <span className="font-semibold font-[arial] text-[18px]">
+                      {match.team2.fullName}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-base">{match.description}</p>
+
+                <p className="text-base flex items-center justify-around">
+                  <span>
+                    Match starts in {hours.toString().replace("-", "")} hours{" "}
+                  </span>
+
+                  <span
+                    className="text-sm flex items-center gap-1 cursor-pointer underline transition hover:text-[#428BCA] italic mt-4"
+                    onClick={handleViewAllMatches}
+                  >
+                    View all matches <AiOutlineSwapRight />
+                  </span>
+                </p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

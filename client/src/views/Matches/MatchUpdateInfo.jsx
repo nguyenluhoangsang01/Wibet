@@ -2,7 +2,7 @@ import { Button, DatePicker, Form, Image, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -29,6 +29,8 @@ const MatchUpdateInfo = () => {
   } = useSelector(selectTeam);
   // Get user from global state
   const { user } = useSelector(selectUser);
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -56,6 +58,9 @@ const MatchUpdateInfo = () => {
 
         if (data) {
           setMatch(data.data);
+
+          // Reset form
+          form.current.resetFields();
         }
       } catch ({ response }) {
         // When get failured
@@ -164,10 +169,11 @@ const MatchUpdateInfo = () => {
         initialValues={{
           team1: match?.team1?._id,
           team2: match?.team2?._id,
-          // matchDate: match?.matchDate,
+          matchDate: moment(match?.matchDate),
           rate: match?.rate,
           description: match?.description,
         }}
+        ref={form}
       >
         {/* Team 1 select */}
         <Form.Item

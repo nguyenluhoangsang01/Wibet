@@ -20,10 +20,10 @@ import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -297,10 +297,6 @@ const Matches = () => {
       title: "Team 1",
       dataIndex: "team1",
       key: "team1",
-      sorter: (a, b) => {
-        if (a.team1 < b.team1) return -1;
-        if (a.team1 > b.team1) return 1;
-      },
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
@@ -340,10 +336,6 @@ const Matches = () => {
       title: "Team 2",
       dataIndex: "team2",
       key: "team2",
-      sorter: (a, b) => {
-        if (a.team2 < b.team2) return -1;
-        if (a.team2 > b.team2) return 1;
-      },
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
@@ -416,63 +408,59 @@ const Matches = () => {
       key: "bet-action",
       render: (text, record) => (
         <div className="flex items-center justify-center">
-          {record.result || record.isCanceled ? (
-            <span>-</span>
-          ) : (
-            <div>
-              {record.statusOfTeam1 === 0 && record.statusOfTeam2 === 0 ? (
-                <button
-                  onClick={() => handleBet(record)}
-                  className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
-                >
-                  <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                    Bet Now
-                  </span>{" "}
-                  <FaShare className="text-white text-[16px]" />
-                </button>
-              ) : (
-                <div>
-                  {bets
-                    ?.filter(
-                      (bet) =>
-                        bet?.match?._id === record?._id &&
-                        bet?.user?._id === user?._id
-                    )
-                    .map((bet) => (
-                      <div
-                        className="flex items-center divide-x-2 gap-"
-                        key={bet._id}
-                      >
-                        <div className="flex items-center gap-1">
-                          <span className="text-[18px] font-[calibri]">
-                            {bet.team.name}
-                          </span>
-                          <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
-                            {bet.money}p
-                          </span>
-                        </div>
-
-                        <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
-                          <BsPencilFill
-                            onClick={handleUpdateBet}
-                            className="cursor-pointer"
-                          />
-                          <CgClose
-                            onClick={() =>
-                              handleDeleteBet({
-                                betId: bet._id,
-                                matchId: bet.match._id,
-                              })
-                            }
-                            className="cursor-pointer"
-                          />
-                        </div>
+          <div>
+            {record.statusOfTeam1 === 0 && record.statusOfTeam2 === 0 ? (
+              <button
+                onClick={() => handleBet(record)}
+                className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
+              >
+                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                  Bet Now
+                </span>{" "}
+                <FaShare className="text-white text-[16px]" />
+              </button>
+            ) : (
+              <div>
+                {bets
+                  ?.filter(
+                    (bet) =>
+                      bet?.match?._id === record?._id &&
+                      bet?.user?._id === user?._id
+                  )
+                  .map((bet) => (
+                    <div
+                      className="flex items-center divide-x-2 gap-"
+                      key={bet._id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <span className="text-[18px] font-[calibri]">
+                          {bet.team.name}
+                        </span>
+                        <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
+                          {bet.money}p
+                        </span>
                       </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          )}
+
+                      <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
+                        <BsPencilFill
+                          onClick={handleUpdateBet}
+                          className="cursor-pointer"
+                        />
+                        <CgClose
+                          onClick={() =>
+                            handleDeleteBet({
+                              betId: bet._id,
+                              matchId: bet.match._id,
+                            })
+                          }
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
       ),
     },

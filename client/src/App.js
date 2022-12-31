@@ -2,6 +2,7 @@ import axios from "axios";
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 import { routes } from "./constants";
 import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
@@ -29,6 +30,8 @@ function App() {
       <Toaster
         toastOptions={{ className: "font-[calibri] text-[16px] text-center" }}
       />
+
+      <ScrollToTop />
 
       <Suspense fallback={<Loading />}>
         <Routes>
