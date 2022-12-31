@@ -237,7 +237,7 @@ export const createTeamRoutes = [
   },
   {
     path: "",
-    name: "create team",
+    name: "Create Team",
   },
 ];
 
@@ -290,6 +290,13 @@ export const headers = {
   authorization: `Bearer ${JSON.parse(
     localStorage.getItem("persist:user")
   )?.accessToken?.replaceAll('"', "")}`,
+};
+
+export const headersFormData = {
+  authorization: `Bearer ${JSON.parse(
+    localStorage.getItem("persist:user")
+  )?.accessToken?.replaceAll('"', "")}`,
+  "Content-Type": "multipart/form-data",
 };
 
 export const createMatchRoutes = [

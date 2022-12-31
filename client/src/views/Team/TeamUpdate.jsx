@@ -1,13 +1,16 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import Dropzone from "../../components/Dropzone";
 import Heading from "../../components/Heading";
-import { headers } from "../../constants";
+import RenderFile from "../../components/RenderFile";
+import { headersFormData } from "../../constants";
 import { updateTeamReducer } from "../../state/teamSlice";
+import { selectUser } from "../../state/userSlice";
 
 const TeamUpdate = () => {
   // Initial location
@@ -16,10 +19,22 @@ const TeamUpdate = () => {
   } = useLocation();
   // Initial State
   const [isFinish, setIsFinish] = useState(false);
+  const [file, setFile] = useState(null);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+  // Get user from global state
+  const { user } = useSelector(selectUser);
+
+  // Set title
+  useEffect(() => {
+    document.title = "Update Team";
+  }, []);
+
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [user, navigate]);
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [
@@ -47,23 +62,31 @@ const TeamUpdate = () => {
     setIsFinish(true);
 
     try {
+      // Update team with team id
       const res = await axios.patch(
         `/team/${team._id}`,
-        { ...values },
-        { headers }
+        { ...values, image: file },
+        { headers: headersFormData }
       );
 
+      // Check if data is exists
       if (res.data) {
+        // Dispatch action to update all teams
         dispatch(updateTeamReducer(res.data));
 
+        // Then set is finish to false
         setIsFinish(false);
 
+        // And navigate to teams page
         navigate("/teams");
       }
     } catch ({ response }) {
+      // Check if data is exists when have occur error
       if (response.data) {
+        // Dispatch action to update all teams (maybe)
         dispatch(updateTeamReducer(response.data));
 
+        // Then set is finish to false
         setIsFinish(false);
       }
     }
@@ -86,7 +109,7 @@ const TeamUpdate = () => {
         initialValues={{
           name: team?.name,
           fullName: team?.fullName,
-          image: team?.flag,
+          image: file,
         }}
       >
         {/* Name input */}
@@ -117,10 +140,23 @@ const TeamUpdate = () => {
           <Input />
         </Form.Item>
 
-        {/* Flag input */}
-        <Form.Item label="Flag" name="image">
-          <Input />
+        {/* Dropzone file */}
+        <Form.Item label="Flag">
+          <Dropzone setFile={setFile} />
         </Form.Item>
+
+        {/* Render file */}
+        {file && (
+          <Form.Item name="image" wrapperCol={{ offset: 3 }}>
+            <RenderFile
+              file={{
+                format: file.type.split("/")[1],
+                name: file.name,
+                size: file.size,
+              }}
+            />
+          </Form.Item>
+        )}
 
         {/* Update button */}
         <Form.Item wrapperCol={{ offset: 3 }}>

@@ -5,8 +5,10 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import Dropzone from "../../components/Dropzone";
 import Heading from "../../components/Heading";
-import { createTeamRoutes, headers } from "../../constants";
+import RenderFile from "../../components/RenderFile";
+import { createTeamRoutes, headersFormData } from "../../constants";
 import { updateTeamReducer } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -17,14 +19,18 @@ const TeamCreate = () => {
   const { user } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+  const [file, setFile] = useState(null);
   // Initial dispatch
   const dispatch = useDispatch();
 
+  // Set title
+  useEffect(() => {
+    document.title = createTeamRoutes[2].name;
+  }, []);
+
   // Check if user not exists
   useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
+    if (!user) return navigate("/");
   }, [user, navigate]);
 
   // Handle on finish
@@ -33,19 +39,31 @@ const TeamCreate = () => {
     setIsFinish(true);
 
     try {
-      const res = await axios.post(`/team`, { ...values }, { headers });
+      // Create new team
+      const res = await axios.post(
+        `/team`,
+        { ...values, image: file },
+        { headers: headersFormData }
+      );
 
+      // Check if data is exists
       if (res.data) {
+        // Dispatch action to update all teams
         dispatch(updateTeamReducer(res.data));
 
+        // Then set is finish to false
         setIsFinish(false);
 
+        // And navigate to teams page
         navigate("/teams");
       }
     } catch ({ response }) {
+      // Check if data is exists when have occur error
       if (response.data) {
+        // Dispatch action to update all teams (maybe)
         dispatch(updateTeamReducer(response.data));
 
+        // Then set is finish to false
         setIsFinish(false);
       }
     }
@@ -68,7 +86,7 @@ const TeamCreate = () => {
         initialValues={{
           name: "",
           fullName: "",
-          image: "",
+          image: file,
         }}
       >
         {/* Name input */}
@@ -99,10 +117,23 @@ const TeamCreate = () => {
           <Input />
         </Form.Item>
 
-        {/* Flag input */}
-        <Form.Item label="Flag" name="image">
-          <Input type="file" />
+        {/* Dropzone file */}
+        <Form.Item label="Flag">
+          <Dropzone setFile={setFile} />
         </Form.Item>
+
+        {/* Render file */}
+        {file && (
+          <Form.Item name="image" wrapperCol={{ offset: 3 }}>
+            <RenderFile
+              file={{
+                format: file.type.split("/")[1],
+                name: file.name,
+                size: file.size,
+              }}
+            />
+          </Form.Item>
+        )}
 
         {/* Create button */}
         <Form.Item wrapperCol={{ offset: 3 }}>

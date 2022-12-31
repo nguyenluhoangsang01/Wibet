@@ -1,6 +1,7 @@
 import { Image, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
@@ -22,10 +23,15 @@ const BetViewAll = () => {
   // Get match by id
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`/match/${id}`, { headers });
+      try {
+        const { data } = await axios.get(`/match/${id}`, { headers });
 
-      if (data) {
-        setMatch(data.data);
+        if (data) {
+          setMatch(data.data);
+        }
+      } catch ({ response }) {
+        // When get failured
+        toast.error(response.data.message);
       }
     })();
   }, [id]);

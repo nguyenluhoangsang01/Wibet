@@ -1,6 +1,7 @@
 import { Button, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -43,9 +44,8 @@ const UserViewDetails = () => {
         // Set data
         setUser(data.data);
       } catch ({ response }) {
-        if (!response.data.success) {
-          navigate("/");
-        }
+        // When get failured
+        toast.error(response.data.message);
       }
     })();
   }, [id, navigate]);

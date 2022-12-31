@@ -79,13 +79,21 @@ export const updateTeam = async (req, res, next) => {
     // Get file from request
     const { file } = req;
 
-    const isExistingWithName = await Team.findOne({ name });
+    // Find team by id and check if not exists
+    const team = Team.findById(id);
+    if (!team) return sendError(res, "Team not found", 404);
+
+    const isExistingWithName = await Team.findOne({
+      name: { $ne: name, $eq: team.name },
+    });
     if (isExistingWithName)
       return sendError(
         res,
         `Name ${isExistingWithName.name} has already been taken.`
       );
-    const isExistingWithFullName = await Team.findOne({ fullName });
+    const isExistingWithFullName = await Team.findOne({
+      fullName: { $ne: fullName, $eq: team.fullName },
+    });
     if (isExistingWithFullName)
       return sendError(
         res,

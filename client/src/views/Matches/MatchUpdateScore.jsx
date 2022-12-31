@@ -46,7 +46,7 @@ const MatchUpdateScore = () => {
           setMatch(data.data);
         }
       } catch ({ response }) {
-        // When update failured
+        // When get failured
         toast.error(response.data.message);
       }
     })();

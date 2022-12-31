@@ -88,3 +88,9 @@ export function formatTime(time) {
 export function formatNumber(number) {
   return number.toFixed(2).replaceAll(".00", "");
 }
+
+export function sizeInMb(bytes) {
+  return `${bytes.toLocaleString("en-US").replaceAll(",", ".")} byte${
+    bytes > 1 && "s"
+  }`;
+}
