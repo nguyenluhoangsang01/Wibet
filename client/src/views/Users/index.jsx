@@ -9,9 +9,9 @@ import Heading from "../../components/Heading";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-	deleteUserReducerAsync,
-	getAllUsersReducerAsync,
-	selectUser
+  deleteUserReducerAsync,
+  getAllUsersReducerAsync,
+  selectUser,
 } from "../../state/userSlice";
 
 const Users = () => {

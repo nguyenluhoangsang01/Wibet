@@ -75,8 +75,9 @@ table > tbody > tr > td > div > a {
   @apply !max-w-[500px] !truncate !block !mx-auto;
 }
 
+.ant-table-cell > div > a,
 .ant-table-cell > div > button {
-  @apply p-[10px] rounded-md text-white text-[14px];
+  @apply !p-[10px] !rounded-md !text-white !text-[18px];
 }
 
 button:disabled {

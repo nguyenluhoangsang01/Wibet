@@ -1,3 +1,4 @@
+import { Image } from "antd";
 import React, { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
@@ -50,10 +51,12 @@ const Navbar = () => {
           to="/"
           onClick={() => setIsShowMenu(false)}
         >
-          <img
+          <Image
             src="https://res.cloudinary.com/wibet/image/upload/v1671719347/images/aff-cup-logo-2022-1612100506_yykfsb.jpg"
             alt="WIBET"
-            className="w-[35px] h-[35px]"
+            preview={false}
+            width={35}
+            height={35}
           />
           <span className="text-[22px]">WIBET</span>
         </Link>
@@ -68,7 +71,7 @@ const Navbar = () => {
         <ul
           className={`${
             isShowMenu
-              ? "absolute top-[50px] z-40 bg-black w-full -ml-4 pb-2 border-t-2"
+              ? "absolute top-[50px] z-40 bg-black w-full -ml-4 border-t-2"
               : "items-center h-full hidden lg:flex"
           }`}
         >
@@ -89,7 +92,9 @@ const Navbar = () => {
                 to={route.path}
                 className={({ isActive }) =>
                   `w-full ${
-                    isShowMenu ? "h-[40px] flex justify-center" : "h-full px-3"
+                    isShowMenu
+                      ? "h-[40px] flex justify-center"
+                      : "h-full p-[15px]"
                   } flex items-center transition hover:scale-105 ${
                     isActive ? "text-[black] bg-[white]" : "hover:bg-[#555555]"
                   }`
@@ -102,13 +107,15 @@ const Navbar = () => {
 
           {/* Check if user is exists show user information */}
           {user ? (
-            <li className={`relative ${isShowMenu ? "" : "px-2"} h-full z-30`}>
+            <li
+              className={`relative h-full z-30 ${isShowMenu ? "" : "p-[15px]"}`}
+            >
               {/* Show dropdown */}
               <button
                 onClick={handleUsernameClick}
-                className={`w-full ${
-                  isShowMenu ? "h-[40px]" : "h-full px-3"
-                } flex items-center transition hover:scale-105 active:scale-100`}
+                className={`w-full flex items-center transition hover:scale-105 active:scale-100 ${
+                  isShowMenu ? "h-[40px]" : "h-full"
+                }`}
               >
                 <p
                   className={`h-full text-[18px] flex items-center gap-1 ${

@@ -429,7 +429,7 @@ const Matches = () => {
               ) : (
                 <div>
                   {bets
-                    .filter(
+                    ?.filter(
                       (bet) =>
                         bet?.match?._id === record?._id &&
                         bet?.user?._id === user?._id
@@ -569,7 +569,7 @@ const Matches = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={matches.matches.filter((match) =>
+        dataSource={matches.matches?.filter((match) =>
           user.roleID === "Admin" ? match : match.isShow === true
         )}
         rowClassName={(record) => !record.isShow && "disabled-row"}

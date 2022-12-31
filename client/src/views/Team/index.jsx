@@ -70,9 +70,9 @@ const Team = () => {
   };
 
   // Handle import excel
-  const handleImportExcel = () => {
-    console.log("handleImportExcel");
-  };
+  // const handleImportExcel = () => {
+  //   console.log("handleImportExcel");
+  // };
 
   // Handle cancel when user no delete
   const handleCancel = () => {
@@ -175,9 +175,9 @@ const Team = () => {
 
       {/* Actions */}
       <div className="action-details mb-[10px] flex items-center justify-end gap-1">
-        <button onClick={handleImportExcel} className="!bg-[#5CB85C]">
+        {/* <button onClick={handleImportExcel} className="!bg-[#5CB85C]">
           Import Excel
-        </button>
+        </button> */}
         <Link to="/teams/create">Create Team</Link>
       </div>
 
