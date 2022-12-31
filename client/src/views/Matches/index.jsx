@@ -599,11 +599,11 @@ const Matches = () => {
       >
         <p>
           Are you sure you want to delete the match between{" "}
-          <span className="capitalize font-bold">
+          <span className="capitalize font-semibold">
             {deleteMatch.team1 ? deleteMatch.team1 : "Team 1"}
           </span>{" "}
           and{" "}
-          <span className="capitalize font-bold">
+          <span className="capitalize font-semibold">
             {deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}
           </span>
           ?
@@ -612,7 +612,7 @@ const Matches = () => {
 
       {/* Hide Modal */}
       <Modal
-        title="Hide match"
+        title={`${record.isShow ? "Hide" : "Show"} match`}
         open={openHide}
         onOk={handleOkHide}
         confirmLoading={confirmLoadingHide}
@@ -635,8 +635,14 @@ const Matches = () => {
         <p>
           Are you sure you want to {record.isShow ? "hide" : "show"} the match
           between{" "}
-          <span className="capitalize font-bold">{deleteMatch?.team1}</span> and{" "}
-          <span className="capitalize font-bold">{deleteMatch?.team2}</span>?
+          <span className="capitalize font-semibold">
+            {record?.team1?.fullName}
+          </span>{" "}
+          and{" "}
+          <span className="capitalize font-semibold">
+            {record?.team2?.fullName}
+          </span>
+          ?
         </p>
       </Modal>
 

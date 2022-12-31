@@ -239,7 +239,7 @@ const UserViewDetails = () => {
       </table>
 
       <Modal
-        title="Delete"
+        title="Delete user"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
@@ -261,7 +261,7 @@ const UserViewDetails = () => {
       >
         <p>
           Are you sure you want to delete{" "}
-          <span className="capitalize font-bold">{user.username}</span>?
+          <span className="capitalize font-semibold">{user.username}</span>?
         </p>
       </Modal>
     </div>

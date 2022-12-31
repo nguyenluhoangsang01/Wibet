@@ -286,7 +286,10 @@ const Users = () => {
       >
         <p>
           Are you sure you want to delete{" "}
-          <span className="capitalize font-bold">{deleteUser.username}</span>?
+          <span className="capitalize font-semibold">
+            {deleteUser.username}
+          </span>
+          ?
         </p>
       </Modal>
     </div>

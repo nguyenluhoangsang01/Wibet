@@ -218,7 +218,10 @@ const Team = () => {
       >
         <p>
           Are you sure you want to delete{" "}
-          <span className="capitalize font-bold">{deleteTeam.fullName}</span>?
+          <span className="capitalize font-semibold">
+            {deleteTeam.fullName}
+          </span>
+          ?
         </p>
       </Modal>
     </div>
