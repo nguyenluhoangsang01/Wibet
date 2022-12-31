@@ -1,10 +1,12 @@
-import { Button, Image, Modal, Table } from "antd";
+import { Image, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import ModalDeleteTeam from "../../components/ModalDeleteTeam";
+import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
@@ -186,15 +188,15 @@ const Team = () => {
         <Link to="/teams/create">Create Team</Link>
       </div>
 
-      {/* Total */}
-      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+      {/* Number of rows */}
+      <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
           1-{teams.length < 10 ? teams.length : 10}
         </span>{" "}
         of <span className="font-bold">{teams.length}</span> team
         {teams.length > 1 ? "s" : ""}.
-      </p>
+      </NumberOfRows>
 
       {/* Table */}
       <Table
@@ -203,36 +205,14 @@ const Team = () => {
         dataSource={[...teams?.teams].reverse()}
       />
 
-      {/* Modal */}
-      <Modal
-        title="Delete team"
+      {/* Modal delete team */}
+      <ModalDeleteTeam
         open={open}
-        onOk={handleOk}
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete{" "}
-          <span className="capitalize font-semibold">
-            {deleteTeam.fullName}
-          </span>
-          ?
-        </p>
-      </Modal>
+        team={deleteTeam}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Image, Modal, Table } from "antd";
+import { Image, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import ModalDeleteBet from "../../components/ModalDeleteBet";
+import ModalDeleteMatch from "../../components/ModalDeleteMatch";
+import ModalHideMatch from "../../components/ModalHideMatch";
+import NumberOfRows from "../../components/NumberOfRows";
 import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
@@ -558,15 +562,15 @@ const Matches = () => {
         </div>
       )}
 
-      {/* Total */}
-      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+      {/* Number of rows */}
+      <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
           1-{matches.length < 10 ? matches.length : 10}
         </span>{" "}
         of <span className="font-bold">{matches.length}</span> match
         {matches.length > 1 ? "es" : ""}.
-      </p>
+      </NumberOfRows>
 
       {/* Table */}
       <Table
@@ -579,100 +583,30 @@ const Matches = () => {
       />
 
       {/* Delete Modal */}
-      <Modal
-        title="Delete match"
+      <ModalDeleteMatch
         open={open}
-        onOk={handleOk}
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete the match between{" "}
-          <span className="capitalize font-semibold">
-            {deleteMatch.team1 ? deleteMatch.team1 : "Team 1"}
-          </span>{" "}
-          and{" "}
-          <span className="capitalize font-semibold">
-            {deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}
-          </span>
-          ?
-        </p>
-      </Modal>
+        match={deleteMatch}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
 
       {/* Hide Modal */}
-      <Modal
-        title={`${record.isShow ? "Hide" : "Show"} match`}
+      <ModalHideMatch
         open={openHide}
-        onOk={handleOkHide}
         confirmLoading={confirmLoadingHide}
-        onCancel={handleCancelHide}
-        footer={[
-          <Button key="cancel" onClick={handleCancelHide}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoadingHide}
-            onClick={handleOkHide}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to {record.isShow ? "hide" : "show"} the match
-          between{" "}
-          <span className="capitalize font-semibold">
-            {record?.team1?.fullName}
-          </span>{" "}
-          and{" "}
-          <span className="capitalize font-semibold">
-            {record?.team2?.fullName}
-          </span>
-          ?
-        </p>
-      </Modal>
+        match={record}
+        handleOk={handleOkHide}
+        handleCancel={handleCancelHide}
+      />
 
       {/* Delete Bet Modal */}
-      <Modal
-        title="Delete bet"
+      <ModalDeleteBet
         open={openDeleteBet}
-        onOk={handleOkDeleteBet}
         confirmLoading={confirmLoadingDeleteBet}
-        onCancel={handleCancelDeleteBet}
-        footer={[
-          <Button key="cancel" onClick={handleCancelDeleteBet}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoadingDeleteBet}
-            onClick={handleOkDeleteBet}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>Are you sure you want to delete this bet?</p>
-      </Modal>
+        handleOk={handleOkDeleteBet}
+        handleCancel={handleCancelDeleteBet}
+      />
     </div>
   );
 };

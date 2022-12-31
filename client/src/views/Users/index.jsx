@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from "antd";
+import { Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { IoEyeSharp } from "react-icons/io5";
@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import ModalDeleteUser from "../../components/ModalDeleteUser";
+import NumberOfRows from "../../components/NumberOfRows";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
@@ -251,15 +253,15 @@ const Users = () => {
         {/* <button onClick={handleShowHistory}>Show history</button> */}
       </div>
 
-      {/* Total */}
-      <p className="flex items-center gap-1 font-[calibri] text-[18px]">
+      {/* Number of rows */}
+      <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
           1-{users.length - 1 < 10 ? users.length - 1 : 10}
         </span>{" "}
         of <span className="font-bold">{users.length - 1}</span> user
         {users.length - 1 > 1 ? "s" : ""}.
-      </p>
+      </NumberOfRows>
 
       {/* Table */}
       <Table
@@ -274,35 +276,13 @@ const Users = () => {
       />
 
       {/* Modal */}
-      <Modal
-        title="Delete user"
+      <ModalDeleteUser
         open={open}
-        onOk={handleOk}
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete{" "}
-          <span className="capitalize font-semibold">
-            {deleteUser.username}
-          </span>
-          ?
-        </p>
-      </Modal>
+        user={deleteUser}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };
