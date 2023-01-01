@@ -20,10 +20,10 @@ import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-  deleteMatchReducerAsync,
-  getAllMatchesReducer,
-  getAllMatchesReducerAsync,
-  selectMatch,
+	deleteMatchReducerAsync,
+	getAllMatchesReducer,
+	getAllMatchesReducerAsync,
+	selectMatch
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -312,10 +312,6 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam1",
       key: "resultOfTeam1",
-      sorter: (a, b) => {
-        if (a.resultOfTeam1 < b.resultOfTeam1) return -1;
-        if (a.resultOfTeam1 > b.resultOfTeam1) return 1;
-      },
       render: (text) => (
         <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
@@ -324,10 +320,6 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam2",
       key: "resultOfTeam2",
-      sorter: (a, b) => {
-        if (a.resultOfTeam2 < b.resultOfTeam2) return -1;
-        if (a.resultOfTeam2 > b.resultOfTeam2) return 1;
-      },
       render: (text) => (
         <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
@@ -510,7 +502,7 @@ const Matches = () => {
               {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
             </button>
 
-            {!record.result && (
+            {!record.result && !record.isCanceled && (
               <button
                 onClick={() => handleWithdraw(record)}
                 className="bg-[#d2322d]"
