@@ -21,8 +21,8 @@ router.get("/", verifyToken, getAllUsers);
 
 // @route GET api/user/logout
 // @desc Logout user
-// @access Private
-router.get("/logout", verifyToken, logout);
+// @access Public
+router.get("/logout", logout);
 
 // @route GET api/user/:id
 // @desc Get user

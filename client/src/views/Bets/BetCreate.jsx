@@ -1,19 +1,20 @@
 import { Button, Form, Image, InputNumber, Select } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
+import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const BetCreate = () => {
-  // Initial location
-  const {
-    state: { match },
-  } = useLocation();
+  // Get match id from params
+  const { id } = useParams();
   // Initial state
+  const [match, setMatch] = useState({});
   const [isFinish, setIsFinish] = useState(false);
   // Initial dispatch
   const dispatch = useDispatch();
@@ -21,16 +22,46 @@ const BetCreate = () => {
   const navigate = useNavigate();
   // Get user from global state
   const { user } = useSelector(selectUser);
+  // Get all bets from global state
+  const {
+    bets: { bets },
+  } = useSelector(selectBet);
 
   // Check if user not exists
   useEffect(() => {
     if (!user) return navigate("/");
   }, [user, navigate]);
 
+  // Check if match had result or canceled
   useEffect(() => {
-    if (match.statusOfTeam1 !== 0 || match.statusOfTeam2 !== 0)
-      return navigate("/matches");
-  }, [match.statusOfTeam1, match.statusOfTeam2, navigate]);
+    if (match.result || match.isCanceled) return navigate("/matches");
+  }, [match.isCanceled, match.result, navigate]);
+
+  // Map over all bets check if user id in this bet equal with user logged and match id existed in bet
+  useEffect(() => {
+    bets.map(
+      (bet) =>
+        bet.user?._id.includes(user?._id) &&
+        match?._id?.toString() === bet.match?._id &&
+        navigate("/matches")
+    );
+  }, [bets, match?._id, navigate, user?._id]);
+
+  // Get match by id
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`/match/${id}`, { headers });
+
+        if (data) {
+          setMatch(data.data);
+        }
+      } catch ({ response }) {
+        // When get failured
+        toast.error(response.data.message);
+      }
+    })();
+  }, [id]);
 
   // Routes for breadcrumbs
   const createBetRoutes = [
@@ -39,8 +70,8 @@ const BetCreate = () => {
       name: "home",
     },
     {
-      path: `/matches/${match._id}/view-details`,
-      name: `${match.team1.fullName} - ${match.team2.fullName}`,
+      path: `/matches/${match?._id}/view-details`,
+      name: `${match?.team1?.fullName} - ${match?.team2?.fullName}`,
     },
     {
       path: "",
@@ -139,12 +170,12 @@ const BetCreate = () => {
           <Select
             options={[
               {
-                value: match.team1._id,
-                label: match.team1.fullName,
+                value: match?.team1?._id,
+                label: match?.team1?.fullName,
               },
               {
-                value: match.team2._id,
-                label: match.team2.fullName,
+                value: match?.team2?._id,
+                label: match?.team2?.fullName,
               },
             ]}
           />
