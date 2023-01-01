@@ -564,9 +564,11 @@ const Matches = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={matches.matches?.filter((match) =>
-          user.roleID === "Admin" ? match : match.isShow === true
-        )}
+        dataSource={[...matches.matches]
+          ?.reverse()
+          ?.filter((match) =>
+            user.roleID === "Admin" ? match : match.isShow === true
+          )}
         rowClassName={(record) => !record.isShow && "disabled-row"}
       />
 

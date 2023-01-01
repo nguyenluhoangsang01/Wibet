@@ -3,7 +3,6 @@ import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Match from "../models/match.js";
 import Team from "../models/team.js";
-import Bet from "../models/bet.js";
 
 export const createMatch = async (req, res, next) => {
   try {
@@ -175,7 +174,7 @@ export const updateScoreById = async (req, res, next) => {
     //  Get id from request params
     const { id } = req.params;
     // Get data from request body
-    const { resultOfTeam1, resultOfTeam2, autoGenerate } = req.body;
+    const { resultOfTeam1, resultOfTeam2, autoGenerate, result } = req.body;
 
     // Validate
     if (!resultOfTeam1)
@@ -184,62 +183,32 @@ export const updateScoreById = async (req, res, next) => {
       return sendError(res, "Result of team 2 cannot be blank.");
 
     // Get match by id
-    const getMatch = await Match.findById(id)
+    const match = await Match.findById(id)
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+    if (!match) return sendError(res, "Match not found", 404);
+
+    // Check if user clock auto generate result
+    // Update score
+    await Match.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+        result: autoGenerate
+          ? resultOfTeam1 > resultOfTeam2 + match.rate
+            ? match.team1.fullName
+            : resultOfTeam1 < resultOfTeam2 + match.rate
+            ? match.team2.fullName
+            : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
+          : result,
+      },
+      { new: true }
+    )
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
 
-    const bets = await Bet.find()
-      .populate("team user", "-__v -password")
-      .populate({
-        path: "match",
-        populate: {
-          path: "team1 team2",
-          select: "name fullName flag",
-        },
-        select: "-__v",
-      })
-      .select("-__v");
-    console.log(bets);
-
-    // Check if user clock auto generate result
-    if (autoGenerate) {
-      // Update score
-      const match = await Match.findByIdAndUpdate(
-        id,
-        {
-          ...req.body,
-          result:
-            resultOfTeam1 > resultOfTeam2 + getMatch.rate
-              ? getMatch.team1.fullName
-              : resultOfTeam1 < resultOfTeam2 + getMatch.rate
-              ? getMatch.team2.fullName
-              : resultOfTeam1 === resultOfTeam2 + getMatch.rate && "Draw",
-        },
-        { new: true }
-      )
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-      // Check if match not exists
-      if (!match) return sendError(res, "Match not found", 404);
-
-      // Send success notification
-      return sendSuccess(res, "Update score successfully!");
-    } else {
-      // Update score
-      const match = await Match.findByIdAndUpdate(
-        id,
-        { ...req.body },
-        { new: true }
-      )
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-
-      // Check if match not exists
-      if (!match) return sendError(res, "Match not found", 404);
-
-      // Send success notification
-      return sendSuccess(res, "Update score successfully!");
-    }
+    // Send success notification
+    return sendSuccess(res, "Update score successfully!");
   } catch (error) {
     next(error);
   }
