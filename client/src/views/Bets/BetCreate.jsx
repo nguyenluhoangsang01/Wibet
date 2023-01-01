@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { headers } from "../../constants";
+import { capitalize } from "../../helper";
 import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
@@ -36,6 +37,13 @@ const BetCreate = () => {
   useEffect(() => {
     if (match.result || match.isCanceled) return navigate("/matches");
   }, [match.isCanceled, match.result, navigate]);
+
+  // Set title
+  useEffect(() => {
+    document.title = `${capitalize(match?.team1?.fullName)} - ${capitalize(
+      match?.team2?.fullName
+    )}`;
+  });
 
   // Map over all bets check if user id in this bet equal with user logged and match id existed in bet
   useEffect(() => {
