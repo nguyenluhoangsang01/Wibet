@@ -48,10 +48,14 @@ const UserViewDetails = () => {
         // Set data
         setUser(data.data);
       } catch ({ response }) {
-        // When get failured
-        toast.error(response.data.message);
+        if (response.status === 500) {
+          navigate("/users");
+        } else if (!response.data.success) {
+          // When get failured
+          toast.error(response.data.message);
 
-        if (!response.data.success) navigate("/users");
+          navigate("/users");
+        }
       }
     })();
   }, [id, navigate]);

@@ -65,10 +65,14 @@ const BetCreate = () => {
           setMatch(data.data);
         }
       } catch ({ response }) {
-        // When get failured
-        toast.error(response.data.message);
+        if (response.status === 500) {
+          navigate("/matches");
+        } else if (!response.data.success) {
+          // When get failured
+          toast.error(response.data.message);
 
-        if (!response.data.success) navigate("/matches");
+          navigate("/matches");
+        }
       }
     })();
   }, [id, navigate]);

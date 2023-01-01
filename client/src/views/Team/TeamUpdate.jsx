@@ -60,10 +60,14 @@ const TeamUpdate = () => {
           form.current.resetFields();
         }
       } catch ({ response }) {
-        // When get failured
-        toast.error(response.data.message);
+        if (response.status === 500) {
+          navigate("/teams");
+        } else if (!response.data.success) {
+          // When get failured
+          toast.error(response.data.message);
 
-        if (!response.data.success) navigate("/teams");
+          navigate("/teams");
+        }
       }
     })();
   }, [id, navigate]);
