@@ -30,9 +30,9 @@ const Dropzone = ({ setFile }) => {
       {isDragReject ? (
         <p>Sorry, This app only supports images</p>
       ) : isDragActive ? (
-        <p>Drop the file here ...</p>
+        <p>Drop file here to upload</p>
       ) : (
-        <p>Drag 'n' drop some file here, or click to select file</p>
+        <p>You can drag and drop file here to add them</p>
       )}
     </div>
   );
