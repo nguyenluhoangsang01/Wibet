@@ -1,11 +1,11 @@
 import express from "express";
 import {
-  createMatch,
-  deleteMatchById,
-  getAllMatches,
-  getMatchById,
-  updateMatchById,
-  updateScoreById,
+	createMatch,
+	deleteMatchById,
+	getAllMatches,
+	getMatchById,
+	updateMatchById,
+	updateScoreById
 } from "../controllers/match.js";
 import verifyToken from "../middleware/verifyToken.js";
 

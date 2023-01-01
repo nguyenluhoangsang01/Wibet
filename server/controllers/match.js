@@ -1,8 +1,10 @@
 import moment from "moment/moment.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
+import Bet from "../models/bet.js";
 import Match from "../models/match.js";
 import Team from "../models/team.js";
+import User from "../models/user.js";
 
 export const createMatch = async (req, res, next) => {
   try {
@@ -175,6 +177,8 @@ export const updateScoreById = async (req, res, next) => {
     const { id } = req.params;
     // Get data from request body
     const { resultOfTeam1, resultOfTeam2, autoGenerate, result } = req.body;
+    // Get user id from request
+    const { userId } = req;
 
     // Validate
     if (!resultOfTeam1)
@@ -187,6 +191,10 @@ export const updateScoreById = async (req, res, next) => {
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404);
+
+    // Get user id from request
+    const user = await User.findById(userId).select("-__v -password");
+    if (!user) return sendError(res, "User not found", 404);
 
     // Check if user clock auto generate result
     // Update score
@@ -206,6 +214,37 @@ export const updateScoreById = async (req, res, next) => {
     )
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
+
+    // Find bet by match id and user id
+    const bet = await Bet.where("user")
+      .equals(user._id)
+      .where("match")
+      .equals(match._id)
+      .populate("team user", "-__v -password")
+      .select("-__v")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      });
+
+    // Update win times of user
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        winTimes: bet[0]?.match?.result
+          ? bet[0]?.team?.fullName == bet[0]?.match?.result &&
+            bet[0]?.match?.result !== "Draw"
+            ? user?.winTimes + 1
+            : user?.winTimes
+          : user?.winTimes,
+      },
+      { new: true }
+    );
 
     // Send success notification
     return sendSuccess(res, "Update score successfully!");

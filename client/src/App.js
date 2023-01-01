@@ -27,9 +27,7 @@ axios.defaults.headers.common = `Bearer ${JSON.parse(
 function App() {
   return (
     <div>
-      <Toaster
-        toastOptions={{ className: "font-[calibri] text-[16px] text-center" }}
-      />
+      <Toaster toastOptions={{ className: "font-[calibri] text-[16px]" }} />
 
       <ScrollToTop />
 

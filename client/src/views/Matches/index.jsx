@@ -356,30 +356,18 @@ const Matches = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
-      sorter: (a, b) => {
-        if (a.rate < b.rate) return -1;
-        if (a.rate > b.rate) return 1;
-      },
       render: (text) => <span>0:{formatNumber(text)}</span>,
     },
     {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
-      sorter: (a, b) => {
-        if (a.matchDate < b.matchDate) return -1;
-        if (a.matchDate > b.matchDate) return 1;
-      },
       render: (text) => <span>{formatTime(text)}</span>,
     },
     {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
-      sorter: (a, b) => {
-        if (a.rate < b.rate) return -1;
-        if (a.rate > b.rate) return 1;
-      },
       render: (text, record) => (
         <span>
           {`${record?.team1?.name} [${
@@ -479,7 +467,7 @@ const Matches = () => {
 
             <button
               onClick={() => handleUpdateInfo(record)}
-              disabled={record.result || record.isCanceled}
+              disabled={record.result || record.isCanceled ? true : false}
               className="bg-[#f0ad4e]"
             >
               <BsPencilFill />
