@@ -53,9 +53,11 @@ const MatchUpdateScore = () => {
       } catch ({ response }) {
         // When get failured
         toast.error(response.data.message);
+
+        if (!response.data.success) navigate("/matches");
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   // Check if match had result
   if (match.result) return <Navigate to="/matches" />;

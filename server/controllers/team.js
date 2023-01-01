@@ -182,7 +182,7 @@ export const getTeamById = async (req, res, next) => {
 
     // Check if team not exists
     const team = await Team.findById(id).select("-__v");
-    if (!team) return sendError(res, sendError("Team not found", 404));
+    if (!team) return sendError(res, "Team not found", 404);
 
     // Send notification success
     return sendSuccess(res, "Get team successfully!", team);

@@ -67,9 +67,11 @@ const BetCreate = () => {
       } catch ({ response }) {
         // When get failured
         toast.error(response.data.message);
+
+        if (!response.data.success) navigate("/matches");
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   // Routes for breadcrumbs
   const createBetRoutes = [

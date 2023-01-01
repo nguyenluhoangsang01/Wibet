@@ -3,6 +3,7 @@ import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Match from "../models/match.js";
 import Team from "../models/team.js";
+import Bet from "../models/bet.js";
 
 export const createMatch = async (req, res, next) => {
   try {
@@ -186,6 +187,19 @@ export const updateScoreById = async (req, res, next) => {
     const getMatch = await Match.findById(id)
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
+
+    const bets = await Bet.find()
+      .populate("team user", "-__v -password")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      })
+      .select("-__v");
+    console.log(bets);
 
     // Check if user clock auto generate result
     if (autoGenerate) {

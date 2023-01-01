@@ -59,9 +59,11 @@ const UserUpdate = () => {
       } catch ({ response }) {
         // When get failured
         toast.error(response.data.message);
+
+        if (!response.data.success) navigate("/users");
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [

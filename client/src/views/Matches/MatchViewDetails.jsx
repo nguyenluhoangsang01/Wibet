@@ -54,9 +54,11 @@ const MatchViewDetails = () => {
       } catch ({ response }) {
         // When get failured
         toast.error(response.data.message);
+
+        if (!response.data.success) navigate("/matches");
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   // Breadcrumbs
   const matchViewDetails = [

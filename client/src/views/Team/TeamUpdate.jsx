@@ -62,9 +62,11 @@ const TeamUpdate = () => {
       } catch ({ response }) {
         // When get failured
         toast.error(response.data.message);
+
+        if (!response.data.success) navigate("/teams");
       }
     })();
-  }, [id]);
+  }, [id, navigate]);
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [
