@@ -53,7 +53,7 @@ const Home = () => {
         className="w-full h-full"
       />
 
-      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-52 shadow-2xl max-w-lg mx-auto flex items-center justify-center">
+      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl w-[450px] mx-auto flex items-center justify-center">
         {matches
           .filter(
             (match) =>
@@ -66,13 +66,13 @@ const Home = () => {
             return (
               <div
                 key={match._id}
-                className="font-[calibri] text-center flex flex-col gap-2"
+                className="font-[calibri] text-center flex flex-col gap-2 min-w-[450px] px-4"
               >
                 <p className="text-[#428BCA] font-semibold text-[24px] text-left mb-4">
                   {formatTime(match?.matchDate)}
                 </p>
 
-                <div className="flex items-center gap-8">
+                <div>
                   <div className="flex items-center gap-2">
                     <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
                       <Image
@@ -85,7 +85,7 @@ const Home = () => {
                       {match.team1.fullName}
                     </span>
                   </div>
-                  <span className="mx-2"> - </span>
+
                   <div className="flex items-center gap-2">
                     <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
                       <Image
@@ -102,17 +102,15 @@ const Home = () => {
 
                 <p className="text-base">{match.description}</p>
 
-                <p className="text-base flex items-center justify-around">
-                  <span>
-                    Match starts in {hours.toString().replace("-", "")} hours{" "}
-                  </span>
+                <p className="text-base font-semibold text-[#d2322d]">
+                  Match starts in {hours.toString().replace("-", "")} hours{" "}
+                </p>
 
-                  <span
-                    className="text-sm flex items-center gap-1 cursor-pointer underline transition hover:text-[#428BCA] italic mt-4"
-                    onClick={handleViewAllMatches}
-                  >
-                    View all matches <AiOutlineSwapRight />
-                  </span>
+                <p
+                  className="text-sm flex items-center justify-end cursor-pointer underline transition hover:text-[#428BCA] italic mt-4"
+                  onClick={handleViewAllMatches}
+                >
+                  View all matches <AiOutlineSwapRight />
                 </p>
               </div>
             );
