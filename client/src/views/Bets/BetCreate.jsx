@@ -47,11 +47,15 @@ const BetCreate = () => {
 
   // Map over all bets check if user id in this bet equal with user logged and match id existed in bet
   useEffect(() => {
-    bets.map(
+    bets.some(
       (bet) =>
-        bet.user?._id.includes(user?._id) &&
-        match?._id?.toString() === bet.match?._id &&
-        navigate("/matches")
+        console.log(
+          bet?.user?._id?.toString() === user?._id?.toString(),
+          bet?.match?._id?.toString() === match?._id?.toString()
+        )
+      // bet?.user?._id?.toString() === user?._id?.toString() &&
+      // bet?.match?._id?.toString() === match?._id?.toString() &&
+      // navigate("/matches")
     );
   }, [bets, match?._id, navigate, user?._id]);
 

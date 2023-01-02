@@ -1,6 +1,6 @@
 import { Image } from "antd";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -30,15 +30,17 @@ const Home = () => {
   }, [dispatch]);
 
   // Get Min date
-  const minDate = new Date(
-    Math.min(
-      ...matches
-        .filter((match) => currentDate.isBefore(match.matchDate))
-        .map((match) => {
-          return new Date(match.matchDate);
-        })
-    )
-  );
+  const minDate = useCallback(() => {
+    new Date(
+      Math.min(
+        matches
+          ?.filter((match) => currentDate.isBefore(match?.matchDate))
+          ?.map((match) => {
+            return new Date(match.matchDate);
+          })
+      )
+    );
+  }, [currentDate, matches]);
 
   // Handle view all matches
   const handleViewAllMatches = () => {
@@ -53,7 +55,7 @@ const Home = () => {
         className="w-full h-full"
       />
 
-      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl w-[450px] mx-auto flex items-center justify-center">
+      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center">
         {matches
           .filter(
             (match) =>

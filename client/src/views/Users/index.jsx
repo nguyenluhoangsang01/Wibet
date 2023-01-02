@@ -174,10 +174,6 @@ const Users = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      sorter: (a, b) => {
-        if (a.money < b.money) return -1;
-        if (a.money > b.money) return 1;
-      },
       render: (text) => <span>{text}</span>,
     },
     {

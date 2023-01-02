@@ -84,9 +84,7 @@ const BetViewAll = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      render: (text, record, index) => (
-        <p className="text-center">{index + 1}</p>
-      ),
+      render: (text, record, index) => <span>{index + 1}</span>,
     },
     {
       title: "Username",
@@ -132,10 +130,6 @@ const BetViewAll = () => {
       title: "Result",
       dataIndex: "result",
       key: "result",
-      sorter: (a, b) => {
-        if (a.result < b.result) return -1;
-        if (a.result > b.result) return 1;
-      },
       render: (text) => <span>{text}</span>,
     },
   ];

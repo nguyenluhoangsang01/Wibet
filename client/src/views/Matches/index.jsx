@@ -15,15 +15,16 @@ import Heading from "../../components/Heading";
 import ModalDeleteBet from "../../components/ModalDeleteBet";
 import ModalDeleteMatch from "../../components/ModalDeleteMatch";
 import ModalHideMatch from "../../components/ModalHideMatch";
+import ModalWithdraw from "../../components/ModalWithdraw";
 import NumberOfRows from "../../components/NumberOfRows";
 import { headers, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -57,6 +58,10 @@ const Matches = () => {
     betId: null,
     matchId: null,
   });
+  const [openWithdrawMatch, setOpenWithdrawMatch] = useState(false);
+  const [confirmLoadingWithdrawMatch, setConfirmLoadingWithdrawMatch] =
+    useState(false);
+  const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
   // Initial navigate
   const navigate = useNavigate();
 
@@ -227,8 +232,31 @@ const Matches = () => {
   };
 
   // Handle withdraw
-  const handleWithdraw = () => {
-    console.log("handleWithdraw");
+  const handleWithdraw = (id) => {
+    setOpenWithdrawMatch(true);
+
+    setSelectedBetWithdraw(id);
+  };
+
+  // Handle ok when withdraw match
+  const handleOkWithdrawMatch = async () => {
+    // Set loading button first
+    setConfirmLoadingWithdrawMatch(true);
+
+    console.log(selectedBetWithdraw);
+
+    try {
+      // const res = await axios.patch(`/bet/${}`)
+
+      setConfirmLoadingWithdrawMatch(false);
+    } catch (error) {
+      setConfirmLoadingWithdrawMatch(false);
+    }
+  };
+
+  // Handle cancel when withdraw match
+  const handleCancelWithdrawMatch = () => {
+    setOpenWithdrawMatch(false);
   };
 
   // Handle delete bet
@@ -389,43 +417,44 @@ const Matches = () => {
       render: (text, record) => (
         <div className="flex items-center justify-center">
           <div>
-            {record.statusOfTeam1 === 0 && record.statusOfTeam2 === 0 ? (
-              <button
-                onClick={() => handleBet(record)}
-                className="bg-[#28a745] flex items-center justify-center rounded-full py-[3px] px-[10px] gap-1"
-              >
-                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                  Bet Now
-                </span>{" "}
-                <FaShare className="text-white text-[16px]" />
-              </button>
-            ) : (
-              <div>
-                {bets
-                  ?.filter(
-                    (bet) =>
-                      bet?.match?._id === record?._id &&
-                      bet?.user?._id === user?._id
-                  )
-                  .map((bet) => (
-                    <div
-                      className="flex items-center divide-x-2 gap-"
-                      key={bet._id}
-                    >
-                      <div className="flex items-center gap-1">
-                        <span className="text-[18px] font-[calibri]">
-                          {bet.team.name}
-                        </span>
-                        <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
-                          {bet.money}p
-                        </span>
-                      </div>
+            <button
+              onClick={() => handleBet(record)}
+              className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
+            >
+              <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                Bet Now
+              </span>{" "}
+              <FaShare className="text-white text-[14px]" />
+            </button>
 
+            <div>
+              {bets
+                ?.filter(
+                  (bet) =>
+                    bet?.match?._id === record?._id &&
+                    bet?.user?._id === user?._id
+                )
+                .map((bet) => (
+                  <div
+                    className="flex items-center divide-x-2 gap-"
+                    key={bet._id}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span className="text-[18px] font-[calibri]">
+                        {bet.team.name}
+                      </span>
+                      <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
+                        {bet.money}p
+                      </span>
+                    </div>
+
+                    {!record.isCanceled && !record.result && (
                       <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
                         <BsPencilFill
                           onClick={handleUpdateBet}
                           className="cursor-pointer"
                         />
+
                         <CgClose
                           onClick={() =>
                             handleDeleteBet({
@@ -436,10 +465,10 @@ const Matches = () => {
                           className="cursor-pointer"
                         />
                       </div>
-                    </div>
-                  ))}
-              </div>
-            )}
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       ),
@@ -502,14 +531,12 @@ const Matches = () => {
               {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
             </button>
 
-            {!record.result && !record.isCanceled && (
-              <button
-                onClick={() => handleWithdraw(record)}
-                className="bg-[#d2322d]"
-              >
-                <BsCloudMinusFill />
-              </button>
-            )}
+            <button
+              onClick={() => handleWithdraw(record._id)}
+              className="bg-[#d2322d]"
+            >
+              <BsCloudMinusFill />
+            </button>
           </div>
         ),
     },
@@ -576,6 +603,14 @@ const Matches = () => {
         confirmLoading={confirmLoadingDeleteBet}
         handleOk={handleOkDeleteBet}
         handleCancel={handleCancelDeleteBet}
+      />
+
+      {/* Withdraw Bet Modal */}
+      <ModalWithdraw
+        open={openWithdrawMatch}
+        confirmLoading={confirmLoadingWithdrawMatch}
+        handleOk={handleOkWithdrawMatch}
+        handleCancel={handleCancelWithdrawMatch}
       />
     </div>
   );

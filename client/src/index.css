@@ -84,7 +84,7 @@ button:disabled {
   @apply cursor-not-allowed opacity-50;
 }
 
-.disabled-row {
+.disabled-row .ant-table-cell:nth-child(-n + 10) {
   @apply opacity-20;
 }
 
@@ -105,4 +105,12 @@ button:disabled {
 
 .ant-picker-dropdown table > tbody > tr:nth-child(odd) {
   @apply !bg-[#fff];
+}
+
+.ant-image-preview-img-wrapper {
+  @apply flex items-center justify-center;
+}
+
+.ant-image-preview-img {
+  @apply w-[900px] h-[600px];
 }

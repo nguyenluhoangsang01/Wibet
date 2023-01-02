@@ -1,9 +1,16 @@
 import axios from "axios";
 import { lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from "react-hot-toast";
-import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import ErrorFallback from "./components/ErrorFallback";
 import ScrollToTop from "./components/ScrollToTop";
 import { routes } from "./constants";
+import { getAllBetsReducerAsync } from "./state/betSlice";
+import { getAllMatchesReducerAsync } from "./state/matchSlice";
+import { getAllTeamsReducerAsync } from "./state/teamSlice";
+import { selectUser } from "./state/userSlice";
 import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
 
@@ -25,8 +32,24 @@ axios.defaults.headers.common = `Bearer ${JSON.parse(
 )?.accessToken?.replaceAll('"', "")}`;
 
 function App() {
+  // Initial dispatch
+  const dispatch = useDispatch();
+  // Get user logged from global state
+  const { user } = useSelector(selectUser);
+  // Initial navigate
+  const navigate = useNavigate();
+
   return (
-    <div>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        if (!user) navigate("/login");
+
+        dispatch(getAllTeamsReducerAsync());
+        dispatch(getAllMatchesReducerAsync());
+        dispatch(getAllBetsReducerAsync());
+      }}
+    >
       <Toaster toastOptions={{ className: "font-[calibri] text-[16px]" }} />
 
       <ScrollToTop />
@@ -78,7 +101,7 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-    </div>
+    </ErrorBoundary>
   );
 }
 

@@ -1,6 +1,7 @@
 import { Image, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import { BsPencilFill, BsTrashFill } from "react-icons/bs";
+import { BsPencilFill } from "react-icons/bs";
+import { CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -10,9 +11,9 @@ import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-  deleteTeamReducerAsync,
-  getAllTeamsReducerAsync,
-  selectTeam,
+	deleteTeamReducerAsync,
+	getAllTeamsReducerAsync,
+	selectTeam
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -117,20 +118,12 @@ const Team = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-      },
       render: (text) => <span>{text}</span>,
     },
     {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      sorter: (a, b) => {
-        if (a.fullName < b.fullName) return -1;
-        if (a.fullName > b.fullName) return 1;
-      },
       render: (text) => <span>{text}</span>,
     },
     {
@@ -142,7 +135,6 @@ const Team = () => {
           <Image
             src={text}
             width={50}
-            preview={false}
             alt={record.fullName}
             className="shadow-xl"
           />
@@ -153,7 +145,7 @@ const Team = () => {
       title: "",
       dataIndex: "actions",
       render: (text, record) => (
-        <div>
+        <div className="flex items-center justify-center">
           <button
             onClick={() => handleUpdateTeam(record)}
             className="bg-[#f0ad4e] border-[#eea236]"
@@ -165,7 +157,7 @@ const Team = () => {
             onClick={() => handleDeleteTeam(record._id, record.fullName)}
             className="bg-[#d9534f] border-[#d43f3a]"
           >
-            <BsTrashFill />
+            <CgClose />
           </button>
         </div>
       ),
