@@ -42,9 +42,9 @@ router.get("/:matchId/match", verifyToken, getBetByMatchId);
 // @access Private
 router.get("/", verifyToken, getAllBets);
 
-// @route PATCH api/bet/:betId
+// @route PATCH api/bet/:matchId
 // @desc Update money of user when withdraw
 // @access Private
-router.patch("/:betId", verifyToken, withdrawMoney);
+router.patch("/:matchId", verifyToken, withdrawMoney);
 
 export default router;

@@ -69,11 +69,13 @@ export const createBetById = async (req, res, next) => {
       {
         ...req.body,
         statusOfTeam1:
-          match.team1._id.toString() === team.toString() &&
-          match.statusOfTeam1 + money,
+          match.team1._id.toString() === team.toString()
+            ? match.statusOfTeam1 + money
+            : match.statusOfTeam1,
         statusOfTeam2:
-          match.team2._id.toString() === team.toString() &&
-          match.statusOfTeam2 + money,
+          match.team2._id.toString() === team.toString()
+            ? match.statusOfTeam2 + money
+            : match.statusOfTeam2,
       },
       { new: true }
     );
@@ -83,6 +85,7 @@ export const createBetById = async (req, res, next) => {
       ...req.body,
       user: userId,
       match: matchId,
+      betTime: moment().format("HH:mm:ss - yyyy/MM/DD"),
     });
     await newBet.save();
 
@@ -338,56 +341,115 @@ export const getAllBets = async (req, res, next) => {
   }
 };
 
+// export const withdrawMoney = async (req, res, next) => {
+//   try {
+//     // Get user id from request
+//     const { userId } = req;
+//     // Get bet id from request params
+//     const { betId } = req.params;
+
+//     // Get bet by id and get user by id. Check if user logged not equal
+//     // Check if bet and user not found
+//     const findBet = await Bet.findById(betId)
+//       .populate("team user", "-__v -password")
+//       .select("-__v")
+//       .populate({
+//         path: "match",
+//         populate: {
+//           path: "team1 team2",
+//           select: "name fullName flag",
+//         },
+//         select: "-__v",
+//       });
+//     if (!findBet) return sendError(res, "Bet not found", 404);
+
+//     const findUser = await User.findById(userId).select("-__v -password");
+//     if (!findUser) return sendError(res, "User not found", 404);
+
+//     if (findBet.user.email.toString() !== findUser.email.toString())
+//       return sendError(res, "Can only withdraw your own money.");
+//     // ********
+
+//     // Get match id from bet selected and set isCanceled to true
+//     await Match.findByIdAndUpdate(
+//       findBet.match._id,
+//       {
+//         ...req.body,
+//         isCanceled: true,
+//       },
+//       { new: true }
+//     );
+
+//     // After check
+//     // Get bet by id and delete it
+//     const bet = await Bet.findByIdAndDelete(betId)
+//       .populate("team user", "-__v -password")
+//       .select("-__v")
+//       .populate({
+//         path: "match",
+//         populate: {
+//           path: "team1 team2",
+//           select: "name fullName flag",
+//         },
+//         select: "-__v",
+//       });
+
+//     // Get user by id and withdraw money betted
+//     const user = await User.findByIdAndUpdate(
+//       userId,
+//       {
+//         ...req.body,
+//         money: Number(bet.money) + Number(bet.user.money),
+//       },
+//       { new: true }
+//     ).select("-__v -password");
+
+//     // Send success notification
+//     return sendSuccess(res, "Withdraw and delete bet successfully!", user);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 export const withdrawMoney = async (req, res, next) => {
   try {
-    // Get bet id from request params
-    const { betId } = req.params;
+    // Get match id from request params
+    // const { matchId } = req.params;
     // Get user id from request
-    const { userId } = req;
+    // const { userId } = req;
 
-    // Check if bet and user not found and check
-    const findBet = await Bet.findById(betId)
-      .populate("team user", "-__v -password")
-      .select("-__v")
-      .populate({
-        path: "match",
-        populate: {
-          path: "team1 team2",
-          select: "name fullName flag",
-        },
-        select: "-__v",
-      });
-    const findUser = await User.findById(userId);
-    if (!findBet) return sendError(res, "Bet not found", 404);
-    if (!findUser) return sendError(res, "User not found", 404);
-    if (findBet.user.email.toString() !== findUser.email.toString())
-      return sendError(res, "Can only withdraw your own money.");
+    // Get match by id
+    // const match = await Match.findById(matchId)
+    //   .populate("team1 team2", "fullName flag name")
+    //   .select("-__v");
+    // if (!match) return sendError(res, "Match not found", 404);
+    // if (match.result)
+    //   return sendError(res, "The match is over, cannot withdraw");
 
-    // Get bet by id and delete it
-    const bet = await Bet.findByIdAndDelete(betId)
-      .populate("team user", "-__v -password")
-      .select("-__v")
-      .populate({
-        path: "match",
-        populate: {
-          path: "team1 team2",
-          select: "name fullName flag",
-        },
-        select: "-__v",
-      });
+    // Get user by id
+    // const user = await User.findById(userId).select("-__v -password");
+    // if (!user) return sendError(res, "User not found", 404);
 
-    // Get user by id and withdraw money betted
-    const user = await User.findByIdAndUpdate(
-      userId,
-      {
-        ...req.body,
-        money: Number(bet.money) + Number(bet.user.money),
-      },
-      { new: true }
-    ).select("-__v -password");
+    // Update match to canceled when user withdraw all money from all bets
+    // await Match.findByIdAndUpdate(
+    //   matchId,
+    //   {
+    //     isCanceled: true,
+    //     statusOfTeam1: 0,
+    //     statusOfTeam2: 0,
+    //   },
+    //   { new: true }
+    // );
+
+    // Find all bet have same match id
+
+    // // Update user
+    // await User.findByIdAndUpdate(userId, {
+    // 	money: match.isCanceled ? user.money + bet
+    // }, {new:true});
 
     // Send success notification
-    return sendSuccess(res, "Withdraw and delete bet successfully!", user);
+    return sendSuccess(res, "Withdraw successfully!");
   } catch (error) {
     next(error);
   }

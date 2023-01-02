@@ -82,6 +82,9 @@ export const deleteMatchById = async (req, res, next) => {
     // Check if match not found
     if (!match) return sendError(res, "Match not found", 404);
 
+    // Find bets by match id and delete
+    await Bet.deleteMany({ match: match._id });
+
     // Get all matches after delete match
     const matches = await Match.find()
       .populate("team1 team2", "fullName flag name")

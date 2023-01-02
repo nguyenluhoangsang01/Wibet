@@ -21,6 +21,7 @@ const betSchema = new Schema(
       type: Number,
       default: 50,
     },
+    betTime: String,
   },
   { timestamps: true }
 );
