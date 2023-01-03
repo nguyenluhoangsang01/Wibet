@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  createUser,
-  deleteUserById,
-  getAllUsers,
-  getUserById,
-  login,
-  logout,
-  updatePassword,
-  updateUser,
-  updateUserById,
+	createUser,
+	deleteUserById,
+	getAllUsers,
+	getUserById,
+	login,
+	logout,
+	updatePassword,
+	updateUser,
+	updateUserById
 } from "../controllers/user.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -22,7 +22,7 @@ router.get("/", verifyToken, getAllUsers);
 // @route GET api/user/logout
 // @desc Logout user
 // @access Public
-router.get("/logout", verifyToken, logout);
+router.get("/logout", logout);
 
 // @route GET api/user/:id
 // @desc Get user

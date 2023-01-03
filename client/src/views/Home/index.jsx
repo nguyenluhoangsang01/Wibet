@@ -50,8 +50,8 @@ const Home = () => {
         className="w-full h-full"
       />
 
-      <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center">
-        {/* {matches
+      {/* <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center"> */}
+      {/* {matches
           ?.filter(
             (match) =>
               moment(match.matchDate).date() === moment(minDate).date() &&
@@ -112,7 +112,7 @@ const Home = () => {
               </div>
             );
           })} */}
-      </div>
+      {/* </div> */}
     </div>
   );
 };

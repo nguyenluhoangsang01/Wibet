@@ -7,8 +7,8 @@ import CommentList from "../../components/CommentList";
 import Editor from "../../components/Editor";
 import { capitalize } from "../../helper";
 import {
-  getAllCommentsReducerAsync,
-  selectComment,
+	getAllCommentsReducerAsync,
+	selectComment
 } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -20,7 +20,7 @@ const Comments = () => {
   // Get comments from global state
   const { comments } = useSelector(selectComment);
   // Get user from global state
-  const { user, accessToken } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   // Initial state
   const [isShowAllComments, setIsShowAllComments] = useState(false);
   const navigate = useNavigate();
@@ -32,8 +32,8 @@ const Comments = () => {
 
   // Get all comments
   useEffect(() => {
-    dispatch(getAllCommentsReducerAsync(accessToken));
-  }, [accessToken, dispatch]);
+    dispatch(getAllCommentsReducerAsync());
+  }, [dispatch]);
 
   // Handle login
   const handleLogin = () => {

@@ -47,7 +47,7 @@ function App() {
         if (!user) navigate("/login");
 
         dispatch(getAllMatchesReducerAsync(accessToken));
-        dispatch(getAllCommentsReducerAsync(accessToken));
+        dispatch(getAllCommentsReducerAsync());
         dispatch(getAllUsersReducerAsync(accessToken));
         dispatch(getAllTeamsReducerAsync(accessToken));
         dispatch(getAllBetsReducerAsync(accessToken));

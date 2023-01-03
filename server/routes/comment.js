@@ -1,10 +1,10 @@
 import express from "express";
 import multer from "multer";
 import {
-	createComment,
-	deleteCommentById,
-	getAllComments,
-	updateCommentById
+  createComment,
+  deleteCommentById,
+  getAllComments,
+  updateCommentById,
 } from "../controllers/comment.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -20,8 +20,8 @@ router.post("/", verifyToken, upload.single("image"), createComment);
 
 // @route GET api/comment
 // @desc Get all comments
-// @access Private
-router.get("/", verifyToken, getAllComments);
+// @access Public
+router.get("/", getAllComments);
 
 // @route DELETE api/comment/:id
 // @desc Delete a comment

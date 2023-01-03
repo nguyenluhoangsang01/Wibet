@@ -33,7 +33,7 @@ const Editor = () => {
       );
 
       if (res.data) {
-        dispatch(getAllCommentsReducerAsync(accessToken));
+        dispatch(getAllCommentsReducerAsync());
 
         // Reset form
         form.current.resetFields();

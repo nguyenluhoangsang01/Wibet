@@ -46,7 +46,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
       });
 
       if (res.data) {
-        dispatch(getAllCommentsReducerAsync(accessToken));
+        dispatch(getAllCommentsReducerAsync());
 
         // Set loading to false after delete
         setConfirmLoading(false);
