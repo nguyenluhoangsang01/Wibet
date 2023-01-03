@@ -86,6 +86,7 @@ export const createBetById = async (req, res, next) => {
         ...req.body,
         money: Number(user.money) - money,
         betTimes: user.betTimes + 1,
+        betMoney: user.betMoney + money,
       },
       { new: true }
     );

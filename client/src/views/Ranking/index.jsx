@@ -96,7 +96,7 @@ const Ranking = () => {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text, record) => <span>{record.money}</span>,
+      render: (text, record) => <span>{record.money + record.betMoney}</span>,
     },
     {
       title: "",
