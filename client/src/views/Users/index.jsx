@@ -21,7 +21,7 @@ const Users = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user, users, is show history form global state
-  const { user, users, isShowHistory } = useSelector(selectUser);
+  const { user, users, isShowHistory, accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -41,8 +41,8 @@ const Users = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllUsersReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Check if user not exists
   useEffect(() => {
@@ -72,7 +72,7 @@ const Users = () => {
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteUserReducerAsync(deleteUser._id));
+      await dispatch(deleteUserReducerAsync(accessToken, deleteUser._id));
 
       // After delete successfully hide modal
       setOpen(false);

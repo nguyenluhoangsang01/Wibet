@@ -2,10 +2,12 @@ import { Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { headers } from "../../constants";
+import { headers } from "../../helper";
+import { selectUser } from "../../state/userSlice";
 
 const RankingViewDetails = () => {
   // Get id from request params
@@ -14,6 +16,8 @@ const RankingViewDetails = () => {
   const navigate = useNavigate();
   // Initial state
   const [bets, setBets] = useState([]);
+  // Get accessToken from global state
+  const { accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -24,7 +28,9 @@ const RankingViewDetails = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/bet/${id}`, { headers });
+        const { data } = await axios.get(`/bet/${id}`, {
+          headers: headers(accessToken),
+        });
 
         if (data) {
           setBets(data.data.bets);
@@ -40,7 +46,7 @@ const RankingViewDetails = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   console.log(bets);
 

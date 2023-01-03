@@ -7,8 +7,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { headers } from "../../constants";
-import { capitalize } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import { selectUser } from "../../state/userSlice";
 
 const MatchUpdateScore = () => {
@@ -22,7 +21,7 @@ const MatchUpdateScore = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
 
   // Check if user not exists
   useEffect(() => {
@@ -45,7 +44,9 @@ const MatchUpdateScore = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/match/${id}`, { headers });
+        const { data } = await axios.get(`/match/${id}`, {
+          headers: headers(accessToken),
+        });
 
         if (data) {
           setMatch(data.data);
@@ -61,7 +62,7 @@ const MatchUpdateScore = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Check if match had result
   if (match.result) return <Navigate to="/matches" />;
@@ -95,7 +96,7 @@ const MatchUpdateScore = () => {
       const { data } = await axios.patch(
         `/match/${match?._id}/score`,
         { ...values },
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       // Send success notification

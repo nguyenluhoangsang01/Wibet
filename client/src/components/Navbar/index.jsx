@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ const Navbar = () => {
   // Handle logout
   const handleLogout = async () => {
     // Dispatch log out reducer async action
-    await dispatch(logoutReducerAsync());
+    await dispatch(logoutReducerAsync(accessToken));
 
     // After dispatch finish set account dropdown to false
     setIsClicked(false);

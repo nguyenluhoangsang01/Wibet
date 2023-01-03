@@ -6,8 +6,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { headers } from "../../constants";
-import { capitalize } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
@@ -22,7 +21,7 @@ const BetCreate = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Get all bets from global state
   const {
     bets: { bets },
@@ -59,7 +58,9 @@ const BetCreate = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/match/${id}`, { headers });
+        const { data } = await axios.get(`/match/${id}`, {
+          headers: headers(accessToken),
+        });
 
         if (data) {
           setMatch(data.data);
@@ -75,7 +76,7 @@ const BetCreate = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Routes for breadcrumbs
   const createBetRoutes = [
@@ -103,7 +104,7 @@ const BetCreate = () => {
       const res = await axios.post(
         `/bet/${match._id}`,
         { ...values },
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       if (res.data) {

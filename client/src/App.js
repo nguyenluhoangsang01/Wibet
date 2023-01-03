@@ -46,11 +46,11 @@ function App() {
       onReset={() => {
         if (!user) navigate("/login");
 
-        dispatch(getAllMatchesReducerAsync());
-        dispatch(getAllCommentsReducerAsync());
-        dispatch(getAllUsersReducerAsync());
-        dispatch(getAllTeamsReducerAsync());
-        dispatch(getAllBetsReducerAsync());
+        dispatch(getAllMatchesReducerAsync(accessToken));
+        dispatch(getAllCommentsReducerAsync(accessToken));
+        dispatch(getAllUsersReducerAsync(accessToken));
+        dispatch(getAllTeamsReducerAsync(accessToken));
+        dispatch(getAllBetsReducerAsync(accessToken));
       }}
     >
       <Toaster toastOptions={{ className: "font-[calibri] text-[16px]" }} />

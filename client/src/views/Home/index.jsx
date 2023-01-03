@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "../../helper";
 import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
+import { selectUser } from "../../state/userSlice";
 
 const Home = () => {
   // Get all matches from global state
@@ -18,6 +19,8 @@ const Home = () => {
   const currentDate = moment(new Date());
   // Initial navigate
   const navigate = useNavigate();
+  // Initial state
+  const { accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -26,8 +29,8 @@ const Home = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllMatchesReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Get Min date
   const minDate = useCallback(() => {

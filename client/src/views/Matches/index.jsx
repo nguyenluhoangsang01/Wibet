@@ -17,14 +17,14 @@ import ModalDeleteMatch from "../../components/ModalDeleteMatch";
 import ModalHideMatch from "../../components/ModalHideMatch";
 import ModalWithdraw from "../../components/ModalWithdraw";
 import NumberOfRows from "../../components/NumberOfRows";
-import { headers, matchesRoutes } from "../../constants";
-import { capitalize, formatNumber, formatTime } from "../../helper";
+import { matchesRoutes } from "../../constants";
+import { capitalize, formatNumber, formatTime, headers } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-  deleteMatchReducerAsync,
-  getAllMatchesReducer,
-  getAllMatchesReducerAsync,
-  selectMatch,
+	deleteMatchReducerAsync,
+	getAllMatchesReducer,
+	getAllMatchesReducerAsync,
+	selectMatch
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -32,7 +32,7 @@ const Matches = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user form global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Get all matches form global state
   const { matches } = useSelector(selectMatch);
   // Get all bets from global state
@@ -67,13 +67,13 @@ const Matches = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllMatchesReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Get all bets
   useEffect(() => {
-    dispatch(getAllBetsReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllBetsReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Set title
   useEffect(() => {
@@ -140,7 +140,7 @@ const Matches = () => {
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteMatchReducerAsync(deleteMatch._id));
+      await dispatch(deleteMatchReducerAsync(accessToken, deleteMatch._id));
 
       // After set loading to false
       setConfirmLoading(false);
@@ -183,7 +183,7 @@ const Matches = () => {
             ...record,
             isShow: false,
           },
-          { headers }
+          { headers: headers(accessToken) }
         );
         if (res.data) {
           dispatch(getAllMatchesReducer(res.data));
@@ -200,7 +200,7 @@ const Matches = () => {
             ...record,
             isShow: true,
           },
-          { headers }
+          { headers: headers(accessToken) }
         );
         if (res.data) {
           dispatch(getAllMatchesReducer(res.data));
@@ -281,13 +281,13 @@ const Matches = () => {
     try {
       const res = await axios.delete(
         `/bet/${selectedBet.betId}/${selectedBet.matchId}`,
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       if (res.data) {
-        await dispatch(getAllBetsReducerAsync());
+        await dispatch(getAllBetsReducerAsync(accessToken));
 
-        await dispatch(getAllMatchesReducerAsync());
+        await dispatch(getAllMatchesReducerAsync(accessToken));
 
         await dispatch(updateUserAfterDeleteBet(res.data));
       }

@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { headers } from "../../constants";
-import { capitalize, formatTime } from "../../helper";
+import { capitalize, formatTime, headers } from "../../helper";
 import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserViewDetails = () => {
@@ -23,6 +22,7 @@ const UserViewDetails = () => {
   const dispatch = useDispatch();
   // Get user logged
   const userLogged = useSelector(selectUser);
+  const { accessToken } = useSelector(selectUser);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -43,7 +43,9 @@ const UserViewDetails = () => {
     (async () => {
       try {
         // Get user by id
-        const { data } = await axios.get(`/user/${id}`, { headers });
+        const { data } = await axios.get(`/user/${id}`, {
+          headers: headers(accessToken),
+        });
 
         // Set data
         setUser(data.data);
@@ -58,7 +60,7 @@ const UserViewDetails = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Breadcrumbs
   const userViewDetailsRules = [
@@ -96,7 +98,7 @@ const UserViewDetails = () => {
     setConfirmLoading(true);
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteUserReducerAsync(user._id));
+      await dispatch(deleteUserReducerAsync(accessToken, user._id));
 
       // After delete successfully hide modal
       setOpen(false);

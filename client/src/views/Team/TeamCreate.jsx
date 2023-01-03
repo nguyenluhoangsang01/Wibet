@@ -8,7 +8,8 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Dropzone from "../../components/Dropzone";
 import Heading from "../../components/Heading";
 import RenderFile from "../../components/RenderFile";
-import { createTeamRoutes, headersFormData } from "../../constants";
+import { createTeamRoutes } from "../../constants";
+import { headersWithMultipartFormData } from "../../helper";
 import { updateTeamReducer } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -48,7 +49,7 @@ const TeamCreate = () => {
       const res = await axios.post(
         `/team`,
         { ...values, image: file },
-        { headers: headersFormData }
+        { headers: headersWithMultipartFormData }
       );
 
       // Check if data is exists

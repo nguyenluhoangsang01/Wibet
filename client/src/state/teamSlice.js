@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { headers } from "../constants";
+import { headers } from "../helper";
 
 const initialState = {
   teams: [],
@@ -29,9 +29,9 @@ export const teamSlice = createSlice({
   },
 });
 
-export const getAllTeamsReducerAsync = () => async (dispatch) => {
+export const getAllTeamsReducerAsync = (accessToken) => async (dispatch) => {
   try {
-    const res = await axios.get(`/team`, { headers });
+    const res = await axios.get(`/team`, { headers: headers(accessToken) });
 
     if (res.data) {
       dispatch(getAllTeamsReducer(res.data));
@@ -43,19 +43,22 @@ export const getAllTeamsReducerAsync = () => async (dispatch) => {
   }
 };
 
-export const deleteTeamReducerAsync = (_id) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`/team/${_id}`, { headers });
+export const deleteTeamReducerAsync =
+  (accessToken, _id) => async (dispatch) => {
+    try {
+      const res = await axios.delete(`/team/${_id}`, {
+        headers: headers(accessToken),
+      });
 
-    if (res.data) {
-      dispatch(updateTeamReducer(res.data));
+      if (res.data) {
+        dispatch(updateTeamReducer(res.data));
+      }
+    } catch ({ response }) {
+      if (response.data) {
+        dispatch(updateTeamReducer(response.data));
+      }
     }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(updateTeamReducer(response.data));
-    }
-  }
-};
+  };
 
 export const selectTeam = (state) => state.team;
 export const { getAllTeamsReducer, updateTeamReducer } = teamSlice.actions;

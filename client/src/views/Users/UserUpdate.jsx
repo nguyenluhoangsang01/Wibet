@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { headers, ROLES, STATUS } from "../../constants";
-import { capitalize } from "../../helper";
+import { ROLES, STATUS } from "../../constants";
+import { capitalize, headers } from "../../helper";
 import { selectUser } from "../../state/userSlice";
 
 const UserUpdate = () => {
@@ -25,6 +25,7 @@ const UserUpdate = () => {
   const form = useRef(null);
   // Get user logged
   const userLogged = useSelector(selectUser);
+  const { accessToken } = useSelector(selectUser);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -46,7 +47,9 @@ const UserUpdate = () => {
     (async () => {
       try {
         // Get user by id with get method
-        const { data } = await axios.get(`/user/${id}`, { headers });
+        const { data } = await axios.get(`/user/${id}`, {
+          headers: headers(accessToken),
+        });
 
         // Check if data exists
         if (data) {
@@ -57,7 +60,7 @@ const UserUpdate = () => {
           form.current.resetFields();
         }
       } catch ({ response }) {
-				if (response.status === 500) {
+        if (response.status === 500) {
           navigate("/users");
         } else if (!response.data.success) {
           // When get failured
@@ -67,7 +70,7 @@ const UserUpdate = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [
@@ -98,7 +101,7 @@ const UserUpdate = () => {
       const { data } = await axios.patch(
         `/user/${user._id}`,
         { ...values, status, roleID },
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       // After set is finish to false

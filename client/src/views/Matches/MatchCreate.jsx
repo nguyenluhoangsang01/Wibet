@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { createMatchRoutes, headers } from "../../constants";
+import { createMatchRoutes } from "../../constants";
+import { headers } from "../../helper";
 import { updateMatchReducer } from "../../state/matchSlice";
 import { selectTeam } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
@@ -27,7 +28,7 @@ const MatchCreate = () => {
     teams: { teams },
   } = useSelector(selectTeam);
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -51,7 +52,11 @@ const MatchCreate = () => {
 
     try {
       // Use post method to create a new match
-      const res = await axios.post(`/match`, { ...values }, { headers });
+      const res = await axios.post(
+        `/match`,
+        { ...values },
+        { headers: headers(accessToken) }
+      );
 
       if (res.data) {
         // Dispatch actions to update all matches

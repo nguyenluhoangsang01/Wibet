@@ -22,7 +22,7 @@ router.get("/", verifyToken, getAllUsers);
 // @route GET api/user/logout
 // @desc Logout user
 // @access Public
-router.get("/logout", logout);
+router.get("/logout", verifyToken, logout);
 
 // @route GET api/user/:id
 // @desc Get user

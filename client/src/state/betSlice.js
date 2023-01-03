@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { headers } from "../constants";
+import { headers } from "../helper";
 
 const initialState = {
   bets: [],
@@ -18,9 +18,9 @@ export const betSlice = createSlice({
   },
 });
 
-export const getAllBetsReducerAsync = () => async (dispatch) => {
+export const getAllBetsReducerAsync = (accessToken) => async (dispatch) => {
   try {
-    const res = await axios.get("/bet", { headers });
+    const res = await axios.get("/bet", { headers: headers(accessToken) });
 
     if (res.data) {
       dispatch(getAllBetsReducer(res.data));

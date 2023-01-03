@@ -9,7 +9,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Dropzone from "../../components/Dropzone";
 import Heading from "../../components/Heading";
 import RenderFile from "../../components/RenderFile";
-import { headers, headersFormData } from "../../constants";
+import { headers, headersWithMultipartFormData } from "../../helper";
 import { updateTeamReducer } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -25,7 +25,7 @@ const TeamUpdate = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
 
@@ -49,7 +49,9 @@ const TeamUpdate = () => {
     (async () => {
       try {
         // Get match by id with get method
-        const { data } = await axios.get(`/team/${id}`, { headers });
+        const { data } = await axios.get(`/team/${id}`, {
+          headers: headers(accessToken),
+        });
 
         // Check if data exists
         if (data) {
@@ -70,7 +72,7 @@ const TeamUpdate = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [
@@ -102,7 +104,7 @@ const TeamUpdate = () => {
       const res = await axios.patch(
         `/team/${team._id}`,
         { ...values, image: file },
-        { headers: headersFormData }
+        { headers: headersWithMultipartFormData }
       );
 
       // Check if data is exists

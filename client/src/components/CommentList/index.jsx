@@ -4,8 +4,7 @@ import { toast } from "react-hot-toast";
 import { BsFillTrashFill } from "react-icons/bs";
 import { GiTimeBomb } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { headers } from "../../constants";
-import { formatTime } from "../../helper";
+import { formatTime, headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 import ModalDeleteComment from "../ModalDeleteComment";
@@ -19,7 +18,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -43,11 +42,11 @@ const CommentList = ({ comments, isShowAllComments }) => {
     try {
       // Delete comment
       const res = await axios.delete(`/comment/${selectedComment}`, {
-        headers,
+        headers: headers(accessToken),
       });
 
       if (res.data) {
-        dispatch(getAllCommentsReducerAsync());
+        dispatch(getAllCommentsReducerAsync(accessToken));
 
         // Set loading to false after delete
         setConfirmLoading(false);

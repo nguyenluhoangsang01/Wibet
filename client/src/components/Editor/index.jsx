@@ -5,13 +5,13 @@ import React, { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { headers } from "../../constants";
+import { headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Editor = () => {
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   // Initial dispatch
@@ -26,10 +26,14 @@ const Editor = () => {
 
     try {
       // Create new comment
-      const res = await axios.post(`/comment`, { ...values }, { headers });
+      const res = await axios.post(
+        `/comment`,
+        { ...values },
+        { headers: headers(accessToken) }
+      );
 
       if (res.data) {
-        dispatch(getAllCommentsReducerAsync());
+        dispatch(getAllCommentsReducerAsync(accessToken));
 
         // Reset form
         form.current.resetFields();

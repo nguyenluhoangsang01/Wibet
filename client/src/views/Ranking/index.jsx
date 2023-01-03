@@ -14,7 +14,7 @@ const Ranking = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user form global state
-  const { users, isShowHistory } = useSelector(selectUser);
+  const { users, isShowHistory, accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -27,8 +27,8 @@ const Ranking = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllUsersReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Handle tracking
   const handleTracking = async (id) => {

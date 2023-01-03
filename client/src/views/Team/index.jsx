@@ -11,9 +11,9 @@ import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-	deleteTeamReducerAsync,
-	getAllTeamsReducerAsync,
-	selectTeam
+  deleteTeamReducerAsync,
+  getAllTeamsReducerAsync,
+  selectTeam,
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -23,7 +23,7 @@ const Team = () => {
   // Get teams from global state
   const { teams } = useSelector(selectTeam);
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -40,8 +40,8 @@ const Team = () => {
 
   // Get all teams
   useEffect(() => {
-    dispatch(getAllTeamsReducerAsync());
-  }, [dispatch]);
+    dispatch(getAllTeamsReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Check if user not exists
   useEffect(() => {
@@ -60,7 +60,7 @@ const Team = () => {
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteTeamReducerAsync(deleteTeam._id));
+      await dispatch(deleteTeamReducerAsync(accessToken, deleteTeam._id));
 
       // After delete successfully hide modal
       setOpen(false);

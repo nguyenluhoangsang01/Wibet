@@ -5,8 +5,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { headers } from "../../constants";
-import { capitalize, formatTime } from "../../helper";
+import { capitalize, formatTime, headers } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -23,7 +22,7 @@ const MatchViewDetails = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
 
   // Check if user not exists
   useEffect(() => {
@@ -46,7 +45,9 @@ const MatchViewDetails = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/match/${id}`, { headers });
+        const { data } = await axios.get(`/match/${id}`, {
+          headers: headers(accessToken),
+        });
 
         if (data) {
           setMatch(data.data);
@@ -62,7 +63,7 @@ const MatchViewDetails = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Breadcrumbs
   const matchViewDetails = [
@@ -93,7 +94,7 @@ const MatchViewDetails = () => {
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteMatchReducerAsync(match._id));
+      await dispatch(deleteMatchReducerAsync(accessToken, match._id));
 
       // After set loading to false
       setConfirmLoading(false);

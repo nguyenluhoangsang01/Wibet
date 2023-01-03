@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { headers } from "../constants";
+import { headers } from "../helper";
 
 const initialState = {
   comments: [],
@@ -18,9 +18,11 @@ export const commentSlice = createSlice({
   },
 });
 
-export const getAllCommentsReducerAsync = () => async (dispatch) => {
+export const getAllCommentsReducerAsync = (accessToken) => async (dispatch) => {
   try {
-    const { data } = await axios.get("/comment", { headers });
+    const { data } = await axios.get("/comment", {
+      headers: headers(accessToken),
+    });
 
     if (data.data) {
       dispatch(getAllCommentsReducer(data));

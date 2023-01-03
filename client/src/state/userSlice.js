@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { headers } from "../constants";
+import { headers } from "../helper";
 
 const initialState = {
   accessToken: null,
@@ -97,9 +97,11 @@ export const loginReducerAsync = (values) => async (dispatch) => {
   }
 };
 
-export const logoutReducerAsync = () => async (dispatch) => {
+export const logoutReducerAsync = (accessToken) => async (dispatch) => {
   try {
-    const res = await axios.get("/user/logout", { headers });
+    const res = await axios.get("/user/logout", {
+      headers: headers(accessToken),
+    });
 
     if (res.data) {
       dispatch(logoutReducer(res.data));
@@ -111,9 +113,9 @@ export const logoutReducerAsync = () => async (dispatch) => {
   }
 };
 
-export const getAllUsersReducerAsync = () => async (dispatch) => {
+export const getAllUsersReducerAsync = (accessToken) => async (dispatch) => {
   try {
-    const res = await axios.get("/user", { headers });
+    const res = await axios.get("/user", { headers: headers(accessToken) });
 
     if (res.data) {
       dispatch(getAllUsersReducer(res.data));
@@ -125,19 +127,22 @@ export const getAllUsersReducerAsync = () => async (dispatch) => {
   }
 };
 
-export const deleteUserReducerAsync = (_id) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`/user/${_id}`, { headers });
+export const deleteUserReducerAsync =
+  (accessToken, _id) => async (dispatch) => {
+    try {
+      const res = await axios.delete(`/user/${_id}`, {
+        headers: headers(accessToken),
+      });
 
-    if (res.data) {
-      dispatch(deleteUserReducer(res.data));
+      if (res.data) {
+        dispatch(deleteUserReducer(res.data));
+      }
+    } catch ({ response }) {
+      if (response.data) {
+        dispatch(deleteUserReducer(response.data));
+      }
     }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(deleteUserReducer(response.data));
-    }
-  }
-};
+  };
 
 export const selectUser = (state) => state.user;
 export const {

@@ -94,3 +94,12 @@ export function sizeInMb(bytes) {
     bytes > 1 && "s"
   }`;
 }
+
+export const headers = (accessToken) => ({
+  authorization: `Bearer ${accessToken}`,
+});
+
+export const headersWithMultipartFormData = (accessToken) => ({
+  authorization: `Bearer ${accessToken}`,
+  "Content-Type": "multipart/form-data",
+});

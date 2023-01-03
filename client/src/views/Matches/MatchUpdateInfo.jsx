@@ -8,8 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { headers } from "../../constants";
-import { capitalize } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import { selectTeam } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -28,7 +27,7 @@ const MatchUpdateInfo = () => {
     teams: { teams },
   } = useSelector(selectTeam);
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
 
@@ -54,7 +53,9 @@ const MatchUpdateInfo = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/match/${id}`, { headers });
+        const { data } = await axios.get(`/match/${id}`, {
+          headers: headers(accessToken),
+        });
 
         if (data) {
           setMatch(data.data);
@@ -73,7 +74,7 @@ const MatchUpdateInfo = () => {
         }
       }
     })();
-  }, [id, navigate]);
+  }, [accessToken, id, navigate]);
 
   // Breadcrumbs
   const matchUpdateInfo = [
@@ -104,7 +105,7 @@ const MatchUpdateInfo = () => {
       const { data } = await axios.patch(
         `/match/${match?._id}`,
         { ...values },
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       // Send success notification

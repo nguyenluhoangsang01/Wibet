@@ -8,13 +8,13 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import {
-  createUserRoutes,
-  headers,
-  ROLES,
-  ROLESDEFAULT,
-  STATUS,
-  STATUSDEFAULT,
+	createUserRoutes,
+	ROLES,
+	ROLESDEFAULT,
+	STATUS,
+	STATUSDEFAULT
 } from "../../constants";
+import { headers } from "../../helper";
 import { selectUser } from "../../state/userSlice";
 
 const UserCreate = () => {
@@ -25,7 +25,7 @@ const UserCreate = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -52,7 +52,7 @@ const UserCreate = () => {
       const { data } = await axios.post(
         "/user",
         { ...values, status, roleID },
-        { headers }
+        { headers: headers(accessToken) }
       );
 
       // Check if data is success
