@@ -49,13 +49,9 @@ const BetCreate = () => {
   useEffect(() => {
     bets.some(
       (bet) =>
-        console.log(
-          bet?.user?._id?.toString() === user?._id?.toString(),
-          bet?.match?._id?.toString() === match?._id?.toString()
-        )
-      // bet?.user?._id?.toString() === user?._id?.toString() &&
-      // bet?.match?._id?.toString() === match?._id?.toString() &&
-      // navigate("/matches")
+        bet?.user?._id?.toString() === user?._id?.toString() &&
+        bet?.match?._id?.toString() === match?._id?.toString() &&
+        navigate("/matches")
     );
   }, [bets, match?._id, navigate, user?._id]);
 

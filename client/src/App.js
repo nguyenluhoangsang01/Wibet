@@ -13,6 +13,7 @@ import { getAllTeamsReducerAsync } from "./state/teamSlice";
 import { selectUser } from "./state/userSlice";
 import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
+import RankingViewDetails from "./views/Ranking/RankingViewDetails";
 
 const Default = lazy(() => import("./layouts/Default"));
 const BetCreate = lazy(() => import("./views/Bets/BetCreate"));
@@ -98,6 +99,9 @@ function App() {
             {/* Nested routes of team */}
             <Route path="/teams/create" element={<TeamCreate />} />
             <Route path="/teams/:id/update" element={<TeamUpdate />} />
+
+            {/* Nested routes of ranking */}
+            <Route path="/ranking/:id" element={<RankingViewDetails />} />
           </Route>
         </Routes>
       </Suspense>

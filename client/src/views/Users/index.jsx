@@ -14,13 +14,14 @@ import {
   deleteUserReducerAsync,
   getAllUsersReducerAsync,
   selectUser,
+  toggleIsShowHistory,
 } from "../../state/userSlice";
 
 const Users = () => {
   // Get pathname from location
   const { pathname } = useLocation();
-  // Get user form global state
-  const { user, users } = useSelector(selectUser);
+  // Get user, users, is show history form global state
+  const { user, users, isShowHistory } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -232,9 +233,9 @@ const Users = () => {
   ];
 
   // Handle show history
-  // const handleShowHistory = () => {
-  //   console.log("handleShowHistory");
-  // };
+  const handleShowHistory = () => {
+    dispatch(toggleIsShowHistory());
+  };
 
   return (
     <div>
@@ -246,7 +247,9 @@ const Users = () => {
       {/* Actions */}
       <div className="action-details mb-[10px] flex items-center justify-end gap-1">
         <Link to="/users/create">Create User</Link>
-        {/* <button onClick={handleShowHistory}>Show history</button> */}
+        <button onClick={handleShowHistory}>
+          {isShowHistory ? "Hide" : "Show"} history
+        </button>
       </div>
 
       {/* Number of rows */}

@@ -1,19 +1,39 @@
 import { Table } from "antd";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { FaShare } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import NumberOfRows from "../../components/NumberOfRows";
 import { rankingRoutes } from "../../constants";
 import { capitalize } from "../../helper";
+import { getAllUsersReducerAsync, selectUser } from "../../state/userSlice";
 
 const Ranking = () => {
+  // Get pathname from location
   const { pathname } = useLocation();
+  // Get user form global state
+  const { users, isShowHistory } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
+
+  // Get all users
+  useEffect(() => {
+    dispatch(getAllUsersReducerAsync());
+  }, [dispatch]);
+
+  // Handle tracking
+  const handleTracking = async (id) => {
+    navigate(`/ranking/${id}`);
+  };
 
   // Columns for table
   const columns = [
@@ -33,7 +53,12 @@ const Ranking = () => {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      render: (text) => <span>{text}</span>,
+      render: (text) =>
+        text ? (
+          <span>{text}</span>
+        ) : (
+          <span className="text-[red] italic">(not set)</span>
+        ),
     },
     {
       title: "Money",
@@ -63,18 +88,31 @@ const Ranking = () => {
       title: "Win Rate",
       dataIndex: "winRate",
       key: "winRate",
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span>{((record.winTimes / record.betTimes) * 100).toFixed(2)}</span>
+      ),
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.money}</span>,
     },
     {
       title: "",
       dataIndex: "actions",
-      render: (text, record) => <div>tracking</div>,
+      width: 0,
+      render: (text, record) =>
+        isShowHistory && (
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => handleTracking(record._id)}
+              className="bg-[#5bc0de]"
+            >
+              <FaShare />
+            </button>
+          </div>
+        ),
     },
   ];
 
@@ -88,19 +126,22 @@ const Ranking = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {/* Showing{" "}
+        Showing{" "}
         <span className="font-bold">
-          1-{teams.length < 10 ? teams.length : 10}
+          1-{users.length - 1 < 10 ? users.length - 1 : 10}
         </span>{" "}
-        of <span className="font-bold">{teams.length}</span> team
-        {teams.length > 1 ? "s" : ""}. */}
+        of <span className="font-bold">{users.length - 1}</span> user
+        {users.length - 1 > 1 ? "s" : ""}.
       </NumberOfRows>
 
       {/* Table */}
       <Table
         rowKey="_id"
         columns={columns}
-        // dataSource={[...teams?.teams].reverse()}
+        dataSource={[...users?.users]
+          .filter((user) => user.betTimes > 0)
+          .sort((a, b) => a.money - b.money)
+          .reverse()}
       />
     </div>
   );

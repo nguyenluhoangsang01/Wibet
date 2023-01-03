@@ -1,3 +1,4 @@
+import moment from "moment";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
@@ -52,16 +53,14 @@ export const createBetById = async (req, res, next) => {
     if (match.resultOfTeam1 || match.resultOfTeam2)
       return sendError(res, "The match is over");
 
-    // Update current money of user
-    await User.findByIdAndUpdate(
-      userId,
-      {
-        ...req.body,
-        money: Number(user.money) - money,
-        betTimes: user.betTimes + 1,
-      },
-      { new: true }
-    );
+    // Create a new bet
+    const newBet = await Bet.create({
+      ...req.body,
+      user: userId,
+      match: matchId,
+      betTime: moment().format("HH:mm:ss - yyyy/MM/DD"),
+    });
+    await newBet.save();
 
     // Update status
     await Match.findByIdAndUpdate(
@@ -80,14 +79,16 @@ export const createBetById = async (req, res, next) => {
       { new: true }
     );
 
-    // Create a new bet
-    const newBet = await Bet.create({
-      ...req.body,
-      user: userId,
-      match: matchId,
-      betTime: moment().format("HH:mm:ss - yyyy/MM/DD"),
-    });
-    await newBet.save();
+    // Update current money of user
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        money: Number(user.money) - money,
+        betTimes: user.betTimes + 1,
+      },
+      { new: true }
+    );
 
     // Get all bet
     const bet = await Bet.findById(newBet._id)
@@ -169,13 +170,15 @@ export const deleteBetById = async (req, res, next) => {
   }
 };
 
-export const getBetByBetId = async (req, res, next) => {
+export const getBetById = async (req, res, next) => {
   try {
-    // Get bet id from request params
-    const { betId } = req.params;
+    // Get id from request params
+    const { id } = req.params;
 
-    // Find bet by bet id
-    const bet = await Bet.findById(betId)
+    // Get bet by bet id or team id or user id or match id
+    const bets = await Bet.find({
+      $or: [{ _id: id }, { team: id }, { user: id }, { match: id }],
+    })
       .populate("team user", "-__v -password")
       .select("-__v")
       .populate({
@@ -186,37 +189,14 @@ export const getBetByBetId = async (req, res, next) => {
         },
         select: "-__v",
       });
-    // Check if bet not exists
-    if (!bet) return sendError(res, "Bet not found", 404);
+    // Check if bet not found
+    if (!bets) return sendError(res, "Bet not found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Get bet successfully!", bet);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getBetByMatchId = async (req, res, next) => {
-  try {
-    // Get match id from request params
-    const { matchId } = req.params;
-
-    // Find bet by match id
-    const bet = await Bet.findOne({ match: matchId })
-      .populate("team user", "-__v -password")
-      .select("-__v")
-      .populate({
-        path: "match",
-        populate: {
-          path: "team1 team2",
-          select: "name fullName flag",
-        },
-        select: "-__v",
-      });
-    if (!bet) return sendError(res, "Bet not found", 404);
-
-    // Send success notification
-    return sendSuccess(res, "Get bet successfully!", bet);
+    return sendSuccess(res, "Get bet successfully!", {
+      length: bets.length,
+      bets,
+    });
   } catch (error) {
     next(error);
   }

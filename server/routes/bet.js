@@ -3,8 +3,7 @@ import {
   createBetById,
   deleteBetById,
   getAllBets,
-  getBetByBetId,
-  getBetByMatchId,
+  getBetById,
   updateBetById,
   withdrawMoney,
 } from "../controllers/bet.js";
@@ -30,12 +29,17 @@ router.delete("/:betId/:matchId", verifyToken, deleteBetById);
 // @route GET api/bet/:betId
 // @desc Get bet by bet id
 // @access Private
-router.get("/:betId/bet", verifyToken, getBetByBetId);
+// router.get("/:betId/bet", verifyToken, getBetByBetId);
 
 // @route GET api/bet/:matchId
 // @desc Get bet by match id
 // @access Private
-router.get("/:matchId/match", verifyToken, getBetByMatchId);
+// router.get("/:matchId/match", verifyToken, getBetByMatchId);
+
+// @router GET api/bet/:id
+// @desc Get bet by user id
+// @access Private
+// router.get("/:id", verifyToken, getBetByUserId);
 
 // @route GET api/bet
 // @desc Get all bets
@@ -46,5 +50,10 @@ router.get("/", verifyToken, getAllBets);
 // @desc Update money of user when withdraw
 // @access Private
 router.patch("/:matchId", verifyToken, withdrawMoney);
+
+// @route GET api/bet/:id
+// @desc Get bet by id
+// @access Private
+router.get("/:id", verifyToken, getBetById);
 
 export default router;

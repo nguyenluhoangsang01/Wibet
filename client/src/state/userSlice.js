@@ -7,6 +7,7 @@ const initialState = {
   accessToken: null,
   user: null,
   users: [],
+  isShowHistory: false,
 };
 
 export const userSlice = createSlice({
@@ -78,6 +79,10 @@ export const userSlice = createSlice({
         toast.error(payload.message);
       }
     },
+
+    toggleIsShowHistory: (state) => {
+      state.isShowHistory = !state.isShowHistory;
+    },
   },
 });
 
@@ -145,5 +150,6 @@ export const {
   updateUserReducer,
   deleteUserReducer,
   updateUserAfterDeleteBet,
+  toggleIsShowHistory,
 } = userSlice.actions;
 export default userSlice.reducer;

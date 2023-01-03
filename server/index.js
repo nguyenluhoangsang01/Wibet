@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import betRoutes from "./routes/bet.js";
 import commentRoutes from "./routes/comment.js";
 import matchRoutes from "./routes/match.js";
-import rankingRoutes from "./routes/ranking.js";
 import teamRoutes from "./routes/team.js";
 import userRoutes from "./routes/user.js";
 
@@ -67,7 +66,6 @@ app.listen(PORT, () => {
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/team", teamRoutes);
-app.use("/api/ranking", rankingRoutes);
 app.use("/api/match", matchRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/bet", betRoutes);
