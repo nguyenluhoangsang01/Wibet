@@ -48,8 +48,6 @@ const RankingViewDetails = () => {
     })();
   }, [accessToken, id, navigate]);
 
-  console.log(bets);
-
   const rankingRoutesViewDetails = [
     {
       path: "/",
