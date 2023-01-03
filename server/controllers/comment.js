@@ -49,7 +49,7 @@ export const createComment = async (req, res, next) => {
       .select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "success", {
+    return sendSuccess(res, "Add new comment", {
       length: comments.length,
       comments,
     });

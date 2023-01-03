@@ -28,18 +28,17 @@ const UserCreate = lazy(() => import("./views/Users/UserCreate"));
 const UserUpdate = lazy(() => import("./views/Users/UserUpdate"));
 const UserViewDetails = lazy(() => import("./views/Users/UserViewDetails"));
 
-axios.defaults.baseURL = "http://localhost:8000/api";
-axios.defaults.headers.common = `Bearer ${JSON.parse(
-  localStorage.getItem("persist:user")
-)?.accessToken?.replaceAll('"', "")}`;
-
 function App() {
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user logged from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial navigate
   const navigate = useNavigate();
+
+  // Set axios defaults
+  axios.defaults.baseURL = "http://localhost:8000/api";
+  axios.defaults.headers.common = `Bearer ${accessToken}`;
 
   return (
     <ErrorBoundary

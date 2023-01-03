@@ -2,6 +2,7 @@ import { Button, Form } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { headers } from "../../constants";
@@ -35,11 +36,15 @@ const Editor = () => {
 
         // Set is finish to false
         setIsFinish(false);
+
+        toast.success(res.data.message);
       }
     } catch ({ response }) {
       if (response.data) {
         // Set is finish to false
         setIsFinish(false);
+
+        toast.error(response.data.message);
       }
     }
   };

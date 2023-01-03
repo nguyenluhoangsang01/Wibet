@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 import { BsFillTrashFill } from "react-icons/bs";
 import { GiTimeBomb } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,6 +52,9 @@ const CommentList = ({ comments, isShowAllComments }) => {
         // Set loading to false after delete
         setConfirmLoading(false);
 
+        // Send success notification
+        toast.success(res.data.message);
+
         // After delete close modal
         setOpen(false);
       }
@@ -58,6 +62,9 @@ const CommentList = ({ comments, isShowAllComments }) => {
       if (response.data) {
         // Set loading to false after have error
         setConfirmLoading(false);
+
+        // Send error notification
+        toast.error(response.data.message);
       }
     }
   };
