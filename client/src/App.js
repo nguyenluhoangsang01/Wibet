@@ -8,9 +8,10 @@ import ErrorFallback from "./components/ErrorFallback";
 import ScrollToTop from "./components/ScrollToTop";
 import { routes } from "./constants";
 import { getAllBetsReducerAsync } from "./state/betSlice";
+import { getAllCommentsReducerAsync } from "./state/commentSlice";
 import { getAllMatchesReducerAsync } from "./state/matchSlice";
 import { getAllTeamsReducerAsync } from "./state/teamSlice";
-import { selectUser } from "./state/userSlice";
+import { getAllUsersReducerAsync, selectUser } from "./state/userSlice";
 import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
 import RankingViewDetails from "./views/Ranking/RankingViewDetails";
@@ -46,8 +47,10 @@ function App() {
       onReset={() => {
         if (!user) navigate("/login");
 
-        dispatch(getAllTeamsReducerAsync());
         dispatch(getAllMatchesReducerAsync());
+        dispatch(getAllCommentsReducerAsync());
+        dispatch(getAllUsersReducerAsync());
+        dispatch(getAllTeamsReducerAsync());
         dispatch(getAllBetsReducerAsync());
       }}
     >

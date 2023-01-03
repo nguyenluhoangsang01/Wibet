@@ -1,11 +1,12 @@
 import { Button, Form, Input, Table } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { profileRoutes } from "../../constants";
+import { capitalize } from "../../helper";
 import { selectUser } from "../../state/userSlice";
 
 const Profile = () => {
@@ -15,6 +16,11 @@ const Profile = () => {
   const { user } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  }, [pathname]);
 
   // Check if user is null
   if (!user) return <Navigate to="/" />;

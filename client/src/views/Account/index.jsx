@@ -1,12 +1,13 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { accountRoutesB, headers } from "../../constants";
+import { capitalize } from "../../helper";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const Account = () => {
@@ -20,6 +21,11 @@ const Account = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  }, [pathname]);
 
   // Check if user is null
   if (!user) return <Navigate to="/" />;

@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { loginRoutes } from "../../constants";
-import { isValidEmail } from "../../helper";
+import { capitalize, isValidEmail } from "../../helper";
 import { loginReducerAsync, selectUser } from "../../state/userSlice";
 
 const Login = () => {
@@ -19,6 +19,11 @@ const Login = () => {
   const { user } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  }, [pathname]);
 
   // Handle submit finish
   const onFinish = async (values) => {
