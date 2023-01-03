@@ -33,8 +33,6 @@ export const userSlice = createSlice({
         state.accessToken = null;
         state.user = null;
 
-        localStorage.clear();
-
         toast.success(payload.message);
       } else {
         toast.error(payload.message);

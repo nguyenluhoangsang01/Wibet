@@ -11,6 +11,15 @@ export const createComment = async (req, res, next) => {
     // Get user id and file from request
     const { userId, file } = req;
 
+    // Get user by id
+    const user = await User.findById(userId);
+    if (!user)
+      return sendError(
+        res,
+        "Cannot create comment right now, please login!",
+        404
+      );
+
     // Check if content not found
     if (!content) return sendError(res, "Content cannot be blank.");
 

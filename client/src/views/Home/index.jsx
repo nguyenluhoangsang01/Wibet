@@ -1,26 +1,18 @@
-import { Image } from "antd";
-import moment from "moment";
-import React, { useCallback, useEffect } from "react";
-import { AiOutlineSwapRight } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { formatTime } from "../../helper";
-import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
-import { selectUser } from "../../state/userSlice";
+import React, { useEffect } from "react";
 
 const Home = () => {
   // Get all matches from global state
-  const {
-    matches: { matches },
-  } = useSelector(selectMatch);
+  // const {
+  //   matches: { matches },
+  // } = useSelector(selectMatch);
   // Initial dispatch
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // Initial current date
-  const currentDate = moment(new Date());
+  // const currentDate = moment(new Date());
   // Initial navigate
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // Initial state
-  const { accessToken } = useSelector(selectUser);
+  // const { accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -28,27 +20,27 @@ const Home = () => {
   });
 
   // Get all matches
-  useEffect(() => {
-    dispatch(getAllMatchesReducerAsync(accessToken));
-  }, [accessToken, dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllMatchesReducerAsync(accessToken));
+  // }, [accessToken, dispatch]);
 
   // Get Min date
-  const minDate = useCallback(() => {
-    new Date(
-      Math.min(
-        matches
-          ?.filter((match) => currentDate.isBefore(match?.matchDate))
-          ?.map((match) => {
-            return new Date(match.matchDate);
-          })
-      )
-    );
-  }, [currentDate, matches]);
+  // const minDate = useCallback(() => {
+  //   new Date(
+  //     Math.min(
+  //       matches
+  //         ?.filter((match) => currentDate.isBefore(match?.matchDate))
+  //         ?.map((match) => {
+  //           return new Date(match.matchDate);
+  //         })
+  //     )
+  //   );
+  // }, [currentDate, matches]);
 
   // Handle view all matches
-  const handleViewAllMatches = () => {
-    navigate("/matches");
-  };
+  // const handleViewAllMatches = () => {
+  //   navigate("/matches");
+  // };
 
   return (
     <div className="-mx-4 sm:-mx-10 -my-6 relative">
@@ -59,7 +51,7 @@ const Home = () => {
       />
 
       <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center">
-        {matches
+        {/* {matches
           ?.filter(
             (match) =>
               moment(match.matchDate).date() === moment(minDate).date() &&
@@ -119,7 +111,7 @@ const Home = () => {
                 </p>
               </div>
             );
-          })}
+          })} */}
       </div>
     </div>
   );

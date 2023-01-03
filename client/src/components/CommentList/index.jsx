@@ -133,12 +133,14 @@ const CommentList = ({ comments, isShowAllComments }) => {
               </div>
 
               {/* Options */}
-              <button
-                className="absolute right-0 top-0 mt-2"
-                onClick={() => handleDelete(comment._id)}
-              >
-                <BsFillTrashFill className="text-2xl text-[#656c7a] transition hover:text-[#d9534f]" />
-              </button>
+              {(user?._id === comment.user._id || user?.roleID === "Admin") && (
+                <button
+                  className="absolute right-0 top-0 mt-2"
+                  onClick={() => handleDelete(comment._id)}
+                >
+                  <BsFillTrashFill className="text-2xl text-[#656c7a] transition hover:text-[#d9534f]" />
+                </button>
+              )}
             </li>
           ))}
 

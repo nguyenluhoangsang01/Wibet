@@ -81,6 +81,7 @@ const Editor = () => {
             type="primary"
             htmlType="submit"
             className="bg-black flex items-center gap-2"
+            disabled={!user}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
             <span>Comment</span>
