@@ -57,7 +57,7 @@ const Home = () => {
 
       <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center">
         {matches
-          .filter(
+          ?.filter(
             (match) =>
               moment(match.matchDate).date() === moment(minDate).date() &&
               !match.result

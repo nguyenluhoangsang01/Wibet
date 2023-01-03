@@ -32,11 +32,8 @@ export const userSlice = createSlice({
       if (payload.success) {
         state.accessToken = null;
         state.user = null;
-        localStorage.removeItem("persist:root");
-        localStorage.removeItem("persist:match");
-        localStorage.removeItem("persist:bet");
-        localStorage.removeItem("persist:team");
-        localStorage.removeItem("persist:user");
+
+        localStorage.clear();
 
         toast.success(payload.message);
       } else {
