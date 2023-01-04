@@ -1,17 +1,49 @@
+import { Table } from "antd";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import RuleWrappers from "../../components/RuleWrappers";
 import { ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 
 const Rules = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
+
+  // Columns for priority
+  const columns = [
+    {
+      title: "Mục",
+      dataIndex: "category",
+      key: "category",
+    },
+    {
+      title: "Chi tiết",
+      dataIndex: "details",
+      key: "details",
+    },
+    {
+      title: "Vòng bảng",
+      dataIndex: "groupState",
+      key: "groupState",
+    },
+    {
+      title: "Vòng loại trực tiếp",
+      dataIndex: "knockoutRound",
+      key: "knockoutRound",
+    },
+  ];
+
+  // Handle login
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <div className="divide-y-2">
@@ -27,7 +59,225 @@ const Rules = () => {
       </div>
 
       {/* Second section */}
-      <div></div>
+      <div>
+        <RuleWrappers heading="thể thức chung">
+          <ul>
+            <li>
+              Mỗi cá nhân và tập thể tạo Account bằng cách liên hệ Ban Tổ Chức
+              để nạp vào <b>200K VND (tương ứng 200 điểm)</b>
+            </li>
+            <li>
+              Account ngay lập tức được{" "}
+              <span className="bg-wrapper">Active</span> với <b>200p.</b>
+            </li>
+            <li>
+              Chương trình <b>Wibet</b> sẽ được chia làm 02 vòng đấu.{" "}
+              <b>Giải thưởng sẽ được tổng kết và trao sau mỗi vòng.</b>
+              <ul>
+                <li>
+                  <b>Vòng Bảng:</b> Từ trận đầu tiên đến vòng đầu cuối cùng của
+                  vòng bảng Worldcup 2022
+                </li>
+                <li>
+                  <b>Vòng Loại Trực Tiếp:</b> Tất cả các trận đấu từ vòng đấu
+                  loại trực tiếp cho đến trận chung kết
+                </li>
+              </ul>
+            </li>
+            <li>
+              Mức độ truy cập:
+              <Table columns={columns} />
+            </li>
+            <li>
+              Nhằm tri ân những Accounts đã tham gia Vòng Bảng, mỗi account cũ
+              khi tạo Account mới ở Vòng Loại Trực Tiếp(Vòng LTT) sẽ được nhận
+              ưu đãi cụ thể như sau
+              <ul>
+                <li>
+                  Account cũ đã từng refill 01 lần được tặng thêm <b>50 điểm</b>{" "}
+                  khởi đầu cho Vòng LTT
+                </li>
+                <li>
+                  Account cũ đã từng refill 02 lần ở Vòng Bảng được tặng thêm
+                  <b>100 điểm</b> khởi đầu cho Vòng LTT
+                </li>
+                <li>
+                  Account cũ đã từng refill 03 lần ở Vòng Bảng được tặng thêm
+                  <b>100 điểm</b> khởi đầu cho Vòng LTT <br /> Và sẽ được tặng
+                  thêm 50 điểm (chỉ 01 lần duy nhất) cho lượt refill ở Vòng LTT
+                  này.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Thể thức tham gia
+              <ul>
+                <li>
+                  Mỗi cá nhân hoặc tập thể tối đa được tạo <b>02 Accounts</b>
+                </li>
+                <li>
+                  Được nạp tiền lại (200K) sau khi số điểm dưới <b>50 điểm</b>
+                </li>
+                <li>
+                  01 account được <b>nạp lại 03 lần cho Vòng Bảng</b> và{" "}
+                  <b>02 lần cho Vòng Loại Trực Tiếp</b>
+                </li>
+                <li>
+                  Mỗi tài khoản phải tham gia đặt <b>ít nhất 04 trận</b>, với số
+                  điểm tối thiểu đặt trong mỗi trận phải từ{" "}
+                  <b>50 điểm trở lên</b>.
+                </li>
+                <li>
+                  Các bạn dùng <b>Email TMA</b> để đăng ký nhưng không giới hạn
+                  cách đặt tên <br />
+                  Ví dụ:
+                  <br />
+                  <b> - Account:</b> nvan - nvan@***.com.vn <br />
+                  <b> - NickName:</b> Kuli Chúa
+                </li>
+                <li>
+                  Trong trường hợp có 02 hoặc nhiều người bằng điểm nhau thì
+                  người nào có số lần đặt cược nhiều hơn sẽ thắng, nếu mọi thứ
+                  như nhau thì chia đều giải thưởng
+                </li>
+              </ul>
+            </li>
+            <li>
+              Khuyến khích các quỹ tập thể tham gia và được đứng tên với tên
+              Team tương ứng.
+            </li>
+          </ul>
+        </RuleWrappers>
+
+        <RuleWrappers heading="LIÊN HỆ & THANH TOÁN">
+          <p>
+            Liên hệ{" "}
+            <a
+              href="https://join.skype.com/tMRrQSXDthKA"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#428bca] font-bold transition hover:underline hover:text-[#2a6496] uppercase"
+            >
+              SKYPE: NGUYỄN MINH TUẤN
+            </a>{" "}
+            nạp tiền và tạo Account.
+          </p>
+
+          <div className="w-full md:flex md:gap-6 md:justify-between">
+            <div className="w-full">
+              <p>Có thể nạp tiền mặt hoặc chuyển khoản:</p>
+              <table className="table-auto w-full">
+                <tbody>
+                  <tr>
+                    <th>Tên</th>
+                    <td>NGUYEN MINH TUAN</td>
+                  </tr>
+                  <tr>
+                    <th>STK</th>
+                    <td>31010001645607</td>
+                  </tr>
+                  <tr>
+                    <th>Ngân hàng</th>
+                    <td>BIDV CN TN TpHCM</td>
+                  </tr>
+                  <tr>
+                    <th>Nội dung</th>
+                    <td>TMA Account_nick_Tên Họ_wibet</td>
+                  </tr>
+                  <tr>
+                    <th></th>
+                    <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="w-full">
+              <p>Hoặc sử dụng Momo:</p>
+              <table className="table-auto w-full">
+                <tbody>
+                  <tr>
+                    <th>MoMo</th>
+                    <td>0934719115</td>
+                  </tr>
+                  <tr>
+                    <th>Tên</th>
+                    <td>Nguyễn Minh Tuấn - DC22</td>
+                  </tr>
+                  <tr>
+                    <th>Nội dung </th>
+                    <td>TMA Account_nickname_Tên Họ_wibet</td>
+                  </tr>
+                  <tr>
+                    <th></th>
+                    <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                  </tr>
+                  <tr>
+                    <th>Skype</th>
+                    <td>
+                      <a
+                        href="https://join.skype.com/tMRrQSXDthKA"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[#428bca] transition hover:underline hover:text-[#2a6496]"
+                      >
+                        tuannguyen5989
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="p-[15px] my-[15px] rounded-lg grid bg-[#fcf8e3] text-[#8a6d3b] text-[14px]">
+            <p>
+              <b>**NOTE**</b> ĐỂ ĐẢM BẢO TÍNH XÁC THỰC <b>**NOTE**</b>
+            </p>
+            <p>- Sau khi xác thực đã nhận được tiền</p>
+            <p>
+              - <b>Wibet Admin</b> sẽ tiến hành tạo account và liên hệ lại bạn
+              để gửi <b>username/password</b>
+            </p>
+            <p>
+              - Khi nhận được <b>username/password</b>, bạn hãy tiến hành{" "}
+              <b onClick={handleLogin}>Change Password</b> và{" "}
+              <b onClick={handleLogin}>Login</b> bằng <b>username/password</b>{" "}
+              mới
+            </p>
+          </div>
+        </RuleWrappers>
+
+        <RuleWrappers heading="GIẢI THƯỞNG & ĐIỀU LỆ">
+          <div className="divide-y-2">
+            <div>1</div>
+            <div className="p-[15px] my-[15px] rounded-lg grid bg-[#dff0d8] text-[#3c763d] text-[14px] text-center">
+              <b>~ LỜI THÌ THẦM MÙA ĐÔNG ~</b>
+              <p>
+                <b>Wibet</b> là trang web mang tính chất <b>Cây Nhà Lá Vườn</b>{" "}
+                và <b>Phi Lợi Nhuận</b> <br /> Nhằm mục đích chính là tạo sân
+                chơi và hoạt động gắn kết mọi người, cũng như tạo ra một quỹ
+                thưỡng cho tinh thần yêu bóng đá.
+              </p>
+              <p>
+                <b>Wibet Web</b> được xây dựng và bảo trì bằng{" "}
+                <b>Extra Effort</b> của tập thể <b>Wibet Dev team</b>
+                <br />
+                Cũng như sự hổ trợ cập nhật thông tin, tạo và quản lý tài khoản
+                từ phía <b>Wibet Admin team</b>
+                <br />
+                Do đó, chúng tôi hy vọng và khuyến khích các anh chị em, các bạn
+                đồng nghiệp khi gặp khó khăn hoặc lỗi, hãy liên hệ với Chúng Tôi
+              </p>
+              <p>
+                Để kịp thời khắc phục, và cải tiến trang web, nhằm mang đến trải
+                nghiệm tốt nhất cho anh chị và các bạn.
+              </p>
+              <p>Xin chân thành cảm ơn !</p>
+            </div>
+          </div>
+        </RuleWrappers>
+      </div>
     </div>
   );
 };

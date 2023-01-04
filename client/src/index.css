@@ -122,3 +122,7 @@ text {
 svg > text {
   @apply !text-[17px];
 }
+
+.bg-wrapper {
+  @apply rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] bg-[#28a745];
+}
