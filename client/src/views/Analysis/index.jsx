@@ -1,26 +1,11 @@
-import {
-  AccumulationChartComponent,
-  AccumulationDataLabel,
-  AccumulationLegend,
-  AccumulationSeriesCollectionDirective,
-  AccumulationSeriesDirective,
-  AccumulationTooltip,
-  Category,
-  ChartComponent,
-  ColumnSeries,
-  DataLabel,
-  Inject,
-  Legend,
-  PieSeries,
-  SeriesCollectionDirective,
-  SeriesDirective,
-  StackingAreaSeries,
-  StackingColumnSeries,
-  Tooltip,
-} from "@syncfusion/ej2-react-charts";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import ChartColumnTop from "../../components/ChartColumnTop";
+import ChartColumnsWinRates from "../../components/ChartColumnWinRates";
+import ChartPieCurrentPoints from "../../components/ChartPieCurrentPoints";
+import ChartStackingAreaWinBet from "../../components/ChartStackingAreaWinBet";
+import ChartStackingColumnWinBet from "../../components/ChartStackingColumnWinBet";
 import { capitalize } from "../../helper";
 import { getAllUsersReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -77,181 +62,92 @@ const Analysis = () => {
 
   return (
     <>
-      <div className="grid md:grid-cols-3 md:gap-6">
+      <div className="grid md:grid-cols-3 md:gap-6 md:h-[300px]">
         {/* Top 3 */}
-        <ChartComponent
+        <ChartColumnTop
           id="top3"
           title="Top 3 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-        >
-          <Inject services={[ColumnSeries, Tooltip, DataLabel, Category]} />
-
-          <SeriesCollectionDirective>
-            <SeriesDirective
-              dataSource={userNameWithMoneyDataSources.slice(0, 3)}
-              xName="username"
-              yName="money"
-              type="Column"
-            />
-          </SeriesCollectionDirective>
-        </ChartComponent>
+          data={userNameWithMoneyDataSources.slice(0, 3)}
+        />
 
         {/* Top 10 */}
-        <ChartComponent
+        <ChartColumnTop
           id="top10"
           title="Top 10 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-        >
-          <Inject services={[ColumnSeries, Tooltip, DataLabel, Category]} />
-
-          <SeriesCollectionDirective>
-            <SeriesDirective
-              dataSource={userNameWithMoneyDataSources.slice(0, 10)}
-              xName="username"
-              yName="money"
-              type="Column"
-            />
-          </SeriesCollectionDirective>
-        </ChartComponent>
+          data={userNameWithMoneyDataSources.slice(0, 10)}
+        />
 
         {/* Top 20 */}
-        <ChartComponent
+        <ChartColumnTop
           id="top20"
           title="Top 20 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-        >
-          <Inject services={[ColumnSeries, Tooltip, DataLabel, Category]} />
-
-          <SeriesCollectionDirective>
-            <SeriesDirective
-              dataSource={userNameWithMoneyDataSources.slice(0, 20)}
-              xName="username"
-              yName="money"
-              type="Column"
-            />
-          </SeriesCollectionDirective>
-        </ChartComponent>
+          data={userNameWithMoneyDataSources.slice(0, 20)}
+        />
       </div>
 
       {/* Win/Bet */}
-      <ChartComponent
-        id="winBet1"
-        title="Win/Bet"
-        tooltip={tooltip}
-        primaryXAxis={primaryXAxis}
-        legendSettings={legendSettings}
-      >
-        <Inject
-          services={[StackingAreaSeries, Tooltip, DataLabel, Category, Legend]}
-        />
-
-        <SeriesCollectionDirective>
-          <SeriesDirective
-            dataSource={winBetDataSourceWithWinTimes}
-            type="StackingArea"
-            xName="username"
-            yName="winTimes"
-            marker={marker}
-            name="Win times"
-            opacity={0.6}
-          />
-          <SeriesDirective
-            dataSource={winBetDataSourceWithBetTimes}
-            type="StackingArea"
-            xName="username"
-            yName="betTimes"
-            marker={marker}
-            name="Bet times"
-            opacity={0.6}
-          />
-        </SeriesCollectionDirective>
-      </ChartComponent>
-
-      <div className="grid md:grid-cols-3 md:gap-6">
-        {/* Win rates */}
-        <ChartComponent
-          id="winRates"
-          title="Win rates"
-          tooltip={tooltip}
-          primaryXAxis={primaryXAxis}
-        >
-          <Inject services={[ColumnSeries, Tooltip, DataLabel, Category]} />
-
-          <SeriesCollectionDirective>
-            <SeriesDirective
-              dataSource={winRatesDataSource}
-              xName="username"
-              yName="winRates"
-              type="Column"
-            />
-          </SeriesCollectionDirective>
-        </ChartComponent>
-
-        {/* Current points with pie chart */}
-        <AccumulationChartComponent
-          id="currentPointsWithPieChart"
-          tooltip={tooltip}
-          enableSmartLabels={true}
-          legendSettings={legendSettings}
-          enableAnimation={true}
-        >
-          <Inject
-            services={[
-              PieSeries,
-              AccumulationTooltip,
-              AccumulationDataLabel,
-              AccumulationLegend,
-            ]}
-          />
-
-          <AccumulationSeriesCollectionDirective>
-            <AccumulationSeriesDirective
-              dataSource={userNameWithMoneyDataSources}
-              xName="username"
-              yName="money"
-              type="Pie"
-            />
-          </AccumulationSeriesCollectionDirective>
-        </AccumulationChartComponent>
-
-        {/* Bet/Win times with columns chart */}
-        <ChartComponent
-          id="winBet2"
+      <div className="md:h-[350px]">
+        <ChartStackingAreaWinBet
+          id="winBetWithStackingArea"
           title="Win/Bet"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
           legendSettings={legendSettings}
-        >
-          <Inject
-            services={[
-              StackingColumnSeries,
-              Tooltip,
-              DataLabel,
-              Category,
-              Legend,
-            ]}
-          />
+          winTimesData={winBetDataSourceWithWinTimes}
+          betTimesData={winBetDataSourceWithBetTimes}
+          marker={marker}
+          opacity="0.6"
+          xName="username"
+          yName1="winTimes"
+          yName2="betTimes"
+          name1="Win times"
+          name2="Bet times"
+        />
+      </div>
 
-          <SeriesCollectionDirective>
-            <SeriesDirective
-              dataSource={winBetDataSourceWithWinTimes}
-              type="StackingColumn"
-              xName="username"
-              yName="winTimes"
-              name="Win times"
-            />
-            <SeriesDirective
-              dataSource={winBetDataSourceWithBetTimes}
-              type="StackingColumn"
-              xName="username"
-              yName="betTimes"
-              name="Bet times"
-            />
-          </SeriesCollectionDirective>
-        </ChartComponent>
+      <div className="grid md:grid-cols-3 md:gap-6 md:h-[300px]">
+        {/* Win rates */}
+        <ChartColumnsWinRates
+          id="winRates"
+          title="Win rates"
+          tooltip={tooltip}
+          primaryXAxis={primaryXAxis}
+          data={winRatesDataSource}
+          xName="username"
+          yName="winRates"
+        />
+
+        {/* Current points with pie chart */}
+        <ChartPieCurrentPoints
+          id="currentPointsWithPieChart"
+          tooltip={tooltip}
+          legendSettings={legendSettings}
+          data={userNameWithMoneyDataSources}
+          xName="username"
+          yName="money"
+        />
+
+        {/* Bet/Win times with columns chart */}
+        <ChartStackingColumnWinBet
+          id="winBetWithStackingColumn"
+          title="Win/Bet"
+          tooltip={tooltip}
+          primaryXAxis={primaryXAxis}
+          legendSettings={legendSettings}
+          xName="username"
+          yName1="winTimes"
+          name1="Win times"
+          yName2="betTimes"
+          name2="Bet times"
+          data1={winBetDataSourceWithWinTimes}
+          data2={winBetDataSourceWithBetTimes}
+        />
       </div>
     </>
   );

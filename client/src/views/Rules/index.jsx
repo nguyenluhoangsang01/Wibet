@@ -14,9 +14,20 @@ const Rules = () => {
   }, [pathname]);
 
   return (
-    <div>
-      <Breadcrumbs routes={ruleRoutes} />
-      <Heading title={pathname.slice(1)} />
+    <div className="divide-y-2">
+      {/* First section */}
+      <div>
+        {/* Breadcrumbs */}
+        <Breadcrumbs routes={ruleRoutes} />
+
+        {/* Heading */}
+        <div className="text-center">
+          <Heading title="THỂ LỆ THAM GIA CHƯƠNG TRÌNH" />
+        </div>
+      </div>
+
+      {/* Second section */}
+      <div></div>
     </div>
   );
 };
