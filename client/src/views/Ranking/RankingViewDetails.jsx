@@ -74,10 +74,39 @@ const RankingViewDetails = () => {
       title: "Match",
       dataIndex: "match",
       key: "match",
-      render: (match) => (
+      render: (match, record) => (
         <p>
-          <span>{match.team1.fullName}</span> vs{" "}
-          <span>{match.team2.fullName}</span>
+          <span
+            className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+              !record.match.result
+                ? "bg-[#ffc107] text-[#212529]"
+                : record.match.result === record.team.fullName
+                ? "bg-[#28a745]"
+                : record.match.result !== record.team.fullName &&
+                  record.match.result !== "Draw"
+                ? "bg-[#dc3545]"
+                : record.match.result === "Draw" &&
+                  "bg-[#ffc107] text-[#212529]"
+            }`}
+          >
+            {match.team1.fullName}
+          </span>{" "}
+          vs{" "}
+          <span
+            className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+              !record.match.result
+                ? "bg-[#ffc107] text-[#212529]"
+                : record.match.result === record.team.fullName
+                ? "bg-[#28a745]"
+                : record.match.result !== record.team.fullName &&
+                  record.match.result !== "Draw"
+                ? "bg-[#dc3545]"
+                : record.match.result === "Draw" &&
+                  "bg-[#ffc107] text-[#212529]"
+            }`}
+          >
+            {match.team2.fullName}
+          </span>
         </p>
       ),
     },
@@ -107,10 +136,11 @@ const RankingViewDetails = () => {
         <span
           className={`uppercase min-w-[50px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
             !record.match.result
-              ? "bg-inherit text-black font-normal"
+              ? "bg-inherit text-[#212529] font-normal"
               : record.match.result === record.team.fullName
               ? "bg-[#28a745]"
-              : record.match.result !== record.team.fullName
+              : record.match.result !== record.team.fullName &&
+                record.match.result !== "Draw"
               ? "bg-[#dc3545]"
               : record.match.result === "Draw" && "bg-[#ffc107] text-[#212529]"
           }`}
@@ -119,7 +149,8 @@ const RankingViewDetails = () => {
             ? "-"
             : record.match.result === record.team.fullName
             ? "W"
-            : record.match.result !== record.team.fullName
+            : record.match.result !== record.team.fullName &&
+              record.match.result !== "Draw"
             ? "L"
             : record.match.result === "Draw" && "D"}
         </span>
