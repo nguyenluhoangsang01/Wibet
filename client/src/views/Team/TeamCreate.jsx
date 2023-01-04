@@ -17,7 +17,7 @@ const TeamCreate = () => {
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [file, setFile] = useState(null);
@@ -49,7 +49,7 @@ const TeamCreate = () => {
       const res = await axios.post(
         `/team`,
         { ...values, image: file },
-        { headers: headersWithMultipartFormData }
+        { headers: headersWithMultipartFormData(accessToken) }
       );
 
       // Check if data is exists

@@ -104,7 +104,7 @@ const TeamUpdate = () => {
       const res = await axios.patch(
         `/team/${team._id}`,
         { ...values, image: file },
-        { headers: headersWithMultipartFormData }
+        { headers: headersWithMultipartFormData(accessToken) }
       );
 
       // Check if data is exists
