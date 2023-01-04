@@ -21,10 +21,10 @@ import { matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime, headers } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -476,8 +476,8 @@ const Matches = () => {
     {
       title: "",
       dataIndex: "actions",
-      render: (text, record) =>
-        user.roleID === "Admin" && (
+      render: (text, record) => (
+        <>
           <div>
             <button
               onClick={() => handleViewAllBet(record)}
@@ -485,60 +485,65 @@ const Matches = () => {
             >
               <FaShare />
             </button>
-
-            <button
-              onClick={() => handleUpdateInfo(record)}
-              disabled={record.result || record.isCanceled ? true : false}
-              className="bg-[#f0ad4e]"
-            >
-              <BsPencilFill />
-            </button>
-
-            {record.result ? (
-              <button
-                onClick={() => handleViewDetail(record)}
-                className="bg-[#5bc0de]"
-              >
-                <MdViewWeek />
-              </button>
-            ) : (
-              <button
-                onClick={() => handleUpdateScore(record)}
-                className="bg-[#47a447]"
-              >
-                <TiTick />
-              </button>
-            )}
-
-            <button
-              onClick={() =>
-                handleDelete(
-                  record._id,
-                  record?.team1?.fullName,
-                  record?.team2?.fullName
-                )
-              }
-              className="bg-[#d9534f]"
-              disabled={record.isCanceled}
-            >
-              <CgClose />
-            </button>
-
-            <button
-              onClick={() => handleHide(record)}
-              className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
-            >
-              {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
-            </button>
-
-            <button
-              onClick={() => handleWithdraw(record._id)}
-              className="bg-[#d2322d]"
-            >
-              <BsCloudMinusFill />
-            </button>
           </div>
-        ),
+
+          {user.roleID === "Admin" && (
+            <div>
+              <button
+                onClick={() => handleUpdateInfo(record)}
+                disabled={record.result || record.isCanceled ? true : false}
+                className="bg-[#f0ad4e]"
+              >
+                <BsPencilFill />
+              </button>
+
+              {record.result ? (
+                <button
+                  onClick={() => handleViewDetail(record)}
+                  className="bg-[#5bc0de]"
+                >
+                  <MdViewWeek />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleUpdateScore(record)}
+                  className="bg-[#47a447]"
+                >
+                  <TiTick />
+                </button>
+              )}
+
+              <button
+                onClick={() =>
+                  handleDelete(
+                    record._id,
+                    record?.team1?.fullName,
+                    record?.team2?.fullName
+                  )
+                }
+                className="bg-[#d9534f]"
+                disabled={record.isCanceled}
+              >
+                <CgClose />
+              </button>
+
+              <button
+                onClick={() => handleHide(record)}
+                className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
+              >
+                {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
+              </button>
+
+              <button
+                onClick={() => handleWithdraw(record._id)}
+                className="bg-[#d2322d]"
+              >
+                <BsCloudMinusFill />
+              </button>
+            </div>
+          )}
+        </>
+      ),
     },
   ];
 
