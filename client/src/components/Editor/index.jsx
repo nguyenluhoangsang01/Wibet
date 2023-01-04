@@ -72,7 +72,11 @@ const Editor = () => {
       <div className="w-full">
         {/* Editor */}
         <Form.Item name="content" className="w-full">
-          <TextArea rows={3} className="w-full" />
+          <TextArea
+            rows={4}
+            className="w-full text-[15px] pl-4 pt-2"
+            placeholder="Start the discussion..."
+          />
         </Form.Item>
 
         {/* Comment button */}
