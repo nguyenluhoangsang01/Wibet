@@ -27,7 +27,7 @@ const Ranking = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync(accessToken));
+    dispatch(getAllUsersReducerAsync());
   }, [accessToken, dispatch]);
 
   // Handle tracking

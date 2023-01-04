@@ -111,9 +111,9 @@ export const logoutReducerAsync = (accessToken) => async (dispatch) => {
   }
 };
 
-export const getAllUsersReducerAsync = (accessToken) => async (dispatch) => {
+export const getAllUsersReducerAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get("/user", { headers: headers(accessToken) });
+    const res = await axios.get("/user");
 
     if (res.data) {
       dispatch(getAllUsersReducer(res.data));

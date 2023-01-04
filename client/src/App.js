@@ -1,9 +1,10 @@
+import { registerLicense } from "@syncfusion/ej2-base";
 import axios from "axios";
 import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ErrorFallback from "./components/ErrorFallback";
 import ScrollToTop from "./components/ScrollToTop";
 import { routes } from "./constants";
@@ -32,23 +33,24 @@ function App() {
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user logged from global state
-  const { user, accessToken } = useSelector(selectUser);
-  // Initial navigate
-  const navigate = useNavigate();
+  const { accessToken } = useSelector(selectUser);
 
   // Set axios defaults
   axios.defaults.baseURL = "http://localhost:8000/api";
   axios.defaults.headers.common = `Bearer ${accessToken}`;
 
+  // Registering Syncfusion license key
+  registerLicense(
+    "Mgo+DSMBaFt/QHRqVVhkXVpGaV1dX2NLfUN/T2BfdVt0ZDU7a15RRnVfQ11gS3xQckRjW3lccw==;Mgo+DSMBPh8sVXJ0S0J+XE9Ad1RAQmFWfFN0RnNQdV12flBCcDwsT3RfQF5jSH5QdEdgXX5ecnNQRQ==;ORg4AjUWIQA/Gnt2VVhkQlFacl5JX3xLYVF2R2BJdlRzcl9DZEwxOX1dQl9gSX9TdUdhWntfcHZdQWM=;ODY4NzY5QDMyMzAyZTM0MmUzMGQvMXBVSDg4bEdPQWdVS2RZZDdIakV0Yks2SndPVmVHUHhHSHprelVLcms9;ODY4NzcwQDMyMzAyZTM0MmUzMEtEdS9ZNWNuNU1FN2lwWlNwaHViaXRkdjJ6REJIUWpKT0NtOGJ2NU83MkU9;NRAiBiAaIQQuGjN/V0Z+WE9EaFtDVmFWfEx0RWFab1d6d1NMZVhBJAtUQF1hSn5SdkZhW3xacXRWQmRf;ODY4NzcyQDMyMzAyZTM0MmUzMGpESUtFeTlLRnhKWFNmbFJIOW9weTVQUDVOc2w1NGNzS3RvbzQvc0NHT1U9;ODY4NzczQDMyMzAyZTM0MmUzMG9vRWVlMnFTaHAzaCtsSktRZ3BUQlI2ckUyVUNVYlMxSXVCOE00K3RWcDg9;Mgo+DSMBMAY9C3t2VVhkQlFacl5JX3xLYVF2R2BJdlRzcl9DZEwxOX1dQl9gSX9TdUdhWntfcHBVTmM=;ODY4Nzc1QDMyMzAyZTM0MmUzMGZKVmRoNURYbDcxZUtYdWg0SzJlYjh2M1pEY2ZOZm1wME5PS1RzbW9yNjQ9;ODY4Nzc2QDMyMzAyZTM0MmUzMGkvdlM4ZDdDS0E2Y05BOHBXMll6UURyb2VTeklMOUxWTWl3eWtsSS81L0E9;ODY4Nzc3QDMyMzAyZTM0MmUzMGpESUtFeTlLRnhKWFNmbFJIOW9weTVQUDVOc2w1NGNzS3RvbzQvc0NHT1U9"
+  );
+
   return (
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        if (!user) navigate("/login");
-
         dispatch(getAllMatchesReducerAsync(accessToken));
         dispatch(getAllCommentsReducerAsync());
-        dispatch(getAllUsersReducerAsync(accessToken));
+        dispatch(getAllUsersReducerAsync());
         dispatch(getAllTeamsReducerAsync(accessToken));
         dispatch(getAllBetsReducerAsync(accessToken));
       }}

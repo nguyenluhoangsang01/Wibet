@@ -41,7 +41,7 @@ const Users = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync(accessToken));
+    dispatch(getAllUsersReducerAsync());
   }, [accessToken, dispatch]);
 
   // Check if user not exists

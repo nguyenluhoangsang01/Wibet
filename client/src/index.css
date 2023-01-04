@@ -114,3 +114,11 @@ button:disabled {
 .ant-image-preview-img {
   @apply w-[900px] h-[600px];
 }
+
+text {
+  @apply !text-[15px];
+}
+
+svg > text {
+  @apply !text-[17px];
+}
