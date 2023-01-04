@@ -68,8 +68,8 @@ const Comments = () => {
               className="text-[20px] text-[#656c7a] flex items-center gap-2"
               onClick={handleLogin}
             >
-              <AiOutlineLogin />
               Login
+              <AiOutlineLogin />
             </button>
           )}
         </div>
