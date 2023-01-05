@@ -147,6 +147,7 @@ const Profile = () => {
           columns={columns}
           dataSource={null}
           className="pt-[25px]"
+          scroll={{ x: "100vh" }}
         />
       </div>
     </div>

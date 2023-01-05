@@ -16,6 +16,10 @@
   label {
     @apply !font-[calibri] !text-[18px] !font-bold;
   }
+
+  svg {
+    user-select: none;
+  }
 }
 
 .action-details > a,

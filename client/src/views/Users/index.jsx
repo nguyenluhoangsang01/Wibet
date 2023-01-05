@@ -269,9 +269,8 @@ const Users = () => {
         dataSource={users?.users
           ?.filter((item) => item._id !== user?._id)
           .reverse()}
-        scroll={{
-          x: 1200,
-        }}
+        loading={users?.users ? false : true}
+				scroll={{ x: "100vh" }}
       />
 
       {/* Modal */}

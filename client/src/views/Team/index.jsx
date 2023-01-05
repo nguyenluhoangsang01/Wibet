@@ -195,6 +195,8 @@ const Team = () => {
         rowKey="_id"
         columns={columns}
         dataSource={[...teams?.teams].reverse()}
+        loading={teams?.teams ? false : true}
+        scroll={{ x: "100vh" }}
       />
 
       {/* Modal delete team */}

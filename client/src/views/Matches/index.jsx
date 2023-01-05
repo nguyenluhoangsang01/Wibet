@@ -21,10 +21,10 @@ import { matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, formatTime, headers } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
 
@@ -585,6 +585,8 @@ const Matches = () => {
             user.roleID === "Admin" ? match : match.isShow === true
           )}
         rowClassName={(record) => !record.isShow && "disabled-row"}
+        loading={matches.matches ? false : true}
+        scroll={{ x: "100vh" }}
       />
 
       {/* Delete Modal */}

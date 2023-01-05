@@ -141,6 +141,8 @@ const Ranking = () => {
           .filter((user) => user.betTimes > 0)
           .sort((a, b) => a.money - b.money)
           .reverse()}
+        loading={users?.users ? false : true}
+        scroll={{ x: "100vh" }}
       />
     </div>
   );
