@@ -7,7 +7,10 @@ const RuleWrappers = ({ heading, children }) => {
         {heading}
       </h4>
 
-      <div className="font-[calibri] text-[18px]">{children}</div>
+      <div className="font-[calibri] text-[18px] mb-[50px]">
+        {children}
+        <hr />
+      </div>
     </div>
   );
 };

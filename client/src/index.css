@@ -126,3 +126,26 @@ svg > text {
 .bg-wrapper {
   @apply rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] bg-[#28a745];
 }
+
+.rules ul {
+  list-style-type: disc;
+  @apply pl-[30px] md:pl-[60px];
+}
+
+.rules ul ul {
+  list-style-type: circle;
+  padding-left: 30px;
+}
+
+.rules p,
+.rules li {
+  margin-bottom: 10px;
+}
+
+.rules hr {
+  @apply w-full md:w-[60%] mx-auto;
+}
+
+.rules h4 {
+  @apply my-[10px] font-[arial] font-bold;
+}
