@@ -148,7 +148,7 @@ const Rules = () => {
             <li>
               <p>Mức độ truy cập:</p>
               <Table
-                key="_id"
+                rowKey="_id"
                 columns={columns}
                 dataSource={accessLevel}
                 pagination={false}
@@ -325,7 +325,7 @@ const Rules = () => {
                 <h4>CƠ CẤU GIẢI THƯỞNG</h4>
                 <p>Cơ cấu giải thưởng bao gồm:</p>
                 <Table
-                  key="_id"
+                  rowKey="_id"
                   columns={columnsReward}
                   dataSource={dataReward}
                   pagination={false}
