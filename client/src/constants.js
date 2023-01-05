@@ -311,3 +311,77 @@ export const createMatchRoutes = [
     name: "Create Match",
   },
 ];
+
+// Access level
+export const accessLevel = [
+  {
+    _id: "accessLevel1",
+    category: "Ranking",
+    details: "Xem lịch sử đặt cược của người chơi khác",
+    groupState: true,
+    knockoutRound: false,
+  },
+  {
+    _id: "accessLevel2",
+    category: "Ranking",
+    details: "Xem thông tin cơ bản về số điểm hiện có và số điểm đã cược",
+    groupState: true,
+    knockoutRound: true,
+  },
+  {
+    _id: "accessLevel3",
+    category: "Matches",
+    details: "Xem tỉ lệ đặt cược và tỉ lệ chọi",
+    groupState: true,
+    knockoutRound: true,
+  },
+  {
+    _id: "accessLevel4",
+    category: "Matches",
+    details: "Xem thông tin chi tiết về danh sách người chơi tham gia cược",
+    groupState: true,
+    knockoutRound: false,
+  },
+  {
+    _id: "accessLevel5",
+    category: "Matches",
+    details: "Xem số điểm bản thân đã cược và chỉnh sửa",
+    groupState: true,
+    knockoutRound: true,
+  },
+  {
+    _id: "accessLevel6",
+    category: "Matches",
+    details: "Xem chi tiết cược của trận đang đấu",
+    groupState: true,
+    knockoutRound: false,
+  },
+];
+
+// Reward data
+export const dataReward = [
+  {
+    _id: "reward1",
+    award: "DIAMOND",
+    quantity: "01",
+    rates: "~30%",
+  },
+  {
+    _id: "reward2",
+    award: "PLATINUM",
+    quantity: "01",
+    rates: "~20%",
+  },
+  {
+    _id: "reward3",
+    award: "GOLD",
+    quantity: "02",
+    rates: "~10%",
+  },
+  {
+    _id: "reward4",
+    award: "SILVER",
+    quantity: "04",
+    rates: "~05%",
+  },
+];

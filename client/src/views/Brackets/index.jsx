@@ -26,21 +26,22 @@ const Brackets = () => {
     <>
       {/* Breadcrumbs */}
       <Breadcrumbs routes={bracketRoutes} />
-      <div className="flex items-center justify-center h-[calc(100vh-50px-60px-40px-60px)]">
+      <div className="flex items-center justify-center h-[calc(100vh-50px-60px-40px-60px)] overflow-x-scroll pl-[300px]">
         <TournamentBoard
           competitor={[
             [
               [
-                [{ id: "0" }, { id: "1" }],
-                [{ id: "2" }, { id: "3" }],
+                [
+                  [{ id: "0" }, { id: "1" }],
+                  [{ id: "2" }, { id: "3" }],
+                ],
               ],
               [
-                [{ id: "4" }, { id: "5" }],
-                [{ id: "6" }, { id: "7" }],
-              ],
-              [
-                [{ id: "8" }, { id: "9" }],
-                [{ id: "10" }, { id: "11" }],
+                [
+                  [{ id: "4" }, { id: "5" }],
+                  [{ id: "6" }, { id: "7" }],
+                ],
+                [[{ id: "8" }, { id: "9" }]],
               ],
             ],
           ]}
@@ -50,15 +51,12 @@ const Brackets = () => {
             { result: [{ id: "4" }, { id: "5" }], winnerId: "5" },
             { result: [{ id: "6" }, { id: "7" }], winnerId: "6" },
             { result: [{ id: "8" }, { id: "9" }], winnerId: "8" },
-            { result: [{ id: "10" }, { id: "11" }], winnerId: "11" },
 
             { result: [{ id: "1" }, { id: "2" }], winnerId: "2" },
             { result: [{ id: "5" }, { id: "6" }], winnerId: "5" },
-            { result: [{ id: "8" }, { id: "11" }], winnerId: "11" },
-            {
-              result: [{ id: "2" }, { id: "5" }, { id: "11" }],
-              winnerId: "11",
-            },
+
+            { result: [{ id: "5" }, { id: "8" }], winnerId: "5" },
+            { result: [{ id: "2" }, { id: "5" }], winnerId: "5" },
           ]}
           nodeRenderer={(props) =>
             props.isLeaf && <BracketTeam team={teams[props.competitor.id]} />

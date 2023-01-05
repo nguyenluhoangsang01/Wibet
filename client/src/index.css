@@ -161,3 +161,16 @@ svg > text {
 .ant-table-cell::before {
   display: none;
 }
+
+.reward tr:nth-child(1) {
+  @apply !bg-[#dff0d8];
+}
+.reward tr:nth-child(2) {
+  @apply !bg-[#b8daff];
+}
+.reward tr:nth-child(3) {
+  @apply !bg-[#fcf8e3];
+}
+.reward tr:nth-child(4) {
+  @apply !bg-[#d9edf7];
+}

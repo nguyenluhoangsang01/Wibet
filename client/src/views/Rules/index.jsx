@@ -5,12 +5,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
-import { ruleRoutes } from "../../constants";
+import { accessLevel, dataReward, ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 
 const Rules = () => {
+  // Get pathname from location
   const { pathname } = useLocation();
+  // Initial navigate
   const navigate = useNavigate();
+  // Get current date
   const date = new Date();
 
   // Set title
@@ -24,6 +27,7 @@ const Rules = () => {
       title: "Mục",
       dataIndex: "category",
       key: "category",
+      render: (text) => <span className="font-bold">{text}</span>,
     },
     {
       title: "Chi tiết",
@@ -34,11 +38,29 @@ const Rules = () => {
       title: "Vòng bảng",
       dataIndex: "groupState",
       key: "groupState",
+      render: (text) => (
+        <span
+          className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+            text ? "bg-[#28a745]" : "bg-[#dc3545]"
+          }`}
+        >
+          {text ? "Có" : "Không"}
+        </span>
+      ),
     },
     {
       title: "Vòng loại trực tiếp",
       dataIndex: "knockoutRound",
       key: "knockoutRound",
+      render: (text) => (
+        <span
+          className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+            text ? "bg-[#28a745]" : "bg-[#dc3545]"
+          }`}
+        >
+          {text ? "Có" : "Không"}
+        </span>
+      ),
     },
   ];
 
@@ -48,6 +70,9 @@ const Rules = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
+      render: (text, record, index) => (
+        <span className="font-bold">{index + 1}</span>
+      ),
     },
     {
       title: "Giải",
@@ -65,6 +90,8 @@ const Rules = () => {
       key: "rates",
     },
   ];
+
+  //
 
   // Handle login
   const handleLogin = () => {
@@ -120,7 +147,12 @@ const Rules = () => {
             </li>
             <li>
               <p>Mức độ truy cập:</p>
-              <Table columns={columns} />
+              <Table
+                key="_id"
+                columns={columns}
+                dataSource={accessLevel}
+                pagination={false}
+              />
             </li>
             <li>
               <p>
@@ -292,7 +324,13 @@ const Rules = () => {
               <div>
                 <h4>CƠ CẤU GIẢI THƯỞNG</h4>
                 <p>Cơ cấu giải thưởng bao gồm:</p>
-                <Table columns={columnsReward} />
+                <Table
+                  key="_id"
+                  columns={columnsReward}
+                  dataSource={dataReward}
+                  pagination={false}
+                  className="reward"
+                />
                 <p className="text-[12px] mt-[20px]">
                   Tỷ lệ phần trăm(%) trên tổng giá trị quỹ thưởng VND (10% cho
                   công tác Maintenance)
