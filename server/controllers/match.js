@@ -128,7 +128,7 @@ export const getMatchById = async (req, res, next) => {
     const match = await Match.findById(id)
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
-    if (!match) return sendError(res, sendError("Match not found", 404));
+    if (!match) return sendError(res, "Match not found", 404);
 
     // Send notification success
     return sendSuccess(res, "Get match successfully!", match);
