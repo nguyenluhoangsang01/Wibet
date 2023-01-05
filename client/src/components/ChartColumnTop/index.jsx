@@ -1,12 +1,12 @@
 import {
-	Category,
-	ChartComponent,
-	ColumnSeries,
-	DataLabel,
-	Inject,
-	SeriesCollectionDirective,
-	SeriesDirective,
-	Tooltip
+  Category,
+  ChartComponent,
+  ColumnSeries,
+  DataLabel,
+  Inject,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Tooltip,
 } from "@syncfusion/ej2-react-charts";
 import React from "react";
 
@@ -26,6 +26,7 @@ const ChartColumnTop = ({ id, title, tooltip, primaryXAxis, data }) => {
           xName="username"
           yName="money"
           type="Column"
+          pointColorMapping="color"
         />
       </SeriesCollectionDirective>
     </ChartComponent>

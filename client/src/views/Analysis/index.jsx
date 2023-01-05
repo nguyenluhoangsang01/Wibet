@@ -37,6 +37,27 @@ const Analysis = () => {
   const marker = { visible: true };
 
   // Get all username with money data sources
+  const top3UserNameWithMoneyDataSources = users
+    .slice(0, 3)
+    .map((user) => [
+      { username: user.username, money: user.money, color: "#FFB266" },
+    ])
+    .flat(1)
+    .sort((a, b) => b.money - a.money);
+  const top10UserNameWithMoneyDataSources = users
+    .slice(0, 10)
+    .map((user) => [
+      { username: user.username, money: user.money, color: "#6FCDCD" },
+    ])
+    .flat(1)
+    .sort((a, b) => b.money - a.money);
+  const top20UserNameWithMoneyDataSources = users
+    .slice(0, 20)
+    .map((user) => [
+      { username: user.username, money: user.money, color: "#FF6384" },
+    ])
+    .flat(1)
+    .sort((a, b) => b.money - a.money);
   const userNameWithMoneyDataSources = users
     .map((user) => [{ username: user.username, money: user.money }])
     .flat(1)
@@ -56,6 +77,7 @@ const Analysis = () => {
       {
         username: user.username,
         winRates: ((user.winTimes / user.betTimes) * 100).toFixed(2),
+        color: "#FF6384",
       },
     ])
     .flat(1);
@@ -69,7 +91,7 @@ const Analysis = () => {
           title="Top 3 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-          data={userNameWithMoneyDataSources.slice(0, 3)}
+          data={top3UserNameWithMoneyDataSources}
         />
 
         {/* Top 10 */}
@@ -78,7 +100,7 @@ const Analysis = () => {
           title="Top 10 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-          data={userNameWithMoneyDataSources.slice(0, 10)}
+          data={top10UserNameWithMoneyDataSources}
         />
 
         {/* Top 20 */}
@@ -87,7 +109,7 @@ const Analysis = () => {
           title="Top 20 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-          data={userNameWithMoneyDataSources.slice(0, 20)}
+          data={top20UserNameWithMoneyDataSources.slice(0, 20)}
         />
       </div>
 
