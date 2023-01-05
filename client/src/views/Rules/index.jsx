@@ -72,7 +72,7 @@ const Rules = () => {
   };
 
   return (
-    <div className="divide-y-2 rules">
+    <div className="divide-y-2">
       {/* First section */}
       <div>
         {/* Breadcrumbs */}
@@ -85,7 +85,7 @@ const Rules = () => {
       </div>
 
       {/* Second section */}
-      <div>
+      <div className="rules">
         <RuleWrappers heading="thể thức chung">
           <ul>
             <li>

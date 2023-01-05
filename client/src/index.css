@@ -149,3 +149,15 @@ svg > text {
 .rules h4 {
   @apply my-[10px] font-[arial] font-bold;
 }
+
+.t16lsehf {
+  @apply ml-[100px];
+}
+
+.n3v5c1 {
+  @apply -ml-[100px];
+}
+
+.ant-table-cell::before {
+  display: none;
+}

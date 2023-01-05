@@ -134,6 +134,17 @@ export const ruleRoutes = [
   },
 ];
 
+export const bracketRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "brackets",
+  },
+];
+
 export const rankingRoutes = [
   {
     path: "/",

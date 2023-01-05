@@ -142,7 +142,7 @@ const Team = () => {
       ),
     },
     {
-      title: "",
+      title: "-",
       dataIndex: "actions",
       render: (text, record) => (
         <div className="flex items-center justify-center">

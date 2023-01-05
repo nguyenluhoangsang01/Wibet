@@ -474,7 +474,7 @@ const Matches = () => {
       ),
     },
     {
-      title: "",
+      title: "-",
       dataIndex: "actions",
       render: (text, record) => (
         <div>

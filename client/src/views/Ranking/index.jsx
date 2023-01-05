@@ -99,9 +99,8 @@ const Ranking = () => {
       render: (text, record) => <span>{record.money + record.betMoney}</span>,
     },
     {
-      title: "",
+      title: "-",
       dataIndex: "actions",
-      width: 0,
       render: (text, record) =>
         isShowHistory && (
           <div className="flex items-center justify-center">

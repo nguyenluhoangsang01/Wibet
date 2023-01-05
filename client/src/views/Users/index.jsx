@@ -212,7 +212,7 @@ const Users = () => {
         ),
     },
     {
-      title: "",
+      title: "-",
       dataIndex: "action",
       render: (text, record) => (
         <div>
