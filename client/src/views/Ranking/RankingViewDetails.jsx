@@ -167,7 +167,13 @@ const RankingViewDetails = () => {
       <Heading title={`ranking: ${bets[0]?.user?.username}`} />
 
       {/* Table */}
-      <Table rowKey="_id" columns={columns} dataSource={[...bets].reverse()} />
+      <Table
+        rowKey="_id"
+        columns={columns}
+        dataSource={[...bets].reverse()}
+        loading={bets ? false : true}
+        scroll={{ x: "100vh" }}
+      />
     </div>
   );
 };

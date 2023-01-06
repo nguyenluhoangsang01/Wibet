@@ -201,9 +201,10 @@ const Profile = () => {
         <Table
           rowKey="_id"
           columns={columns}
-          dataSource={bets.bets}
+          dataSource={[...bets.bets]?.reverse()}
           className="pt-[25px]"
           scroll={{ x: "100vh" }}
+          loading={bets.bets ? false : true}
         />
       </div>
     </div>

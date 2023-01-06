@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
+import { selectBet } from "../../state/betSlice";
 import { selectUser } from "../../state/userSlice";
 
 const BetViewAll = () => {
@@ -17,6 +18,8 @@ const BetViewAll = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial navigate
   const navigate = useNavigate();
+  // Get all bets from global state
+  const { bets } = useSelector(selectBet);
 
   // Set title
   useEffect(() => {
@@ -90,7 +93,7 @@ const BetViewAll = () => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.user.username}</span>,
     },
     {
       title: "Option",
@@ -100,7 +103,7 @@ const BetViewAll = () => {
         if (a.option < b.option) return -1;
         if (a.option > b.option) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.team.fullName}</span>,
     },
     {
       title: "Money",
@@ -114,11 +117,11 @@ const BetViewAll = () => {
     },
     {
       title: "Bet Times",
-      dataIndex: "betTimes",
-      key: "betTimes",
+      dataIndex: "betTime",
+      key: "betTime",
       sorter: (a, b) => {
-        if (a.betTimes < b.betTimes) return -1;
-        if (a.betTimes > b.betTimes) return 1;
+        if (a.betTime < b.betTime) return -1;
+        if (a.betTime > b.betTime) return 1;
       },
       render: (text) => <span>{text}</span>,
     },
@@ -126,7 +129,29 @@ const BetViewAll = () => {
       title: "Result",
       dataIndex: "result",
       key: "result",
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span
+          className={`uppercase min-w-[50px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+            !record.match.result
+              ? "bg-inherit text-[#212529] font-normal"
+              : record.match.result === record.team.fullName
+              ? "bg-[#28a745]"
+              : record.match.result !== record.team.fullName &&
+                record.match.result !== "Draw"
+              ? "bg-[#dc3545]"
+              : record.match.result === "Draw" && "bg-[#ffc107] text-[#212529]"
+          }`}
+        >
+          {!record.match.result
+            ? "-"
+            : record.match.result === record.team.fullName
+            ? "W"
+            : record.match.result !== record.team.fullName &&
+              record.match.result !== "Draw"
+            ? "L"
+            : record.match.result === "Draw" && "D"}
+        </span>
+      ),
     },
   ];
 
@@ -165,8 +190,12 @@ const BetViewAll = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={null}
+        dataSource={[
+          ...bets.bets.filter((bet) => bet.match._id === id),
+        ]?.reverse()}
         className="pt-[25px]"
+        loading={bets.bets ? false : true}
+        scroll={{ x: "100vh" }}
       />
     </div>
   );
