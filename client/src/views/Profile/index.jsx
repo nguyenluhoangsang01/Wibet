@@ -1,23 +1,26 @@
 import { Button, Form, Input, Table } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { profileRoutes } from "../../constants";
-import { capitalize } from "../../helper";
-import { selectUser } from "../../state/userSlice";
+import { capitalize, headers } from "../../helper";
+import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const Profile = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user form global state
-  const { user } = useSelector(selectUser);
+  const { user, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
@@ -29,10 +32,33 @@ const Profile = () => {
     if (!user) return navigate("/");
   }, [navigate, user]);
 
-  // Handle on finish
+  // Handle submit finish
   const onFinish = async (values) => {
     // Initial loading with true when user click update button
     setIsFinish(true);
+
+    try {
+      // Update current user with values get from form
+      const res = await axios.patch("/user/update/profile", values, {
+        headers: headers(accessToken),
+      });
+
+      // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
+      if (res.data) {
+        dispatch(updateUserReducer(res.data));
+
+        setIsFinish(false);
+
+        navigate("/");
+      }
+    } catch ({ response }) {
+      // Check if response return data, set is finish to false and dispatch update password reducer action to update new user information (maybe)
+      if (response.data) {
+        dispatch(updateUserReducer(response.data));
+
+        setIsFinish(false);
+      }
+    }
   };
 
   const columns = [
@@ -109,7 +135,7 @@ const Profile = () => {
           wrapperCol={{ span: 6 }}
           onFinish={onFinish}
           autoComplete="off"
-          initialValues={{ fullName: user.fullName }}
+          initialValues={{ fullName: user.fullName, timezone: user.timezone }}
         >
           {/* Full Name input */}
           <Form.Item

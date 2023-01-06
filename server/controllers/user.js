@@ -127,6 +127,7 @@ export const updateUser = async (req, res, next) => {
   try {
     // Get user id from request
     const { userId } = req;
+    // Get data from request body
     const { email, username, newPassword, money } = req.body;
 
     // Validate
@@ -166,13 +167,8 @@ export const updateUser = async (req, res, next) => {
       // Update user with new password
       await User.findByIdAndUpdate(
         userId,
-        {
-          ...req.body,
-          password: hashedNewPassword,
-        },
-        {
-          new: true,
-        }
+        { ...req.body, password: hashedNewPassword },
+        { new: true }
       );
     }
 
@@ -183,9 +179,7 @@ export const updateUser = async (req, res, next) => {
         ...req.body,
         money: money ? Number(money) + Number(user.money) : user.money,
       },
-      {
-        new: true,
-      }
+      { new: true }
     );
 
     const updatedUser = await User.findById(userId).select("-__v -password");
@@ -244,9 +238,7 @@ export const updateUserById = async (req, res, next) => {
           password: hashedNewPassword,
           bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
         },
-        {
-          new: true,
-        }
+        { new: true }
       );
     }
 
@@ -258,9 +250,7 @@ export const updateUserById = async (req, res, next) => {
         money: money ? Number(money) + Number(user.money) : user.money,
         bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
       },
-      {
-        new: true,
-      }
+      { new: true }
     );
 
     return sendSuccess(res, "Update user successfully!");
@@ -365,9 +355,7 @@ export const updatePassword = async (req, res, next) => {
         {
           password: hashedNewPassword,
         },
-        {
-          new: true,
-        }
+        { new: true }
       ).select("-__v -password");
 
       // Send success notification
@@ -394,6 +382,33 @@ export const getAllUsers = async (req, res, next) => {
       length: users.length,
       users,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    // Get user if from request
+    const { userId } = req;
+    // Get data from request body
+    const { fullName, timezone } = req.body;
+
+    // Validate
+    if (!fullName) return sendError(res, "Full Name cannot be blank.");
+    if (!timezone) return sendError(res, "Timezone cannot be blank.");
+
+    // Get user logged
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { ...req.body },
+      { new: true }
+    ).select("-__v -password");
+    // Check if user not exists
+    if (!user) return sendError(res, "User not found", 404);
+
+    // Send success notification
+    return sendSuccess(res, "Update profile successfully!", { user });
   } catch (error) {
     next(error);
   }

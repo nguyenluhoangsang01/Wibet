@@ -7,6 +7,7 @@ import {
   login,
   logout,
   updatePassword,
+  updateProfile,
   updateUser,
   updateUserById,
 } from "../controllers/user.js";
@@ -58,5 +59,10 @@ router.patch("/:id", verifyToken, updateUserById);
 // @desc Update password
 // @access Private
 router.patch("/update/password", verifyToken, updatePassword);
+
+// @route PATCH api/user/update/profile
+// @desc Update user profile
+// @access Private
+router.patch("/update/profile", verifyToken, updateProfile);
 
 export default router;
