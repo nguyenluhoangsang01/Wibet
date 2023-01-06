@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { accountRoutes, navbarRoutes } from "../../constants";
 import { useOutsideClick } from "../../helper";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
@@ -21,6 +21,8 @@ const Navbar = () => {
   const handleClickOutside = () => {
     setIsClicked(false);
   };
+  // Get pathname from location hook
+  const { pathname } = useLocation();
 
   // Ref of account dropdown
   const accountDropdownRef = useOutsideClick(handleClickOutside);
@@ -96,7 +98,7 @@ const Navbar = () => {
                       ? "h-[40px] flex justify-center"
                       : "h-full p-[15px]"
                   } flex items-center transition hover:scale-105 ${
-                    isActive ? "text-[black] bg-[white]" : "hover:bg-[#555555]"
+                    isActive ? "text-black bg-white" : "hover:bg-[#555555]"
                   }`
                 }
                 onClick={() => setIsShowMenu(false)}
@@ -136,7 +138,7 @@ const Navbar = () => {
                   ref={accountDropdownRef}
                   className={`absolute shadow-2xl ${
                     isShowMenu ? "w-full" : "w-48 top-[50px] right-[16px]"
-                  } overflow-hidden pb-0 text-[black] bg-white rounded-b-md`}
+                  } overflow-hidden pb-0 text-black bg-white rounded-b-md`}
                 >
                   {accountRoutes.map((route) =>
                     route.path ? (
@@ -149,7 +151,7 @@ const Navbar = () => {
                         }}
                       >
                         <div
-                          className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-[black] hover:text-white ${
+                          className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-black hover:text-white ${
                             isShowMenu ? "justify-center" : ""
                           }`}
                         >
@@ -161,7 +163,7 @@ const Navbar = () => {
                         key={route.name}
                         className={`font-medium text-[15px] h-[30px] transition px-4 w-full text-start ${
                           route.name !== "logout"
-                            ? "hover:bg-[black] hover:text-white"
+                            ? "hover:bg-black hover:text-white"
                             : "hover:scale-105 active:scale-100"
                         }`}
                         onClick={route.name === "logout" && handleLogout}
@@ -182,7 +184,9 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-[black] hover:bg-[white]"
+              className={`w-full h-full flex items-center px-3 transition hover:scale-105 hover:text-black hover:bg-white ${
+                pathname.slice(1) === "login" ? "bg-white text-black" : ""
+              }`}
               onClick={() => setIsShowMenu(false)}
             >
               <span
