@@ -161,7 +161,7 @@ const Profile = () => {
           wrapperCol={{ span: 6 }}
           onFinish={onFinish}
           autoComplete="off"
-          initialValues={{ fullName: user.fullName, timezone: user.timezone }}
+          initialValues={{ fullName: user?.fullName, timezone: user?.timezone }}
         >
           {/* Full Name input */}
           <Form.Item

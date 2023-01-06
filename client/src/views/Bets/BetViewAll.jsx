@@ -161,7 +161,7 @@ const BetViewAll = () => {
       <Breadcrumbs routes={matchUpdateScore} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="capitalize text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4">
+      <h1 className="capitalize text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
         <p>view all bets:</p>
         <div className="flex items-center justify-center gap-2">
           <Image
