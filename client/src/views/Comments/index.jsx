@@ -7,8 +7,8 @@ import CommentList from "../../components/CommentList";
 import Editor from "../../components/Editor";
 import { capitalize } from "../../helper";
 import {
-	getAllCommentsReducerAsync,
-	selectComment
+  getAllCommentsReducerAsync,
+  selectComment,
 } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -62,7 +62,9 @@ const Comments = () => {
         </div>
 
         <div className="w-full flex items-center justify-between text-[#343434] py-[12px] font-bold relative">
-          <span className="text-[18px]">{comments.length} Comments</span>
+          <span className="text-[18px]">
+            {comments.length} Comment{comments.length > 1 ? "s" : ""}
+          </span>
           {!user && (
             <button
               className="text-[20px] text-[#656c7a] flex items-center gap-2"
