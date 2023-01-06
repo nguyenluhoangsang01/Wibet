@@ -8,7 +8,12 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { loginRoutes } from "../../constants";
 import { capitalize, isValidEmail } from "../../helper";
-import { loginReducerAsync, selectUser } from "../../state/userSlice";
+import {
+  loginReducerAsync,
+  selectUser,
+  updateRememberToFalse,
+  updateRememberToTrue,
+} from "../../state/userSlice";
 
 const Login = () => {
   // Get pathname from location
@@ -16,7 +21,7 @@ const Login = () => {
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user from global state
-  const { user } = useSelector(selectUser);
+  const { user, remember } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
 
@@ -48,6 +53,12 @@ const Login = () => {
         })
       );
 
+      if (values.remember) {
+        await dispatch(updateRememberToTrue());
+      } else {
+        await dispatch(updateRememberToFalse());
+      }
+
       // When login success
       setIsFinish(false);
     } catch (error) {
@@ -73,7 +84,7 @@ const Login = () => {
         name="login"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 6 }}
-        initialValues={{ remember: false }}
+        initialValues={{ remember }}
         onFinish={onFinish}
         autoComplete="off"
         className="h-[calc(100vh-60px*2-24px*2-32px-16px-40px-36px)]"

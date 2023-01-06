@@ -8,6 +8,7 @@ const initialState = {
   user: null,
   users: [],
   isShowHistory: false,
+  remember: false,
 };
 
 export const userSlice = createSlice({
@@ -77,6 +78,14 @@ export const userSlice = createSlice({
 
     toggleIsShowHistory: (state) => {
       state.isShowHistory = !state.isShowHistory;
+    },
+
+    updateRememberToTrue: (state) => {
+      state.remember = true;
+    },
+
+    updateRememberToFalse: (state) => {
+      state.remember = false;
     },
   },
 });
@@ -151,5 +160,7 @@ export const {
   deleteUserReducer,
   updateUserAfterDeleteBet,
   toggleIsShowHistory,
+  updateRememberToTrue,
+  updateRememberToFalse,
 } = userSlice.actions;
 export default userSlice.reducer;
