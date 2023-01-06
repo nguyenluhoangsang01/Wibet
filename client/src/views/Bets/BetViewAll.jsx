@@ -117,7 +117,7 @@ const BetViewAll = () => {
       render: (text) => <span>{text}</span>,
     },
     {
-      title: "Bet Times",
+      title: "Bet Time",
       dataIndex: "betTime",
       key: "betTime",
       sorter: (a, b) => {
