@@ -80,7 +80,8 @@ table > tbody > tr > td > div > a {
 }
 
 .ant-table-cell > div > a,
-.ant-table-cell > div > button {
+.ant-table-cell > div > button,
+.ant-table-cell > div > div > button {
   @apply !p-[10px] !rounded-md !text-white !text-[18px];
 }
 

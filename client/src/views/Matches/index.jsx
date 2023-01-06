@@ -245,14 +245,38 @@ const Matches = () => {
     // Set loading button first
     setConfirmLoadingWithdrawMatch(true);
 
-    console.log(selectedBetWithdraw);
-
     try {
-      // const res = await axios.patch(`/bet/${}`)
+      // Use patch method to update isCanceled to true
+      const { data } = await axios.patch(`/bet/${selectedBetWithdraw}`, null, {
+        headers: headers(accessToken),
+      });
 
-      setConfirmLoadingWithdrawMatch(false);
-    } catch (error) {
-      setConfirmLoadingWithdrawMatch(false);
+      // Check if data is exists
+      if (data.success) {
+        // Send success notification
+        toast.success(data.message);
+
+        // Set loading button to false
+        setConfirmLoadingWithdrawMatch(false);
+
+        // Close modal
+        setOpenWithdrawMatch(false);
+
+        // After get all matches
+        await dispatch(getAllMatchesReducerAsync(accessToken));
+      }
+    } catch ({ response }) {
+      // Check if success is false
+      if (!response.data.success) {
+        // Set loading button to false
+        setConfirmLoadingWithdrawMatch(false);
+
+        // Close modal
+        setOpenWithdrawMatch(false);
+
+        // Success error notification
+        toast.error(response.data.message);
+      }
     }
   };
 
@@ -319,6 +343,7 @@ const Matches = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
+      width: "1%",
       render: (text, record, index) => (
         <p className="font-[calibri] text-[18px]">{index + 1}</p>
       ),
@@ -378,36 +403,44 @@ const Matches = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
+      width: "1%",
       render: (text) => <span>0:{formatNumber(text)}</span>,
     },
     {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
+      width: "1%",
       render: (text) => <span>{formatTime(text)}</span>,
     },
     {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
-      render: (text, record) => (
-        <span>
-          {`${record?.team1?.name} [${
-            record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
-          } : ${
-            record?.resultOfTeam2
-              ? formatNumber(
-                  Number(record?.resultOfTeam2) + Number(record?.rate)
-                )
-              : "-"
-          }] ${record?.team2?.name}`}
-        </span>
-      ),
+      render: (text, record) =>
+        record.isCanceled ? (
+          <span className="bg-[#6c757d] rounded-full gap-1 text-white text-[16px] font-bold font-[calibri] px-4">
+            Canceled
+          </span>
+        ) : (
+          <span>
+            {`${record?.team1?.name} [${
+              record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
+            } : ${
+              record?.resultOfTeam2
+                ? formatNumber(
+                    Number(record?.resultOfTeam2) + Number(record?.rate)
+                  )
+                : "-"
+            }] ${record?.team2?.name}`}
+          </span>
+        ),
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      width: "1%",
       render: (text, record) => (
         <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
       ),
@@ -418,60 +451,66 @@ const Matches = () => {
       key: "bet-action",
       render: (text, record) => (
         <div className="flex items-center justify-center">
-          <div>
-            <button
-              onClick={() => handleBet(record)}
-              className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
-            >
-              <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                Bet Now
-              </span>{" "}
-              <FaShare className="text-white text-[14px]" />
-            </button>
-
+          {record.result ? (
+            "-"
+          ) : (
             <div>
-              {bets
-                ?.filter(
-                  (bet) =>
-                    bet?.match?._id === record?._id &&
-                    bet?.user?._id === user?._id
-                )
-                .map((bet) => (
-                  <div
-                    className="flex items-center divide-x-2 gap-"
-                    key={bet._id}
-                  >
-                    <div className="flex items-center gap-1">
-                      <span className="text-[18px] font-[calibri]">
-                        {bet.team.name}
-                      </span>
-                      <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
-                        {bet.money}p
-                      </span>
-                    </div>
-
-                    {!record.isCanceled && !record.result && (
-                      <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
-                        <BsPencilFill
-                          onClick={handleUpdateBet}
-                          className="cursor-pointer"
-                        />
-
-                        <CgClose
-                          onClick={() =>
-                            handleDeleteBet({
-                              betId: bet._id,
-                              matchId: bet.match._id,
-                            })
-                          }
-                          className="cursor-pointer"
-                        />
+              <div>
+                {bets
+                  .filter(
+                    (bet) =>
+                      bet?.match?._id === record?._id &&
+                      bet?.user?._id === user?._id
+                  )
+                  .map((bet) => (
+                    <div
+                      className="flex items-center divide-x-2 gap-"
+                      key={bet._id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <span className="text-[18px] font-[calibri]">
+                          {bet.team.name}
+                        </span>
+                        <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
+                          {bet.money}p
+                        </span>
                       </div>
-                    )}
-                  </div>
-                ))}
+
+                      {!record.isCanceled && !record.result && (
+                        <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
+                          <BsPencilFill
+                            onClick={handleUpdateBet}
+                            className="cursor-pointer"
+                          />
+
+                          <CgClose
+                            onClick={() =>
+                              handleDeleteBet({
+                                betId: bet._id,
+                                matchId: bet.match._id,
+                              })
+                            }
+                            className="cursor-pointer"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+              </div>
+
+              <div className="flex items-center justify-center">
+                <button
+                  onClick={() => handleBet(record)}
+                  className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
+                >
+                  <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                    Bet Now
+                  </span>{" "}
+                  <FaShare className="text-white text-[14px]" />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ),
     },
@@ -479,74 +518,76 @@ const Matches = () => {
       title: "-",
       dataIndex: "actions",
       render: (text, record) => (
-        <div>
-          <button
-            onClick={() => handleViewAllBet(record)}
-            className="bg-[#222222]"
-          >
-            <FaShare />
-          </button>
-
-          {user?.roleID === "Admin" && (
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
             <button
-              onClick={() => handleUpdateInfo(record)}
-              disabled={record.result || record.isCanceled ? true : false}
-              className="bg-[#f0ad4e]"
+              onClick={() => handleViewAllBet(record)}
+              className="bg-[#222222]"
             >
-              <BsPencilFill />
+              <FaShare />
             </button>
-          )}
 
-          {user?.roleID === "Admin" &&
-            (record.result ? (
+            {user?.roleID === "Admin" && (
               <button
-                onClick={() => handleViewDetail(record)}
-                className="bg-[#5bc0de]"
+                onClick={() => handleUpdateInfo(record)}
+                className="bg-[#f0ad4e]"
               >
-                <MdViewWeek />
+                <BsPencilFill />
               </button>
-            ) : (
+            )}
+
+            {user?.roleID === "Admin" &&
+              (record.result ? (
+                <button
+                  onClick={() => handleViewDetail(record)}
+                  className="bg-[#5bc0de]"
+                >
+                  <MdViewWeek />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleUpdateScore(record)}
+                  className="bg-[#47a447]"
+                >
+                  <TiTick />
+                </button>
+              ))}
+
+            {user?.roleID === "Admin" && (
               <button
-                onClick={() => handleUpdateScore(record)}
-                className="bg-[#47a447]"
+                onClick={() =>
+                  handleDelete(
+                    record._id,
+                    record?.team1?.fullName,
+                    record?.team2?.fullName
+                  )
+                }
+                className="bg-[#d9534f]"
               >
-                <TiTick />
+                <CgClose />
               </button>
-            ))}
+            )}
+          </div>
 
-          {user?.roleID === "Admin" && (
-            <button
-              onClick={() =>
-                handleDelete(
-                  record._id,
-                  record?.team1?.fullName,
-                  record?.team2?.fullName
-                )
-              }
-              className="bg-[#d9534f]"
-              disabled={record.isCanceled}
-            >
-              <CgClose />
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {user?.roleID === "Admin" && (
+              <button
+                onClick={() => handleHide(record)}
+                className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
+              >
+                {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
+              </button>
+            )}
 
-          {user?.roleID === "Admin" && (
-            <button
-              onClick={() => handleHide(record)}
-              className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
-            >
-              {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
-            </button>
-          )}
-
-          {user?.roleID === "Admin" && (
-            <button
-              onClick={() => handleWithdraw(record._id)}
-              className="bg-[#d2322d]"
-            >
-              <BsCloudMinusFill />
-            </button>
-          )}
+            {user?.roleID === "Admin" && (
+              <button
+                onClick={() => handleWithdraw(record._id)}
+                className="bg-[#d2322d]"
+              >
+                <BsCloudMinusFill />
+              </button>
+            )}
+          </div>
         </div>
       ),
     },
@@ -608,7 +649,7 @@ const Matches = () => {
           )}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "100vh" }}
+        scroll={{ x: "140vh" }}
       />
 
       {/* Delete Modal */}

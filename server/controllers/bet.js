@@ -324,6 +324,33 @@ export const getAllBets = async (req, res, next) => {
 
 export const withdrawMoney = async (req, res, next) => {
   try {
+    // Get match id from request params
+    const { matchId } = req.params;
+
+    // Get all bets by match id
+    const bets = await Bet.where("match")
+      .equals(matchId)
+      .populate("team user", "-__v -password")
+      .select("-__v")
+      .populate({
+        path: "match",
+        populate: {
+          path: "team1 team2",
+          select: "name fullName flag",
+        },
+        select: "-__v",
+      });
+
+    // Get match by match id
+    const match = await Match.findById(matchId);
+    if (!match) return sendError(res, "Match not found", 404);
+    if (match.isCanceled) return sendError(res, "The match has been canceled");
+
+    // Update match
+    await Match.findByIdAndUpdate(matchId, { isCanceled: true }, { new: true });
+
+    // Send success notification
+    return sendSuccess(res, "Withdraw match successfully!");
   } catch (error) {
     next(error);
   }
