@@ -76,6 +76,7 @@ const Editor = () => {
             rows={4}
             className="w-full text-[15px] pl-4 pt-2"
             placeholder="Start the discussion..."
+            disabled={!user}
           />
         </Form.Item>
 
