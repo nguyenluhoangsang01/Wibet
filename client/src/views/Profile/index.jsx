@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import NumberOfRows from "../../components/NumberOfRows";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
@@ -132,7 +133,6 @@ const Profile = () => {
               : record.match.result === "Draw" && "bg-[#ffc107] text-[#212529]"
           }`}
         >
-          {" "}
           {!record.match.result
             ? "-"
             : record.match.result === record.team.fullName
@@ -153,7 +153,7 @@ const Profile = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      <div className="divide-y-2">
+      <div>
         {/* Form */}
         <Form
           name="login"
@@ -197,14 +197,22 @@ const Profile = () => {
           </Form.Item>
         </Form>
 
+        {/* Number of rows */}
+        <NumberOfRows>
+          Showing <span className="font-bold">1-{bets.length}</span>of{" "}
+          <span className="font-bold">{bets.length}</span> item
+          {bets.length > 1 ? "s" : ""}.
+        </NumberOfRows>
+
         {/* Table */}
         <Table
           rowKey="_id"
           columns={columns}
           dataSource={[...bets.bets]?.reverse()}
-          className="pt-[25px]"
+          className="pt-[25px] -mt-4"
           scroll={{ x: "100vh" }}
           loading={bets.bets ? false : true}
+          pagination={false}
         />
       </div>
     </div>

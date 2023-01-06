@@ -256,10 +256,21 @@ const Users = () => {
       <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
-          1-{users.length - 1 < 10 ? users.length - 1 : 10}
+          1-
+          {users?.users?.filter((item) => item._id !== user?._id).length - 1 <
+          10
+            ? users?.users?.filter((item) => item._id !== user?._id).length - 1
+            : 10}
         </span>{" "}
-        of <span className="font-bold">{users.length - 1}</span> user
-        {users.length - 1 > 1 ? "s" : ""}.
+        of{" "}
+        <span className="font-bold">
+          {users?.users?.filter((item) => item._id !== user?._id).length - 1}
+        </span>{" "}
+        user
+        {users?.users?.filter((item) => item._id !== user?._id).length - 1 > 1
+          ? "s"
+          : ""}
+        .
       </NumberOfRows>
 
       {/* Table */}
@@ -270,7 +281,7 @@ const Users = () => {
           ?.filter((item) => item._id !== user?._id)
           .reverse()}
         loading={users?.users ? false : true}
-				scroll={{ x: "100vh" }}
+        scroll={{ x: "100vh" }}
       />
 
       {/* Modal */}

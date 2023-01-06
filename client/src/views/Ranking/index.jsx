@@ -127,10 +127,20 @@ const Ranking = () => {
       <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
-          1-{users.length - 1 < 10 ? users.length - 1 : 10}
+          1-
+          {[...users?.users].filter((user) => user.betTimes > 0).length - 1 < 10
+            ? [...users?.users].filter((user) => user.betTimes > 0).length - 1
+            : 10}
         </span>{" "}
-        of <span className="font-bold">{users.length - 1}</span> user
-        {users.length - 1 > 1 ? "s" : ""}.
+        of{" "}
+        <span className="font-bold">
+          {[...users?.users].filter((user) => user.betTimes > 0).length - 1}
+        </span>{" "}
+        user
+        {[...users?.users].filter((user) => user.betTimes > 0).length - 1 > 1
+          ? "s"
+          : ""}
+        .
       </NumberOfRows>
 
       {/* Table */}

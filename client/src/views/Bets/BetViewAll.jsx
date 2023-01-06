@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import NumberOfRows from "../../components/NumberOfRows";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
 import { selectUser } from "../../state/userSlice";
@@ -186,6 +187,16 @@ const BetViewAll = () => {
         </div>
       </h1>
 
+      {/* Number of rows */}
+      <NumberOfRows>
+        Total{" "}
+        <span className="font-bold">
+          {bets.bets.filter((bet) => bet.match._id === id).length}
+        </span>{" "}
+        item
+        {bets.bets.filter((bet) => bet.match._id === id).length > 1 ? "s" : ""}.
+      </NumberOfRows>
+
       {/* Table */}
       <Table
         rowKey="_id"
@@ -193,9 +204,10 @@ const BetViewAll = () => {
         dataSource={[
           ...bets.bets.filter((bet) => bet.match._id === id),
         ]?.reverse()}
-        className="pt-[25px]"
+        className="pt-[25px] -mt-4"
         loading={bets.bets ? false : true}
         scroll={{ x: "100vh" }}
+        pagination={false}
       />
     </div>
   );
