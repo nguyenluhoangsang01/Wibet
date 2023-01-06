@@ -79,14 +79,13 @@ const Navbar = () => {
         >
           {navbarRoutes
             .filter((route) =>
-              user?.roleID === "Admin"
-                ? route
-                : user?.roleID === "User"
-                ? route.name !== "users" && route.name !== "teams"
-                : !user &&
+              !user
+                ? route.name !== "matches" &&
                   route.name !== "users" &&
-                  route.name !== "teams" &&
-                  route.name !== "matches"
+                  route.name !== "teams"
+                : user?.roleID === "User" || user?.roleID === "Guest"
+                ? route.name !== "users" && route.name !== "teams"
+                : user?.roleID === "Admin" && route
             )
             .map((route) => (
               <NavLink
@@ -128,7 +127,7 @@ const Navbar = () => {
                   <span className="rounded-sm bg-[#FFC107] text-black text-[14px] px-[7px] min-w-[10px] h-[20px] flex items-center justify-center">
                     {user.money}
                   </span>
-                  <AiFillCaretDown />
+                  <AiFillCaretDown className="text-[11px]" />
                 </p>
               </button>
 
