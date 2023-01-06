@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { accountRoutesB } from "../../constants";
@@ -27,8 +27,10 @@ const Account = () => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
 
-  // Check if user is null
-  if (!user) return <Navigate to="/" />;
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
 
   // Handle submit finish
   const onFinish = async (values) => {

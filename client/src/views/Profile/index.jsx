@@ -2,7 +2,7 @@ import { Button, Form, Input, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { profileRoutes } from "../../constants";
@@ -16,14 +16,18 @@ const Profile = () => {
   const { user } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+  // Initial navigate
+  const navigate = useNavigate();
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
 
-  // Check if user is null
-  if (!user) return <Navigate to="/" />;
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
 
   // Handle on finish
   const onFinish = async (values) => {

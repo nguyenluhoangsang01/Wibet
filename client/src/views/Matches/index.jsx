@@ -9,7 +9,7 @@ import { IoEyeSharp } from "react-icons/io5";
 import { MdViewWeek } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import ModalDeleteBet from "../../components/ModalDeleteBet";
@@ -80,8 +80,10 @@ const Matches = () => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
 
-  // Check if user is null
-  if (!user) return <Navigate to="/" />;
+  // Check if user not exists
+  useEffect(() => {
+    if (!user) return navigate("/");
+  }, [navigate, user]);
 
   // Handle bet
   const handleBet = (record) => {
