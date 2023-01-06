@@ -8,6 +8,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
+import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const Profile = () => {
@@ -15,6 +16,8 @@ const Profile = () => {
   const { pathname } = useLocation();
   // Get user form global state
   const { user, accessToken } = useSelector(selectUser);
+  // Get all bets from global state
+  const { bets } = useSelector(selectBet);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   // Initial navigate
@@ -76,7 +79,7 @@ const Profile = () => {
         if (a.team1 < b.team1) return -1;
         if (a.team1 > b.team1) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.match.team1.fullName}</span>,
     },
     {
       title: "Team 2 Name",
@@ -86,7 +89,7 @@ const Profile = () => {
         if (a.team2 < b.team2) return -1;
         if (a.team2 > b.team2) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.match.team2.fullName}</span>,
     },
     {
       title: "Rate",
@@ -96,7 +99,7 @@ const Profile = () => {
         if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => <span>{record.match.rate}</span>,
     },
     {
       title: "Money",
@@ -116,7 +119,30 @@ const Profile = () => {
         if (a.result < b.result) return -1;
         if (a.result > b.result) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span
+          className={`uppercase min-w-[50px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+            !record.match.result
+              ? "bg-inherit text-[#212529] font-normal"
+              : record.match.result === record.team.fullName
+              ? "bg-[#28a745]"
+              : record.match.result !== record.team.fullName &&
+                record.match.result !== "Draw"
+              ? "bg-[#dc3545]"
+              : record.match.result === "Draw" && "bg-[#ffc107] text-[#212529]"
+          }`}
+        >
+          {" "}
+          {!record.match.result
+            ? "-"
+            : record.match.result === record.team.fullName
+            ? "W"
+            : record.match.result !== record.team.fullName &&
+              record.match.result !== "Draw"
+            ? "L"
+            : record.match.result === "Draw" && "D"}
+        </span>
+      ),
     },
   ];
 
@@ -175,7 +201,7 @@ const Profile = () => {
         <Table
           rowKey="_id"
           columns={columns}
-          dataSource={null}
+          dataSource={bets.bets}
           className="pt-[25px]"
           scroll={{ x: "100vh" }}
         />
