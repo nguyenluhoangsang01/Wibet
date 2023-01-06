@@ -150,7 +150,7 @@ const MatchViewDetails = () => {
 
       {/* Actions */}
       {!match.isCanceled && (
-        <div className="flex items-center gap-4 mb-6 action-details mt-6 md:mt-0">
+        <div className="flex items-center gap-4 mb-6 action-details mt-6">
           <button onClick={handleMatch} className="!bg-[#d2322d]">
             Delete
           </button>
