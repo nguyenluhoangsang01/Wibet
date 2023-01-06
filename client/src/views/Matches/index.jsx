@@ -487,7 +487,7 @@ const Matches = () => {
             <FaShare />
           </button>
 
-          {user.roleID === "Admin" && (
+          {user?.roleID === "Admin" && (
             <button
               onClick={() => handleUpdateInfo(record)}
               disabled={record.result || record.isCanceled ? true : false}
@@ -497,7 +497,7 @@ const Matches = () => {
             </button>
           )}
 
-          {user.roleID === "Admin" &&
+          {user?.roleID === "Admin" &&
             (record.result ? (
               <button
                 onClick={() => handleViewDetail(record)}
@@ -514,7 +514,7 @@ const Matches = () => {
               </button>
             ))}
 
-          {user.roleID === "Admin" && (
+          {user?.roleID === "Admin" && (
             <button
               onClick={() =>
                 handleDelete(
@@ -530,7 +530,7 @@ const Matches = () => {
             </button>
           )}
 
-          {user.roleID === "Admin" && (
+          {user?.roleID === "Admin" && (
             <button
               onClick={() => handleHide(record)}
               className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
@@ -539,7 +539,7 @@ const Matches = () => {
             </button>
           )}
 
-          {user.roleID === "Admin" && (
+          {user?.roleID === "Admin" && (
             <button
               onClick={() => handleWithdraw(record._id)}
               className="bg-[#d2322d]"
@@ -561,7 +561,7 @@ const Matches = () => {
       <Heading title={pathname.slice(1)} />
 
       {/* Action */}
-      {user.roleID === "Admin" && (
+      {user?.roleID === "Admin" && (
         <div className="action-details mb-[10px] flex items-center justify-end gap-1">
           <Link to="/matches/create">Create Match</Link>
         </div>
@@ -584,7 +584,7 @@ const Matches = () => {
         dataSource={[...matches.matches]
           ?.reverse()
           ?.filter((match) =>
-            user.roleID === "Admin" ? match : match.isShow === true
+            user?.roleID === "Admin" ? match : match.isShow === true
           )}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
