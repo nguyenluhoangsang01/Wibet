@@ -571,10 +571,30 @@ const Matches = () => {
       <NumberOfRows>
         Showing{" "}
         <span className="font-bold">
-          1-{matches.length < 10 ? matches.length : 10}
+          1-
+          {[...matches.matches]?.filter((match) =>
+            user?.roleID === "Admin" ? match : match.isShow === true
+          ).length < 10
+            ? [...matches.matches]?.filter((match) =>
+                user?.roleID === "Admin" ? match : match.isShow === true
+              ).length
+            : 10}
         </span>{" "}
-        of <span className="font-bold">{matches.length}</span> match
-        {matches.length > 1 ? "es" : ""}.
+        of{" "}
+        <span className="font-bold">
+          {
+            [...matches.matches]?.filter((match) =>
+              user?.roleID === "Admin" ? match : match.isShow === true
+            ).length
+          }
+        </span>{" "}
+        match
+        {[...matches.matches]?.filter((match) =>
+          user?.roleID === "Admin" ? match : match.isShow === true
+        ).length > 1
+          ? "es"
+          : ""}
+        .
       </NumberOfRows>
 
       {/* Table */}
