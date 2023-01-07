@@ -13,6 +13,7 @@ import { getAllCommentsReducerAsync } from "./state/commentSlice";
 import { getAllMatchesReducerAsync } from "./state/matchSlice";
 import { getAllTeamsReducerAsync } from "./state/teamSlice";
 import { getAllUsersReducerAsync, selectUser } from "./state/userSlice";
+import BetUpdate from "./views/Bets/BetUpdate";
 import BetViewAll from "./views/Bets/BetViewAll";
 import Loading from "./views/Loading";
 import RankingViewDetails from "./views/Ranking/RankingViewDetails";
@@ -90,6 +91,10 @@ function App() {
             <Route
               path="/matches/bet/view-match/:id"
               element={<BetViewAll />}
+            />
+            <Route
+              path="/matches/bet/update/:matchId/:betId"
+              element={<BetUpdate />}
             />
 
             {/* Nested routes of user */}

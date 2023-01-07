@@ -295,8 +295,8 @@ const Matches = () => {
   };
 
   // Handle update bet
-  const handleUpdateBet = () => {
-    console.log("handleUpdateBet");
+  const handleUpdateBet = (matchId, betId) => {
+    navigate(`/matches/bet/update/${matchId}/${betId}`);
   };
 
   // Handle ok when delete bet
@@ -451,66 +451,64 @@ const Matches = () => {
       key: "bet-action",
       render: (text, record) => (
         <div className="flex items-center justify-center">
-          {record.result ? (
-            "-"
-          ) : (
+          <div>
+            {/*  */}
             <div>
-              <div>
-                {bets
-                  .filter(
-                    (bet) =>
-                      bet?.match?._id === record?._id &&
-                      bet?.user?._id === user?._id
-                  )
-                  .map((bet) => (
-                    <div
-                      className="flex items-center divide-x-2 gap-"
-                      key={bet._id}
-                    >
-                      <div className="flex items-center gap-1">
-                        <span className="text-[18px] font-[calibri]">
-                          {bet.team.name}
-                        </span>
-                        <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
-                          {bet.money}p
-                        </span>
-                      </div>
-
-                      {!record.isCanceled && !record.result && (
-                        <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
-                          <BsPencilFill
-                            onClick={handleUpdateBet}
-                            className="cursor-pointer"
-                          />
-
-                          <CgClose
-                            onClick={() =>
-                              handleDeleteBet({
-                                betId: bet._id,
-                                matchId: bet.match._id,
-                              })
-                            }
-                            className="cursor-pointer"
-                          />
-                        </div>
-                      )}
+              {bets
+                .filter(
+                  (bet) =>
+                    bet?.match?._id === record?._id &&
+                    bet?.user?._id === user?._id
+                )
+                .map((bet) => (
+                  <div
+                    className="flex items-center divide-x-2 gap-"
+                    key={bet._id}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span className="text-[18px] font-[calibri]">
+                        {bet.team.name}
+                      </span>
+                      <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
+                        {bet.money}p
+                      </span>
                     </div>
-                  ))}
-              </div>
 
-              <div className="flex items-center justify-center">
-                <button
-                  onClick={() => handleBet(record)}
-                  className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
-                >
-                  <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                    Bet Now
-                  </span>{" "}
-                  <FaShare className="text-white text-[14px]" />
-                </button>
-              </div>
+                    {!record.isCanceled && !record.result && (
+                      <div className="rounded-full bg-[#ffc107] py-[3px] px-[10px] flex items-center gap-1 text-[16px] text-[#428bca]">
+                        <BsPencilFill
+                          onClick={() => handleUpdateBet(record._id, bet._id)}
+                          className="cursor-pointer"
+                        />
+
+                        <CgClose
+                          onClick={() =>
+                            handleDeleteBet({
+                              betId: bet._id,
+                              matchId: bet.match._id,
+                            })
+                          }
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
             </div>
-          )}
+
+            {/*  */}
+            <div className="flex items-center justify-center">
+              <button
+                onClick={() => handleBet(record)}
+                className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
+              >
+                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                  Bet Now
+                </span>{" "}
+                <FaShare className="text-white text-[14px]" />
+              </button>
+            </div>
+          </div>
         </div>
       ),
     },

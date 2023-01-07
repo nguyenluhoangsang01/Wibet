@@ -1,31 +1,29 @@
 import { Button, Form, Image, InputNumber, Select } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
-import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
-const BetCreate = () => {
-  // Get match id from params
-  const { id } = useParams();
-  // Initial state
-  const [match, setMatch] = useState({});
-  const [isFinish, setIsFinish] = useState(false);
-  // Initial dispatch
-  const dispatch = useDispatch();
+const BetUpdate = () => {
+  // Get match id and bet id from request params
+  const { matchId, betId } = useParams();
   // Initial navigate
   const navigate = useNavigate();
+  // Initial dispatch
+  const dispatch = useDispatch();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
-  // Get all bets from global state
-  const {
-    bets: { bets },
-  } = useSelector(selectBet);
+  // Initial state
+  const [match, setMatch] = useState({});
+  const [bet, setBet] = useState({});
+  const [isFinish, setIsFinish] = useState(false);
+  // Initial form ref
+  const form = useRef(null);
 
   // Check if user not exists
   useEffect(() => {
@@ -44,21 +42,11 @@ const BetCreate = () => {
     )}`;
   });
 
-  // Map over all bets check if user id in this bet equal with user logged and match id existed in bet
-  useEffect(() => {
-    bets.some(
-      (bet) =>
-        bet?.user?._id?.toString() === user?._id?.toString() &&
-        bet?.match?._id?.toString() === match?._id?.toString() &&
-        navigate("/matches")
-    );
-  }, [bets, match?._id, navigate, user?._id]);
-
   // Get match by id
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/match/${id}`, {
+        const { data } = await axios.get(`/match/${matchId}`, {
           headers: headers(accessToken),
         });
 
@@ -76,10 +64,37 @@ const BetCreate = () => {
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, matchId, navigate]);
+
+  // Get bet by bet id
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`/bet/${betId}`, {
+          headers: headers(accessToken),
+        });
+
+        if (data.data) {
+          setBet(data.data.bets[0]);
+
+          // Reset form
+          form.current.resetFields();
+        }
+      } catch ({ response }) {
+        if (response.status === 500) {
+          navigate("/matches");
+        } else if (!response.data.success) {
+          // When get failured
+          toast.error(response.data.message);
+
+          navigate("/matches");
+        }
+      }
+    })();
+  }, [accessToken, betId, navigate]);
 
   // Routes for breadcrumbs
-  const createBetRoutes = [
+  const updateBetRoutes = [
     {
       path: "/",
       name: "home",
@@ -90,7 +105,7 @@ const BetCreate = () => {
     },
     {
       path: "",
-      name: "create bet",
+      name: "update bet",
     },
   ];
 
@@ -101,8 +116,8 @@ const BetCreate = () => {
 
     try {
       // Use post method to create a new match
-      const res = await axios.post(
-        `/bet/${match._id}`,
+      const res = await axios.patch(
+        `/bet/${betId}/${matchId}`,
         { ...values },
         { headers: headers(accessToken) }
       );
@@ -131,11 +146,11 @@ const BetCreate = () => {
   return (
     <div>
       {/* Breadcrumbs */}
-      <Breadcrumbs routes={createBetRoutes} />
+      <Breadcrumbs routes={updateBetRoutes} />
 
       {/* Heading */}
       <h1 className="capitalize text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
-        <p>create bet:</p>
+        <p>update bet:</p>
         <div className="flex items-center justify-center gap-2">
           <Image
             src={match?.team1?.flag}
@@ -167,9 +182,10 @@ const BetCreate = () => {
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
-          team: "",
-          money: "",
+          team: bet?.team?._id,
+          money: bet?.money,
         }}
+        ref={form}
       >
         {/* Team select */}
         <Form.Item
@@ -235,4 +251,4 @@ const BetCreate = () => {
   );
 };
 
-export default BetCreate;
+export default BetUpdate;
