@@ -201,6 +201,10 @@ const MatchViewDetails = () => {
             <td>
               {match?.result ? (
                 match?.result
+              ) : match.isCanceled ? (
+                <span className="bg-[#6c757d] rounded-full gap-1 text-white text-[16px] font-bold font-[calibri] px-4">
+                  Canceled
+                </span>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}

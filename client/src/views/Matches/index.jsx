@@ -531,13 +531,14 @@ const Matches = () => {
               <button
                 onClick={() => handleUpdateInfo(record)}
                 className="bg-[#f0ad4e]"
+                disabled={record.isCanceled || record.result}
               >
                 <BsPencilFill />
               </button>
             )}
 
             {user?.roleID === "Admin" &&
-              (record.result ? (
+              (record.result || record.isCanceled ? (
                 <button
                   onClick={() => handleViewDetail(record)}
                   className="bg-[#5bc0de]"
@@ -555,6 +556,9 @@ const Matches = () => {
 
             {user?.roleID === "Admin" && (
               <button
+                disabled={bets.some(
+                  (bet) => bet.match._id.toString() === record._id
+                )}
                 onClick={() =>
                   handleDelete(
                     record._id,
@@ -579,14 +583,16 @@ const Matches = () => {
               </button>
             )}
 
-            {user?.roleID === "Admin" && (
-              <button
-                onClick={() => handleWithdraw(record._id)}
-                className="bg-[#d2322d]"
-              >
-                <BsCloudMinusFill />
-              </button>
-            )}
+            {user?.roleID === "Admin" &&
+              !record.isCanceled &&
+              !record.result && (
+                <button
+                  onClick={() => handleWithdraw(record._id)}
+                  className="bg-[#d2322d]"
+                >
+                  <BsCloudMinusFill />
+                </button>
+              )}
           </div>
         </div>
       ),
