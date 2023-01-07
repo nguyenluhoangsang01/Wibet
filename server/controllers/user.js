@@ -112,6 +112,9 @@ export const login = async (req, res, next) => {
       loggedInAt: moment().format("HH:mm:ss - yyyy/MM/DD"),
       loggedInIp: currentIpAddress,
     }).select("-__v -password");
+    // Check if user is banned
+    if (user.banned) return sendError(res, "User is banned");
+    if (user.status === "Inactive") return res, "Email inactive";
 
     // Send success notification
     return sendSuccess(res, "Logged successfully!", {
