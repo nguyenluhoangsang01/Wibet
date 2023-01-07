@@ -76,11 +76,16 @@ export const deleteMatchById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
+    // Get user id from request
+    const { userId } = req;
 
-    // Check if match not exits
+    // Find match by id and delete
     const match = await Match.findByIdAndDelete(id);
     // Check if match not found
     if (!match) return sendError(res, "Match not found", 404);
+    // Get user by user id
+    const user = await User.findById(userId);
+    if (!user) return sendError(res, "User not found", 404);
 
     // Find bets by match id and delete
     await Bet.deleteMany({ match: match._id });
@@ -89,6 +94,15 @@ export const deleteMatchById = async (req, res, next) => {
     const matches = await Match.find()
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
+
+    // Update user
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        match: user.match.filter((match) => match.toString() !== id),
+      },
+      { new: true }
+    );
 
     // Send success notification
     return sendSuccess(res, "Delete match successfully!", {
