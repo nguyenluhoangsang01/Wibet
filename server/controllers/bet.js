@@ -147,6 +147,9 @@ export const deleteBetById = async (req, res, next) => {
             ? user.money + match.statusOfTeam1
             : match.statusOfTeam2 !== 0 && user.money + match.statusOfTeam2,
         betTimes: user.betTimes - 1,
+        match: user.match.filter(
+          (match) => match.toString() !== matchId.toString()
+        ),
       },
       { new: true }
     );
