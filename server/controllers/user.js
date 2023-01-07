@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
+import IP from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
 import validator from "validator";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import User from "../models/user.js";
-import IP from "ip";
 
 export const createUser = async (req, res, next) => {
   try {
@@ -135,7 +135,7 @@ export const updateUser = async (req, res, next) => {
     // Get user id from request
     const { userId } = req;
     // Get data from request body
-    const { email, username, newPassword, money } = req.body;
+    const { email, username, newPassword } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
@@ -180,14 +180,7 @@ export const updateUser = async (req, res, next) => {
     }
 
     // Update user
-    await User.findByIdAndUpdate(
-      userId,
-      {
-        ...req.body,
-        money: money ? Number(money) + Number(user.money) : user.money,
-      },
-      { new: true }
-    );
+    await User.findByIdAndUpdate(userId, { ...req.body }, { new: true });
 
     const updatedUser = await User.findById(userId).select("-__v -password");
 
@@ -201,7 +194,7 @@ export const updateUserById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
-    const { email, username, newPassword, money, banned } = req.body;
+    const { email, username, newPassword, banned } = req.body;
 
     // Validate
     if (!email) return sendError(res, "Email cannot be blank.");
@@ -254,7 +247,6 @@ export const updateUserById = async (req, res, next) => {
       id,
       {
         ...req.body,
-        money: money ? Number(money) + Number(user.money) : user.money,
         bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
       },
       { new: true }
