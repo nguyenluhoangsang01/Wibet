@@ -1,10 +1,11 @@
-import { Button, Image, Modal } from "antd";
+import { Image } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import ModalDeleteMatch from "../../components/ModalDeleteMatch";
 import { capitalize, formatTime, headers } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
@@ -236,39 +237,13 @@ const MatchViewDetails = () => {
       </table>
 
       {/* Delete Modal */}
-      <Modal
-        title="Delete match"
+      <ModalDeleteMatch
         open={open}
-        onOk={handleOk}
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete the match between{" "}
-          <span className="capitalize font-bold">
-            {match?.team1?.fullName ? match?.team1?.fullName : "Team 1"}
-          </span>{" "}
-          and{" "}
-          <span className="capitalize font-bold">
-            {match?.team2?.fullName ? match?.team2?.fullName : "Team 2"}
-          </span>
-          ?
-        </p>
-      </Modal>
+        match={match}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };

@@ -203,6 +203,7 @@ const TeamUpdate = () => {
             type="primary"
             htmlType="submit"
             className="bg-black flex items-center gap-2"
+            disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
             <span>Update</span>

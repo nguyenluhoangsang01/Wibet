@@ -24,6 +24,8 @@ export const createBetById = async (req, res, next) => {
     // Get user by id
     const user = await User.findById(userId);
     if (!user) return sendError(res, "User not found", 404);
+    if (user.match.includes(match._id))
+      return sendError(res, "Betted on this match");
 
     // Validate
     if (!team) return sendError(res, "Option cannot be blank.");
@@ -87,6 +89,7 @@ export const createBetById = async (req, res, next) => {
         money: Number(user.money) - money,
         betTimes: user.betTimes + 1,
         betMoney: user.betMoney + money,
+        match: [...user.match, match._id],
       },
       { new: true }
     );

@@ -114,7 +114,11 @@ export const login = async (req, res, next) => {
     }).select("-__v -password");
     // Check if user is banned
     if (user.banned) return sendError(res, "User is banned");
-    if (user.status === "Inactive") return res, "Email inactive";
+    if (user.status === "Inactive")
+      return sendError(
+        res,
+        "The account is inactive, please contact the Wibet Admin"
+      );
 
     // Send success notification
     return sendSuccess(res, "Logged successfully!", {

@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import {
-	createUserRoutes,
-	ROLES,
-	ROLESDEFAULT,
-	STATUS,
-	STATUSDEFAULT
+  createUserRoutes,
+  ROLES,
+  ROLESDEFAULT,
+  STATUS,
+  STATUSDEFAULT,
 } from "../../constants";
 import { headers } from "../../helper";
 import { selectUser } from "../../state/userSlice";
@@ -237,6 +237,7 @@ const UserCreate = () => {
             type="primary"
             htmlType="submit"
             className="bg-black flex items-center gap-2"
+            disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
             <span>Create</span>

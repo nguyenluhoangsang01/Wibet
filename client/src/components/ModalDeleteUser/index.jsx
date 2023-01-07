@@ -16,7 +16,7 @@ const ModalDeleteUser = ({
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       footer={[
-        <Button key="cancel" onClick={handleCancel}>
+        <Button key="cancel" onClick={handleCancel} disabled={confirmLoading}>
           Cancel
         </Button>,
         <Button
@@ -25,6 +25,7 @@ const ModalDeleteUser = ({
           loading={confirmLoading}
           onClick={handleOk}
           className="bg-black"
+          disabled={confirmLoading}
         >
           Ok
         </Button>,

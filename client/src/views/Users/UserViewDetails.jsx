@@ -1,4 +1,3 @@
-import { Button, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -6,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import ModalDeleteUser from "../../components/ModalDeleteUser";
 import { capitalize, formatTime, headers } from "../../helper";
 import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -250,32 +250,13 @@ const UserViewDetails = () => {
         </tbody>
       </table>
 
-      <Modal
-        title="Delete user"
+      <ModalDeleteUser
         open={open}
-        onOk={handleOk}
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-            className="bg-black"
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete{" "}
-          <span className="capitalize font-semibold">{user.username}</span>?
-        </p>
-      </Modal>
+        user={user}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };

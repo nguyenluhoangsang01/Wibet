@@ -15,9 +15,13 @@ const ModalHideMatch = ({
       onOk={handleOk}
       confirmLoading={confirmLoadingHide}
       onCancel={handleCancel}
-			keyboard={true}
+      keyboard={true}
       footer={[
-        <Button key="cancel" onClick={handleCancel}>
+        <Button
+          key="cancel"
+          onClick={handleCancel}
+          disabled={confirmLoadingHide}
+        >
           Cancel
         </Button>,
         <Button
@@ -26,6 +30,7 @@ const ModalHideMatch = ({
           loading={confirmLoadingHide}
           onClick={handleOk}
           className="bg-black"
+          disabled={confirmLoadingHide}
         >
           Ok
         </Button>,

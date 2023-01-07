@@ -497,17 +497,19 @@ const Matches = () => {
             </div>
 
             {/*  */}
-            <div className="flex items-center justify-center">
-              <button
-                onClick={() => handleBet(record)}
-                className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
-              >
-                <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
-                  Bet Now
-                </span>{" "}
-                <FaShare className="text-white text-[14px]" />
-              </button>
-            </div>
+            {!user?.match.includes(record._id) && (
+              <div className="flex items-center justify-center">
+                <button
+                  onClick={() => handleBet(record)}
+                  className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
+                >
+                  <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
+                    Bet Now
+                  </span>{" "}
+                  <FaShare className="text-white text-[14px]" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ),
