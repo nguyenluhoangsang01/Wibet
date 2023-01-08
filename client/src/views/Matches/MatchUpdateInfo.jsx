@@ -258,6 +258,11 @@ const MatchUpdateInfo = () => {
               type: "number",
               message: "Rate is not a valid number.",
             },
+            {
+              type: "number",
+              min: 0.1,
+              message: "Rate must be greater than or equal to 0.1.",
+            },
           ]}
         >
           <InputNumber style={{ width: "100%" }} />
