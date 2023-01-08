@@ -369,7 +369,9 @@ const Matches = () => {
       key: "resultOfTeam1",
       width: "1%",
       render: (text) => (
-        <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
+        <span className="font-[calibri] text-[18px]">
+          {text ? text : text === 0 ? "0" : "-"}
+        </span>
       ),
     },
     {
@@ -378,7 +380,9 @@ const Matches = () => {
       key: "resultOfTeam2",
       width: "1%",
       render: (text) => (
-        <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
+        <span className="font-[calibri] text-[18px]">
+          {text ? text : text === 0 ? "0" : "-"}
+        </span>
       ),
     },
     {
@@ -427,12 +431,18 @@ const Matches = () => {
         ) : (
           <span>
             {`${record?.team1?.name} [${
-              record?.resultOfTeam1 ? Number(record?.resultOfTeam1) : "-"
+              record?.resultOfTeam1
+                ? Number(record?.resultOfTeam1)
+                : record?.resultOfTeam1 === 0
+                ? "0"
+                : "-"
             } : ${
               record?.resultOfTeam2
                 ? formatNumber(
                     Number(record?.resultOfTeam2) + Number(record?.rate)
                   )
+                : record?.resultOfTeam2 === 0
+                ? formatNumber(Number(record?.rate))
                 : "-"
             }] ${record?.team2?.name}`}
           </span>

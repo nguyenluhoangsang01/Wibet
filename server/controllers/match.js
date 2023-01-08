@@ -198,9 +198,9 @@ export const updateScoreById = async (req, res, next) => {
     const { userId } = req;
 
     // Validate
-    if (!resultOfTeam1)
+    if (!resultOfTeam1 && resultOfTeam1 !== 0)
       return sendError(res, "Result of team 1 cannot be blank.");
-    if (!resultOfTeam2)
+    if (!resultOfTeam2 && resultOfTeam2 !== 0)
       return sendError(res, "Result of team 2 cannot be blank.");
 
     // Get match by id
@@ -212,25 +212,6 @@ export const updateScoreById = async (req, res, next) => {
     // Get user id from request
     const user = await User.findById(userId).select("-__v -password");
     if (!user) return sendError(res, "User not found", 404);
-
-    // Check if user clock auto generate result
-    // Update score
-    await Match.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-        result: autoGenerate
-          ? resultOfTeam1 > resultOfTeam2 + match.rate
-            ? match.team1.fullName
-            : resultOfTeam1 < resultOfTeam2 + match.rate
-            ? match.team2.fullName
-            : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
-          : result,
-      },
-      { new: true }
-    )
-      .populate("team1 team2", "fullName flag name")
-      .select("-__v");
 
     // Find bet by match id and user id
     const bet = await Bet.where("user")
@@ -247,27 +228,71 @@ export const updateScoreById = async (req, res, next) => {
         },
         select: "-__v",
       });
+    if (!bet) return sendError(res, "Bet not found", 404);
 
-    // Update win times of user
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        ...req.body,
-        winTimes: bet[0]?.match?.result
-          ? bet[0]?.team?.fullName == bet[0]?.match?.result &&
-            bet[0]?.match?.result !== "Draw"
-            ? user?.winTimes + 1
-            : user?.winTimes
-          : user?.winTimes,
-        money: user.money + bet[0]?.money * 2,
-      },
-      { new: true }
-    ).select("-__v -password");
+    if (bet[0]) {
+      // Check if user clock auto generate result
+      // Update score
+      await Match.findByIdAndUpdate(
+        id,
+        {
+          ...req.body,
+          result: autoGenerate
+            ? resultOfTeam1 > resultOfTeam2 + match.rate
+              ? match.team1.fullName
+              : resultOfTeam1 < resultOfTeam2 + match.rate
+              ? match.team2.fullName
+              : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
+            : result,
+        },
+        { new: true }
+      )
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
 
-    // Send success notification
-    return sendSuccess(res, "Update score successfully!", {
-      user: updatedUser,
-    });
+      // Update win times of user
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          ...req.body,
+          winTimes: bet[0]?.match?.result
+            ? bet[0]?.team?.fullName == bet[0]?.match?.result &&
+              bet[0]?.match?.result !== "Draw"
+              ? user?.winTimes + 1
+              : user?.winTimes
+            : user?.winTimes,
+          money: user.money + bet[0]?.money * 2,
+        },
+        { new: true }
+      ).select("-__v -password");
+
+      // Send success notification
+      return sendSuccess(res, "Update score successfully!", {
+        user: updatedUser,
+      });
+    } else {
+      // Check if user clock auto generate result
+      // Update score
+      await Match.findByIdAndUpdate(
+        id,
+        {
+          ...req.body,
+          result: autoGenerate
+            ? resultOfTeam1 > resultOfTeam2 + match.rate
+              ? match.team1.fullName
+              : resultOfTeam1 < resultOfTeam2 + match.rate
+              ? match.team2.fullName
+              : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
+            : result,
+        },
+        { new: true }
+      )
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+
+      // Send success notification
+      return sendSuccess(res, "Update score successfully!", { user });
+    }
   } catch (error) {
     next(error);
   }

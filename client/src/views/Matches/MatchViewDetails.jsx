@@ -178,6 +178,8 @@ const MatchViewDetails = () => {
             <td>
               {match?.resultOfTeam1 ? (
                 match?.resultOfTeam1
+              ) : match?.resultOfTeam1 === 0 ? (
+                "0"
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -188,6 +190,8 @@ const MatchViewDetails = () => {
             <td>
               {match?.resultOfTeam2 ? (
                 match?.resultOfTeam2
+              ) : match?.resultOfTeam2 === 0 ? (
+                "0"
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
