@@ -149,7 +149,7 @@ const BetUpdate = () => {
       <Breadcrumbs routes={updateBetRoutes} />
 
       {/* Heading */}
-      <h1 className="capitalize text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
+      <h1 className="capitalize text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
         <p>update bet:</p>
         <div className="flex items-center justify-center gap-2">
           <Image
