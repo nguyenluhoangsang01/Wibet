@@ -260,6 +260,7 @@ export const updateBetById = async (req, res, next) => {
         },
         select: "-__v",
       });
+    if (!getBet) return sendError(res, "Bet not found", 404);
 
     // Check if money bet greater than current money and money betted
     if (money > Number(getBet.money) + Number(getBet.user.money))
@@ -317,6 +318,7 @@ export const updateBetById = async (req, res, next) => {
         },
         select: "-__v",
       });
+    if (!bet) return sendError(res, "Bet not found", 404);
 
     // Send success notification
     return sendSuccess(res, "Update bet successfully!", bet);
@@ -369,6 +371,7 @@ export const withdrawMoney = async (req, res, next) => {
         },
         select: "-__v",
       });
+    if (!bets) return sendError(res, "Bet not found", 404);
 
     // Get match by match id
     const match = await Match.findById(matchId);
