@@ -367,6 +367,7 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam1",
       key: "resultOfTeam1",
+      width: "1%",
       render: (text) => (
         <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
@@ -375,6 +376,7 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam2",
       key: "resultOfTeam2",
+      width: "1%",
       render: (text) => (
         <span className="font-[calibri] text-[18px]">{text ? text : "-"}</span>
       ),
@@ -410,13 +412,13 @@ const Matches = () => {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
-      width: "1%",
       render: (text) => <span>{formatTime(text)}</span>,
     },
     {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
+      width: "1%",
       render: (text, record) =>
         record.isCanceled ? (
           <span className="bg-[#6c757d] rounded-full gap-1 text-white text-[16px] font-bold font-[calibri] px-4">
@@ -449,6 +451,7 @@ const Matches = () => {
       title: "Your Bet",
       dataIndex: "bet-action",
       key: "bet-action",
+      width: "1%",
       render: (text, record) => (
         <div className="flex items-center justify-center">
           {record.isCanceled ? (
@@ -659,7 +662,7 @@ const Matches = () => {
           ?.reverse()}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "140vh" }}
+        scroll={{ x: "100vw" }}
       />
 
       {/* Delete Modal */}

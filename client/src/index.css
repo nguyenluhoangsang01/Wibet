@@ -32,7 +32,7 @@ table > thead > tr > th {
 }
 
 table > tbody > tr > td {
-  @apply !py-2 !px-0 !max-w-[200px];
+  @apply !p-2 !max-w-[200px];
 }
 
 .ant-table-column-title {

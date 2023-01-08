@@ -215,7 +215,7 @@ const Users = () => {
       title: "-",
       dataIndex: "action",
       render: (text, record) => (
-        <div>
+        <div className="flex items-center justify-center">
           <Link to={`${record._id}/view-details`}>
             <IoEyeSharp className="text-[#428bca]" />
           </Link>
@@ -281,7 +281,7 @@ const Users = () => {
           ?.filter((item) => item._id !== user?._id)
           .reverse()}
         loading={users?.users ? false : true}
-        scroll={{ x: "100vh" }}
+        scroll={{ x: "90vw" }}
       />
 
       {/* Modal */}

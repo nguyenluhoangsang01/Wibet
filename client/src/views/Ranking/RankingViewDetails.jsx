@@ -172,7 +172,7 @@ const RankingViewDetails = () => {
         columns={columns}
         dataSource={[...bets].reverse()}
         loading={bets ? false : true}
-        scroll={{ x: "100vh" }}
+        scroll={{ x: "90vw" }}
       />
     </div>
   );

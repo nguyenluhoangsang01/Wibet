@@ -206,7 +206,7 @@ const BetViewAll = () => {
         ]?.reverse()}
         className="pt-[25px] -mt-4"
         loading={bets.bets ? false : true}
-        scroll={{ x: "100vh" }}
+        scroll={{ x: "90vw" }}
         pagination={false}
       />
     </div>

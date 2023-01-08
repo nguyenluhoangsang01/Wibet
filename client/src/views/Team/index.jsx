@@ -196,7 +196,7 @@ const Team = () => {
         columns={columns}
         dataSource={[...teams?.teams].reverse()}
         loading={teams?.teams ? false : true}
-        scroll={{ x: "100vh" }}
+        scroll={{ x: "90vw" }}
       />
 
       {/* Modal delete team */}

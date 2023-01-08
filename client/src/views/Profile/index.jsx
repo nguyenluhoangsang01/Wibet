@@ -211,7 +211,7 @@ const Profile = () => {
           columns={columns}
           dataSource={[...bets.bets]?.reverse()}
           className="pt-[25px] -mt-4"
-          scroll={{ x: "100vh" }}
+          scroll={{ x: "90vw" }}
           loading={bets.bets ? false : true}
           pagination={false}
         />
