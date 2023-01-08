@@ -334,8 +334,7 @@ export const withdrawMoney = async (req, res, next) => {
     const { matchId } = req.params;
 
     // Get all bets by match id
-    const bets = await Bet.where("match")
-      .equals(matchId)
+    const bets = await Bet.find({ match: matchId })
       .populate("team user", "-__v -password")
       .select("-__v")
       .populate({
@@ -350,10 +349,26 @@ export const withdrawMoney = async (req, res, next) => {
     // Get match by match id
     const match = await Match.findById(matchId);
     if (!match) return sendError(res, "Match not found", 404);
-    if (match.isCanceled) return sendError(res, "The match has been canceled");
+    // if (match.isCanceled) return sendError(res, "The match has been canceled");
 
     // Update match
     await Match.findByIdAndUpdate(matchId, { isCanceled: true }, { new: true });
+
+    // Update user
+    await User.updateMany(
+      { _id: { $in: bets.map((bet) => bet.user._id.toString()) } },
+      {
+        $inc: bets.map(
+          async (bet) =>
+            bet.money +
+            (await User.findByIdAndUpdate(
+              bet.user._id,
+              { money: bet.money + bet.user.money },
+              { new: true }
+            ))
+        ),
+      }
+    );
 
     // Send success notification
     return sendSuccess(res, "Withdraw match successfully!");
