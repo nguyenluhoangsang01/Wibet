@@ -1,10 +1,11 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsFillTrashFill } from "react-icons/bs";
 import { GiTimeBomb } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { formatTime, headers } from "../../helper";
+import { headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 import ModalDeleteComment from "../ModalDeleteComment";
@@ -90,7 +91,11 @@ const CommentList = ({ comments, isShowAllComments }) => {
                   <span>
                     <GiTimeBomb />
                   </span>
-                  <span>{formatTime(comment.createdAt)}</span>
+                  <span>
+                    {moment(comment.createdAt).format(
+                      "MMM Do YYYY, h:mm:ss a"
+                    )}
+                  </span>
                 </p>
 
                 <p className="mt-[10px]">{comment.content}</p>
@@ -126,7 +131,11 @@ const CommentList = ({ comments, isShowAllComments }) => {
                   <span>
                     <GiTimeBomb />
                   </span>
-                  <span>{formatTime(comment.createdAt)}</span>
+                  <span>
+                    {moment(comment.createdAt).format(
+                      "MMM Do YYYY, h:mm:ss a"
+                    )}
+                  </span>
                 </p>
 
                 <p className="mt-[10px]">{comment.content}</p>

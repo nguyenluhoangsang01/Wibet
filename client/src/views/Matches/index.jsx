@@ -1,5 +1,6 @@
 import { Image, Table } from "antd";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsCloudMinusFill, BsEyeSlashFill, BsPencilFill } from "react-icons/bs";
@@ -18,7 +19,7 @@ import ModalHideMatch from "../../components/ModalHideMatch";
 import ModalWithdraw from "../../components/ModalWithdraw";
 import NumberOfRows from "../../components/NumberOfRows";
 import { matchesRoutes } from "../../constants";
-import { capitalize, formatNumber, formatTime, headers } from "../../helper";
+import { capitalize, formatNumber, headers } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
   deleteMatchReducerAsync,
@@ -27,7 +28,6 @@ import {
   selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
-import moment from "moment";
 
 const Matches = () => {
   // Get pathname from location
@@ -419,7 +419,9 @@ const Matches = () => {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
-      render: (text) => <span>{formatTime(text)}</span>,
+      render: (text) => (
+        <span>{moment(text).format("MMM Do YYYY, h:mm:ss a")}</span>
+      ),
     },
     {
       title: "After Rate",
@@ -680,7 +682,7 @@ const Matches = () => {
           ?.reverse()}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "100vw" }}
+        scroll={{ x: "90vw" }}
       />
 
       {/* Delete Modal */}

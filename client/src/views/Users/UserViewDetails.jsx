@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import ModalDeleteUser from "../../components/ModalDeleteUser";
-import { capitalize, formatTime, headers } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserViewDetails = () => {
@@ -207,7 +208,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Created At</th>
-            <td>{formatTime(user.createdAt)}</td>
+            <td>{moment(user.createdAt).format("MMM Do YYYY, h:mm:ss a")}</td>
           </tr>
           <tr>
             <th>Created By</th>
@@ -221,7 +222,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Updated At</th>
-            <td>{formatTime(user.updatedAt)}</td>
+            <td>{moment(user.updatedAt).format("MMM Do YYYY, h:mm:ss a")}</td>
           </tr>
           <tr>
             <th>Banned At</th>

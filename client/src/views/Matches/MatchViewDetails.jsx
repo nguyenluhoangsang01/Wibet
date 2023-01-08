@@ -1,12 +1,13 @@
 import { Image } from "antd";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ModalDeleteMatch from "../../components/ModalDeleteMatch";
-import { capitalize, formatTime, headers } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -217,7 +218,9 @@ const MatchViewDetails = () => {
           </tr>
           <tr>
             <th>Match Date</th>
-            <td>{formatTime(match?.matchDate)}</td>
+            <td>
+              {moment(match?.matchDate).format("MMM Do YYYY, h:mm:ss a")}
+            </td>
           </tr>
           <tr>
             <th>Description</th>
@@ -231,11 +234,15 @@ const MatchViewDetails = () => {
           </tr>
           <tr>
             <th>Created Time</th>
-            <td>{formatTime(match?.createdAt)}</td>
+            <td>
+              {moment(match?.createdAt).format("MMM Do YYYY, h:mm:ss a")}
+            </td>
           </tr>
           <tr>
             <th>Modified Time</th>
-            <td>{formatTime(match?.updatedAt)}</td>
+            <td>
+              {moment(match?.updatedAt).format("MMM Do YYYY, h:mm:ss a")}
+            </td>
           </tr>
         </tbody>
       </table>
