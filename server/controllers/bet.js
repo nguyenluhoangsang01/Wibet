@@ -14,12 +14,16 @@ export const createBetById = async (req, res, next) => {
     const { team, money } = req.body;
     // Get user id from request
     const { userId } = req;
+    // Ten minutes after
+    const tenMinutesLater = moment().add(10, "minutes");
 
     // Check if match not exists
     const match = await Match.findById(matchId)
       .populate("team1 team2", "fullName flag")
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404);
+    if (moment(match.matchDate).isBefore(tenMinutesLater))
+      return sendError(res, "Cannot bet this match right now");
 
     // Get user by id
     const user = await User.findById(userId);
@@ -220,12 +224,16 @@ export const updateBetById = async (req, res, next) => {
     const { team, money } = req.body;
     // Get user id from request
     const { userId } = req;
+    // Ten minutes after
+    const tenMinutesLater = moment().add(10, "minutes");
 
     // Check if match not exists
     const match = await Match.findById(matchId)
       .populate("team1 team2", "fullName flag")
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404);
+    if (moment(match.matchDate).isBefore(tenMinutesLater))
+      return sendError(res, "Cannot bet this match right now");
 
     // Get user by id
     const user = await User.findById(userId);
