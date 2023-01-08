@@ -42,8 +42,8 @@ const MatchCreate = () => {
 
   // Check if user role id not equal Admin
   useEffect(() => {
-    if (user.roleID !== "Admin") return navigate("/matches");
-  }, [navigate, user.roleID]);
+    if (user?.roleID !== "Admin") return navigate("/matches");
+  }, [navigate, user?.roleID]);
 
   // Handle on finish
   const onFinish = async (values) => {
@@ -186,6 +186,11 @@ const MatchCreate = () => {
             {
               type: "number",
               message: "Rate is not a valid number.",
+            },
+            {
+              type: "number",
+              min: 0.1,
+              message: "Rate must be greater than or equal to 0.1.",
             },
           ]}
         >
