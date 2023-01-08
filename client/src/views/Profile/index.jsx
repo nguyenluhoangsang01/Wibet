@@ -1,5 +1,6 @@
-import { Button, Form, Input, Table } from "antd";
+import { Button, Form, Input, Select, Table } from "antd";
 import axios from "axios";
+import momentTimezone from "moment-timezone";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +26,8 @@ const Profile = () => {
   const navigate = useNavigate();
   // Initial dispatch
   const dispatch = useDispatch();
+  // Initial timezones
+  const timezones = momentTimezone.tz.names();
 
   // Set title
   useEffect(() => {
@@ -178,8 +181,22 @@ const Profile = () => {
           </Form.Item>
 
           {/* Timezone input */}
-          <Form.Item label="Timezone" name="timezone">
-            <Input />
+          <Form.Item
+            label="Timezone"
+            name="timezone"
+            rules={[
+              {
+                required: true,
+                message: "Timezone cannot be blank.",
+              },
+            ]}
+          >
+            <Select
+              options={timezones.map((timezone) => ({
+                value: timezone,
+                label: timezone,
+              }))}
+            />
           </Form.Item>
 
           {/* Update button */}

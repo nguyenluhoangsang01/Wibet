@@ -50,7 +50,10 @@ const userSchema = new Schema(
     },
     bannedAt: String,
     loggedInAt: String,
-    timezone: String,
+    timezone: {
+      type: String,
+      default: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
     banned: {
       type: Boolean,
       default: false,
