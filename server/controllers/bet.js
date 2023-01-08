@@ -349,7 +349,7 @@ export const withdrawMoney = async (req, res, next) => {
     // Get match by match id
     const match = await Match.findById(matchId);
     if (!match) return sendError(res, "Match not found", 404);
-    // if (match.isCanceled) return sendError(res, "The match has been canceled");
+    if (match.isCanceled) return sendError(res, "The match has been canceled");
 
     // Update match
     await Match.findByIdAndUpdate(matchId, { isCanceled: true }, { new: true });
