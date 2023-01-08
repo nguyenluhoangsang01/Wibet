@@ -34,12 +34,12 @@ const UserCreate = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [navigate, user]);
 
   // Check if user role ID is difference Admin back to home page
   useEffect(() => {
-    if (user?.roleID !== "Admin") return navigate("/");
+    if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
 
   // Handle on finish

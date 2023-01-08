@@ -40,13 +40,13 @@ const MatchUpdateInfo = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [navigate, user]);
 
   // Check if match had result
   useEffect(() => {
     if (user.roleID !== "Admin" || match?.result || match?.isCanceled)
-      return navigate("/");
+      navigate("/");
   }, [match?.isCanceled, match?.result, navigate, user.roleID]);
 
   // Get match by id

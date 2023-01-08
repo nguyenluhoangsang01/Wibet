@@ -37,12 +37,12 @@ const MatchCreate = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [navigate, user]);
 
   // Check if user role id not equal Admin
   useEffect(() => {
-    if (user?.roleID !== "Admin") return navigate("/matches");
+    if (user?.roleID !== "Admin") navigate("/matches");
   }, [navigate, user?.roleID]);
 
   // Handle on finish

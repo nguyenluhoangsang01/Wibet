@@ -27,6 +27,7 @@ import {
   selectMatch,
 } from "../../state/matchSlice";
 import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
+import moment from "moment";
 
 const Matches = () => {
   // Get pathname from location
@@ -64,6 +65,8 @@ const Matches = () => {
   const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
   // Initial navigate
   const navigate = useNavigate();
+  // Ten minutes after
+  const tenMinutesLater = moment().add(10, "minutes");
 
   // Get all matches
   useEffect(() => {
@@ -82,7 +85,7 @@ const Matches = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [navigate, user]);
 
   // Handle bet
@@ -463,7 +466,7 @@ const Matches = () => {
       key: "bet-action",
       width: "1%",
       render: (text, record) =>
-        record.result ? (
+        record.result || moment(record.matchDate).isBefore(tenMinutesLater) ? (
           "-"
         ) : (
           <div className="flex items-center justify-center">

@@ -29,12 +29,12 @@ const UserUpdate = () => {
 
   // Check if user logged not exists
   useEffect(() => {
-    if (!userLogged.user) return navigate("/");
+    if (!userLogged.user) navigate("/");
   }, [navigate, userLogged.user]);
 
   // Check if user logged role ID is difference Admin back to home page
   useEffect(() => {
-    if (userLogged.user?.roleID !== "Admin") return navigate("/");
+    if (userLogged.user?.roleID !== "Admin") navigate("/");
   }, [navigate, userLogged.user?.roleID]);
 
   // Set title

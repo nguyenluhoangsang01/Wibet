@@ -33,7 +33,7 @@ const Profile = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [navigate, user]);
 
   // Handle submit finish

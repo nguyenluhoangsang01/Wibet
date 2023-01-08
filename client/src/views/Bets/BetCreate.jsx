@@ -29,12 +29,12 @@ const BetCreate = () => {
 
   // Check if user not exists
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!user) navigate("/");
   }, [user, navigate]);
 
   // Check if match had result or canceled
   useEffect(() => {
-    if (match.result || match.isCanceled) return navigate("/matches");
+    if (match.result || match.isCanceled) navigate("/matches");
   }, [match.isCanceled, match.result, navigate]);
 
   // Set title
