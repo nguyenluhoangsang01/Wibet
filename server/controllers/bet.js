@@ -142,10 +142,7 @@ export const deleteBetById = async (req, res, next) => {
       userId,
       {
         ...req.body,
-        money:
-          match.statusOfTeam1 !== 0
-            ? user.money + match.statusOfTeam1
-            : match.statusOfTeam2 !== 0 && user.money + match.statusOfTeam2,
+        money: bet.money + user.money,
         betTimes: user.betTimes - 1,
         match: user.match.filter(
           (match) => match.toString() !== matchId.toString()
@@ -159,8 +156,14 @@ export const deleteBetById = async (req, res, next) => {
       matchId,
       {
         ...req.body,
-        statusOfTeam1: 0,
-        statusOfTeam2: 0,
+        statusOfTeam1:
+          bet.team._id.toString() === match.team1._id.toString()
+            ? match.statusOfTeam1 - bet.money
+            : match.statusOfTeam1,
+        statusOfTeam2:
+          bet.team._id.toString() === match.team2._id.toString()
+            ? match.statusOfTeam2 - bet.money
+            : match.statusOfTeam2,
       },
       { new: true }
     );
@@ -271,8 +274,29 @@ export const updateBetById = async (req, res, next) => {
     await User.findByIdAndUpdate(
       userId,
       {
+        money:
+          Number(getBet.money) !== money
+            ? Number(getBet.money) + Number(getBet.user.money) - money
+            : user.money,
+      },
+      { new: true }
+    );
+
+    // Update status
+    await Match.findByIdAndUpdate(
+      matchId,
+      {
         ...req.body,
-        money: Number(getBet.money) + Number(getBet.user.money) - money,
+        statusOfTeam1:
+          getBet.team._id.toString() === match.team1._id.toString() &&
+          getBet.money !== money
+            ? match.statusOfTeam1 - getBet.money + money
+            : match.statusOfTeam1,
+        statusOfTeam2:
+          getBet.team._id.toString() === match.team2._id.toString() &&
+          getBet.money !== money
+            ? match.statusOfTeam2 - getBet.money + money
+            : match.statusOfTeam2,
       },
       { new: true }
     );

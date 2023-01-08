@@ -235,7 +235,7 @@ const BetUpdate = () => {
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
 
-        {/* Create button */}
+        {/* Update button */}
         <Form.Item wrapperCol={{ offset: 3, span: 19 }}>
           <Button
             type="primary"
@@ -244,7 +244,7 @@ const BetUpdate = () => {
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
-            <span>Create</span>
+            <span>Update</span>
           </Button>
         </Form.Item>
       </Form>
