@@ -249,7 +249,7 @@ export const updateScoreById = async (req, res, next) => {
       });
 
     // Update win times of user
-    await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         ...req.body,
@@ -259,12 +259,15 @@ export const updateScoreById = async (req, res, next) => {
             ? user?.winTimes + 1
             : user?.winTimes
           : user?.winTimes,
+        money: user.money + bet[0]?.money * 2,
       },
       { new: true }
-    );
+    ).select("-__v -password");
 
     // Send success notification
-    return sendSuccess(res, "Update score successfully!");
+    return sendSuccess(res, "Update score successfully!", {
+      user: updatedUser,
+    });
   } catch (error) {
     next(error);
   }

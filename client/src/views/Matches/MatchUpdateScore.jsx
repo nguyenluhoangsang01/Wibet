@@ -4,11 +4,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
-import { selectUser } from "../../state/userSlice";
+import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const MatchUpdateScore = () => {
   // Get match id from request params
@@ -22,6 +22,8 @@ const MatchUpdateScore = () => {
   const navigate = useNavigate();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Redux
+  const dispatch = useDispatch();
 
   // Check if user not exists
   useEffect(() => {
@@ -99,14 +101,19 @@ const MatchUpdateScore = () => {
         { headers: headers(accessToken) }
       );
 
-      // Send success notification
-      toast.success(data.message);
+      if (data) {
+        // Send success notification
+        toast.success(data.message);
 
-      // After set is finish to false
-      setIsFinish(false);
+        // After set is finish to false
+        setIsFinish(false);
 
-      // And navigate to matches
-      navigate("/matches");
+        // Update user logged
+        dispatch(updateUserReducer(data));
+
+        // And navigate to matches
+        navigate("/matches");
+      }
     } catch ({ response }) {
       // When update failured
       toast.error(response.data.message);
