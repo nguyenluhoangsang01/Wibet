@@ -10,7 +10,7 @@ import User from "../models/user.js";
 export const createUser = async (req, res, next) => {
   try {
     // Get data from request body
-    const { email, username, password } = req.body;
+    const { email, username, password, money } = req.body;
     // Get user id from request
     const { userId } = req;
 
@@ -68,7 +68,7 @@ export const createUser = async (req, res, next) => {
       password: hashedPassword,
       createdBy: user.username,
       createdIp: currentIpAddress,
-      money: 200,
+      money: money < 200 ? 200 : money,
     });
     await newUser.save();
 

@@ -1,6 +1,6 @@
 import { Button, Form, Image, InputNumber, Select } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +26,8 @@ const BetCreate = () => {
   const {
     bets: { bets },
   } = useSelector(selectBet);
+  // Initial form ref
+  const form = useRef(null);
 
   // Check if user not exists
   useEffect(() => {
@@ -117,14 +119,34 @@ const BetCreate = () => {
         // And navigate to matches
         navigate("/matches");
       }
-    } catch ({ response }) {
-      if (response.data) {
-        // Dispatch actions to send error notification
-        dispatch(updateUserReducer(response.data));
-
-        // Set is finish to false
-        setIsFinish(false);
+    } catch ({ response: { data } }) {
+      // Failure
+      if (data.name === "option") {
+        form.current.setFields([
+          {
+            name: "team",
+            errors: [data.message],
+          },
+          {
+            name: "money",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "money") {
+        form.current.setFields([
+          {
+            name: "money",
+            errors: [data.message],
+          },
+          {
+            name: "team",
+            errors: null,
+          },
+        ]);
       }
+
+      // Set is finish to false
+      setIsFinish(false);
     }
   };
 
@@ -171,17 +193,18 @@ const BetCreate = () => {
           money: "",
         }}
         layout="vertical"
+        ref={form}
       >
         {/* Team select */}
         <Form.Item
           label="Option"
           name="team"
-          rules={[
-            {
-              required: true,
-              message: "Option cannot be blank.",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Option cannot be blank.",
+          //   },
+          // ]}
         >
           <Select
             options={[
@@ -201,21 +224,21 @@ const BetCreate = () => {
         <Form.Item
           label="Money"
           name="money"
-          rules={[
-            {
-              required: true,
-              message: "Money cannot be blank.",
-            },
-            {
-              type: "number",
-              message: "Money is not a valid number.",
-            },
-            {
-              type: "number",
-              min: 50,
-              message: "Money must be greater than or equal to 50.",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Money cannot be blank.",
+          //   },
+          //   {
+          //     type: "number",
+          //     message: "Money is not a valid number.",
+          //   },
+          //   {
+          //     type: "number",
+          //     min: 50,
+          //     message: "Money must be greater than or equal to 50.",
+          //   },
+          // ]}
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>

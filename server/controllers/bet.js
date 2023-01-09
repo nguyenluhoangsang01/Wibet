@@ -10,10 +10,10 @@ export const createBetById = async (req, res, next) => {
   try {
     // Get match id from request params
     const { matchId } = req.params;
-    // Get data from request body
-    const { team, money } = req.body;
     // Get user id from request
     const { userId } = req;
+    // Get data from request body
+    const { team, money } = req.body;
     // Ten minutes after
     const tenMinutesLater = moment().add(10, "minutes");
 
@@ -21,43 +21,50 @@ export const createBetById = async (req, res, next) => {
     const match = await Match.findById(matchId)
       .populate("team1 team2", "fullName flag")
       .select("-__v");
-    if (!match) return sendError(res, "Match not found", 404);
+    if (!match) return sendError(res, "Match not found", 404, "option");
     if (moment(match.matchDate).isBefore(tenMinutesLater))
-      return sendError(res, "Cannot bet this match right now");
+      return sendError(res, "Cannot bet this match right now", 400, "option");
 
     // Get user by id
     const user = await User.findById(userId);
     if (!user) return sendError(res, "User not found", 404);
     if (user.match.includes(match._id))
-      return sendError(res, "Betted on this match");
+      return sendError(res, "Betted on this match", 400, "option");
 
     // Validate
-    if (!team) return sendError(res, "Option cannot be blank.");
-    if (!money) return sendError(res, "Money cannot be blank.");
+    if (!team) return sendError(res, "Option cannot be blank.", 400, "option");
+    if (!money) return sendError(res, "Money cannot be blank.", 400, "money");
     if (money < 50)
-      return sendError(res, "Money must be greater than or equal to 50.");
+      return sendError(
+        res,
+        "Money must be greater than or equal to 50.",
+        400,
+        "money"
+      );
     if (money > Number(user.money))
       return sendError(
         res,
         user.money < 50
           ? "The current money is not valid."
-          : `Money must be less than or equal to ${user.money}.`
+          : `Money must be less than or equal to ${user.money}.`,
+        400,
+        "money"
       );
 
     // Check if team not exists
     const isExistingTeam = await Team.findById(team);
-    if (!isExistingTeam) return sendError(res, "Team not found", 404);
+    if (!isExistingTeam) return sendError(res, "Team not found", 404, "option");
 
     // Check if team is difference between team 1 id and team 2
     if (
       team.toString() !== match.team1._id.toString() &&
       team.toString() !== match.team2._id.toString()
     )
-      return sendError(res, "The selected team is not valid.");
+      return sendError(res, "The selected team is not valid.", 400, "option");
 
     // Check if the match is over
     if (match.resultOfTeam1 || match.resultOfTeam2)
-      return sendError(res, "The match is over");
+      return sendError(res, "The match is over", 400, "option");
 
     // Create a new bet
     const newBet = await Bet.create({

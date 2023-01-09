@@ -46,8 +46,6 @@ export const userSlice = createSlice({
         state.user = payload.data.user;
 
         toast.success(payload.message);
-      } else {
-        toast.error(payload.message);
       }
     },
 

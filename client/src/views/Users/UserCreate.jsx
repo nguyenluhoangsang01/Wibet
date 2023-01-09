@@ -194,11 +194,11 @@ const UserCreate = () => {
                 type: "number",
                 message: "Money is not a valid number.",
               },
-              // {
-              //   type: "number",
-              //   min: 0,
-              //   message: "Money must be greater than or equal to 0.",
-              // },
+              {
+                type: "number",
+                min: 0,
+                message: "Money must be greater than or equal to 0.",
+              },
             ]}
           >
             <InputNumber style={{ width: "100%" }} />
