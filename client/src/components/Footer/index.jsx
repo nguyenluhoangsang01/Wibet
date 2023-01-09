@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <footer className="h-[60px] bg-[#f5f5f5] border-t-[1px] border-t-[#ddd] flex items-center text-[16px]">

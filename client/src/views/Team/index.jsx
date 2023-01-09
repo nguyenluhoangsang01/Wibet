@@ -88,11 +88,7 @@ const Team = () => {
 
   // Handle update team
   const handleUpdateTeam = (record) => {
-    navigate(`/teams/${record._id}/update`, {
-      state: {
-        team: record,
-      },
-    });
+    navigate(`/teams/${record._id}/update`);
   };
 
   // Handle delete team
@@ -110,9 +106,11 @@ const Team = () => {
   const columns = [
     {
       title: "Id",
-      dataIndex: "_id",
-      key: "_id",
-      render: (text, record, index) => <span>{index + 1}</span>,
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => (
+        <span>{[...teams.teams].reverse().indexOf(record) + 1}</span>
+      ),
     },
     {
       title: "Name",
@@ -186,7 +184,7 @@ const Team = () => {
         <span className="font-bold">
           1-{teams.length < 10 ? teams.length : 10}
         </span>{" "}
-        of <span className="font-bold">{teams.length}</span> team
+        of <span className="font-bold">{teams.length}</span> item
         {teams.length > 1 ? "s" : ""}.
       </NumberOfRows>
 

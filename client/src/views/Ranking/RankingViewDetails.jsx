@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { headers } from "../../helper";
+import NumberOfRows from "../../components/NumberOfRows";
 import { selectUser } from "../../state/userSlice";
 
 const RankingViewDetails = () => {
@@ -28,9 +28,7 @@ const RankingViewDetails = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/bet/${id}`, {
-          headers: headers(accessToken),
-        });
+        const { data } = await axios.get(`/bet/${id}`);
 
         if (data) {
           setBets(data.data.bets);
@@ -66,9 +64,11 @@ const RankingViewDetails = () => {
   const columns = [
     {
       title: "#",
-      dataIndex: "_id",
-      key: "_id",
-      render: (text, record, index) => <span>{index + 1}</span>,
+      dataIndex: "index",
+      key: "index",
+      render: (text, record) => (
+        <span>{[...bets].reverse().indexOf(record) + 1}</span>
+      ),
     },
     {
       title: "Match",
@@ -165,6 +165,16 @@ const RankingViewDetails = () => {
 
       {/* Heading */}
       <Heading title={`ranking: ${bets[0]?.user?.username}`} />
+
+      {/* Number of rows */}
+      <NumberOfRows>
+        Showing{" "}
+        <span className="font-bold">
+          1-{[...bets].length < 10 ? [...bets].length : 10}
+        </span>{" "}
+        of <span className="font-bold">{[...bets].length}</span> item
+        {[...bets].length > 1 ? "s" : ""}.
+      </NumberOfRows>
 
       {/* Table */}
       <Table

@@ -192,6 +192,11 @@ const MatchCreate = () => {
               min: 0.1,
               message: "Rate must be greater than or equal to 0.1.",
             },
+            {
+              type: "number",
+              max: 3,
+              message: "Rate must be less than or equal to 3.",
+            },
           ]}
         >
           <InputNumber style={{ width: "100%" }} />

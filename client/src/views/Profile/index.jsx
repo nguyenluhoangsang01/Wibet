@@ -1,17 +1,18 @@
 import { Button, Form, Input, Select, Table } from "antd";
 import axios from "axios";
 import momentTimezone from "moment-timezone";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import NumberOfRows from "../../components/NumberOfRows";
+import SuccessMessage from "../../components/SuccessMesasge";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
-import { selectUser, updateUserReducer } from "../../state/userSlice";
+import { selectUser, updateProfileReducer } from "../../state/userSlice";
 
 const Profile = () => {
   // Get pathname from location
@@ -22,12 +23,15 @@ const Profile = () => {
   const { bets } = useSelector(selectBet);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial timezones
   const timezones = momentTimezone.tz.names();
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -52,16 +56,32 @@ const Profile = () => {
 
       // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
       if (res.data) {
-        dispatch(updateUserReducer(res.data));
+        dispatch(updateProfileReducer(res.data));
 
         setIsFinish(false);
 
-        navigate("/");
+        setIsUpdated(true);
       }
-    } catch ({ response }) {
+    } catch ({ response: { data } }) {
       // Check if response return data, set is finish to false and dispatch update password reducer action to update new user information (maybe)
-      if (response.data) {
-        dispatch(updateUserReducer(response.data));
+      if (data) {
+        dispatch(updateProfileReducer(data));
+
+        if (data.name === "fullName") {
+          form.current.setFields([
+            {
+              name: "fullName",
+              errors: [data.message],
+            },
+          ]);
+        } else if (data.name === "timezone") {
+          form.current.setFields([
+            {
+              name: "timezone",
+              errors: [data.message],
+            },
+          ]);
+        }
 
         setIsFinish(false);
       }
@@ -156,6 +176,8 @@ const Profile = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
+      {isUpdated && <SuccessMessage>Profile updated</SuccessMessage>}
+
       <div>
         {/* Form */}
         <Form
@@ -165,6 +187,7 @@ const Profile = () => {
           onFinish={onFinish}
           autoComplete="off"
           initialValues={{ fullName: user?.fullName, timezone: user?.timezone }}
+          ref={form}
         >
           {/* Full Name input */}
           <Form.Item

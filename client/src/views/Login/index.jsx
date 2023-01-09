@@ -1,15 +1,16 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { loginRoutes } from "../../constants";
 import { capitalize, isValidEmail } from "../../helper";
 import {
-  loginReducerAsync,
+  loginReducer,
   selectUser,
   updateRememberToFalse,
   updateRememberToTrue,
@@ -24,11 +25,20 @@ const Login = () => {
   const { user, remember } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+  // Initial navigate
+  const navigate = useNavigate();
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
+
+  // Check if user not exists
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [navigate, user]);
 
   // Handle submit finish
   const onFinish = async (values) => {
@@ -44,33 +54,72 @@ const Login = () => {
         ? (email = values.emailOrUsername)
         : (username = values.emailOrUsername);
 
-      // Dispatch login reducer async action with 3 values: email or phone, password
-      await dispatch(
-        loginReducerAsync({
+      try {
+        // Execute login with post method
+        const { data } = await axios.post("/user/login", {
           ...values,
           email,
           username,
-        })
-      );
+        });
 
+        // Check if data is exists, dispatch login reducer to update user logged to global state and render success notification
+        if (data) {
+          dispatch(loginReducer(data));
+
+          // When login success
+          setIsFinish(false);
+        }
+      } catch ({ response: { data } }) {
+        // Check if name error === emailOrUsername will render error notification and clear notification others
+        if (data.name === "emailOrUsername") {
+          form.current.setFields([
+            {
+              name: "emailOrUsername",
+              errors: [data.message],
+            },
+          ]);
+
+          form.current.setFields([
+            {
+              name: "password",
+              errors: null,
+            },
+          ]);
+        } else if (data.name === "password") {
+          // Check if name error === password will render error notification and clear notification others
+          form.current.setFields([
+            {
+              name: "emailOrUsername",
+              errors: null,
+            },
+          ]);
+
+          form.current.setFields([
+            {
+              name: "password",
+              errors: [data.message],
+            },
+          ]);
+        }
+
+        // When login failure
+        setIsFinish(false);
+      }
+
+      // Check if user click on remember me, dispatch update remember actions
       if (values.remember) {
         await dispatch(updateRememberToTrue());
       } else {
         await dispatch(updateRememberToFalse());
       }
-
-      // When login success
-      setIsFinish(false);
     } catch (error) {
       // When update failured
       toast.error(error.message);
 
+      // When login failure
       setIsFinish(false);
     }
   };
-
-  // Check if user not logged
-  if (user) return <Navigate to="/" />;
 
   return (
     <div>
@@ -87,7 +136,8 @@ const Login = () => {
         initialValues={{ remember }}
         onFinish={onFinish}
         autoComplete="off"
-        className="h-[calc(100vh-60px*2-24px*2-32px-16px-40px-36px)]"
+        className="h-[calc(100vh-50px-60px-40px-54px-70px)]"
+        ref={form}
       >
         {/* Email / Username input */}
         <Form.Item

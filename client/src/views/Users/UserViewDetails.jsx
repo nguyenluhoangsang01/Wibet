@@ -81,11 +81,7 @@ const UserViewDetails = () => {
 
   // Handle update user
   const handleUpdateUser = () => {
-    navigate(`/users/${user._id}/update`, {
-      state: {
-        user,
-      },
-    });
+    navigate(`/users/${user._id}/update`);
   };
 
   // Handle delete user

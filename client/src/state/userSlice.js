@@ -21,11 +21,6 @@ export const userSlice = createSlice({
         state.user = payload.data.user;
 
         toast.success(payload.message);
-      } else {
-        state.accessToken = null;
-        state.user = null;
-
-        toast.error(payload.message);
       }
     },
 
@@ -53,6 +48,12 @@ export const userSlice = createSlice({
         toast.success(payload.message);
       } else {
         toast.error(payload.message);
+      }
+    },
+
+    updateProfileReducer: (state, { payload }) => {
+      if (payload.success) {
+        state.user = payload.data.user;
       }
     },
 
@@ -162,5 +163,6 @@ export const {
   toggleIsShowHistory,
   updateRememberToTrue,
   updateRememberToFalse,
+  updateProfileReducer,
 } = userSlice.actions;
 export default userSlice.reducer;

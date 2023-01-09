@@ -39,6 +39,6 @@ router.patch("/:matchId", verifyToken, withdrawMoney);
 // @route GET api/bet/:id
 // @desc Get bet by id
 // @access Private
-router.get("/:id", verifyToken, getBetById);
+router.get("/:id", getBetById);
 
 export default router;

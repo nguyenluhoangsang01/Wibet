@@ -125,18 +125,11 @@ const Ranking = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        Showing{" "}
-        <span className="font-bold">
-          1-
-          {[...users?.users].filter((user) => user.betTimes > 0).length - 1 < 10
-            ? [...users?.users].filter((user) => user.betTimes > 0).length - 1
-            : 10}
-        </span>{" "}
-        of{" "}
+        Total{" "}
         <span className="font-bold">
           {[...users?.users].filter((user) => user.betTimes > 0).length - 1}
         </span>{" "}
-        user
+        item
         {[...users?.users].filter((user) => user.betTimes > 0).length - 1 > 1
           ? "s"
           : ""}
@@ -153,6 +146,7 @@ const Ranking = () => {
           .reverse()}
         loading={users?.users ? false : true}
         scroll={{ x: "90vw" }}
+        pagination={false}
       />
     </div>
   );

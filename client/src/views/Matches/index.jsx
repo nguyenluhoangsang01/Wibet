@@ -90,11 +90,7 @@ const Matches = () => {
 
   // Handle bet
   const handleBet = (record) => {
-    navigate(`/matches/bet/create/${record._id}`, {
-      state: {
-        match: record,
-      },
-    });
+    navigate(`/matches/bet/create/${record._id}`);
   };
 
   // Handle view all bets
@@ -104,11 +100,7 @@ const Matches = () => {
 
   // Handle update info
   const handleUpdateInfo = (record) => {
-    navigate(`/matches/${record._id}/update-info`, {
-      state: {
-        match: record,
-      },
-    });
+    navigate(`/matches/${record._id}/update-info`);
   };
 
   // Handle update score
@@ -118,11 +110,7 @@ const Matches = () => {
 
   // Handle view detail
   const handleViewDetail = (record) => {
-    navigate(`/matches/${record._id}/view-details`, {
-      state: {
-        match: record,
-      },
-    });
+    navigate(`/matches/${record._id}/view-details`);
   };
 
   // Handle delete
@@ -344,11 +332,13 @@ const Matches = () => {
   const columns = [
     {
       title: "#",
-      dataIndex: "_id",
-      key: "_id",
+      dataIndex: "index",
+      key: "index",
       width: "1%",
-      render: (text, record, index) => (
-        <p className="font-[calibri] text-[18px]">{index + 1}</p>
+      render: (text, record) => (
+        <p className="font-[calibri] text-[18px]">
+          {[...matches.matches].reverse().indexOf(record) + 1}
+        </p>
       ),
     },
     {
@@ -662,11 +652,11 @@ const Matches = () => {
             ).length
           }
         </span>{" "}
-        match
+        item
         {[...matches.matches]?.filter((match) =>
           user?.roleID === "Admin" ? match : match.isShow === true
         ).length > 1
-          ? "es"
+          ? "s"
           : ""}
         .
       </NumberOfRows>
@@ -682,7 +672,7 @@ const Matches = () => {
           ?.reverse()}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "90vw" }}
+        scroll={{ x: "110vw" }}
       />
 
       {/* Delete Modal */}

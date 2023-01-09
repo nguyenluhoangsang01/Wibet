@@ -52,6 +52,7 @@ export const createUser = async (req, res, next) => {
       password: hashedPassword,
       createdBy: user.username,
       createdIp: currentIpAddress,
+      money: 200,
     });
     await newUser.save();
 
@@ -81,20 +82,33 @@ export const login = async (req, res, next) => {
 
     // Validate
     if (!email && !username)
-      return sendError(res, "Email / Username cannot be blank.");
-    if (!password) return sendError(res, "Password cannot be blank.");
+      return sendError(
+        res,
+        "Email / Username cannot be blank.",
+        400,
+        "emailOrUsername"
+      );
+    if (!password)
+      return sendError(res, "Password cannot be blank.", 400, "password");
 
     const isExistingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
-    if (!isExistingUser) return sendError(res, "Email / Username not found");
+    if (!isExistingUser)
+      return sendError(
+        res,
+        "Email / Username not found",
+        400,
+        "emailOrUsername"
+      );
 
     // Compare password
     const comparedPassword = bcrypt.compareSync(
       password,
       isExistingUser.password
     );
-    if (!comparedPassword) return sendError(res, "Incorrect password");
+    if (!comparedPassword)
+      return sendError(res, "Incorrect password", 400, "password");
 
     // Set up access token
     const accessToken = jwt.sign(
@@ -113,11 +127,14 @@ export const login = async (req, res, next) => {
       loggedInIp: currentIpAddress,
     }).select("-__v -password");
     // Check if user is banned
-    if (user.banned) return sendError(res, "User is banned");
+    if (user.banned)
+      return sendError(res, "User is banned", 400, "emailOrUsername");
     if (user.status === "Inactive")
       return sendError(
         res,
-        "The account is inactive, please contact the Wibet Admin"
+        "The account is inactive, please contact the Wibet Admin",
+        400,
+        "emailOrUsername"
       );
 
     // Send success notification
@@ -138,14 +155,20 @@ export const updateUser = async (req, res, next) => {
     const { email, username, newPassword } = req.body;
 
     // Validate
-    if (!email) return sendError(res, "Email cannot be blank.");
+    if (!email) return sendError(res, "Email cannot be blank.", 400, "email");
     if (!validator.isEmail(email))
-      return sendError(res, "Email is not a valid email address.");
-    if (!username) return sendError(res, "Username cannot be blank.");
+      return sendError(
+        res,
+        "Email is not a valid email address.",
+        400,
+        "email"
+      );
+    if (!username)
+      return sendError(res, "Username cannot be blank.", 400, "username");
 
     // Check if user not exists
     const user = await User.findById(userId);
-    if (!user) return sendError(res, "User not found", 404);
+    if (!user) return sendError(res, "User not found", 404, "user");
 
     const isExistingWithEmail = await User.findOne({
       email: { $ne: user.email, $eq: email },
@@ -153,7 +176,9 @@ export const updateUser = async (req, res, next) => {
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`
+        `Email ${isExistingWithEmail.email} has already been taken.`,
+        400,
+        "email"
       );
     const isExistingWithUsername = await User.findOne({
       username: { $ne: user.username, $eq: username },
@@ -161,20 +186,30 @@ export const updateUser = async (req, res, next) => {
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`
+        `Username ${isExistingWithUsername.username} has already been taken.`,
+        400,
+        "username"
       );
 
     // Check if password exist
     if (newPassword) {
       if (newPassword.length < 3)
-        return sendError(res, "Password should contain at least 3 characters.");
+        return sendError(
+          res,
+          "Password should contain at least 3 characters.",
+          400,
+          "newPassword"
+        );
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
       // Update user with new password
       await User.findByIdAndUpdate(
         userId,
-        { ...req.body, password: hashedNewPassword },
+        {
+          ...req.body,
+          password: hashedNewPassword,
+        },
         { new: true }
       );
     }
@@ -318,11 +353,16 @@ export const updatePassword = async (req, res, next) => {
 
     // Validate
     if (!currentPassword)
-      return sendError(res, "Current Password cannot be blank.");
+      return sendError(
+        res,
+        "Current Password cannot be blank.",
+        400,
+        "currentPassword"
+      );
 
     // Get user
     const user = await User.findById(userId);
-    if (!user) return sendError(res, "User not found", 404);
+    if (!user) return sendError(res, "User not found", 404, "user");
 
     // Compare current password with old password
     const comparedCurrentPassword = bcrypt.compareSync(
@@ -330,7 +370,12 @@ export const updatePassword = async (req, res, next) => {
       user.password
     );
     if (!comparedCurrentPassword)
-      return sendError(res, "Current password is incorrect");
+      return sendError(
+        res,
+        "Current password is incorrect",
+        400,
+        "currentPassword"
+      );
 
     // Compare new password with old password if new password is not empty
     let comparedNewPassword;
@@ -344,7 +389,12 @@ export const updatePassword = async (req, res, next) => {
     // Check if password is empty or not
     if (newPassword && !comparedNewPassword) {
       if (newPassword.length < 3)
-        return sendError(res, "Password should contain at least 3 characters.");
+        return sendError(
+          res,
+          "Password should contain at least 3 characters.",
+          400,
+          "newPassword"
+        );
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
@@ -394,8 +444,10 @@ export const updateProfile = async (req, res, next) => {
     const { fullName, timezone } = req.body;
 
     // Validate
-    if (!fullName) return sendError(res, "Full Name cannot be blank.");
-    if (!timezone) return sendError(res, "Timezone cannot be blank.");
+    if (!fullName)
+      return sendError(res, "Full Name cannot be blank.", 400, "fullName");
+    if (!timezone)
+      return sendError(res, "Timezone cannot be blank.", 400, "timezone");
 
     // Get user logged
     const user = await User.findByIdAndUpdate(
@@ -404,7 +456,7 @@ export const updateProfile = async (req, res, next) => {
       { new: true }
     ).select("-__v -password");
     // Check if user not exists
-    if (!user) return sendError(res, "User not found", 404);
+    if (!user) return sendError(res, "User not found", 404, "user");
 
     // Send success notification
     return sendSuccess(res, "Update profile successfully!", { user });

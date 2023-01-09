@@ -1,14 +1,15 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import SuccessMessage from "../../components/SuccessMesasge";
 import { accountRoutesB } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { selectUser, updateUserReducer } from "../../state/userSlice";
+import { selectUser, updateProfileReducer } from "../../state/userSlice";
 
 const Account = () => {
   // Get pathname from location
@@ -17,10 +18,13 @@ const Account = () => {
   const { user, accessToken } = useSelector(selectUser);
   // State
   const [isFinish, setIsFinish] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   // Redux
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -45,19 +49,33 @@ const Account = () => {
 
       // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
       if (res.data) {
-        dispatch(updateUserReducer(res.data));
+        dispatch(updateProfileReducer(res.data));
 
         setIsFinish(false);
 
-        navigate("/");
-      }
-    } catch ({ response }) {
-      // Check if response return data, set is finish to false and dispatch update password reducer action to update new user information (maybe)
-      if (response.data) {
-        dispatch(updateUserReducer(response.data));
+        setIsUpdated(true);
 
-        setIsFinish(false);
+        // Reset form
+        form.current.resetFields();
       }
+    } catch ({ response: { data } }) {
+      if (data.name === "currentPassword") {
+        form.current.setFields([
+          {
+            name: "currentPassword",
+            errors: [data.message],
+          },
+        ]);
+      } else if (data.name === "newPassword") {
+        form.current.setFields([
+          {
+            name: "newPassword",
+            errors: [data.message],
+          },
+        ]);
+      }
+
+      setIsFinish(false);
     }
   };
 
@@ -68,6 +86,8 @@ const Account = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
+      {isUpdated && <SuccessMessage>Account updated</SuccessMessage>}
+
       {/* Account form */}
       <Form
         name="account"
@@ -76,6 +96,7 @@ const Account = () => {
         onFinish={onFinish}
         autoComplete="off"
         className="h-[calc(100vh-60px*2-24px*2-32px-16px-40px-36px)]"
+        ref={form}
       >
         <div className="divide-y-2">
           {/* Current Password input */}
@@ -95,12 +116,12 @@ const Account = () => {
           <div className="pt-[26px]">
             {/* Email */}
             <Form.Item label="Email">
-              <Input disabled value={user.email} />
+              <Input disabled value={user?.email} />
             </Form.Item>
 
             {/* Username */}
             <Form.Item label="Username">
-              <Input disabled value={user.username} />
+              <Input disabled value={user?.username} />
             </Form.Item>
 
             {/* New Password input */}

@@ -95,19 +95,17 @@ const Users = () => {
 
   // Handle update user
   const handleUpdateUser = (record) => {
-    navigate(`/users/${record._id}/update`, {
-      state: {
-        user: record,
-      },
-    });
+    navigate(`/users/${record._id}/update`);
   };
 
   const columns = [
     {
       title: "#",
-      dataIndex: "_id",
-      key: "_id",
-      render: (text, record, index) => <span>{index + 1}</span>,
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => (
+        <span>{[...users.users].reverse().indexOf(record) + 1}</span>
+      ),
     },
     {
       title: "Username",
@@ -266,7 +264,7 @@ const Users = () => {
         <span className="font-bold">
           {users?.users?.filter((item) => item._id !== user?._id).length - 1}
         </span>{" "}
-        user
+        item
         {users?.users?.filter((item) => item._id !== user?._id).length - 1 > 1
           ? "s"
           : ""}
