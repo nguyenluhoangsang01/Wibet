@@ -11,20 +11,25 @@ export const createTeam = async (req, res, next) => {
     const { file } = req;
 
     // Validate
-    if (!name) return sendError(res, "Name cannot be blank.");
-    if (!fullName) return sendError(res, "Full name cannot be blank.");
+    if (!name) return sendError(res, "Name cannot be blank.", 400, "name");
+    if (!fullName)
+      return sendError(res, "Full name cannot be blank.", 400, "fullName");
 
     const isExistingWithName = await Team.findOne({ name });
     if (isExistingWithName)
       return sendError(
         res,
-        `Name ${isExistingWithName.name} has already been taken.`
+        `Name ${isExistingWithName.name} has already been taken.`,
+        400,
+        "name"
       );
     const isExistingWithFullName = await Team.findOne({ fullName });
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithFullName.fullName} has already been taken.`
+        `Full name ${isExistingWithFullName.fullName} has already been taken.`,
+        400,
+        "fullName"
       );
 
     // Check if file exists
@@ -79,25 +84,34 @@ export const updateTeam = async (req, res, next) => {
     // Get file from request
     const { file } = req;
 
+    // Validate
+    if (!name) return sendError(res, "Name cannot be blank.", 400, "name");
+    if (!fullName)
+      return sendError(res, "Full name cannot be blank.", 400, "fullName");
+
     // Find team by id and check if not exists
     const team = Team.findById(id);
-    if (!team) return sendError(res, "Team not found", 404);
+    if (!team) return sendError(res, "Team not found", 404, "name");
 
     const isExistingWithName = await Team.findOne({
-      name: { $ne: name, $eq: team.name },
+      name: { $ne: team.name, $eq: name },
     });
     if (isExistingWithName)
       return sendError(
         res,
-        `Name ${isExistingWithName.name} has already been taken.`
+        `Name ${isExistingWithName.name} has already been taken.`,
+        400,
+        "name"
       );
     const isExistingWithFullName = await Team.findOne({
-      fullName: { $ne: fullName, $eq: team.fullName },
+      fullName: { $ne: team.fullName, $eq: fullName },
     });
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithFullName.fullName} has already been taken.`
+        `Full name ${isExistingWithFullName.fullName} has already been taken.`,
+        400,
+        "fullName"
       );
 
     // Check if file exists

@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,8 @@ const TeamCreate = () => {
   const [file, setFile] = useState(null);
   // Initial dispatch
   const dispatch = useDispatch();
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -63,15 +65,41 @@ const TeamCreate = () => {
         // And navigate to teams page
         navigate("/teams");
       }
-    } catch ({ response }) {
-      // Check if data is exists when have occur error
-      if (response.data) {
-        // Dispatch action to update all teams (maybe)
-        dispatch(updateTeamReducer(response.data));
+    } catch ({ response: { data } }) {
+      // Check if name error is name and set error message after set fields to null
+      if (data.name === "name") {
+        form.current.setFields([
+          {
+            name: "name",
+            errors: [data.message],
+          },
+        ]);
 
-        // Then set is finish to false
-        setIsFinish(false);
+        form.current.setFields([
+          {
+            name: "fullName",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "fullName") {
+        // Check if name error is fullName and set error message after set fields to null
+        form.current.setFields([
+          {
+            name: "fullName",
+            errors: [data.message],
+          },
+        ]);
+
+        form.current.setFields([
+          {
+            name: "name",
+            errors: null,
+          },
+        ]);
       }
+
+      // Then set is finish to false
+      setIsFinish(false);
     }
   };
 
@@ -95,6 +123,7 @@ const TeamCreate = () => {
           fullName: "",
           image: file,
         }}
+        ref={form}
       >
         {/* Name input */}
         <Form.Item

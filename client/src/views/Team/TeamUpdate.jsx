@@ -118,15 +118,41 @@ const TeamUpdate = () => {
         // And navigate to teams page
         navigate("/teams");
       }
-    } catch ({ response }) {
-      // Check if data is exists when have occur error
-      if (response.data) {
-        // Dispatch action to update all teams (maybe)
-        dispatch(updateTeamReducer(response.data));
+    } catch ({ response: { data } }) {
+      // Check if name error is name and set error message after set fields to null
+      if (data.name === "name") {
+        form.current.setFields([
+          {
+            name: "name",
+            errors: [data.message],
+          },
+        ]);
 
-        // Then set is finish to false
-        setIsFinish(false);
+        form.current.setFields([
+          {
+            name: "fullName",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "fullName") {
+        // Check if name error is fullName and set error message after set fields to null
+        form.current.setFields([
+          {
+            name: "fullName",
+            errors: [data.message],
+          },
+        ]);
+
+        form.current.setFields([
+          {
+            name: "name",
+            errors: null,
+          },
+        ]);
       }
+
+      // Then set is finish to false
+      setIsFinish(false);
     }
   };
 
@@ -155,12 +181,12 @@ const TeamUpdate = () => {
         <Form.Item
           label="Name"
           name="name"
-          rules={[
-            {
-              required: true,
-              message: "Name cannot be blank.",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Name cannot be blank.",
+          //   },
+          // ]}
         >
           <Input />
         </Form.Item>
@@ -169,12 +195,12 @@ const TeamUpdate = () => {
         <Form.Item
           label="Full Name"
           name="fullName"
-          rules={[
-            {
-              required: true,
-              message: "Full Name cannot be blank.",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Full Name cannot be blank.",
+          //   },
+          // ]}
         >
           <Input />
         </Form.Item>
