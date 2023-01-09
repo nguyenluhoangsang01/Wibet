@@ -198,16 +198,16 @@ const UserUpdate = () => {
           <Form.Item
             label="Email"
             name="email"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Email cannot be blank.",
-            //   },
-            //   {
-            //     type: "email",
-            //     message: "Email is not a valid email address.",
-            //   },
-            // ]}
+            rules={[
+              {
+                required: true,
+                message: "Email cannot be blank.",
+              },
+              {
+                type: "email",
+                message: "Email is not a valid email address.",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -216,12 +216,12 @@ const UserUpdate = () => {
           <Form.Item
             label="Username"
             name="username"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Username cannot be blank.",
-            //   },
-            // ]}
+            rules={[
+              {
+                required: true,
+                message: "Username cannot be blank.",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -230,17 +230,17 @@ const UserUpdate = () => {
           <Form.Item
             label="Money"
             name="money"
-            // rules={[
-            //   {
-            //     type: "number",
-            //     message: "Money is not a valid number.",
-            //   },
-            //   {
-            //     type: "number",
-            //     min: 0,
-            //     message: "Money must be greater than or equal to 0.",
-            //   },
-            // ]}
+            rules={[
+              {
+                type: "number",
+                message: "Money is not a valid number.",
+              },
+              {
+                type: "number",
+                min: 0,
+                message: "Money must be greater than or equal to 0.",
+              },
+            ]}
           >
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
@@ -261,12 +261,12 @@ const UserUpdate = () => {
           <Form.Item
             label="New Password"
             name="newPassword"
-            // rules={[
-            //   {
-            //     min: 3,
-            //     message: "New Password should contain at least 3 characters.",
-            //   },
-            // ]}
+            rules={[
+              {
+                min: 3,
+                message: "New Password should contain at least 3 characters.",
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>

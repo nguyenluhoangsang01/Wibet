@@ -169,8 +169,6 @@ const MatchUpdateInfo = () => {
       {/* Form */}
       <Form
         name="update-info"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
@@ -181,6 +179,7 @@ const MatchUpdateInfo = () => {
           description: match?.description,
         }}
         ref={form}
+        layout="vertical"
       >
         {/* Team 1 select */}
         <Form.Item
@@ -279,11 +278,11 @@ const MatchUpdateInfo = () => {
         </Form.Item>
 
         {/* Update button */}
-        <Form.Item wrapperCol={{ offset: 3, span: 19 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            className="bg-black flex items-center gap-2"
+            className="bg-black flex items-center gap-2 mr-0 ml-auto"
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}

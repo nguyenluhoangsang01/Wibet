@@ -108,8 +108,6 @@ const TeamCreate = () => {
       {/* Form */}
       <Form
         name="create-team"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
@@ -118,6 +116,7 @@ const TeamCreate = () => {
           image: file,
         }}
         ref={form}
+        layout="vertical"
       >
         {/* Name input */}
         <Form.Item
@@ -154,7 +153,7 @@ const TeamCreate = () => {
 
         {/* Render file */}
         {file && (
-          <Form.Item name="image" wrapperCol={{ offset: 3 }}>
+          <Form.Item name="image">
             <RenderFile
               file={{
                 format: file.type.split("/")[1],
@@ -166,11 +165,11 @@ const TeamCreate = () => {
         )}
 
         {/* Create button */}
-        <Form.Item wrapperCol={{ offset: 3 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            className="bg-black flex items-center gap-2"
+            className="bg-black flex items-center gap-2 mr-0 ml-auto"
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}

@@ -162,30 +162,32 @@ const BetViewAll = () => {
       <Breadcrumbs routes={matchUpdateScore} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="capitalize text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
-        <p>view all bets:</p>
-        <div className="flex items-center justify-center gap-2">
-          <Image
-            src={match?.team1?.flag}
-            width={96}
-            preview={false}
-            alt={match?.team1?.fullName}
-            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
-          />
-          <span>{match?.team1?.fullName}</span>
+      <div className="text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px]">
+        <h2 className="text-[30px] mb-[10px] mt-[20px]">View all bets</h2>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              src={match?.team1?.flag}
+              width={96}
+              preview={false}
+              alt={match?.team1?.fullName}
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+            />
+            <span>{match?.team1?.fullName}</span>
+          </div>
+          <span>-</span>
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              src={match?.team2?.flag}
+              width={96}
+              preview={false}
+              alt={match?.team2?.fullName}
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+            />
+            <span>{match?.team2?.fullName}</span>
+          </div>
         </div>
-        <span>-</span>
-        <div className="flex items-center justify-center gap-2">
-          <Image
-            src={match?.team2?.flag}
-            width={96}
-            preview={false}
-            alt={match?.team2?.fullName}
-            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
-          />
-          <span>{match?.team2?.fullName}</span>
-        </div>
-      </h1>
+      </div>
 
       {/* Number of rows */}
       <NumberOfRows>

@@ -175,11 +175,10 @@ const MatchUpdateScore = () => {
       {/* Form */}
       <Form
         name="update-score"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         initialValues={{ autoGenerate, result }}
         onFinish={onFinish}
         autoComplete="off"
+        layout="vertical"
       >
         {/* Result of team 1 input */}
         <Form.Item
@@ -210,11 +209,7 @@ const MatchUpdateScore = () => {
         </Form.Item>
 
         {/* Remember check box */}
-        <Form.Item
-          name="autoGenerate"
-          valuePropName="checked"
-          wrapperCol={{ offset: 3, span: 19 }}
-        >
+        <Form.Item name="autoGenerate" valuePropName="checked">
           <Checkbox
             checked={autoGenerate}
             onChange={onChange}
@@ -255,7 +250,7 @@ const MatchUpdateScore = () => {
         )}
 
         {/* Update Score button */}
-        <Form.Item wrapperCol={{ offset: 3, span: 19 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"

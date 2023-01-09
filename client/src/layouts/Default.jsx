@@ -8,7 +8,7 @@ const Default = () => {
     <div>
       <Navbar />
 
-      <main className="px-4 sm:px-10 pt-[70px] pb-[20px]">
+      <main className="pt-[70px] pb-[20px] max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-[1140px] mx-auto">
         <Outlet />
       </main>
 

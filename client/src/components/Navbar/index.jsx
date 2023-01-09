@@ -46,7 +46,7 @@ const Navbar = () => {
 
   return (
     <nav className="h-[50px] bg-black text-white w-full fixed z-40 shadow-lg">
-      <div className="mx-auto flex items-center justify-between h-full transition px-4 sm:px-10 relative">
+      <div className="max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-[1140px] mx-auto flex items-center justify-between h-full transition relative">
         {/* Navbar left */}
         <Link
           className="flex items-center gap-2"

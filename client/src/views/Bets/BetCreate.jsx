@@ -134,42 +134,43 @@ const BetCreate = () => {
       <Breadcrumbs routes={createBetRoutes} />
 
       {/* Heading */}
-      <h1 className="capitalize text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
-        <p>create bet:</p>
-        <div className="flex items-center justify-center gap-2">
-          <Image
-            src={match?.team1?.flag}
-            width={96}
-            preview={false}
-            alt={match?.team1?.fullName}
-            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
-          />
-          <span>{match?.team1?.fullName}</span>
+      <div className="text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px]">
+        <h2 className="text-[30px] mb-[10px] mt-[20px]">Create bet</h2>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              src={match?.team1?.flag}
+              width={96}
+              preview={false}
+              alt={match?.team1?.fullName}
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+            />
+            <span>{match?.team1?.fullName}</span>
+          </div>
+          <span>-</span>
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              src={match?.team2?.flag}
+              width={96}
+              preview={false}
+              alt={match?.team2?.fullName}
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+            />
+            <span>{match?.team2?.fullName}</span>
+          </div>
         </div>
-        <span>-</span>
-        <div className="flex items-center justify-center gap-2">
-          <Image
-            src={match?.team2?.flag}
-            width={96}
-            preview={false}
-            alt={match?.team2?.fullName}
-            className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
-          />
-          <span>{match?.team2?.fullName}</span>
-        </div>
-      </h1>
+      </div>
 
       {/* Form */}
       <Form
         name="create-bet"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
           team: "",
           money: "",
         }}
+        layout="vertical"
       >
         {/* Team select */}
         <Form.Item
@@ -220,11 +221,11 @@ const BetCreate = () => {
         </Form.Item>
 
         {/* Create button */}
-        <Form.Item wrapperCol={{ offset: 3, span: 19 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            className="bg-black flex items-center gap-2"
+            className="bg-black flex items-center gap-2 mr-0 ml-auto"
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}

@@ -161,8 +161,6 @@ const TeamUpdate = () => {
       {/* Form */}
       <Form
         name="update-team"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
         ref={form}
@@ -170,17 +168,18 @@ const TeamUpdate = () => {
           ...team,
           image: file,
         }}
+        layout="vertical"
       >
         {/* Name input */}
         <Form.Item
           label="Name"
           name="name"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: "Name cannot be blank.",
-          //   },
-          // ]}
+          rules={[
+            {
+              required: true,
+              message: "Name cannot be blank.",
+            },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -189,12 +188,12 @@ const TeamUpdate = () => {
         <Form.Item
           label="Full Name"
           name="fullName"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: "Full Name cannot be blank.",
-          //   },
-          // ]}
+          rules={[
+            {
+              required: true,
+              message: "Full Name cannot be blank.",
+            },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -206,7 +205,7 @@ const TeamUpdate = () => {
 
         {/* Render file */}
         {file && (
-          <Form.Item name="image" wrapperCol={{ offset: 3 }}>
+          <Form.Item name="image">
             <RenderFile
               file={{
                 format: file.type.split("/")[1],
@@ -218,11 +217,11 @@ const TeamUpdate = () => {
         )}
 
         {/* Update button */}
-        <Form.Item wrapperCol={{ offset: 3 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            className="bg-black flex items-center gap-2"
+            className="bg-black flex items-center gap-2 mr-0 ml-auto"
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
