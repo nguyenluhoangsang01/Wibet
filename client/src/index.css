@@ -179,3 +179,7 @@ svg > text {
 .reward tr:nth-child(4) {
   @apply !bg-[#d9edf7];
 }
+
+.not-found {
+  text-shadow: -1px -1px 3px #fff, 2px 2px 4px #fff;
+}
