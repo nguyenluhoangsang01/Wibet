@@ -76,7 +76,7 @@ const TeamCreate = () => {
   };
 
   return (
-    <div>
+    <div className="h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={createTeamRoutes} />
 
