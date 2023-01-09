@@ -68,7 +68,7 @@ const UserCreate = () => {
       // Navigate to view user details
       navigate(`/users/${data.data.user._id}/view-details`);
     } catch ({ response: { data } }) {
-      console.log(data);
+      // When update failured
       if (data.name === "email") {
         form.current.setFields([
           {

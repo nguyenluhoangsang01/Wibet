@@ -112,11 +112,56 @@ const UserUpdate = () => {
 
       // And navigate
       navigate(`/users/${user._id}/view-details`);
-    } catch ({ response }) {
+    } catch ({ response: { data } }) {
       // When update failured
-      toast.error(response.data.message);
+      if (data.name === "email") {
+        form.current.setFields([
+          {
+            name: "email",
+            errors: [data.message],
+          },
+          {
+            name: "username",
+            errors: null,
+          },
+          {
+            name: "newPassword",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "username") {
+        form.current.setFields([
+          {
+            name: "username",
+            errors: [data.message],
+          },
+          {
+            name: "email",
+            errors: null,
+          },
+          {
+            name: "newPassword",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "newPassword") {
+        form.current.setFields([
+          {
+            name: "newPassword",
+            errors: [data.message],
+          },
+          {
+            name: "email",
+            errors: null,
+          },
+          {
+            name: "username",
+            errors: null,
+          },
+        ]);
+      }
 
-      // After set is finish to false
+      // After that, set is finish to false
       setIsFinish(false);
     }
   };
@@ -153,16 +198,16 @@ const UserUpdate = () => {
           <Form.Item
             label="Email"
             name="email"
-            rules={[
-              {
-                required: true,
-                message: "Email cannot be blank.",
-              },
-              {
-                type: "email",
-                message: "Email is not a valid email address.",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Email cannot be blank.",
+            //   },
+            //   {
+            //     type: "email",
+            //     message: "Email is not a valid email address.",
+            //   },
+            // ]}
           >
             <Input />
           </Form.Item>
@@ -171,12 +216,12 @@ const UserUpdate = () => {
           <Form.Item
             label="Username"
             name="username"
-            rules={[
-              {
-                required: true,
-                message: "Username cannot be blank.",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Username cannot be blank.",
+            //   },
+            // ]}
           >
             <Input />
           </Form.Item>
@@ -185,17 +230,17 @@ const UserUpdate = () => {
           <Form.Item
             label="Money"
             name="money"
-            rules={[
-              {
-                type: "number",
-                message: "Money is not a valid number.",
-              },
-              {
-                type: "number",
-                min: 0,
-                message: "Money must be greater than or equal to 0.",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     type: "number",
+            //     message: "Money is not a valid number.",
+            //   },
+            //   {
+            //     type: "number",
+            //     min: 0,
+            //     message: "Money must be greater than or equal to 0.",
+            //   },
+            // ]}
           >
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
@@ -216,12 +261,12 @@ const UserUpdate = () => {
           <Form.Item
             label="New Password"
             name="newPassword"
-            rules={[
-              {
-                min: 3,
-                message: "New Password should contain at least 3 characters.",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     min: 3,
+            //     message: "New Password should contain at least 3 characters.",
+            //   },
+            // ]}
           >
             <Input.Password />
           </Form.Item>

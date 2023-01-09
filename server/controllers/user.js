@@ -245,39 +245,54 @@ export const updateUserById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
-    const { email, username, newPassword, banned } = req.body;
-
-    // Validate
-    if (!email) return sendError(res, "Email cannot be blank.");
-    if (!validator.isEmail(email))
-      return sendError(res, "Email is not a valid email address.");
-    if (!username) return sendError(res, "Username cannot be blank.");
+    const { email, username, newPassword, banned, money } = req.body;
 
     // Check if user not exists
     const user = await User.findById(id);
     if (!user) return sendError(res, "User not found", 404);
 
+    // Validate
+    if (!email) return sendError(res, "Email cannot be blank.", 400, "email");
+    if (!validator.isEmail(email))
+      return sendError(
+        res,
+        "Email is not a valid email address.",
+        400,
+        "email"
+      );
     const isExistingWithEmail = await User.findOne({
       email: { $ne: user.email, $eq: email },
     });
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`
+        `Email ${isExistingWithEmail.email} has already been taken.`,
+        400,
+        "email"
       );
+
+    if (!username)
+      return sendError(res, "Username cannot be blank.", 400, "username");
     const isExistingWithUsername = await User.findOne({
       username: { $ne: user.username, $eq: username },
     });
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`
+        `Username ${isExistingWithUsername.username} has already been taken.`,
+        400,
+        "username"
       );
 
     // Check if password exist
     if (newPassword) {
       if (newPassword.length < 3)
-        return sendError(res, "Password should contain at least 3 characters.");
+        return sendError(
+          res,
+          "Password should contain at least 3 characters.",
+          400,
+          "newPassword"
+        );
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
@@ -286,8 +301,9 @@ export const updateUserById = async (req, res, next) => {
         id,
         {
           ...req.body,
-          password: hashedNewPassword,
+          password: hashedNewPassword ? hashedNewPassword : user.password,
           bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
+          money: money ? money : user.money,
         },
         { new: true }
       );
@@ -299,6 +315,7 @@ export const updateUserById = async (req, res, next) => {
       {
         ...req.body,
         bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
+        money: money ? money : user.money,
       },
       { new: true }
     );
