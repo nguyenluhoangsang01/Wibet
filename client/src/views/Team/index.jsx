@@ -109,7 +109,7 @@ const Team = () => {
       dataIndex: "index",
       key: "index",
       render: (text, record, index) => (
-        <span>{[...teams.teams].reverse().indexOf(record) + 1}</span>
+        <span>{[...teams.teams].indexOf(record) + 1}</span>
       ),
     },
     {
@@ -192,7 +192,7 @@ const Team = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[...teams?.teams].reverse()}
+        dataSource={[...teams?.teams].sort((a, b) => a.fullName - b.fullName)}
         loading={teams?.teams ? false : true}
         scroll={{ x: "90vw" }}
       />

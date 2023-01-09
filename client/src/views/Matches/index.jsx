@@ -345,6 +345,7 @@ const Matches = () => {
       title: "Team 1",
       dataIndex: "team1",
       key: "team1",
+      width: "1%",
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
@@ -382,6 +383,7 @@ const Matches = () => {
       title: "Team 2",
       dataIndex: "team2",
       key: "team2",
+      width: "1%",
       render: (text) => (
         <div className="truncate flex items-center justify-center gap-1">
           <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
@@ -409,8 +411,11 @@ const Matches = () => {
       title: "Match Date",
       dataIndex: "matchDate",
       key: "matchDate",
+      width: "1%",
       render: (text) => (
-        <span>{moment(text).format("MMM Do YYYY, h:mm:ss a")}</span>
+        <span title={text}>
+          {moment(text).format("MMM Do YYYY, h:mm:ss a")}
+        </span>
       ),
     },
     {
@@ -481,10 +486,10 @@ const Matches = () => {
                       >
                         <div className="flex items-center gap-1">
                           <span className="text-[18px] font-[calibri]">
-                            {bet.team.name}
+                            {bet?.team?.name}
                           </span>
                           <span className="text-[16px] font-[calibri] rounded-full bg-[#ffc107] py-[3px] px-[10px] font-bold min-w-[50px] max-h-[22px] flex items-center justify-center">
-                            {bet.money}p
+                            {bet?.money}p
                           </span>
                         </div>
 
@@ -672,7 +677,7 @@ const Matches = () => {
           ?.reverse()}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "110vw" }}
+        scroll={{ x: "90vw" }}
       />
 
       {/* Delete Modal */}
