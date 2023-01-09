@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -21,11 +21,13 @@ const UserCreate = () => {
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [status, setStatus] = useState(Object.keys(STATUSDEFAULT)[0]);
-  const [roleID, setRoleID] = useState(Object.keys(ROLESDEFAULT)[1]);
+  const [roleID, setRoleID] = useState(Object.keys(ROLESDEFAULT)[0]);
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -65,9 +67,54 @@ const UserCreate = () => {
 
       // Navigate to view user details
       navigate(`/users/${data.data.user._id}/view-details`);
-    } catch ({ response }) {
-      // Set error notification
-      toast.error(response.data.message);
+    } catch ({ response: { data } }) {
+      console.log(data);
+      if (data.name === "email") {
+        form.current.setFields([
+          {
+            name: "email",
+            errors: [data.message],
+          },
+          {
+            name: "username",
+            errors: null,
+          },
+          {
+            name: "password",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "username") {
+        form.current.setFields([
+          {
+            name: "username",
+            errors: [data.message],
+          },
+          {
+            name: "email",
+            errors: null,
+          },
+          {
+            name: "password",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "password") {
+        form.current.setFields([
+          {
+            name: "password",
+            errors: [data.message],
+          },
+          {
+            name: "email",
+            errors: null,
+          },
+          {
+            name: "username",
+            errors: null,
+          },
+        ]);
+      }
 
       // After that, set is finish to false
       setIsFinish(false);
@@ -94,20 +141,16 @@ const UserCreate = () => {
       {/* Form */}
       <Form
         name="create-user"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 6,
-        }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
           banned: false,
           status: Object.keys(STATUSDEFAULT)[0],
-          roleID: Object.keys(ROLESDEFAULT)[1],
+          roleID: Object.keys(ROLESDEFAULT)[0],
         }}
-        className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"
+        className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0 md:gap-10"
+        ref={form}
+        layout="vertical"
       >
         <div>
           {/* Email input */}
@@ -124,7 +167,6 @@ const UserCreate = () => {
                 message: "Email is not a valid email address.",
               },
             ]}
-            wrapperCol={{ span: 16, offset: 1 }}
           >
             <Input />
           </Form.Item>
@@ -139,7 +181,6 @@ const UserCreate = () => {
                 message: "Username cannot be blank.",
               },
             ]}
-            wrapperCol={{ span: 16, offset: 1 }}
           >
             <Input />
           </Form.Item>
@@ -148,7 +189,6 @@ const UserCreate = () => {
           <Form.Item
             label="Money"
             name="money"
-            wrapperCol={{ span: 16, offset: 1 }}
             rules={[
               {
                 type: "number",
@@ -165,22 +205,14 @@ const UserCreate = () => {
           </Form.Item>
 
           {/* Status Select */}
-          <Form.Item
-            label="Status"
-            name="status"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Status" name="status">
             <Select onChange={handleChangeStatus} options={STATUS} />
           </Form.Item>
         </div>
 
         <div>
           {/* Full Name input */}
-          <Form.Item
-            label="Full Name"
-            name="fullName"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Full Name" name="fullName">
             <Input />
           </Form.Item>
 
@@ -188,7 +220,6 @@ const UserCreate = () => {
           <Form.Item
             label="Password"
             name="password"
-            wrapperCol={{ span: 16, offset: 1 }}
             rules={[
               {
                 required: true,
@@ -204,20 +235,12 @@ const UserCreate = () => {
           </Form.Item>
 
           {/* Role ID Select */}
-          <Form.Item
-            label="Role ID"
-            name="roleID"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Role ID" name="roleID">
             <Select onChange={handleChangeRoleID} options={ROLES} />
           </Form.Item>
 
           {/* Banned Reason input */}
-          <Form.Item
-            label="Banned Reason"
-            name="bannedReason"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Banned Reason" name="bannedReason">
             <Input />
           </Form.Item>
         </div>
@@ -226,14 +249,13 @@ const UserCreate = () => {
         <Form.Item
           name="banned"
           valuePropName="checked"
-          wrapperCol={{ offset: 5 }}
           className="w-fit md:w-full"
         >
           <Checkbox value="checked">Banned</Checkbox>
         </Form.Item>
 
         {/* Create button */}
-        <Form.Item wrapperCol={{ offset: 5 }} className="w-fit md:w-full">
+        <Form.Item className="w-fit md:w-full">
           <Button
             type="primary"
             htmlType="submit"

@@ -22,25 +22,41 @@ export const createUser = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!email) return sendError(res, "Email cannot be blank.");
+    if (!email) return sendError(res, "Email cannot be blank.", 400, "email");
     if (!validator.isEmail(email))
-      return sendError(res, "Email is not a valid email address.");
-    if (!username) return sendError(res, "Username cannot be blank.");
-    if (!password) return sendError(res, "Password cannot be blank.");
+      return sendError(
+        res,
+        "Email is not a valid email address.",
+        400,
+        "email"
+      );
+    if (!username)
+      return sendError(res, "Username cannot be blank.", 400, "username");
+    if (!password)
+      return sendError(res, "Password cannot be blank.", 400, "password");
     if (password.length < 3)
-      return sendError(res, "Password should contain at least 3 characters.");
+      return sendError(
+        res,
+        "Password should contain at least 3 characters.",
+        400,
+        "password"
+      );
 
     const isExistingWithEmail = await User.findOne({ email });
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`
+        `Email ${isExistingWithEmail.email} has already been taken.`,
+        400,
+        "email"
       );
     const isExistingWithUsername = await User.findOne({ username });
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`
+        `Username ${isExistingWithUsername.username} has already been taken.`,
+        400,
+        "username"
       );
 
     // Hash password

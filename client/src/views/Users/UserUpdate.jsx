@@ -141,17 +141,12 @@ const UserUpdate = () => {
       {/* Form */}
       <Form
         name="update-user"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 6,
-        }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{ ...user }}
-        className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0"
+        className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0 md:gap-10"
         ref={form}
+        layout="vertical"
       >
         <div>
           {/* Email input */}
@@ -168,7 +163,6 @@ const UserUpdate = () => {
                 message: "Email is not a valid email address.",
               },
             ]}
-            wrapperCol={{ span: 16, offset: 1 }}
           >
             <Input />
           </Form.Item>
@@ -183,7 +177,6 @@ const UserUpdate = () => {
                 message: "Username cannot be blank.",
               },
             ]}
-            wrapperCol={{ span: 16, offset: 1 }}
           >
             <Input />
           </Form.Item>
@@ -192,7 +185,6 @@ const UserUpdate = () => {
           <Form.Item
             label="Money"
             name="money"
-            wrapperCol={{ span: 16, offset: 1 }}
             rules={[
               {
                 type: "number",
@@ -209,22 +201,14 @@ const UserUpdate = () => {
           </Form.Item>
 
           {/* Status Select */}
-          <Form.Item
-            label="Status"
-            name="status"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Status" name="status">
             <Select onChange={handleChangeStatus} options={STATUS} />
           </Form.Item>
         </div>
 
         <div>
           {/* Full Name input */}
-          <Form.Item
-            label="Full Name"
-            name="fullName"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Full Name" name="fullName">
             <Input />
           </Form.Item>
 
@@ -232,7 +216,6 @@ const UserUpdate = () => {
           <Form.Item
             label="New Password"
             name="newPassword"
-            wrapperCol={{ span: 16, offset: 1 }}
             rules={[
               {
                 min: 3,
@@ -244,35 +227,23 @@ const UserUpdate = () => {
           </Form.Item>
 
           {/* Role ID Select */}
-          <Form.Item
-            label="Role ID"
-            name="roleID"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Role ID" name="roleID">
             <Select onChange={handleChangeRoleID} options={ROLES} />
           </Form.Item>
 
           {/* Banned Reason input */}
-          <Form.Item
-            label="Banned Reason"
-            name="bannedReason"
-            wrapperCol={{ span: 16, offset: 1 }}
-          >
+          <Form.Item label="Banned Reason" name="bannedReason">
             <Input />
           </Form.Item>
         </div>
 
         {/* Banned check box */}
-        <Form.Item
-          name="banned"
-          valuePropName="checked"
-          wrapperCol={{ offset: 5, span: 16 }}
-        >
+        <Form.Item name="banned" valuePropName="checked">
           <Checkbox value="checked">Banned</Checkbox>
         </Form.Item>
 
         {/* Update button */}
-        <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"

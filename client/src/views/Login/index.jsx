@@ -77,9 +77,6 @@ const Login = () => {
               name: "emailOrUsername",
               errors: [data.message],
             },
-          ]);
-
-          form.current.setFields([
             {
               name: "password",
               errors: null,
@@ -92,9 +89,6 @@ const Login = () => {
               name: "emailOrUsername",
               errors: null,
             },
-          ]);
-
-          form.current.setFields([
             {
               name: "password",
               errors: [data.message],

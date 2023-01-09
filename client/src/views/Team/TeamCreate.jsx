@@ -73,9 +73,6 @@ const TeamCreate = () => {
             name: "name",
             errors: [data.message],
           },
-        ]);
-
-        form.current.setFields([
           {
             name: "fullName",
             errors: null,
@@ -88,9 +85,6 @@ const TeamCreate = () => {
             name: "fullName",
             errors: [data.message],
           },
-        ]);
-
-        form.current.setFields([
           {
             name: "name",
             errors: null,

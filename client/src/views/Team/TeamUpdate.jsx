@@ -126,9 +126,6 @@ const TeamUpdate = () => {
             name: "name",
             errors: [data.message],
           },
-        ]);
-
-        form.current.setFields([
           {
             name: "fullName",
             errors: null,
@@ -141,9 +138,6 @@ const TeamUpdate = () => {
             name: "fullName",
             errors: [data.message],
           },
-        ]);
-
-        form.current.setFields([
           {
             name: "name",
             errors: null,
