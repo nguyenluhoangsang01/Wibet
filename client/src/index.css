@@ -183,3 +183,8 @@ svg > text {
 .not-found {
   text-shadow: -1px -1px 3px #fff, 2px 2px 4px #fff;
 }
+
+.accessLevel td {
+  overflow: auto !important;
+  text-overflow: unset !important;
+}

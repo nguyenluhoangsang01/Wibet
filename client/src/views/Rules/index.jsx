@@ -99,9 +99,9 @@ const Rules = () => {
   };
 
   return (
-    <div className="divide-y-2">
+    <div className="md:px-10">
       {/* First section */}
-      <div>
+      <div className="md:-mx-8">
         {/* Breadcrumbs */}
         <Breadcrumbs routes={ruleRoutes} />
 
@@ -109,10 +109,12 @@ const Rules = () => {
         <div className="text-center">
           <Heading title="THỂ LỆ THAM GIA CHƯƠNG TRÌNH" />
         </div>
+
+        <hr />
       </div>
 
       {/* Second section */}
-      <div className="rules">
+      <div className="rules pt-[30px]">
         <RuleWrappers heading="thể thức chung">
           <ul>
             <li>
@@ -152,6 +154,7 @@ const Rules = () => {
                 columns={columns}
                 dataSource={accessLevel}
                 pagination={false}
+                className="accessLevel"
               />
             </li>
             <li>
