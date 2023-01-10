@@ -19,6 +19,7 @@ import Loading from "./views/Loading";
 import RankingViewDetails from "./views/Ranking/RankingViewDetails";
 
 const Default = lazy(() => import("./layouts/Default"));
+const Home = lazy(() => import("./views/Home"));
 const BetCreate = lazy(() => import("./views/Bets/BetCreate"));
 const MatchCreate = lazy(() => import("./views/Matches/MatchCreate"));
 const MatchUpdateInfo = lazy(() => import("./views/Matches/MatchUpdateInfo"));
@@ -62,6 +63,8 @@ function App() {
 
       <Suspense fallback={<Loading />}>
         <Routes>
+          <Route path="/" element={<Home />} />
+
           <Route element={<Default />}>
             {routes.map((route) => (
               <Route

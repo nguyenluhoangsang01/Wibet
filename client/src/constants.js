@@ -4,7 +4,6 @@ const Account = lazy(() => import("./views/Account"));
 const Analysis = lazy(() => import("./views/Analysis"));
 const Brackets = lazy(() => import("./views/Brackets"));
 const Comments = lazy(() => import("./views/Comments"));
-const Home = lazy(() => import("./views/Home"));
 const Login = lazy(() => import("./views/Login"));
 const Matches = lazy(() => import("./views/Matches"));
 const NotFound = lazy(() => import("./views/NotFound"));
@@ -15,10 +14,6 @@ const Team = lazy(() => import("./views/Team"));
 const Users = lazy(() => import("./views/Users"));
 
 export const routes = [
-  {
-    path: "/",
-    element: <Home />,
-  },
   {
     path: "/rules",
     element: <Rules />,

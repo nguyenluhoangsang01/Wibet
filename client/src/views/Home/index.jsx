@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 
 const Home = () => {
   // Get all matches from global state
@@ -43,15 +45,19 @@ const Home = () => {
   // };
 
   return (
-    <div className="-mx-4 sm:-mx-10 -my-6 relative h-[calc(100vh-50px-52px)]">
-      <img
-        src="https://res.cloudinary.com/wibet/image/upload/v1671760274/images/aff-cup-2022-667_as0m3a.jpg"
-        alt="home-background"
-        className="w-full h-full"
-      />
+    <div>
+      <Navbar />
 
-      {/* <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center"> */}
-      {/* {matches
+      <main className="pt-[70px] pb-[20px]">
+        <div className="-mx-4 sm:-mx-10 -my-6 relative h-[calc(100vh-50px-52px)]">
+          <img
+            src="https://res.cloudinary.com/wibet/image/upload/v1671760274/images/aff-cup-2022-667_as0m3a.jpg"
+            alt="home-background"
+            className="w-full h-full"
+          />
+
+          {/* <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center"> */}
+          {/* {matches
           ?.filter(
             (match) =>
               moment(match.matchDate).date() === moment(minDate).date() &&
@@ -112,7 +118,11 @@ const Home = () => {
               </div>
             );
           })} */}
-      {/* </div> */}
+          {/* </div> */}
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };
