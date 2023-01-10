@@ -129,14 +129,15 @@ export const login = async (req, res, next) => {
 
     // Set up access token
     const accessToken = jwt.sign(
-      {
-        userId: isExistingUser._id,
-      },
+      { userId: isExistingUser._id },
       process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
+
+    // Send HTTP-only cookie
+    res.cookie("accessToken", accessToken, {
+      expires: new Date(Date.now() + 1000 * 86400), // 1 day
+    });
 
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
@@ -330,7 +331,7 @@ export const updateUserById = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     // Clear the cookie
-    res.clearCookie("accessToken");
+    res.cookie("accessToken", "", { expires: new Date() });
 
     // Send the response
     return sendSuccess(res, "User logged out successfully!");
