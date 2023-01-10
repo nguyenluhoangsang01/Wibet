@@ -143,6 +143,21 @@ const BetCreate = () => {
             errors: null,
           },
         ]);
+      } else if (data.name === "bet") {
+        form.current.setFields([
+          {
+            name: "money",
+            errors: null,
+          },
+          {
+            name: "team",
+            errors: null,
+          },
+        ]);
+
+        navigate("/matches");
+
+        toast.error(data.message);
       }
 
       // Set is finish to false

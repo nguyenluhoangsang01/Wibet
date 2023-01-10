@@ -132,14 +132,51 @@ const BetUpdate = () => {
         // And navigate to matches
         navigate("/matches");
       }
-    } catch ({ response }) {
-      if (response.data) {
-        // Dispatch actions to send error notification
-        dispatch(updateUserReducer(response.data));
+    } catch ({ response: { data } }) {
+      // When update failure
+      console.log(data);
 
-        // Set is finish to false
-        setIsFinish(false);
+      if (data.name === "option") {
+        form.current.setFields([
+          {
+            name: "team",
+            errors: [data.message],
+          },
+          {
+            name: "money",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "money") {
+        form.current.setFields([
+          {
+            name: "money",
+            errors: [data.message],
+          },
+          {
+            name: "team",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "bet") {
+        form.current.setFields([
+          {
+            name: "money",
+            errors: null,
+          },
+          {
+            name: "team",
+            errors: null,
+          },
+        ]);
+
+        navigate("/matches");
+
+        toast.error(data.message);
       }
+
+      // Set is finish to false
+      setIsFinish(false);
     }
   };
 
