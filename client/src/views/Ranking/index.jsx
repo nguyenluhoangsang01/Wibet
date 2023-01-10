@@ -42,7 +42,7 @@ const Ranking = () => {
       dataIndex: "_id",
       key: "_id",
       render: (text, record, index) => (
-        <span className={`${text === user._id ? "font-bold" : ""}`}>
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {index + 1}
         </span>
       ),
@@ -51,8 +51,8 @@ const Ranking = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      render: (text) => (
-        <span className={`${text === user.username ? "font-bold" : ""}`}>
+      render: (text, record) => (
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -61,9 +61,9 @@ const Ranking = () => {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-      render: (text) =>
+      render: (text, record) =>
         text ? (
-          <span className={`${text === user.fullName ? "font-bold" : ""}`}>
+          <span className={`${record._id === user._id ? "font-bold" : ""}`}>
             {text}
           </span>
         ) : (
@@ -74,8 +74,8 @@ const Ranking = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      render: (text) => (
-        <span className={`${text === user.money ? "font-bold" : ""}`}>
+      render: (text, record) => (
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -84,8 +84,8 @@ const Ranking = () => {
       title: "Bet Times",
       dataIndex: "betTimes",
       key: "betTimes",
-      render: (text) => (
-        <span className={`${text === user.betTimes ? "font-bold" : ""}`}>
+      render: (text, record) => (
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -94,8 +94,8 @@ const Ranking = () => {
       title: "Win Times",
       dataIndex: "winTimes",
       key: "winTimes",
-      render: (text) => (
-        <span className={`${text === user.winTimes ? "font-bold" : ""}`}>
+      render: (text, record) => (
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -104,8 +104,8 @@ const Ranking = () => {
       title: "Bet Money",
       dataIndex: "betMoney",
       key: "betMoney",
-      render: (text) => (
-        <span className={`${text === user.betMoney ? "font-bold" : ""}`}>
+      render: (text, record) => (
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -115,14 +115,7 @@ const Ranking = () => {
       dataIndex: "winRate",
       key: "winRate",
       render: (text, record) => (
-        <span
-          className={`${
-            ((record.winTimes / record.betTimes) * 100).toFixed(2) ===
-            ((user.winTimes / user.betTimes) * 100).toFixed(2)
-              ? "font-bold"
-              : ""
-          }`}
-        >
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {((record.winTimes / record.betTimes) * 100).toFixed(2)}
         </span>
       ),
@@ -132,13 +125,7 @@ const Ranking = () => {
       dataIndex: "total",
       key: "total",
       render: (text, record) => (
-        <span
-          className={`${
-            record.money + record.betMoney === user.money + user.betMoney
-              ? "font-bold"
-              : ""
-          }`}
-        >
+        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
           {record.money + record.betMoney}
         </span>
       ),
