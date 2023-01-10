@@ -18,7 +18,7 @@ import ModalDeleteMatch from "../../components/ModalDeleteMatch";
 import ModalHideMatch from "../../components/ModalHideMatch";
 import ModalWithdraw from "../../components/ModalWithdraw";
 import NumberOfRows from "../../components/NumberOfRows";
-import { matchesRoutes } from "../../constants";
+import { formatTime, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, headers } from "../../helper";
 import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
@@ -418,9 +418,7 @@ const Matches = () => {
       key: "matchDate",
       width: "1%",
       render: (text) => (
-        <span title={text}>
-          {moment(text).format("MMM Do YYYY, h:mm:ss A")}
-        </span>
+        <span title={text}>{moment(text).format(formatTime)}</span>
       ),
     },
     {

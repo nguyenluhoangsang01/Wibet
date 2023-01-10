@@ -3,6 +3,7 @@ import IP from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
 import validator from "validator";
+import { formatTime } from "../constants.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import User from "../models/user.js";
@@ -139,7 +140,7 @@ export const login = async (req, res, next) => {
 
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
-      loggedInAt: moment().format("MMM Do YYYY, h:mm:ss A"),
+      loggedInAt: moment().format(formatTime),
       loggedInIp: currentIpAddress,
     }).select("-__v -password");
     // Check if user is banned
@@ -302,7 +303,7 @@ export const updateUserById = async (req, res, next) => {
         {
           ...req.body,
           password: hashedNewPassword ? hashedNewPassword : user.password,
-          bannedAt: banned && moment().format("MMM Do YYYY, h:mm:ss A"),
+          bannedAt: banned && moment().format(formatTime),
           money: money ? money : user.money,
         },
         { new: true }
@@ -314,7 +315,7 @@ export const updateUserById = async (req, res, next) => {
       id,
       {
         ...req.body,
-        bannedAt: banned && moment().format("MMM Do YYYY, h:mm:ss A"),
+        bannedAt: banned && moment().format(formatTime),
         money: money ? money : user.money,
       },
       { new: true }

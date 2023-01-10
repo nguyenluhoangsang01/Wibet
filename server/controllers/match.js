@@ -1,4 +1,5 @@
 import moment from "moment/moment.js";
+import { formatTime } from "../constants.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
@@ -12,19 +13,38 @@ export const createMatch = async (req, res, next) => {
     const { team1, team2, matchDate, rate } = req.body;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank.");
-    if (!team2) return sendError(res, "Team 2 cannot be blank.");
-    if (!matchDate) return sendError(res, "Match Date cannot be blank.");
-    if (!rate) return sendError(res, "Rate cannot be blank.");
+    if (!team1) return sendError(res, "Team 1 cannot be blank.", 400, "team1");
+    // Check if team 1 not exists
+    const team1IsExisting = await Team.findById(team1);
+    if (!team1IsExisting)
+      return sendError(res, "Team 1 not found", 404, "team1");
+    // Check if team 2 not exists
+    if (!team2) return sendError(res, "Team 2 cannot be blank.", 400, "team2");
+    const team2IsExisting = await Team.findById(team2);
+    if (!team2IsExisting)
+      return sendError(res, "Team 2 not found", 404, "team2");
 
     // Check if team 1 equal team 2
-    if (team1 === team2) return sendError(res, "Cannot choose the same team");
+    if (team1 === team2)
+      return sendError(res, "Cannot choose the same team", 400, "team2");
 
-    // Check if team 1 and team 2 not exists
-    const team1IsExisting = await Team.findById(team1);
-    const team2IsExisting = await Team.findById(team2);
-    if (!team1IsExisting) return sendError(res, "Team 1 not found", 404);
-    if (!team2IsExisting) return sendError(res, "Team 2 not found", 404);
+    if (!matchDate)
+      return sendError(res, "Match Date cannot be blank.", 400, "matchDate");
+    if (!rate) return sendError(res, "Rate cannot be blank.", 400, "rate");
+    if (rate < 0)
+      return sendError(
+        res,
+        "Rate must be greater than or equal to 0.1.",
+        400,
+        "rate"
+      );
+    if (rate > 3)
+      return sendError(
+        res,
+        "Rate must be less than or equal to 3.",
+        400,
+        "rate"
+      );
 
     // Find team 1 and team 2 in database
     const matchExistingWithTeam1 = await Match.findOne({
@@ -36,16 +56,16 @@ export const createMatch = async (req, res, next) => {
 
     // Check if match date is exists
     if (
-      moment(matchExistingWithTeam1?.matchDate).format(
-        "MMM Do YYYY, h:mm:ss A"
-      ) === moment(matchDate).format("MMM Do YYYY, h:mm:ss A") ||
-      moment(matchExistingWithTeam2?.matchDate).format(
-        "MMM Do YYYY, h:mm:ss A"
-      ) === moment(matchDate).format("MMM Do YYYY, h:mm:ss A")
+      moment(matchExistingWithTeam1?.matchDate).format(formatTime) ===
+        moment(matchDate).format(formatTime) ||
+      moment(matchExistingWithTeam2?.matchDate).format(formatTime) ===
+        moment(matchDate).format(formatTime)
     )
       return sendError(
         res,
-        "The match date of the match already exists for both teams."
+        "The match date of the match already exists for both teams.",
+        400,
+        "team1"
       );
 
     // Create new match
@@ -159,16 +179,21 @@ export const updateMatchById = async (req, res, next) => {
     const { id } = req.params;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank.");
-    if (!team2) return sendError(res, "Team 2 cannot be blank.");
-    if (!matchDate) return sendError(res, "Match Date cannot be blank.");
-    if (!rate) return sendError(res, "Rate cannot be blank.");
-
-    // Check if team 1 and team 2 not exists
+    if (!team1) return sendError(res, "Team 1 cannot be blank.", 400, "team1");
+    // Check if team 1 not exists
     const team1IsExisting = await Team.findById(team1);
+    if (!team1IsExisting)
+      return sendError(res, "Team 1 not found", 404, "team1");
+
+    if (!team2) return sendError(res, "Team 2 cannot be blank.", 400, "team2");
+    // Check if team 2 not exists
     const team2IsExisting = await Team.findById(team2);
-    if (!team1IsExisting) return sendError(res, "Team 1 not found", 404);
-    if (!team2IsExisting) return sendError(res, "Team 2 not found", 404);
+    if (!team2IsExisting)
+      return sendError(res, "Team 2 not found", 404, "team2");
+
+    if (!matchDate)
+      return sendError(res, "Match Date cannot be blank.", 400, "matchDate");
+    if (!rate) return sendError(res, "Rate cannot be blank.", 400, "rate");
 
     //  Update match
     await Match.findByIdAndUpdate(id, { ...req.body }, { new: true });

@@ -1,4 +1,5 @@
 import moment from "moment";
+import { formatTime } from "../constants.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
@@ -70,7 +71,7 @@ export const createBetById = async (req, res, next) => {
       ...req.body,
       user: userId,
       match: matchId,
-      betTime: moment().format("MMM Do YYYY, h:mm:ss A"),
+      betTime: moment().format(formatTime),
     });
     await newBet.save();
 

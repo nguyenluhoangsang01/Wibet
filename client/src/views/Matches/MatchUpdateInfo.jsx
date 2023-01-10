@@ -8,6 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectTeam } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
@@ -63,15 +64,15 @@ const MatchUpdateInfo = () => {
           // Reset form
           form.current.resetFields();
         }
-      } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/matches");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
-          navigate("/matches");
-        }
+      } catch ({ response: { data } }) {
+        // if (response.status === 500) {
+        //   navigate("/matches");
+        // } else if (!response.data.success) {
+        //   // When get failured
+        //   toast.error(response.data.message);
+        //   navigate("/matches");
+        // }
+        console.log(data);
       }
     })();
   }, [accessToken, id, navigate]);
@@ -116,9 +117,85 @@ const MatchUpdateInfo = () => {
 
       // And navigate to matches
       navigate("/matches");
-    } catch ({ response }) {
-      // When update failured
-      toast.error(response.data.message);
+    } catch ({ response: { data } }) {
+      // When update failure
+      if (data.name === "team1") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: [data.message],
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "team2") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: [data.message],
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "matchDate") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: [data.message],
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "rate") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: [data.message],
+          },
+        ]);
+      }
 
       // After set is finish to false
       setIsFinish(false);
@@ -240,6 +317,7 @@ const MatchUpdateInfo = () => {
             showTime
             style={{ width: "100%" }}
             allowClear={false}
+            format={formatTime}
             disabledDate={(current) => current.isBefore(moment())}
           />
         </Form.Item>

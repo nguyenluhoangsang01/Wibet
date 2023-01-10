@@ -12,3 +12,5 @@ export const STATUS = {
 
 export const DEFAULT_IMAGE =
   "https://res.cloudinary.com/wibet/image/upload/v1672115166/img_aff_mecup2022_logo_cyykbh.png";
+
+export const formatTime = "MMM Do YYYY, h:mm:ss A";

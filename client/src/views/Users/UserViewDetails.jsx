@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import ModalDeleteUser from "../../components/ModalDeleteUser";
+import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -204,7 +205,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Created At</th>
-            <td>{moment(user.createdAt).format("MMM Do YYYY, h:mm:ss A")}</td>
+            <td>{moment(user.createdAt).format(formatTime)}</td>
           </tr>
           <tr>
             <th>Created By</th>
@@ -218,7 +219,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Updated At</th>
-            <td>{moment(user.updatedAt).format("MMM Do YYYY, h:mm:ss A")}</td>
+            <td>{moment(user.updatedAt).format(formatTime)}</td>
           </tr>
           <tr>
             <th>Banned At</th>

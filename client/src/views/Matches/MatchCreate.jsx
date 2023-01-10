@@ -2,7 +2,7 @@ import { Button, DatePicker, Form, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,8 @@ const MatchCreate = () => {
   } = useSelector(selectTeam);
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Initial form ref
+  const form = useRef(null);
 
   // Set title
   useEffect(() => {
@@ -68,14 +70,88 @@ const MatchCreate = () => {
         // And navigate to matches
         navigate("/matches");
       }
-    } catch ({ response }) {
-      if (response.data) {
-        // Dispatch actions to send error notification
-        dispatch(updateMatchReducer(response.data));
-
-        // Set is finish to false
-        setIsFinish(false);
+    } catch ({ response: { data } }) {
+      // When create failure
+      if (data.name === "team1") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: [data.message],
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "team2") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: [data.message],
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "matchDate") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: [data.message],
+          },
+          {
+            name: "rate",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "rate") {
+        form.current.setFields([
+          {
+            name: "team1",
+            errors: null,
+          },
+          {
+            name: "team2",
+            errors: null,
+          },
+          {
+            name: "matchDate",
+            errors: null,
+          },
+          {
+            name: "rate",
+            errors: [data.message],
+          },
+        ]);
       }
+
+      // Set is finish to false
+      setIsFinish(false);
     }
   };
 
@@ -99,8 +175,6 @@ const MatchCreate = () => {
       {/* Form */}
       <Form
         name="create"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 19 }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
@@ -110,6 +184,8 @@ const MatchCreate = () => {
           rate: "",
           description: "",
         }}
+        ref={form}
+        layout="vertical"
       >
         {/* Team 1 select */}
         <Form.Item
@@ -208,11 +284,11 @@ const MatchCreate = () => {
         </Form.Item>
 
         {/* Create button */}
-        <Form.Item wrapperCol={{ offset: 3, span: 19 }}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
-            className="bg-black flex items-center gap-2"
+            className="bg-black flex items-center gap-2 mr-0 ml-auto"
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}

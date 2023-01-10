@@ -385,3 +385,5 @@ export const dataReward = [
     rates: "~05%",
   },
 ];
+
+export const formatTime = "MMM Do YYYY, h:mm:ss A";

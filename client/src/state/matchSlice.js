@@ -22,8 +22,6 @@ export const matchSlice = createSlice({
         state.matches = payload.data;
 
         toast.success(payload.message);
-      } else {
-        toast.error(payload.message);
       }
     },
   },
