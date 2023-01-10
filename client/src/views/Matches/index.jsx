@@ -688,7 +688,7 @@ const Matches = () => {
           ?.reverse()}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "90vw" }}
+        scroll={{ x: "100vw" }}
       />
 
       {/* Delete Modal */}

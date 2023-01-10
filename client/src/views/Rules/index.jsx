@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -32,18 +32,25 @@ const Rules = () => {
       title: "Mục",
       dataIndex: "category",
       key: "category",
+      width: "1%",
       render: (text) => <span className="font-bold">{text}</span>,
     },
     {
       title: "Chi tiết",
       dataIndex: "details",
       key: "details",
-      render: (text) => <span title={text}>{text}</span>,
+      width: "1%",
+      render: (text) => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      ),
     },
     {
       title: "Vòng bảng",
       dataIndex: "groupState",
       key: "groupState",
+      width: "1%",
       render: (text) => (
         <span
           className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
@@ -58,6 +65,7 @@ const Rules = () => {
       title: "Vòng loại trực tiếp",
       dataIndex: "knockoutRound",
       key: "knockoutRound",
+      width: "1%",
       render: (text) => (
         <span
           className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
@@ -161,7 +169,7 @@ const Rules = () => {
                 dataSource={accessLevel}
                 pagination={false}
                 className="accessLevel"
-                scroll={{ x: "80vw" }}
+                scroll={{ x: "79vw" }}
               />
             </li>
             <li>
@@ -250,23 +258,33 @@ const Rules = () => {
                 <tbody>
                   <tr>
                     <th>Tên</th>
-                    <td>NGUYEN MINH TUAN</td>
+                    <Tooltip title="NGUYEN MINH TUAN">
+                      <td>NGUYEN MINH TUAN</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>STK</th>
-                    <td>31010001645607</td>
+                    <Tooltip title="31010001645607">
+                      <td>31010001645607</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>Ngân hàng</th>
-                    <td>BIDV CN TN TpHCM</td>
+                    <Tooltip title="BIDV CN TN TpHCM">
+                      <td>BIDV CN TN TpHCM</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>Nội dung</th>
-                    <td>TMA Account_nick_Tên Họ_wibet</td>
+                    <Tooltip title="TMA Account_nick_Tên Họ_wibet">
+                      <td>TMA Account_nick_Tên Họ_wibet</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th></th>
-                    <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                    <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
+                      <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                    </Tooltip>
                   </tr>
                 </tbody>
               </table>
@@ -278,31 +296,41 @@ const Rules = () => {
                 <tbody>
                   <tr>
                     <th>MoMo</th>
-                    <td>0934719115</td>
+                    <Tooltip title="0934719115">
+                      <td>0934719115</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>Tên</th>
-                    <td>Nguyễn Minh Tuấn - DC22</td>
+                    <Tooltip title="Nguyễn Minh Tuấn - DC22">
+                      <td>Nguyễn Minh Tuấn - DC22</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>Nội dung </th>
-                    <td>TMA Account_nickname_Tên Họ_wibet</td>
+                    <Tooltip title="TMA Account_nickname_Tên Họ_wibet">
+                      <td>TMA Account_nickname_Tên Họ_wibet</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th></th>
-                    <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                    <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
+                      <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                    </Tooltip>
                   </tr>
                   <tr>
                     <th>Skype</th>
                     <td>
-                      <a
-                        href="https://join.skype.com/tMRrQSXDthKA"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-[#428bca] transition hover:underline hover:text-[#2a6496]"
-                      >
-                        tuannguyen5989
-                      </a>
+                      <Tooltip title="tuannguyen5989">
+                        <a
+                          href="https://join.skype.com/tMRrQSXDthKA"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[#428bca] transition hover:underline hover:text-[#2a6496]"
+                        >
+                          tuannguyen5989
+                        </a>
+                      </Tooltip>
                     </td>
                   </tr>
                 </tbody>
