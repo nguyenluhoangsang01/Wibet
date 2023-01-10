@@ -257,28 +257,24 @@ const Users = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {users?.users?.filter((item) => item._id !== user?._id).length - 1 ? (
+        {users?.users?.filter((item) => item._id !== user?._id).length < 1 ? (
           "No result found"
         ) : (
           <span>
             Showing{" "}
             <span className="font-bold">
               1-
-              {users?.users?.filter((item) => item._id !== user?._id).length -
-                1 <
+              {users?.users?.filter((item) => item._id !== user?._id).length <
               10
-                ? users?.users?.filter((item) => item._id !== user?._id)
-                    .length - 1
+                ? users?.users?.filter((item) => item._id !== user?._id).length
                 : 10}
             </span>{" "}
             of{" "}
             <span className="font-bold">
-              {users?.users?.filter((item) => item._id !== user?._id).length -
-                1}
+              {users?.users?.filter((item) => item._id !== user?._id).length}
             </span>{" "}
             item
-            {users?.users?.filter((item) => item._id !== user?._id).length - 1 >
-            1
+            {users?.users?.filter((item) => item._id !== user?._id).length > 1
               ? "s"
               : ""}
             .

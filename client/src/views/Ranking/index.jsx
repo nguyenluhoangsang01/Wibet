@@ -125,17 +125,16 @@ const Ranking = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {[...users?.users].filter((user) => user.betTimes > 0).length - 1 ? (
+        {[...users?.users].filter((user) => user.betTimes > 0) < 1 ? (
           "No result found"
         ) : (
           <span>
             Total{" "}
             <span className="font-bold">
-              {[...users?.users].filter((user) => user.betTimes > 0).length - 1}
+              {[...users?.users].filter((user) => user.betTimes > 0).length}
             </span>{" "}
             item
-            {[...users?.users].filter((user) => user.betTimes > 0).length - 1 >
-            1
+            {[...users?.users].filter((user) => user.betTimes > 0).length > 1
               ? "s"
               : ""}
             .
