@@ -14,7 +14,7 @@ const Ranking = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get user form global state
-  const { users, isShowHistory, accessToken } = useSelector(selectUser);
+  const { users, isShowHistory, accessToken, user } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -41,13 +41,21 @@ const Ranking = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      render: (text, record, index) => <span>{index + 1}</span>,
+      render: (text, record, index) => (
+        <span className={`${text === user._id ? "font-bold" : ""}`}>
+          {index + 1}
+        </span>
+      ),
     },
     {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <span className={`${text === user.username ? "font-bold" : ""}`}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Full Name",
@@ -55,7 +63,9 @@ const Ranking = () => {
       key: "fullName",
       render: (text) =>
         text ? (
-          <span>{text}</span>
+          <span className={`${text === user.fullName ? "font-bold" : ""}`}>
+            {text}
+          </span>
         ) : (
           <span className="text-[red] italic">(not set)</span>
         ),
@@ -64,39 +74,74 @@ const Ranking = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <span className={`${text === user.money ? "font-bold" : ""}`}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Bet Times",
       dataIndex: "betTimes",
       key: "betTimes",
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <span className={`${text === user.betTimes ? "font-bold" : ""}`}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Win Times",
       dataIndex: "winTimes",
       key: "winTimes",
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <span className={`${text === user.winTimes ? "font-bold" : ""}`}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Bet Money",
       dataIndex: "betMoney",
       key: "betMoney",
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <span className={`${text === user.betMoney ? "font-bold" : ""}`}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Win Rate",
       dataIndex: "winRate",
       key: "winRate",
       render: (text, record) => (
-        <span>{((record.winTimes / record.betTimes) * 100).toFixed(2)}</span>
+        <span
+          className={`${
+            ((record.winTimes / record.betTimes) * 100).toFixed(2) ===
+            ((user.winTimes / user.betTimes) * 100).toFixed(2)
+              ? "font-bold"
+              : ""
+          }`}
+        >
+          {((record.winTimes / record.betTimes) * 100).toFixed(2)}
+        </span>
       ),
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text, record) => <span>{record.money + record.betMoney}</span>,
+      render: (text, record) => (
+        <span
+          className={`${
+            record.money + record.betMoney === user.money + user.betMoney
+              ? "font-bold"
+              : ""
+          }`}
+        >
+          {record.money + record.betMoney}
+        </span>
+      ),
     },
     {
       title: "-",
