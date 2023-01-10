@@ -1,7 +1,7 @@
 import { Table, Tooltip } from "antd";
 import moment from "moment";
 import React, { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
@@ -16,8 +16,6 @@ import { capitalize } from "../../helper";
 const Rules = () => {
   // Get pathname from location
   const { pathname } = useLocation();
-  // Initial navigate
-  const navigate = useNavigate();
   // Get current date
   const date = new Date();
 
@@ -104,13 +102,6 @@ const Rules = () => {
       key: "rates",
     },
   ];
-
-  //
-
-  // Handle login
-  const handleLogin = () => {
-    navigate("/login");
-  };
 
   return (
     <div className="md:px-10">
@@ -283,7 +274,9 @@ const Rules = () => {
                   <tr>
                     <th></th>
                     <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
-                      <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                      <td className="text-[12px]">
+                        (VD: nmtuan_Batman_Tuấn Nguyễn_wibet)
+                      </td>
                     </Tooltip>
                   </tr>
                 </tbody>
@@ -315,7 +308,9 @@ const Rules = () => {
                   <tr>
                     <th></th>
                     <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
-                      <td>(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)</td>
+                      <td className="text-[12px]">
+                        (VD: nmtuan_Batman_Tuấn Nguyễn_wibet)
+                      </td>
                     </Tooltip>
                   </tr>
                   <tr>
@@ -349,9 +344,20 @@ const Rules = () => {
             </span>
             <span>
               - Khi nhận được <b>username/password</b>, bạn hãy tiến hành{" "}
-              <b onClick={handleLogin}>Change Password</b> và{" "}
-              <b onClick={handleLogin}>Login</b> bằng <b>username/password</b>{" "}
-              mới
+              <Link
+                to="/account"
+                className="text-[#428BCA] transition hover:underline hover:text-[#2a6496] italic"
+              >
+                <b>Change Password</b>
+              </Link>{" "}
+              và{" "}
+              <Link
+                to="/login"
+                className="text-[#428BCA] transition hover:underline hover:text-[#2a6496] italic"
+              >
+                <b>Login</b>
+              </Link>{" "}
+              bằng <b>username/password</b> mới
             </span>
           </div>
         </RuleWrappers>
@@ -367,7 +373,7 @@ const Rules = () => {
                   columns={columnsReward}
                   dataSource={dataReward}
                   pagination={false}
-                  className="reward table-auto w-full"
+                  className="reward"
                   scroll={{ x: "80vw" }}
                 />
                 <p className="text-[12px] mt-[20px]">
@@ -382,7 +388,10 @@ const Rules = () => {
                   <p>
                     Rules chi tiết sẽ được update trực tiếp và liên tục lên web
                     site{" "}
-                    <Link to="/rules" className="text-[#428BCA]">
+                    <Link
+                      to="/rules"
+                      className="text-[#428BCA] transition hover:underline hover:text-[#2a6496]"
+                    >
                       <b>Wibet</b>
                     </Link>
                   </p>
