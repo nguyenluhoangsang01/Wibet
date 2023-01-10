@@ -191,12 +191,21 @@ const BetViewAll = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        Total{" "}
-        <span className="font-bold">
-          {bets.bets.filter((bet) => bet.match._id === id).length}
-        </span>{" "}
-        item
-        {bets.bets.filter((bet) => bet.match._id === id).length > 1 ? "s" : ""}.
+        {bets.bets.filter((bet) => bet.match._id === id).length < 1 ? (
+          "No result found"
+        ) : (
+          <span>
+            Total{" "}
+            <span className="font-bold">
+              {bets.bets.filter((bet) => bet.match._id === id).length}
+            </span>{" "}
+            item
+            {bets.bets.filter((bet) => bet.match._id === id).length > 1
+              ? "s"
+              : ""}
+            .
+          </span>
+        )}
       </NumberOfRows>
 
       {/* Table */}

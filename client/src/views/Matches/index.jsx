@@ -337,7 +337,12 @@ const Matches = () => {
       width: "1%",
       render: (text, record) => (
         <p className="font-[calibri] text-[18px]">
-          {[...matches.matches].reverse().indexOf(record) + 1}
+          {[...matches.matches]
+            ?.filter((match) =>
+              user?.roleID === "Admin" ? match : match.isShow === true
+            )
+            ?.reverse()
+            .indexOf(record) + 1}
         </p>
       ),
     },
@@ -638,32 +643,40 @@ const Matches = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        Showing{" "}
-        <span className="font-bold">
-          1-
-          {[...matches.matches]?.filter((match) =>
-            user?.roleID === "Admin" ? match : match.isShow === true
-          ).length < 10
-            ? [...matches.matches]?.filter((match) =>
-                user?.roleID === "Admin" ? match : match.isShow === true
-              ).length
-            : 10}
-        </span>{" "}
-        of{" "}
-        <span className="font-bold">
-          {
-            [...matches.matches]?.filter((match) =>
-              user?.roleID === "Admin" ? match : match.isShow === true
-            ).length
-          }
-        </span>{" "}
-        item
         {[...matches.matches]?.filter((match) =>
           user?.roleID === "Admin" ? match : match.isShow === true
-        ).length > 1
-          ? "s"
-          : ""}
-        .
+        ).length < 1 ? (
+          "No result found"
+        ) : (
+          <span>
+            Showing{" "}
+            <span className="font-bold">
+              1-
+              {[...matches.matches]?.filter((match) =>
+                user?.roleID === "Admin" ? match : match.isShow === true
+              ).length < 10
+                ? [...matches.matches]?.filter((match) =>
+                    user?.roleID === "Admin" ? match : match.isShow === true
+                  ).length
+                : 10}
+            </span>{" "}
+            of{" "}
+            <span className="font-bold">
+              {
+                [...matches.matches]?.filter((match) =>
+                  user?.roleID === "Admin" ? match : match.isShow === true
+                ).length
+              }
+            </span>{" "}
+            item
+            {[...matches.matches]?.filter((match) =>
+              user?.roleID === "Admin" ? match : match.isShow === true
+            ).length > 1
+              ? "s"
+              : ""}
+            .
+          </span>
+        )}
       </NumberOfRows>
 
       {/* Table */}

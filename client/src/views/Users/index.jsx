@@ -104,7 +104,12 @@ const Users = () => {
       dataIndex: "index",
       key: "index",
       render: (text, record, index) => (
-        <span>{[...users.users].reverse().indexOf(record) + 1}</span>
+        <span>
+          {users?.users
+            ?.filter((item) => item._id !== user?._id)
+            .reverse()
+            .indexOf(record) + 1}
+        </span>
       ),
     },
     {
@@ -252,23 +257,33 @@ const Users = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        Showing{" "}
-        <span className="font-bold">
-          1-
-          {users?.users?.filter((item) => item._id !== user?._id).length - 1 <
-          10
-            ? users?.users?.filter((item) => item._id !== user?._id).length - 1
-            : 10}
-        </span>{" "}
-        of{" "}
-        <span className="font-bold">
-          {users?.users?.filter((item) => item._id !== user?._id).length - 1}
-        </span>{" "}
-        item
-        {users?.users?.filter((item) => item._id !== user?._id).length - 1 > 1
-          ? "s"
-          : ""}
-        .
+        {users?.users?.filter((item) => item._id !== user?._id).length - 1 ? (
+          "No result found"
+        ) : (
+          <span>
+            Showing{" "}
+            <span className="font-bold">
+              1-
+              {users?.users?.filter((item) => item._id !== user?._id).length -
+                1 <
+              10
+                ? users?.users?.filter((item) => item._id !== user?._id)
+                    .length - 1
+                : 10}
+            </span>{" "}
+            of{" "}
+            <span className="font-bold">
+              {users?.users?.filter((item) => item._id !== user?._id).length -
+                1}
+            </span>{" "}
+            item
+            {users?.users?.filter((item) => item._id !== user?._id).length - 1 >
+            1
+              ? "s"
+              : ""}
+            .
+          </span>
+        )}
       </NumberOfRows>
 
       {/* Table */}

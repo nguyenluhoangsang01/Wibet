@@ -180,12 +180,18 @@ const Team = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        Showing{" "}
-        <span className="font-bold">
-          1-{teams.length < 10 ? teams.length : 10}
-        </span>{" "}
-        of <span className="font-bold">{teams.length}</span> item
-        {teams.length > 1 ? "s" : ""}.
+        {teams.length < 1 ? (
+          "No result found"
+        ) : (
+          <span>
+            Showing{" "}
+            <span className="font-bold">
+              1-{teams.length < 10 ? teams.length : 10}
+            </span>{" "}
+            of <span className="font-bold">{teams.length}</span> item
+            {teams.length > 1 ? "s" : ""}.
+          </span>
+        )}
       </NumberOfRows>
 
       {/* Table */}

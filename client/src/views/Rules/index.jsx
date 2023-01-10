@@ -33,6 +33,7 @@ const Rules = () => {
       title: "Chi tiết",
       dataIndex: "details",
       key: "details",
+      render: (text) => <span title={text}>{text}</span>,
     },
     {
       title: "Vòng bảng",
@@ -155,6 +156,7 @@ const Rules = () => {
                 dataSource={accessLevel}
                 pagination={false}
                 className="accessLevel"
+                scroll={{ x: "80vw" }}
               />
             </li>
             <li>
@@ -332,7 +334,8 @@ const Rules = () => {
                   columns={columnsReward}
                   dataSource={dataReward}
                   pagination={false}
-                  className="reward"
+                  className="reward table-auto w-full"
+                  scroll={{ x: "80vw" }}
                 />
                 <p className="text-[12px] mt-[20px]">
                   Tỷ lệ phần trăm(%) trên tổng giá trị quỹ thưởng VND (10% cho

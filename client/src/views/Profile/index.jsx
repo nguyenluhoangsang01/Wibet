@@ -240,9 +240,16 @@ const Profile = () => {
 
         {/* Number of rows */}
         <NumberOfRows>
-          Showing <span className="font-bold">1-{bets.length}</span>of{" "}
-          <span className="font-bold">{bets.length}</span> item
-          {bets.length > 1 ? "s" : ""}.
+          {bets.length < 1 ? (
+            "No result found"
+          ) : (
+            <span>
+              {" "}
+              Showing <span className="font-bold">1-{bets.length}</span>of{" "}
+              <span className="font-bold">{bets.length}</span> item
+              {bets.length > 1 ? "s" : ""}.
+            </span>
+          )}
         </NumberOfRows>
 
         {/* Table */}
