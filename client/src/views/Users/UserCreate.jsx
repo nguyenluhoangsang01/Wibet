@@ -22,6 +22,7 @@ const UserCreate = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [status, setStatus] = useState(Object.keys(STATUSDEFAULT)[0]);
   const [roleID, setRoleID] = useState(Object.keys(ROLESDEFAULT)[0]);
+  const [isBanned, setIsBanned] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
@@ -241,7 +242,7 @@ const UserCreate = () => {
 
           {/* Banned Reason input */}
           <Form.Item label="Banned Reason" name="bannedReason">
-            <Input />
+            <Input disabled={!isBanned} />
           </Form.Item>
         </div>
 
@@ -251,7 +252,9 @@ const UserCreate = () => {
           valuePropName="checked"
           className="w-fit md:w-full"
         >
-          <Checkbox value="checked">Banned</Checkbox>
+          <Checkbox value="checked" onClick={() => setIsBanned(!isBanned)}>
+            Banned
+          </Checkbox>
         </Form.Item>
 
         {/* Create button */}

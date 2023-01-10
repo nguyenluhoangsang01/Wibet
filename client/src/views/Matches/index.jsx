@@ -65,8 +65,8 @@ const Matches = () => {
   const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
   // Initial navigate
   const navigate = useNavigate();
-  // Ten minutes after
-  const tenMinutesLater = moment().add(10, "minutes");
+  // Five minutes after
+  const fiveMinutesLater = moment().add(5, "minutes");
 
   // Get all matches
   useEffect(() => {
@@ -466,7 +466,7 @@ const Matches = () => {
       key: "bet-action",
       width: "1%",
       render: (text, record) =>
-        record.result || moment(record.matchDate).isBefore(tenMinutesLater) ? (
+        record.result || moment(record.matchDate).isBefore(fiveMinutesLater) ? (
           "-"
         ) : (
           <div className="flex items-center justify-center">

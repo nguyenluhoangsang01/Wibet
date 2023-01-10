@@ -19,6 +19,7 @@ const UserUpdate = () => {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState(user?.status);
   const [roleID, setRoleID] = useState(user?.roleID);
+  const [isBanned, setIsBanned] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
@@ -278,13 +279,15 @@ const UserUpdate = () => {
 
           {/* Banned Reason input */}
           <Form.Item label="Banned Reason" name="bannedReason">
-            <Input />
+            <Input disabled={isBanned || !user?.bannedReason} />
           </Form.Item>
         </div>
 
         {/* Banned check box */}
         <Form.Item name="banned" valuePropName="checked">
-          <Checkbox value="checked">Banned</Checkbox>
+          <Checkbox value="checked" onClick={() => setIsBanned(!isBanned)}>
+            Banned
+          </Checkbox>
         </Form.Item>
 
         {/* Update button */}
