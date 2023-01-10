@@ -224,19 +224,43 @@ export const updateScoreById = async (req, res, next) => {
 
     // Validate
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
-      return sendError(res, "Result of team 1 cannot be blank.");
+      return sendError(
+        res,
+        "Team 1 Score cannot be blank.",
+        400,
+        "resultOfTeam1"
+      );
+    if (resultOfTeam1 < 0)
+      return sendError(
+        res,
+        "Team 1 Score must be no less than 0.",
+        400,
+        "resultOfTeam1"
+      );
     if (!resultOfTeam2 && resultOfTeam2 !== 0)
-      return sendError(res, "Result of team 2 cannot be blank.");
+      return sendError(
+        res,
+        "Team 2 Score cannot be blank.",
+        400,
+        "resultOfTeam2"
+      );
+    if (resultOfTeam2 < 0)
+      return sendError(
+        res,
+        "Team 2 Score must be no less than 0.",
+        400,
+        "resultOfTeam1"
+      );
 
     // Get match by id
     const match = await Match.findById(id)
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
-    if (!match) return sendError(res, "Match not found", 404);
+    if (!match) return sendError(res, "Match not found", 404, "match");
 
     // Get user id from request
     const user = await User.findById(userId).select("-__v -password");
-    if (!user) return sendError(res, "User not found", 404);
+    if (!user) return sendError(res, "User not found", 404, "user");
 
     // Find bet by match id and user id
     const bet = await Bet.where("user")
@@ -253,7 +277,7 @@ export const updateScoreById = async (req, res, next) => {
         },
         select: "-__v",
       });
-    if (!bet) return sendError(res, "Bet not found", 404);
+    if (!bet) return sendError(res, "Bet not found", 404, "bet");
 
     if (bet[0]) {
       // Check if user clock auto generate result

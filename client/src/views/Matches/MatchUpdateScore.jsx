@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Image, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,8 @@ const MatchUpdateScore = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Redux
   const dispatch = useDispatch();
+  // Initial form ref
+  const form = useRef(null);
 
   // Check if user not exists
   useEffect(() => {
@@ -114,9 +116,31 @@ const MatchUpdateScore = () => {
         // And navigate to matches
         navigate("/matches");
       }
-    } catch ({ response }) {
-      // When update failured
-      toast.error(response.data.message);
+    } catch ({ response: { data } }) {
+      // When update failure
+      if (data.name === "resultOfTeam1") {
+        form.current.setFields([
+          {
+            name: "resultOfTeam1",
+            errors: [data.message],
+          },
+          {
+            name: "resultOfTeam2",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "resultOfTeam2") {
+        form.current.setFields([
+          {
+            name: "resultOfTeam2",
+            errors: [data.message],
+          },
+          {
+            name: "resultOfTeam1",
+            errors: null,
+          },
+        ]);
+      }
 
       // After set is finish to false
       setIsFinish(false);
@@ -179,6 +203,7 @@ const MatchUpdateScore = () => {
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
+        ref={form}
       >
         {/* Result of team 1 input */}
         <Form.Item
@@ -187,7 +212,12 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: `${match?.team1?.fullName} cannot be blank.`,
+              message: "Team 1 Score cannot be blank.",
+            },
+            {
+              type: "number",
+              min: 0,
+              message: "Team 1 Score must be no less than 0.",
             },
           ]}
         >
@@ -201,7 +231,12 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: `${match?.team2?.fullName} cannot be blank.`,
+              message: "Team 2 Score cannot be blank.",
+            },
+            {
+              type: "number",
+              min: 0,
+              message: "Team 2 Score must be no less than 0.",
             },
           ]}
         >
