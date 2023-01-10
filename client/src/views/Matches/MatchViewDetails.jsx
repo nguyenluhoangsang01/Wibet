@@ -219,7 +219,7 @@ const MatchViewDetails = () => {
           <tr>
             <th>Match Date</th>
             <td>
-              {moment(match?.matchDate).format("MMM Do YYYY, h:mm:ss a")}
+              {moment(match?.matchDate).format("MMM Do YYYY, h:mm:ss A")}
             </td>
           </tr>
           <tr>
@@ -235,13 +235,13 @@ const MatchViewDetails = () => {
           <tr>
             <th>Created Time</th>
             <td>
-              {moment(match?.createdAt).format("MMM Do YYYY, h:mm:ss a")}
+              {moment(match?.createdAt).format("MMM Do YYYY, h:mm:ss A")}
             </td>
           </tr>
           <tr>
             <th>Modified Time</th>
             <td>
-              {moment(match?.updatedAt).format("MMM Do YYYY, h:mm:ss a")}
+              {moment(match?.updatedAt).format("MMM Do YYYY, h:mm:ss A")}
             </td>
           </tr>
         </tbody>

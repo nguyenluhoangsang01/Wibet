@@ -93,7 +93,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
                   </span>
                   <span>
                     {moment(comment.createdAt).format(
-                      "MMM Do YYYY, h:mm:ss a"
+                      "MMM Do YYYY, h:mm:ss A"
                     )}
                   </span>
                 </p>
@@ -133,7 +133,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
                   </span>
                   <span>
                     {moment(comment.createdAt).format(
-                      "MMM Do YYYY, h:mm:ss a"
+                      "MMM Do YYYY, h:mm:ss A"
                     )}
                   </span>
                 </p>

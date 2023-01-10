@@ -419,7 +419,7 @@ const Matches = () => {
       width: "1%",
       render: (text) => (
         <span title={text}>
-          {moment(text).format("MMM Do YYYY, h:mm:ss a")}
+          {moment(text).format("MMM Do YYYY, h:mm:ss A")}
         </span>
       ),
     },

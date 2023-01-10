@@ -204,7 +204,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Created At</th>
-            <td>{moment(user.createdAt).format("MMM Do YYYY, h:mm:ss a")}</td>
+            <td>{moment(user.createdAt).format("MMM Do YYYY, h:mm:ss A")}</td>
           </tr>
           <tr>
             <th>Created By</th>
@@ -218,7 +218,7 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Updated At</th>
-            <td>{moment(user.updatedAt).format("MMM Do YYYY, h:mm:ss a")}</td>
+            <td>{moment(user.updatedAt).format("MMM Do YYYY, h:mm:ss A")}</td>
           </tr>
           <tr>
             <th>Banned At</th>
