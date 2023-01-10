@@ -480,7 +480,7 @@ const Rules = () => {
                       href="mailto:dc22.wibet@gmail.com"
                       target="_blank"
                       rel="noreferrer"
-                      className="font-[arial] transition hover:underline text-[#428bca] font-bold"
+                      className="font-[arial] transition hover:underline text-[#428bca] font-bold hover:text-[#2a6496]"
                     >
                       Wibet Admin
                     </a>
