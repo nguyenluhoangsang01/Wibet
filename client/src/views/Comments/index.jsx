@@ -49,11 +49,14 @@ const Comments = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <Image
-              src="https://res.cloudinary.com/wibet/image/upload/v1672724654/Bi%E1%BB%83u_tr%C6%B0ng_Gi%E1%BA%A3i_v%C3%B4_%C4%91%E1%BB%8Bch_b%C3%B3ng_%C4%91%C3%A1_U-23_%C4%90%C3%B4ng_Nam_%C3%81_2022_xgu8c9.png"
-              alt="profile"
-              preview={false}
-            />
+            <div className="w-[400px] h-[400px] border-[#fefefefe] border-[5px] rounded-[50%] relative overflow-hidden image-cropper flex items-center justify-center">
+              <Image
+                src="https://res.cloudinary.com/wibet/image/upload/v1673334368/cup_t2bnfy.jpg"
+                alt="profile"
+                preview={false}
+                className="!w-[800px] !h-[400px] my-0 mx-auto inline"
+              />
+            </div>
           </a>
           <div>
             <a

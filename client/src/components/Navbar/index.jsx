@@ -54,11 +54,11 @@ const Navbar = () => {
           onClick={() => setIsShowMenu(false)}
         >
           <Image
-            src="https://res.cloudinary.com/wibet/image/upload/v1671719347/images/aff-cup-logo-2022-1612100506_yykfsb.jpg"
+            src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
             alt="WIBET"
             preview={false}
-            width={35}
-            height={35}
+            width={30}
+            height={30}
           />
           <span className="text-[22px]">WIBET</span>
         </Link>

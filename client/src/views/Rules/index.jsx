@@ -104,9 +104,9 @@ const Rules = () => {
   ];
 
   return (
-    <div className="md:px-10">
+    <div>
       {/* First section */}
-      <div className="md:-mx-8">
+      <div className="md:-mx-8 md:px-10">
         {/* Breadcrumbs */}
         <Breadcrumbs routes={ruleRoutes} />
 

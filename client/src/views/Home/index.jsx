@@ -51,7 +51,7 @@ const Home = () => {
       <main className="pt-[70px] pb-[20px]">
         <div className="-mx-4 sm:-mx-10 -my-6 relative h-[calc(100vh-50px-52px)]">
           <img
-            src="https://res.cloudinary.com/wibet/image/upload/v1671760274/images/aff-cup-2022-667_as0m3a.jpg"
+            src="https://res.cloudinary.com/wibet/image/upload/v1673334130/home-background_alstvu.jpg"
             alt="home-background"
             className="w-full h-full"
           />
