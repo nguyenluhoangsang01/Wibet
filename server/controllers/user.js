@@ -139,7 +139,7 @@ export const login = async (req, res, next) => {
 
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
-      loggedInAt: moment().format("HH:mm:ss - yyyy/MM/DD"),
+      loggedInAt: moment().format("MMM Do YYYY, h:mm:ss A"),
       loggedInIp: currentIpAddress,
     }).select("-__v -password");
     // Check if user is banned
@@ -302,7 +302,7 @@ export const updateUserById = async (req, res, next) => {
         {
           ...req.body,
           password: hashedNewPassword ? hashedNewPassword : user.password,
-          bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
+          bannedAt: banned && moment().format("MMM Do YYYY, h:mm:ss A"),
           money: money ? money : user.money,
         },
         { new: true }
@@ -314,7 +314,7 @@ export const updateUserById = async (req, res, next) => {
       id,
       {
         ...req.body,
-        bannedAt: banned && moment().format("HH:mm:ss - yyyy/MM/DD"),
+        bannedAt: banned && moment().format("MMM Do YYYY, h:mm:ss A"),
         money: money ? money : user.money,
       },
       { new: true }

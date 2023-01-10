@@ -438,7 +438,7 @@ const Rules = () => {
 
               <div className="text-[18px] text-right font-[calibri]">
                 <em className="text-[#333333] font-bold">
-                  HCM, {moment(date).format("dddd Do of MMMM YYYY")}
+                  HCM, {moment(date).format("MMM Do YYYY, h:mm:ss A")}
                 </em>
 
                 <span>

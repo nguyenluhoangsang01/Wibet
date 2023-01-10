@@ -70,7 +70,7 @@ export const createBetById = async (req, res, next) => {
       ...req.body,
       user: userId,
       match: matchId,
-      betTime: moment().format("HH:mm:ss - yyyy/MM/DD"),
+      betTime: moment().format("MMM Do YYYY, h:mm:ss A"),
     });
     await newBet.save();
 
