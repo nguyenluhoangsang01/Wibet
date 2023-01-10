@@ -83,7 +83,7 @@ const Navbar = () => {
                 ? route.name !== "matches" &&
                   route.name !== "users" &&
                   route.name !== "teams"
-                : user?.roleID === "User" || user?.roleID === "Guest"
+                : user?.roleID === "User"
                 ? route.name !== "users" && route.name !== "teams"
                 : user?.roleID === "Admin" && route
             )

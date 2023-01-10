@@ -256,10 +256,6 @@ export const ROLES = [
     value: "User",
     label: "User",
   },
-  {
-    value: "Guest",
-    label: "Guest",
-  },
 ];
 
 export const STATUS = [
@@ -280,7 +276,6 @@ export const STATUS = [
 export const ROLESDEFAULT = {
   Admin: "Admin",
   User: "User",
-  Guest: "Guest",
 };
 
 export const STATUSDEFAULT = {
