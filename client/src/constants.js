@@ -384,22 +384,12 @@ const match1 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "11",
-        name: "Argentina",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "11", name: "Argentina" },
+      score: { score: 2 },
     },
     visitor: {
-      team: {
-        id: "12",
-        name: "Australia",
-      },
-      score: {
-        score: 1,
-      },
+      team: { id: "12", name: "Australia" },
+      score: { score: 1 },
     },
   },
 };
@@ -409,22 +399,12 @@ const match2 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "21",
-        name: "Belgium",
-      },
-      score: {
-        score: 1,
-      },
+      team: { id: "21", name: "Belgium" },
+      score: { score: 1 },
     },
     visitor: {
-      team: {
-        id: "22",
-        name: "Brazil",
-      },
-      score: {
-        score: 3,
-      },
+      team: { id: "22", name: "Brazil" },
+      score: { score: 3 },
     },
   },
 };
@@ -434,34 +414,14 @@ const match12 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "121",
-        name: "Brazil",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match1,
-        sourcePool: {},
-      },
+      team: { id: "121", name: "Brazil" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match1, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "122",
-        name: "Argentina",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match2,
-        sourcePool: {},
-      },
+      team: { id: "122", name: "Argentina" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match2, sourcePool: {} },
     },
   },
 };
@@ -472,22 +432,12 @@ const match3 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "31",
-        name: "Cameroon",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "31", name: "Cameroon" },
+      score: { score: 2 },
     },
     visitor: {
-      team: {
-        id: "32",
-        name: "Canada",
-      },
-      score: {
-        score: 0,
-      },
+      team: { id: "32", name: "Canada" },
+      score: { score: 0 },
     },
   },
 };
@@ -497,22 +447,12 @@ const match4 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "41",
-        name: "Costa Rica",
-      },
-      score: {
-        score: 1,
-      },
+      team: { id: "41", name: "Costa Rica" },
+      score: { score: 1 },
     },
     visitor: {
-      team: {
-        id: "42",
-        name: "Croatia",
-      },
-      score: {
-        score: 0,
-      },
+      team: { id: "42", name: "Croatia" },
+      score: { score: 0 },
     },
   },
 };
@@ -522,34 +462,14 @@ const match34 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "341",
-        name: "Costa Rica",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match3,
-        sourcePool: {},
-      },
+      team: { id: "341", name: "Costa Rica" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match3, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "342",
-        name: "Cameroon",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match4,
-        sourcePool: {},
-      },
+      team: { id: "342", name: "Cameroon" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match4, sourcePool: {} },
     },
   },
 };
@@ -560,22 +480,12 @@ const match5 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "51",
-        name: "Denmark",
-      },
-      score: {
-        score: 3,
-      },
+      team: { id: "51", name: "Denmark" },
+      score: { score: 3 },
     },
     visitor: {
-      team: {
-        id: "52",
-        name: "Ecuador",
-      },
-      score: {
-        score: 0,
-      },
+      team: { id: "52", name: "Ecuador" },
+      score: { score: 0 },
     },
   },
 };
@@ -585,22 +495,12 @@ const match6 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "61",
-        name: "England",
-      },
-      score: {
-        score: 1,
-      },
+      team: { id: "61", name: "England" },
+      score: { score: 1 },
     },
     visitor: {
-      team: {
-        id: "62",
-        name: "France",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "62", name: "France" },
+      score: { score: 2 },
     },
   },
 };
@@ -610,34 +510,14 @@ const match56 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "561",
-        name: "France",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match5,
-        sourcePool: {},
-      },
+      team: { id: "561", name: "France" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match5, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "562",
-        name: "Denmark",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match6,
-        sourcePool: {},
-      },
+      team: { id: "562", name: "Denmark" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match6, sourcePool: {} },
     },
   },
 };
@@ -648,22 +528,12 @@ const match7 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "71",
-        name: "Germany",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "71", name: "Germany" },
+      score: { score: 2 },
     },
     visitor: {
-      team: {
-        id: "72",
-        name: "Ghana",
-      },
-      score: {
-        score: 1,
-      },
+      team: { id: "72", name: "Ghana" },
+      score: { score: 1 },
     },
   },
 };
@@ -673,22 +543,12 @@ const match8 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "81",
-        name: "Iran",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "81", name: "Iran" },
+      score: { score: 2 },
     },
     visitor: {
-      team: {
-        id: "82",
-        name: "Japan",
-      },
-      score: {
-        score: 0,
-      },
+      team: { id: "82", name: "Japan" },
+      score: { score: 0 },
     },
   },
 };
@@ -698,34 +558,14 @@ const match78 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "781",
-        name: "Iran",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match7,
-        sourcePool: {},
-      },
+      team: { id: "781", name: "Iran" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match7, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "782",
-        name: "Germany",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match8,
-        sourcePool: {},
-      },
+      team: { id: "782", name: "Germany" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match8, sourcePool: {} },
     },
   },
 };
@@ -736,34 +576,14 @@ const match1234 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "12341",
-        name: "Cameroon",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match12,
-        sourcePool: {},
-      },
+      team: { id: "12341", name: "Cameroon" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match12, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "12342",
-        name: "Argentina",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match34,
-        sourcePool: {},
-      },
+      team: { id: "12342", name: "Argentina" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match34, sourcePool: {} },
     },
   },
 };
@@ -774,34 +594,14 @@ const match5678 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "56781",
-        name: "Germany",
-      },
-      score: {
-        score: 2,
-      },
-      seed: {
-        displayName: "A1",
-        rank: 1,
-        sourceGame: match56,
-        sourcePool: {},
-      },
+      team: { id: "56781", name: "Germany" },
+      score: { score: 2 },
+      seed: { displayName: "A1", rank: 1, sourceGame: match56, sourcePool: {} },
     },
     visitor: {
-      team: {
-        id: "56782",
-        name: "Denmark",
-      },
-      score: {
-        score: 3,
-      },
-      seed: {
-        displayName: "A2",
-        rank: 1,
-        sourceGame: match78,
-        sourcePool: {},
-      },
+      team: { id: "56782", name: "Denmark" },
+      score: { score: 3 },
+      seed: { displayName: "A2", rank: 1, sourceGame: match78, sourcePool: {} },
     },
   },
 };
@@ -812,13 +612,8 @@ export const match12345678 = {
   scheduled: Number(new Date()),
   sides: {
     home: {
-      team: {
-        id: "123456781",
-        name: "Denmark",
-      },
-      score: {
-        score: 2,
-      },
+      team: { id: "123456781", name: "Denmark" },
+      score: { score: 2 },
       seed: {
         displayName: "A1",
         rank: 1,
@@ -827,13 +622,8 @@ export const match12345678 = {
       },
     },
     visitor: {
-      team: {
-        id: "123456782",
-        name: "Argentina",
-      },
-      score: {
-        score: 3,
-      },
+      team: { id: "123456782", name: "Argentina" },
+      score: { score: 3 },
       seed: {
         displayName: "A2",
         rank: 1,
