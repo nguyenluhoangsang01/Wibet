@@ -265,8 +265,8 @@ const MatchCreate = () => {
             },
             {
               type: "number",
-              min: 0.1,
-              message: "Rate must be greater than or equal to 0.1.",
+              min: 0,
+              message: "Rate must be greater than or equal to 0.",
             },
             {
               type: "number",

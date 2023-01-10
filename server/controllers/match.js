@@ -34,7 +34,7 @@ export const createMatch = async (req, res, next) => {
     if (rate < 0)
       return sendError(
         res,
-        "Rate must be greater than or equal to 0.1.",
+        "Rate must be greater than or equal to 0.",
         400,
         "rate"
       );
@@ -194,6 +194,20 @@ export const updateMatchById = async (req, res, next) => {
     if (!matchDate)
       return sendError(res, "Match Date cannot be blank.", 400, "matchDate");
     if (!rate) return sendError(res, "Rate cannot be blank.", 400, "rate");
+    if (rate < 0)
+      return sendError(
+        res,
+        "Rate must be greater than or equal to 0.",
+        400,
+        "rate"
+      );
+    if (rate > 3)
+      return sendError(
+        res,
+        "Rate must be less than or equal to 3.",
+        400,
+        "rate"
+      );
 
     //  Update match
     await Match.findByIdAndUpdate(id, { ...req.body }, { new: true });
