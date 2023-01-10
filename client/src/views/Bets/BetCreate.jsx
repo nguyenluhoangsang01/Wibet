@@ -199,12 +199,12 @@ const BetCreate = () => {
         <Form.Item
           label="Option"
           name="team"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: "Option cannot be blank.",
-          //   },
-          // ]}
+          rules={[
+            {
+              required: true,
+              message: "Option cannot be blank.",
+            },
+          ]}
         >
           <Select
             options={[
@@ -224,21 +224,21 @@ const BetCreate = () => {
         <Form.Item
           label="Money"
           name="money"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: "Money cannot be blank.",
-          //   },
-          //   {
-          //     type: "number",
-          //     message: "Money is not a valid number.",
-          //   },
-          //   {
-          //     type: "number",
-          //     min: 50,
-          //     message: "Money must be greater than or equal to 50.",
-          //   },
-          // ]}
+          rules={[
+            {
+              required: true,
+              message: "Money cannot be blank.",
+            },
+            {
+              type: "number",
+              message: "Money is not a valid number.",
+            },
+            {
+              type: "number",
+              min: 50,
+              message: "Money must be greater than or equal to 50.",
+            },
+          ]}
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
