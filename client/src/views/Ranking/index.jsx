@@ -183,7 +183,7 @@ const Ranking = () => {
           .sort((a, b) => a.money - b.money)
           .reverse()}
         loading={users?.users ? false : true}
-        scroll={{ x: "90vw" }}
+        scroll={{ x: "80vw" }}
         pagination={false}
       />
     </div>
