@@ -1,19 +1,12 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { TournamentBoard } from "react-tournament-board";
-import "react-tournament-board/style.css";
-import BracketTeam from "../../components/BracketTeam";
+import { Bracket } from "react-tournament-bracket";
+import { match12345678 } from "../../constants";
 import { capitalize } from "../../helper";
-import { selectTeam } from "../../state/teamSlice";
 
 const Brackets = () => {
   // Get pathname from location
   const { pathname } = useLocation();
-  // Get all teams from global state
-  const {
-    teams: { teams },
-  } = useSelector(selectTeam);
 
   // Set title
   useEffect(() => {
@@ -21,51 +14,10 @@ const Brackets = () => {
   }, [pathname]);
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-50px-60px-40px)] overflow-x-scroll">
-      <TournamentBoard
-        competitor={[
-          [
-            [
-              [
-                [{ id: "0" }, { id: "1" }],
-                [{ id: "2" }, { id: "3" }],
-              ],
-            ],
-            [
-              [
-                [{ id: "4" }, { id: "5" }],
-                [{ id: "6" }, { id: "7" }],
-              ],
-              [[{ id: "8" }, { id: "9" }]],
-            ],
-          ],
-        ]}
-        matches={[
-          { result: [{ id: "0" }, { id: "1" }], winnerId: "1" },
-          { result: [{ id: "2" }, { id: "3" }], winnerId: "2" },
-          { result: [{ id: "4" }, { id: "5" }], winnerId: "5" },
-          { result: [{ id: "6" }, { id: "7" }], winnerId: "6" },
-          { result: [{ id: "8" }, { id: "9" }], winnerId: "8" },
-
-          { result: [{ id: "1" }, { id: "2" }], winnerId: "2" },
-          { result: [{ id: "5" }, { id: "6" }], winnerId: "5" },
-
-          { result: [{ id: "5" }, { id: "8" }], winnerId: "5" },
-          { result: [{ id: "2" }, { id: "5" }], winnerId: "5" },
-        ]}
-        nodeRenderer={(props) =>
-          props.isLeaf && <BracketTeam team={teams[props.competitor.id]} />
-        }
-        treeLinksLayerProps={{
-          stroke: "#777",
-          strokeWidth: 2,
-        }}
-        winnerLinksLayerProps={{
-          stroke: "#ff9f40",
-          strokeWidth: 4,
-        }}
-        direction="vertical"
-      />
+    <div className="flex items-center justify-center h-[calc(100vh-50px-60px-40px)]">
+      <div className="flex flex-col">
+        <Bracket game={match12345678} />
+      </div>
     </div>
   );
 };
