@@ -193,3 +193,19 @@ svg > text {
   background-color: rgb(255, 255, 255);
   box-shadow: rgb(0, 0, 0) 0px 10px 13px -7px, rgba(0, 0, 0, 0) 4px 3px 0px 2px;
 }
+
+g g text {
+  @apply font-[calibri] !not-italic;
+}
+
+line {
+  @apply !stroke-[white];
+}
+
+g > svg > text {
+  @apply !text-[12px];
+}
+
+g > svg > rect:nth-child(6) {
+  fill: #ffc107 !important;
+}
