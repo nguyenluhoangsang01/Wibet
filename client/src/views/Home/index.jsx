@@ -34,6 +34,7 @@ const Home = () => {
         moment(match.matchDate).isSameOrAfter(fiveMinutesLater) &&
         !match.isCanceled &&
         !match.result &&
+        match.isShow &&
         setComingMatch(match)
     );
   }, [fiveMinutesLater, matches]);
