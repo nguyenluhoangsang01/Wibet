@@ -350,18 +350,34 @@ const Matches = () => {
       dataIndex: "team1",
       key: "team1",
       width: "1%",
-      render: (text) => (
-        <div className="truncate flex items-center justify-center gap-1">
-          <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
-            <Image src={text?.flag} preview={false} alt={text?.fullName} />
+      render: (text) =>
+        text ? (
+          <div className="truncate flex items-center justify-center gap-1">
+            <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+              <Image src={text?.flag} preview={false} alt={text?.fullName} />
+            </div>
+            <Tooltip title={text?.fullName}>
+              <span className="font-semibold font-[arial] text-[14px]">
+                {text?.fullName}
+              </span>
+            </Tooltip>
           </div>
-          <Tooltip title={text?.fullName}>
-            <span className="font-semibold font-[arial] text-[14px]">
-              {text?.fullName}
-            </span>
-          </Tooltip>
-        </div>
-      ),
+        ) : (
+          <div className="truncate flex items-center justify-center gap-1">
+            <div className="w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+              <Image
+                src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
+                preview={false}
+                alt="Team 1"
+              />
+            </div>
+            <Tooltip title="Team 1">
+              <span className="font-semibold font-[arial] text-[14px]">
+                Team 1
+              </span>
+            </Tooltip>
+          </div>
+        ),
     },
     {
       title: "-",
@@ -390,23 +406,39 @@ const Matches = () => {
       dataIndex: "team2",
       key: "team2",
       width: "1%",
-      render: (text) => (
-        <div className="truncate flex items-center justify-center gap-1">
-          <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
-            <Image
-              src={text?.flag}
-              width={30}
-              preview={false}
-              alt={text?.fullName}
-            />
+      render: (text) =>
+        text ? (
+          <div className="truncate flex items-center justify-center gap-1">
+            <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+              <Image
+                src={text?.flag}
+                width={30}
+                preview={false}
+                alt={text?.fullName}
+              />
+            </div>
+            <Tooltip title={text?.fullName}>
+              <span className="font-semibold font-[arial] text-[14px]">
+                {text?.fullName}
+              </span>
+            </Tooltip>
           </div>
-          <Tooltip title={text?.fullName}>
-            <span className="font-semibold font-[arial] text-[14px]">
-              {text?.fullName}
-            </span>
-          </Tooltip>
-        </div>
-      ),
+        ) : (
+          <div className="truncate flex items-center justify-center gap-1">
+            <div className="w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+              <Image
+                src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
+                preview={false}
+                alt="Team 2"
+              />
+            </div>
+            <Tooltip title="Team 2">
+              <span className="font-semibold font-[arial] text-[14px]">
+                Team 2
+              </span>
+            </Tooltip>
+          </div>
+        ),
     },
     {
       title: "Rate",
