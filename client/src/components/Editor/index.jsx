@@ -55,7 +55,7 @@ const Editor = () => {
 
   return (
     <Form
-      className="flex flex-col items-center gap-2 mb-8 md:flex-row md:items-start"
+      className="flex items-center gap-2 mb-8 md:flex-row md:items-start"
       name="editor"
       onFinish={onFinish}
       autoComplete="off"
@@ -63,7 +63,7 @@ const Editor = () => {
       ref={form}
     >
       {/* Avatar */}
-      <div className="bg-[#428bca] w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
+      <div className="bg-[#428bca] w-[60px] h-[60px] items-center justify-center rounded-[20px] select-none hidden md:flex">
         <span className="text-white uppercase text-[36px] font-semibold">
           {user?.username?.slice(0, 1)}
         </span>

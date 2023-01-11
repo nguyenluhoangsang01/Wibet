@@ -92,8 +92,8 @@ const Home = () => {
                     </span>
                   </div>
 
-                  <div className="text-center">
-                    <p className="text-[24px] font-medium">VS</p>
+                  <div className="text-center font-medium">
+                    <p className="text-[24px]">VS</p>
                     <p className="text-[16px] flex items-center gap-1">
                       <GiPositionMarker /> <span>My Dinh Stadium</span>
                     </p>
