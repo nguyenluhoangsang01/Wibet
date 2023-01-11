@@ -14,10 +14,8 @@ const Brackets = () => {
   }, [pathname]);
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-50px-60px-40px)]">
-      <div className="flex flex-col">
-        <Bracket game={match12345678} />
-      </div>
+    <div className="h-[calc(100vh-50px-60px-40px)] -ml-[50px] overflow-x-scroll xl:overflow-hidden">
+      <Bracket game={match12345678} />
     </div>
   );
 };
