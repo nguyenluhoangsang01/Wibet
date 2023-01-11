@@ -1,4 +1,4 @@
-import { Image, Table } from "antd";
+import { Image, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
@@ -144,19 +144,23 @@ const Team = () => {
       dataIndex: "actions",
       render: (text, record) => (
         <div className="flex items-center justify-center">
-          <button
-            onClick={() => handleUpdateTeam(record)}
-            className="bg-[#f0ad4e] border-[#eea236]"
-          >
-            <BsPencilFill />
-          </button>
+          <Tooltip title="Update info">
+            <button
+              onClick={() => handleUpdateTeam(record)}
+              className="bg-[#f0ad4e] border-[#eea236]"
+            >
+              <BsPencilFill />
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={() => handleDeleteTeam(record._id, record.fullName)}
-            className="bg-[#d9534f] border-[#d43f3a]"
-          >
-            <CgClose />
-          </button>
+          <Tooltip title="Delete this team">
+            <button
+              onClick={() => handleDeleteTeam(record._id, record.fullName)}
+              className="bg-[#d9534f] border-[#d43f3a]"
+            >
+              <CgClose />
+            </button>
+          </Tooltip>
         </div>
       ),
     },

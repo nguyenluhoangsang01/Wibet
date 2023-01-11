@@ -1,4 +1,4 @@
-import { Image } from "antd";
+import { Image, Tooltip } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -165,21 +165,29 @@ const MatchViewDetails = () => {
         <tbody>
           <tr>
             <th>ID</th>
-            <td>{match?._id}</td>
+            <Tooltip title={match?._id}>
+              <td>{match?._id}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Team 1</th>
-            <td>{match?.team1?.fullName}</td>
+            <Tooltip title={match?.team1?.fullName}>
+              <td>{match?.team1?.fullName}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Team 2</th>
-            <td>{match?.team2?.fullName}</td>
+            <Tooltip title={match?.team2?.fullName}>
+              <td>{match?.team2?.fullName}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Team 1 Score</th>
             <td>
               {match?.resultOfTeam1 ? (
-                match?.resultOfTeam1
+                <Tooltip title={match?.resultOfTeam1}>
+                  <td>{match?.resultOfTeam1}</td>
+                </Tooltip>
               ) : match?.resultOfTeam1 === 0 ? (
                 "0"
               ) : (
@@ -191,7 +199,9 @@ const MatchViewDetails = () => {
             <th>Team 2 Score</th>
             <td>
               {match?.resultOfTeam2 ? (
-                match?.resultOfTeam2
+                <Tooltip title={match?.resultOfTeam2}>
+                  <td>{match?.resultOfTeam2}</td>
+                </Tooltip>
               ) : match?.resultOfTeam2 === 0 ? (
                 "0"
               ) : (
@@ -219,13 +229,17 @@ const MatchViewDetails = () => {
           </tr>
           <tr>
             <th>Match Date</th>
-            <td>{moment(match?.matchDate).format(formatTime)}</td>
+            <Tooltip title={moment(match?.matchDate).format(formatTime)}>
+              <td>{moment(match?.matchDate).format(formatTime)}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Description</th>
             <td>
               {match?.description ? (
-                match?.description
+                <Tooltip title={match?.description}>
+                  <span>{match?.description}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -233,11 +247,15 @@ const MatchViewDetails = () => {
           </tr>
           <tr>
             <th>Created Time</th>
-            <td>{moment(match?.createdAt).format(formatTime)}</td>
+            <Tooltip title={moment(match?.createdAt).format(formatTime)}>
+              <td>{moment(match?.createdAt).format(formatTime)}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Modified Time</th>
-            <td>{moment(match?.updatedAt).format(formatTime)}</td>
+            <Tooltip title={moment(match?.updatedAt).format(formatTime)}>
+              <td>{moment(match?.updatedAt).format(formatTime)}</td>
+            </Tooltip>
           </tr>
         </tbody>
       </table>

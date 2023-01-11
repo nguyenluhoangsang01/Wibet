@@ -1,4 +1,4 @@
-import { Image, Table } from "antd";
+import { Image, Table, Tooltip } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -341,7 +341,6 @@ const Matches = () => {
             ?.filter((match) =>
               user?.roleID === "Admin" ? match : match.isShow === true
             )
-            ?.reverse()
             .indexOf(record) + 1}
         </p>
       ),
@@ -356,9 +355,11 @@ const Matches = () => {
           <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
             <Image src={text?.flag} preview={false} alt={text?.fullName} />
           </div>
-          <span className="font-semibold font-[arial] text-[14px]">
-            {text?.fullName}
-          </span>
+          <Tooltip title={text?.fullName}>
+            <span className="font-semibold font-[arial] text-[14px]">
+              {text?.fullName}
+            </span>
+          </Tooltip>
         </div>
       ),
     },
@@ -399,9 +400,11 @@ const Matches = () => {
               alt={text?.fullName}
             />
           </div>
-          <span className="font-semibold font-[arial] text-[14px]">
-            {text?.fullName}
-          </span>
+          <Tooltip title={text?.fullName}>
+            <span className="font-semibold font-[arial] text-[14px]">
+              {text?.fullName}
+            </span>
+          </Tooltip>
         </div>
       ),
     },
@@ -418,7 +421,9 @@ const Matches = () => {
       key: "matchDate",
       width: "1%",
       render: (text) => (
-        <span title={text}>{moment(text).format(formatTime)}</span>
+        <Tooltip title={moment(text).format(formatTime)}>
+          <span title={text}>{moment(text).format(formatTime)}</span>
+        </Tooltip>
       ),
     },
     {
@@ -432,8 +437,8 @@ const Matches = () => {
             Canceled
           </span>
         ) : (
-          <span>
-            {`${record?.team1?.name} [${
+          <Tooltip
+            title={`${record?.team1?.name} [${
               record?.resultOfTeam1
                 ? Number(record?.resultOfTeam1)
                 : record?.resultOfTeam1 === 0
@@ -448,7 +453,25 @@ const Matches = () => {
                 ? formatNumber(Number(record?.rate))
                 : "-"
             }] ${record?.team2?.name}`}
-          </span>
+          >
+            <span>
+              {`${record?.team1?.name} [${
+                record?.resultOfTeam1
+                  ? Number(record?.resultOfTeam1)
+                  : record?.resultOfTeam1 === 0
+                  ? "0"
+                  : "-"
+              } : ${
+                record?.resultOfTeam2
+                  ? formatNumber(
+                      Number(record?.resultOfTeam2) + Number(record?.rate)
+                    )
+                  : record?.resultOfTeam2 === 0
+                  ? formatNumber(Number(record?.rate))
+                  : "-"
+              }] ${record?.team2?.name}`}
+            </span>
+          </Tooltip>
         ),
     },
     {
@@ -457,7 +480,9 @@ const Matches = () => {
       key: "status",
       width: "1%",
       render: (text, record) => (
-        <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
+        <Tooltip title={`${record.statusOfTeam1} / ${record.statusOfTeam2}`}>
+          <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
+        </Tooltip>
       ),
     },
     {
@@ -545,78 +570,124 @@ const Matches = () => {
       render: (text, record) => (
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
-            <button
-              onClick={() => handleViewAllBet(record)}
-              className="bg-[#222222]"
-            >
-              <FaShare />
-            </button>
-
-            {user?.roleID === "Admin" && (
+            <Tooltip title="View All Bets">
               <button
-                onClick={() => handleUpdateInfo(record)}
-                className="bg-[#f0ad4e]"
-                disabled={record.isCanceled || record.result}
+                onClick={() => handleViewAllBet(record)}
+                className="bg-[#222222]"
               >
-                <BsPencilFill />
+                <FaShare />
               </button>
-            )}
+            </Tooltip>
 
             {user?.roleID === "Admin" &&
-              (record.result || record.isCanceled ? (
-                <button
-                  onClick={() => handleViewDetail(record)}
-                  className="bg-[#5bc0de]"
+              (!record.isCanceled && !record.result ? (
+                <Tooltip
+                  title={` ${
+                    !record.isCanceled && !record.result && "Update info"
+                  }`}
                 >
-                  <MdViewWeek />
-                </button>
+                  <button
+                    onClick={() => handleUpdateInfo(record)}
+                    className="bg-[#f0ad4e]"
+                    disabled={record.isCanceled || record.result}
+                  >
+                    <BsPencilFill />
+                  </button>
+                </Tooltip>
               ) : (
                 <button
-                  onClick={() => handleUpdateScore(record)}
-                  className="bg-[#47a447]"
+                  onClick={() => handleUpdateInfo(record)}
+                  className="bg-[#f0ad4e]"
+                  disabled={record.isCanceled || record.result}
                 >
-                  <TiTick />
+                  <BsPencilFill />
                 </button>
               ))}
 
-            {user?.roleID === "Admin" && (
-              <button
-                disabled={bets.some(
-                  (bet) => bet.match._id.toString() === record._id
-                )}
-                onClick={() =>
-                  handleDelete(
-                    record._id,
-                    record?.team1?.fullName,
-                    record?.team2?.fullName
-                  )
-                }
-                className="bg-[#d9534f]"
-              >
-                <CgClose />
-              </button>
-            )}
+            {user?.roleID === "Admin" &&
+              (record.result || record.isCanceled ? (
+                <Tooltip title="View Detail">
+                  <button
+                    onClick={() => handleViewDetail(record)}
+                    className="bg-[#5bc0de]"
+                  >
+                    <MdViewWeek />
+                  </button>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Update Score">
+                  <button
+                    onClick={() => handleUpdateScore(record)}
+                    className="bg-[#47a447]"
+                  >
+                    <TiTick />
+                  </button>
+                </Tooltip>
+              ))}
+
+            {user?.roleID === "Admin" &&
+              (!bets.some((bet) => bet.match._id.toString() === record._id) ? (
+                <Tooltip title="Delete this match">
+                  <button
+                    disabled={bets.some(
+                      (bet) => bet.match._id.toString() === record._id
+                    )}
+                    onClick={() =>
+                      handleDelete(
+                        record._id,
+                        record?.team1?.fullName,
+                        record?.team2?.fullName
+                      )
+                    }
+                    className="bg-[#d9534f]"
+                  >
+                    <CgClose />
+                  </button>
+                </Tooltip>
+              ) : (
+                <button
+                  disabled={bets.some(
+                    (bet) => bet.match._id.toString() === record._id
+                  )}
+                  onClick={() =>
+                    handleDelete(
+                      record._id,
+                      record?.team1?.fullName,
+                      record?.team2?.fullName
+                    )
+                  }
+                  className="bg-[#d9534f]"
+                >
+                  <CgClose />
+                </button>
+              ))}
           </div>
 
           <div className="flex items-center gap-2">
             {user?.roleID === "Admin" && (
-              <button
-                onClick={() => handleHide(record)}
-                className={`${record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"}`}
-              >
-                {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
-              </button>
+              <Tooltip title={`${record.isShow ? "Hide" : "Show"} this match`}>
+                <button
+                  onClick={() => handleHide(record)}
+                  className={`${
+                    record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"
+                  }`}
+                >
+                  {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
+                </button>
+              </Tooltip>
             )}
 
             {user?.roleID === "Admin" &&
               !record.isCanceled &&
               !record.result && (
-                <button
-                  onClick={() => handleWithdraw(record._id)}
-                  className="bg-[#d2322d]"
-                >
-                  <BsCloudMinusFill />
-                </button>
+                <Tooltip title="Withdraw this match">
+                  <button
+                    onClick={() => handleWithdraw(record._id)}
+                    className="bg-[#d2322d]"
+                  >
+                    <BsCloudMinusFill />
+                  </button>
+                </Tooltip>
               )}
           </div>
         </div>
@@ -685,7 +756,7 @@ const Matches = () => {
           ?.filter((match) =>
             user?.roleID === "Admin" ? match : match.isShow === true
           )
-          ?.reverse()}
+          ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
         scroll={{ x: "100vw" }}

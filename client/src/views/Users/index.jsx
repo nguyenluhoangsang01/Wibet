@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { IoEyeSharp } from "react-icons/io5";
@@ -120,7 +120,11 @@ const Users = () => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      ),
     },
     {
       title: "Role",
@@ -151,12 +155,14 @@ const Users = () => {
         if (a.email > b.email) return 1;
       },
       render: (text) => (
-        <a
-          href={`mailto:${text}`}
-          className="text-[#2A6496] transition hover:underline"
-        >
-          {text}
-        </a>
+        <Tooltip title={text}>
+          <a
+            href={`mailto:${text}`}
+            className="text-[#2A6496] transition hover:underline"
+          >
+            {text}
+          </a>
+        </Tooltip>
       ),
     },
     {
@@ -169,7 +175,9 @@ const Users = () => {
       },
       render: (text) =>
         text ? (
-          <span>{text}</span>
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
         ) : (
           <span className="text-[red] italic">(not set)</span>
         ),
@@ -190,7 +198,9 @@ const Users = () => {
       },
       render: (text) =>
         text ? (
-          <span>{text}</span>
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
         ) : (
           <span className="text-[red] italic">(not set)</span>
         ),
@@ -208,7 +218,9 @@ const Users = () => {
           record.bannedAt === "false" ? (
             <span className="text-[red] italic">(not set)</span>
           ) : (
-            record.bannedAt
+            <Tooltip title={record.bannedAt}>
+              <span>{record.bannedAt}</span>
+            </Tooltip>
           )
         ) : (
           <span className="text-[red] italic">(not set)</span>
@@ -219,17 +231,25 @@ const Users = () => {
       dataIndex: "action",
       render: (text, record) => (
         <div className="flex items-center justify-center">
-          <Link to={`${record._id}/view-details`}>
-            <IoEyeSharp className="text-[#428bca]" />
-          </Link>
+          <Tooltip title="View">
+            <Link to={`${record._id}/view-details`}>
+              <IoEyeSharp className="text-[#428bca]" />
+            </Link>
+          </Tooltip>
 
-          <button onClick={() => handleUpdateUser(record)}>
-            <BsPencilFill className="text-[#428bca]" />
-          </button>
+          <Tooltip title="Update">
+            <button onClick={() => handleUpdateUser(record)}>
+              <BsPencilFill className="text-[#428bca]" />
+            </button>
+          </Tooltip>
 
-          <button onClick={() => handleDeleteUser(record._id, record.username)}>
-            <BsTrashFill className="text-[#428bca]" />
-          </button>
+          <Tooltip title="Delete">
+            <button
+              onClick={() => handleDeleteUser(record._id, record.username)}
+            >
+              <BsTrashFill className="text-[#428bca]" />
+            </button>
+          </Tooltip>
         </div>
       ),
     },

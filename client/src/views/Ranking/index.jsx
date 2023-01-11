@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import React, { useEffect } from "react";
 import { FaShare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,9 +52,11 @@ const Ranking = () => {
       dataIndex: "username",
       key: "username",
       render: (text, record) => (
-        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
-          {text}
-        </span>
+        <Tooltip title={text}>
+          <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
+            {text}
+          </span>
+        </Tooltip>
       ),
     },
     {
@@ -63,9 +65,11 @@ const Ranking = () => {
       key: "fullName",
       render: (text, record) =>
         text ? (
-          <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
-            {text}
-          </span>
+          <Tooltip title={text}>
+            <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
+              {text}
+            </span>
+          </Tooltip>
         ) : (
           <span className="text-[red] italic">(not set)</span>
         ),

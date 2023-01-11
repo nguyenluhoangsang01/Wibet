@@ -1,4 +1,4 @@
-import { Image, Table } from "antd";
+import { Image, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -124,7 +124,11 @@ const BetViewAll = () => {
         if (a.betTime < b.betTime) return -1;
         if (a.betTime > b.betTime) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text) => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      ),
     },
     {
       title: "Result",

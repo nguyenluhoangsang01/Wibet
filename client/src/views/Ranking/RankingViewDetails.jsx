@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -75,39 +75,41 @@ const RankingViewDetails = () => {
       dataIndex: "match",
       key: "match",
       render: (match, record) => (
-        <p>
-          <span
-            className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
-              !record.match.result
-                ? "bg-[#ffc107] text-[#212529]"
-                : record.match.result === record.team.fullName
-                ? "bg-[#28a745]"
-                : record.match.result !== record.team.fullName &&
-                  record.match.result !== "Draw"
-                ? "bg-[#dc3545]"
-                : record.match.result === "Draw" &&
-                  "bg-[#ffc107] text-[#212529]"
-            }`}
-          >
-            {match.team1.fullName}
-          </span>{" "}
-          vs{" "}
-          <span
-            className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
-              !record.match.result
-                ? "bg-[#ffc107] text-[#212529]"
-                : record.match.result === record.team.fullName
-                ? "bg-[#28a745]"
-                : record.match.result !== record.team.fullName &&
-                  record.match.result !== "Draw"
-                ? "bg-[#dc3545]"
-                : record.match.result === "Draw" &&
-                  "bg-[#ffc107] text-[#212529]"
-            }`}
-          >
-            {match.team2.fullName}
-          </span>
-        </p>
+        <Tooltip title={`${match.team1.fullName} vs ${match.team2.fullName}`}>
+          <p>
+            <span
+              className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+                !record.match.result
+                  ? "bg-[#ffc107] text-[#212529]"
+                  : record.match.result === record.team.fullName
+                  ? "bg-[#28a745]"
+                  : record.match.result !== record.team.fullName &&
+                    record.match.result !== "Draw"
+                  ? "bg-[#dc3545]"
+                  : record.match.result === "Draw" &&
+                    "bg-[#ffc107] text-[#212529]"
+              }`}
+            >
+              {match.team1.fullName}
+            </span>{" "}
+            vs{" "}
+            <span
+              className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
+                !record.match.result
+                  ? "bg-[#ffc107] text-[#212529]"
+                  : record.match.result === record.team.fullName
+                  ? "bg-[#28a745]"
+                  : record.match.result !== record.team.fullName &&
+                    record.match.result !== "Draw"
+                  ? "bg-[#dc3545]"
+                  : record.match.result === "Draw" &&
+                    "bg-[#ffc107] text-[#212529]"
+              }`}
+            >
+              {match.team2.fullName}
+            </span>
+          </p>
+        </Tooltip>
       ),
     },
     {

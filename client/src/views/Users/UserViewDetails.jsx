@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -137,33 +138,45 @@ const UserViewDetails = () => {
         <tbody>
           <tr>
             <th>ID</th>
-            <td>{user._id}</td>
+            <Tooltip title={user._id}>
+              <td>{user._id}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Role ID</th>
-            <td>{user.roleID}</td>
+            <Tooltip title={user.roleID}>
+              <td>{user.roleID}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Status</th>
-            <td>{user.status}</td>
+            <Tooltip title={user.status}>
+              <td>{user.status}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Email</th>
-            <td>
-              <a href={`mailto:${user.email}`} className="text-[#2A6496]">
-                {user.email}
-              </a>
-            </td>
+            <Tooltip title={user.email}>
+              <td>
+                <a href={`mailto:${user.email}`} className="text-[#2A6496]">
+                  {user.email}
+                </a>
+              </td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Username</th>
-            <td>{user.username}</td>
+            <Tooltip title={user.username}>
+              <td>{user.username}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Full Name</th>
             <td>
               {user.fullName ? (
-                user.fullName
+                <Tooltip title={user.fullName}>
+                  <span>{user.fullName}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -171,13 +184,17 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Money</th>
-            <td>{user.money}</td>
+            <Tooltip title={user.money}>
+              <td>{user.money}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Logged In Ip</th>
             <td>
               {user.loggedInIp ? (
-                user.loggedInIp
+                <Tooltip title={user.loggedInIp}>
+                  <span>{user.loggedInIp}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -187,7 +204,9 @@ const UserViewDetails = () => {
             <th>Logged In At</th>
             <td>
               {user.loggedInAt ? (
-                user.loggedInAt
+                <Tooltip title={user.loggedInAt}>
+                  <span>{user.loggedInAt}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -197,7 +216,9 @@ const UserViewDetails = () => {
             <th>Created Ip</th>
             <td>
               {user.createdIp ? (
-                user.createdIp
+                <Tooltip title={user.createdIp}>
+                  <span>{user.createdIp}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -205,13 +226,17 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Created At</th>
-            <td>{moment(user.createdAt).format(formatTime)}</td>
+            <Tooltip title={moment(user.createdAt).format(formatTime)}>
+              <td>{moment(user.createdAt).format(formatTime)}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Created By</th>
             <td>
               {user.createdBy ? (
-                user.createdBy
+                <Tooltip title={user.createdBy}>
+                  <span>{user.createdBy}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
@@ -219,7 +244,9 @@ const UserViewDetails = () => {
           </tr>
           <tr>
             <th>Updated At</th>
-            <td>{moment(user.updatedAt).format(formatTime)}</td>
+            <Tooltip title={moment(user.updatedAt).format(formatTime)}>
+              <td>{moment(user.updatedAt).format(formatTime)}</td>
+            </Tooltip>
           </tr>
           <tr>
             <th>Banned At</th>
@@ -228,7 +255,9 @@ const UserViewDetails = () => {
                 user.bannedAt === "false" ? (
                   <span className="text-[red] italic">(not set)</span>
                 ) : (
-                  user.bannedAt
+                  <Tooltip title={user.bannedAt}>
+                    <span>{user.bannedAt}</span>
+                  </Tooltip>
                 )
               ) : (
                 <span className="text-[red] italic">(not set)</span>
@@ -239,7 +268,9 @@ const UserViewDetails = () => {
             <th>Banned Reason</th>
             <td>
               {user.bannedReason ? (
-                user.bannedReason
+                <Tooltip title={user.bannedReason}>
+                  <span>{user.bannedReason}</span>
+                </Tooltip>
               ) : (
                 <span className="text-[red] italic">(not set)</span>
               )}
