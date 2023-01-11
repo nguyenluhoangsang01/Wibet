@@ -11,7 +11,6 @@ import { selectMatch } from "../../state/matchSlice";
 
 const Home = () => {
   // Initial state
-  const [loading, setLoading] = useState(false);
   const [comingMatch, setComingMatch] = useState({});
   // Get all matches from global state
   const {
@@ -24,15 +23,6 @@ const Home = () => {
   useEffect(() => {
     document.title = `Wibet`;
   });
-
-  // Check if coming match is null
-  useEffect(() => {
-    if (!comingMatch) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [comingMatch]);
 
   // Get first match
   useEffect(() => {
@@ -60,7 +50,7 @@ const Home = () => {
 
         <div className="absolute bg-[#ffffffcc] px-[15px] py-[30px] rounded-[10px] w-[50%] top-[70px] left-0 right-0 mx-auto flex items-center justify-center">
           <div className="h-[120px] flex items-center justify-center">
-            {loading ? (
+            {Object.keys(comingMatch).length === 0 ? (
               <div className="animate-spin flex items-center">
                 <GoPrimitiveDot className="text-black text-6xl" />
                 <GoPrimitiveDot className="text-[#f4ec60] text-6xl" />
@@ -70,11 +60,10 @@ const Home = () => {
               <div className="divide-y-2 divide-black font-[calibri] flex flex-col items-center justify-between">
                 <div>
                   <p className="text-[30px] font-bold">
-                    {
+                    {comingMatch &&
                       moment(comingMatch?.matchDate)
                         .format(formatTime)
-                        .split(",")[0]
-                    }
+                        .split(",")[0]}
                   </p>
                 </div>
 

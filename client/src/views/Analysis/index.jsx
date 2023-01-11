@@ -27,7 +27,7 @@ const Analysis = () => {
 
   // Set title
   useEffect(() => {
-    document.title = capitalize(pathname.slice(1));
+    document.title = capitalize(pathname?.slice(1));
   }, [pathname]);
 
   // Config charts
@@ -38,42 +38,42 @@ const Analysis = () => {
 
   // Get all username with money data sources
   const top3UserNameWithMoneyDataSources = users
-    .slice(0, 3)
-    .map((user) => [
+    ?.slice(0, 3)
+    ?.map((user) => [
       { username: user.username, money: user.money, color: "#FFB266" },
     ])
     .flat(1)
     .sort((a, b) => b.money - a.money);
   const top10UserNameWithMoneyDataSources = users
-    .slice(0, 10)
-    .map((user) => [
+    ?.slice(0, 10)
+    ?.map((user) => [
       { username: user.username, money: user.money, color: "#6FCDCD" },
     ])
     .flat(1)
     .sort((a, b) => b.money - a.money);
   const top20UserNameWithMoneyDataSources = users
-    .slice(0, 20)
-    .map((user) => [
+    ?.slice(0, 20)
+    ?.map((user) => [
       { username: user.username, money: user.money, color: "#FF6384" },
     ])
     .flat(1)
     .sort((a, b) => b.money - a.money);
   const userNameWithMoneyDataSources = users
-    .map((user) => [{ username: user.username, money: user.money }])
+    ?.map((user) => [{ username: user.username, money: user.money }])
     .flat(1)
     .sort((a, b) => b.money - a.money);
 
   // Win/Bet data resources
   const winBetDataSourceWithWinTimes = users
-    .map((user) => [{ username: user.username, winTimes: user.winTimes }])
+    ?.map((user) => [{ username: user.username, winTimes: user.winTimes }])
     .flat(1);
   const winBetDataSourceWithBetTimes = users
-    .map((user) => [{ username: user.username, betTimes: user.betTimes }])
+    ?.map((user) => [{ username: user.username, betTimes: user.betTimes }])
     .flat(1);
 
   // Win rates data resources
   const winRatesDataSource = users
-    .map((user) => [
+    ?.map((user) => [
       {
         username: user.username,
         winRates: ((user.winTimes / user.betTimes) * 100).toFixed(2),
@@ -109,7 +109,7 @@ const Analysis = () => {
           title="Top 20 current points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
-          data={top20UserNameWithMoneyDataSources.slice(0, 20)}
+          data={top20UserNameWithMoneyDataSources?.slice(0, 20)}
         />
       </div>
 

@@ -25,6 +25,11 @@ const Comments = () => {
   const [isShowAllComments, setIsShowAllComments] = useState(false);
   const navigate = useNavigate();
 
+  //
+  useEffect(() => {
+    if (!comments) return null;
+  }, [comments]);
+
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -88,7 +93,7 @@ const Comments = () => {
         <Editor />
 
         <CommentList
-          comments={[...comments.comments].reverse()}
+          comments={[...comments?.comments].reverse()}
           isShowAllComments={isShowAllComments}
         />
       </div>
