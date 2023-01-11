@@ -1,124 +1,128 @@
-import React, { useEffect } from "react";
+import { Image } from "antd";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { GiPositionMarker } from "react-icons/gi";
+import { GoPrimitiveDot } from "react-icons/go";
+import { useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
+import { formatTime } from "../../constants";
+import { selectMatch } from "../../state/matchSlice";
 
 const Home = () => {
-  // Get all matches from global state
-  // const {
-  //   matches: { matches },
-  // } = useSelector(selectMatch);
-  // Initial dispatch
-  // const dispatch = useDispatch();
-  // Initial current date
-  // const currentDate = moment(new Date());
-  // Initial navigate
-  // const navigate = useNavigate();
   // Initial state
-  // const { accessToken } = useSelector(selectUser);
+  const [loading, setLoading] = useState(false);
+  const [comingMatch, setComingMatch] = useState({});
+  // Get all matches from global state
+  const {
+    matches: { matches },
+  } = useSelector(selectMatch);
+  // Five minutes after
+  const fiveMinutesLater = moment().add(5, "minutes");
 
   // Set title
   useEffect(() => {
     document.title = `Wibet`;
   });
 
-  // Get all matches
-  // useEffect(() => {
-  //   dispatch(getAllMatchesReducerAsync(accessToken));
-  // }, [accessToken, dispatch]);
+  // Check if coming match is null
+  useEffect(() => {
+    if (!comingMatch) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [comingMatch]);
 
-  // Get Min date
-  // const minDate = useCallback(() => {
-  //   new Date(
-  //     Math.min(
-  //       matches
-  //         ?.filter((match) => currentDate.isBefore(match?.matchDate))
-  //         ?.map((match) => {
-  //           return new Date(match.matchDate);
-  //         })
-  //     )
-  //   );
-  // }, [currentDate, matches]);
-
-  // Handle view all matches
-  // const handleViewAllMatches = () => {
-  //   navigate("/matches");
-  // };
+  // Get first match
+  useEffect(() => {
+    matches?.some(
+      (match) =>
+        moment(match.matchDate).isSameOrAfter(fiveMinutesLater) &&
+        !match.isCanceled &&
+        !match.result &&
+        setComingMatch(match)
+    );
+  }, [fiveMinutesLater, matches]);
 
   return (
     <div>
       <Navbar />
 
-      <main className="pt-[70px] pb-[20px]">
+      <main className="pt-[70px] pb-[20px] relative">
         <div className="-mx-4 sm:-mx-10 -my-6 relative h-[calc(100vh-50px-52px)]">
           <img
             src="https://res.cloudinary.com/wibet/image/upload/v1673334130/home-background_alstvu.jpg"
             alt="home-background"
             className="w-full h-full"
           />
+        </div>
 
-          {/* <div className="bg-white rounded-md absolute top-[50px] inset-x-0 h-80 shadow-2xl min-w-[450px] max-w-5xl mx-auto flex items-center justify-center"> */}
-          {/* {matches
-          ?.filter(
-            (match) =>
-              moment(match.matchDate).date() === moment(minDate).date() &&
-              !match.result
-          )
-          .map((match) => {
-            const hours = currentDate.diff(moment(match.matchDate), "hours");
-
-            return (
-              <div
-                key={match._id}
-                className="font-[calibri] text-center flex flex-col gap-2 min-w-[450px] px-4"
-              >
-                <p className="text-[#428BCA] font-semibold text-[24px] text-left mb-4">
-                  {formatTime(match?.matchDate)}
-                </p>
-
+        <div className="absolute bg-[#ffffffcc] px-[15px] py-[30px] rounded-[10px] w-[50%] top-[70px] left-0 right-0 mx-auto flex items-center justify-center">
+          <div className="h-[120px] flex items-center justify-center">
+            {loading ? (
+              <div className="animate-spin flex items-center">
+                <GoPrimitiveDot className="text-black text-6xl" />
+                <GoPrimitiveDot className="text-[#f4ec60] text-6xl" />
+                <GoPrimitiveDot className="text-[#5a554f] text-6xl" />
+              </div>
+            ) : (
+              <div className="divide-y-2 divide-black font-[calibri] flex flex-col items-center justify-between">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+                  <p className="text-[30px] font-bold">
+                    {
+                      moment(comingMatch?.matchDate)
+                        .format(formatTime)
+                        .split(",")[0]
+                    }
+                  </p>
+                </div>
+
+                <div className="flex gap-12">
+                  <div className="truncate flex flex-col items-center justify-center gap-1">
+                    <div className="w-[60px] h-[60px] rounded-md flex items-center justify-center">
                       <Image
-                        src={match.team1.flag}
+                        src={comingMatch?.team1?.flag}
                         preview={false}
-                        alt={match.team1.fullName}
+                        alt={comingMatch?.team1?.fullName}
                       />
                     </div>
-                    <span className="font-semibold font-[arial] text-[18px]">
-                      {match.team1.fullName}
+                    <span className="font-medium font-[arial] text-[20px] uppercase">
+                      {comingMatch?.team1?.fullName}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="w-[60px] h-[60px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
+                  <div className="text-center">
+                    <p className="text-[24px] font-medium">VS</p>
+                    <p className="text-[16px] flex items-center gap-1">
+                      <GiPositionMarker /> <span>My Dinh Stadium</span>
+                    </p>
+                    <p className="text-[16px]">
+                      {
+                        moment(comingMatch?.matchDate)
+                          .format(formatTime)
+                          .split(",")[1]
+                      }{" "}
+                      (Local Time)
+                    </p>
+                  </div>
+
+                  <div className="truncate flex flex-col items-center justify-center gap-1">
+                    <div className="w-[60px] h-[60px] rounded-md flex items-center justify-center">
                       <Image
-                        src={match.team2.flag}
+                        src={comingMatch?.team2?.flag}
                         preview={false}
-                        alt={match.team2.fullName}
+                        alt={comingMatch?.team2?.fullName}
                       />
                     </div>
-                    <span className="font-semibold font-[arial] text-[18px]">
-                      {match.team2.fullName}
+                    <span className="font-medium font-[arial] text-[20px] uppercase">
+                      {comingMatch?.team2?.fullName}
                     </span>
                   </div>
                 </div>
-
-                <p className="text-base">{match.description}</p>
-
-                <p className="text-base font-semibold text-[#d2322d]">
-                  Match starts in {hours.toString().replace("-", "")} hours{" "}
-                </p>
-
-                <p
-                  className="text-sm flex items-center justify-end cursor-pointer underline transition hover:text-[#428BCA] italic mt-4"
-                  onClick={handleViewAllMatches}
-                >
-                  View all matches <AiOutlineSwapRight />
-                </p>
               </div>
-            );
-          })} */}
-          {/* </div> */}
+            )}
+          </div>
         </div>
       </main>
 
