@@ -63,7 +63,7 @@ const Editor = () => {
       ref={form}
     >
       {/* Avatar */}
-      <div className="bg-[#428bca] w-[60px] h-[60px] items-center justify-center rounded-[20px] select-none hidden md:flex">
+      <div className="bg-[#428bca] min-w-[60px] min-h-[60px] items-center justify-center rounded-[20px] select-none hidden md:flex">
         <span className="text-white uppercase text-[36px] font-semibold">
           {user?.username?.slice(0, 1)}
         </span>
