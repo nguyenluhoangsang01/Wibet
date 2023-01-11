@@ -135,7 +135,7 @@ const Profile = () => {
         if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
-      render: (text, record) => <span>{record.match.rate}</span>,
+      render: (text, record) => <span>{record?.match?.rate}</span>,
     },
     {
       title: "Money",
@@ -253,14 +253,34 @@ const Profile = () => {
 
         {/* Number of rows */}
         <NumberOfRows>
-          {bets.length < 1 ? (
+          {bets?.bets?.filter(
+            (bet) => bet?.user?._id?.toString() === user?._id?.toString()
+          ) < 1 ? (
             "No result found"
           ) : (
             <span>
               {" "}
-              Showing <span className="font-bold">1-{bets.length}</span>of{" "}
-              <span className="font-bold">{bets.length}</span> item
-              {bets.length > 1 ? "s" : ""}.
+              Showing{" "}
+              <span className="font-bold">
+                1-
+                {
+                  bets?.bets?.filter(
+                    (bet) =>
+                      bet?.user?._id?.toString() === user?._id?.toString()
+                  )?.length
+                }
+              </span>
+              of{" "}
+              <span className="font-bold">
+                {
+                  bets?.bets?.filter(
+                    (bet) =>
+                      bet?.user?._id?.toString() === user?._id?.toString()
+                  )?.length
+                }
+              </span>{" "}
+              item
+              {bets?.length > 1 ? "s" : ""}.
             </span>
           )}
         </NumberOfRows>
@@ -269,7 +289,9 @@ const Profile = () => {
         <Table
           rowKey="_id"
           columns={columns}
-          dataSource={[...bets.bets]?.reverse()}
+          dataSource={[...bets?.bets]?.filter(
+            (bet) => bet?.user?._id?.toString() === user?._id?.toString()
+          )}
           className="pt-[25px] -mt-4"
           scroll={{ x: "90vw" }}
           loading={bets.bets ? false : true}
