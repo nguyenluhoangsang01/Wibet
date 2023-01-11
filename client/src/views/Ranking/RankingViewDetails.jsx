@@ -75,38 +75,40 @@ const RankingViewDetails = () => {
       dataIndex: "match",
       key: "match",
       render: (match, record) => (
-        <Tooltip title={`${match.team1.fullName} vs ${match.team2.fullName}`}>
+        <Tooltip
+          title={`${match?.team1?.fullName} vs ${match?.team2?.fullName}`}
+        >
           <p>
             <span
               className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
-                !record.match.result
+                !record?.match?.result
                   ? "bg-[#ffc107] text-[#212529]"
-                  : record.match.result === record.team.fullName
+                  : record?.match?.result === record?.team?.fullName
                   ? "bg-[#28a745]"
-                  : record.match.result !== record.team.fullName &&
-                    record.match.result !== "Draw"
+                  : record?.match?.result !== record?.team?.fullName &&
+                    record?.match?.result !== "Draw"
                   ? "bg-[#dc3545]"
-                  : record.match.result === "Draw" &&
+                  : record?.match?.result === "Draw" &&
                     "bg-[#ffc107] text-[#212529]"
               }`}
             >
-              {match.team1.fullName}
+              {match?.team1?.fullName ? match?.team1?.fullName : "Team 1"}
             </span>{" "}
             vs{" "}
             <span
               className={`min-w-[100px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
-                !record.match.result
+                !record?.match?.result
                   ? "bg-[#ffc107] text-[#212529]"
-                  : record.match.result === record.team.fullName
+                  : record?.match?.result === record?.team?.fullName
                   ? "bg-[#28a745]"
-                  : record.match.result !== record.team.fullName &&
-                    record.match.result !== "Draw"
+                  : record?.match?.result !== record?.team?.fullName &&
+                    record?.match?.result !== "Draw"
                   ? "bg-[#dc3545]"
-                  : record.match.result === "Draw" &&
+                  : record?.match?.result === "Draw" &&
                     "bg-[#ffc107] text-[#212529]"
               }`}
             >
-              {match.team2.fullName}
+              {match?.team2?.fullName ? match?.team2?.fullName : "Team 2"}
             </span>
           </p>
         </Tooltip>
@@ -116,19 +118,19 @@ const RankingViewDetails = () => {
       title: "Rate",
       dataIndex: "match",
       key: "match",
-      render: (match) => <span>{match.rate}</span>,
+      render: (match) => <span>{match?.rate}</span>,
     },
     {
       title: "Option",
       dataIndex: "team",
       key: "team",
-      render: (team) => <span>{team.fullName}</span>,
+      render: (team) => <span>{team?.fullName ? team?.fullName : "Team"}</span>,
     },
     {
       title: "Placed",
       dataIndex: "bet",
       key: "bet",
-      render: (data, record) => <span>{record.money}</span>,
+      render: (data, record) => <span>{record?.money}</span>,
     },
     {
       title: "Bet result",
@@ -137,24 +139,25 @@ const RankingViewDetails = () => {
       render: (data, record) => (
         <span
           className={`uppercase min-w-[50px] rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[7px] py-[3px] h-[22px] ${
-            !record.match.result
+            !record?.match?.result
               ? "bg-inherit text-[#212529] font-normal"
-              : record.match.result === record.team.fullName
+              : record?.match?.result === record?.team?.fullName
               ? "bg-[#28a745]"
-              : record.match.result !== record.team.fullName &&
-                record.match.result !== "Draw"
+              : record?.match?.result !== record?.team?.fullName &&
+                record?.match?.result !== "Draw"
               ? "bg-[#dc3545]"
-              : record.match.result === "Draw" && "bg-[#ffc107] text-[#212529]"
+              : record?.match?.result === "Draw" &&
+                "bg-[#ffc107] text-[#212529]"
           }`}
         >
-          {!record.match.result
+          {!record?.match?.result
             ? "-"
-            : record.match.result === record.team.fullName
+            : record?.match?.result === record?.team?.fullName
             ? "W"
-            : record.match.result !== record.team.fullName &&
-              record.match.result !== "Draw"
+            : record?.match?.result !== record?.team?.fullName &&
+              record?.match?.result !== "Draw"
             ? "L"
-            : record.match.result === "Draw" && "D"}
+            : record?.match?.result === "Draw" && "D"}
         </span>
       ),
     },
