@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { formatTime } from "../../constants";
 import { selectMatch } from "../../state/matchSlice";
+import { selectUser } from "../../state/userSlice";
 
 const Home = () => {
   // Initial state
@@ -18,6 +19,8 @@ const Home = () => {
   } = useSelector(selectMatch);
   // Five minutes after
   const fiveMinutesLater = moment().add(5, "minutes");
+  // Get user logged
+  const { user } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
@@ -50,7 +53,7 @@ const Home = () => {
 
         <div className="absolute bg-[#ffffffcc] px-[15px] py-[30px] rounded-[10px] w-[50%] top-[70px] left-0 right-0 mx-auto flex items-center justify-center">
           <div className="h-[120px] flex items-center justify-center">
-            {Object.keys(comingMatch).length === 0 ? (
+            {Object.keys(comingMatch).length === 0 || !user ? (
               <div className="animate-spin flex items-center">
                 <GoPrimitiveDot className="text-black text-6xl" />
                 <GoPrimitiveDot className="text-[#f4ec60] text-6xl" />
