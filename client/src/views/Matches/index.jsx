@@ -454,7 +454,7 @@ const Matches = () => {
       width: "1%",
       render: (text) => (
         <Tooltip title={moment(text).format(formatTime)}>
-          <span title={text}>{moment(text).format(formatTime)}</span>
+          <span>{moment(text).format(formatTime)}</span>
         </Tooltip>
       ),
     },
@@ -791,7 +791,7 @@ const Matches = () => {
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "100vw" }}
+        scroll={{ x: "95vw" }}
       />
 
       {/* Delete Modal */}

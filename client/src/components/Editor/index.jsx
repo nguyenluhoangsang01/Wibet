@@ -43,12 +43,17 @@ const Editor = () => {
 
         toast.success(res.data.message);
       }
-    } catch ({ response }) {
-      if (response.data) {
-        // Set is finish to false
-        setIsFinish(false);
+    } catch ({ response: { data } }) {
+      // Set is finish to false
+      setIsFinish(false);
 
-        toast.error(response.data.message);
+      if (data.name === "content") {
+        form.current.setFields([
+          {
+            name: "content",
+            errors: [data.message],
+          },
+        ]);
       }
     }
   };
@@ -71,7 +76,16 @@ const Editor = () => {
 
       <div className="w-full">
         {/* Editor */}
-        <Form.Item name="content" className="w-full">
+        <Form.Item
+          name="content"
+          className="w-full"
+          rules={[
+            {
+              required: true,
+              message: "Content cannot be blank.",
+            },
+          ]}
+        >
           <TextArea
             rows={4}
             className="w-full text-[15px] pl-4 pt-2"

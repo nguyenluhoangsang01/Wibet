@@ -17,11 +17,13 @@ export const createComment = async (req, res, next) => {
       return sendError(
         res,
         "Cannot create comment right now, please login!",
-        404
+        404,
+        "content"
       );
 
     // Check if content not found
-    if (!content) return sendError(res, "Content cannot be blank.");
+    if (!content)
+      return sendError(res, "Content cannot be blank.", 400, "content");
 
     // Check if file exists
     if (file) {
@@ -127,10 +129,11 @@ export const updateCommentById = async (req, res, next) => {
     const findComment = await Comment.findById(id);
     // Check if user not equal
     if (findUser._id.toString() !== findComment.user.toString())
-      return sendError(res, "Can only update your comment");
+      return sendError(res, "Can only update your comment", 400, "content");
 
     // Check if content not found
-    if (!content) return sendError(res, "Content cannot be blank.");
+    if (!content)
+      return sendError(res, "Content cannot be blank.", 400, "content");
 
     // Check if file exists
     if (file) {
@@ -151,7 +154,8 @@ export const updateCommentById = async (req, res, next) => {
             { new: true }
           );
           // Check if comment not found
-          if (!comment) return sendError(res, "Comment not found", 404);
+          if (!comment)
+            return sendError(res, "Comment not found", 404, "content");
         });
     } else {
       // Find and update comment
@@ -161,7 +165,7 @@ export const updateCommentById = async (req, res, next) => {
         { new: true }
       );
       // Check if comment not found
-      if (!comment) return sendError(res, "Comment not found", 404);
+      if (!comment) return sendError(res, "Comment not found", 404, "content");
     }
 
     // Get all comment after updated
@@ -169,7 +173,7 @@ export const updateCommentById = async (req, res, next) => {
       .populate("user", "-__v -password")
       .select("-__v");
     // Check if comments not found
-    if (!comments) return sendError(res, "No results found", 404);
+    if (!comments) return sendError(res, "No results found", 404, "content");
 
     // Send success notification
     return sendSuccess(res, "Update comment successfully!", {

@@ -140,12 +140,14 @@ const Ranking = () => {
       render: (text, record) =>
         isShowHistory && (
           <div className="flex items-center justify-center">
-            <button
-              onClick={() => handleTracking(record?._id)}
-              className="bg-[#5bc0de]"
-            >
-              <FaShare />
-            </button>
+            <Tooltip title="View info">
+              <button
+                onClick={() => handleTracking(record?._id)}
+                className="bg-[#5bc0de]"
+              >
+                <FaShare />
+              </button>
+            </Tooltip>
           </div>
         ),
     },

@@ -15,6 +15,7 @@ const ModalDeleteTeam = ({
       onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
+			keyboard={true}
       footer={[
         <Button key="cancel" onClick={handleCancel} disabled={confirmLoading}>
           Cancel
