@@ -42,7 +42,7 @@ const Ranking = () => {
       dataIndex: "_id",
       key: "_id",
       render: (text, record, index) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {index + 1}
         </span>
       ),
@@ -52,7 +52,7 @@ const Ranking = () => {
       dataIndex: "username",
       key: "username",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -63,7 +63,7 @@ const Ranking = () => {
       key: "fullName",
       render: (text, record) =>
         text ? (
-          <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+          <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
             {text}
           </span>
         ) : (
@@ -75,7 +75,7 @@ const Ranking = () => {
       dataIndex: "money",
       key: "money",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -85,7 +85,7 @@ const Ranking = () => {
       dataIndex: "betTimes",
       key: "betTimes",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -95,7 +95,7 @@ const Ranking = () => {
       dataIndex: "winTimes",
       key: "winTimes",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -105,7 +105,7 @@ const Ranking = () => {
       dataIndex: "betMoney",
       key: "betMoney",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
           {text}
         </span>
       ),
@@ -115,8 +115,8 @@ const Ranking = () => {
       dataIndex: "winRate",
       key: "winRate",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
-          {((record.winTimes / record.betTimes) * 100).toFixed(2)}
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
+          {((record?.winTimes / record?.betTimes) * 100).toFixed(2)}
         </span>
       ),
     },
@@ -125,8 +125,8 @@ const Ranking = () => {
       dataIndex: "total",
       key: "total",
       render: (text, record) => (
-        <span className={`${record._id === user._id ? "font-bold" : ""}`}>
-          {record.money + record.betMoney}
+        <span className={`${record?._id === user?._id ? "font-bold" : ""}`}>
+          {record?.money + record?.betMoney}
         </span>
       ),
     },
@@ -137,7 +137,7 @@ const Ranking = () => {
         isShowHistory && (
           <div className="flex items-center justify-center">
             <button
-              onClick={() => handleTracking(record._id)}
+              onClick={() => handleTracking(record?._id)}
               className="bg-[#5bc0de]"
             >
               <FaShare />
