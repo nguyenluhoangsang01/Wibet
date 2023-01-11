@@ -186,7 +186,7 @@ const MatchViewDetails = () => {
             <td>
               {match?.resultOfTeam1 ? (
                 <Tooltip title={match?.resultOfTeam1}>
-                  <td>{match?.resultOfTeam1}</td>
+                  {match?.resultOfTeam1}
                 </Tooltip>
               ) : match?.resultOfTeam1 === 0 ? (
                 "0"
@@ -200,7 +200,7 @@ const MatchViewDetails = () => {
             <td>
               {match?.resultOfTeam2 ? (
                 <Tooltip title={match?.resultOfTeam2}>
-                  <td>{match?.resultOfTeam2}</td>
+                  {match?.resultOfTeam2}
                 </Tooltip>
               ) : match?.resultOfTeam2 === 0 ? (
                 "0"

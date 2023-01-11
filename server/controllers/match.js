@@ -294,7 +294,7 @@ export const updateScoreById = async (req, res, next) => {
     if (!bet) return sendError(res, "Bet not found", 404, "bet");
 
     if (bet[0]) {
-      // Check if user clock auto generate result
+      // Check if user click auto generate result
       // Update score
       await Match.findByIdAndUpdate(
         id,
@@ -319,7 +319,7 @@ export const updateScoreById = async (req, res, next) => {
         {
           ...req.body,
           winTimes: bet[0]?.match?.result
-            ? bet[0]?.team?.fullName == bet[0]?.match?.result &&
+            ? bet[0]?.team?.fullName === bet[0]?.match?.result &&
               bet[0]?.match?.result !== "Draw"
               ? user?.winTimes + 1
               : user?.winTimes
