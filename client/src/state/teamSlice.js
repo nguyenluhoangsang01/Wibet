@@ -22,6 +22,8 @@ export const teamSlice = createSlice({
         state.teams = payload.data;
 
         toast.success(payload.message);
+      } else {
+        toast.error(payload.message);
       }
     },
   },

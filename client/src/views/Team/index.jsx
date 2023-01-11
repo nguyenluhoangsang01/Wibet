@@ -10,6 +10,7 @@ import ModalDeleteTeam from "../../components/ModalDeleteTeam";
 import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
+import { selectMatch } from "../../state/matchSlice";
 import {
   deleteTeamReducerAsync,
   getAllTeamsReducerAsync,
@@ -24,6 +25,10 @@ const Team = () => {
   const { teams } = useSelector(selectTeam);
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Get all matches from global state
+  const {
+    matches: { matches },
+  } = useSelector(selectMatch);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -75,11 +80,6 @@ const Team = () => {
       setOpen(false);
     }
   };
-
-  // Handle import excel
-  // const handleImportExcel = () => {
-  //   console.log("handleImportExcel");
-  // };
 
   // Handle cancel when user no delete
   const handleCancel = () => {
@@ -153,14 +153,37 @@ const Team = () => {
             </button>
           </Tooltip>
 
-          <Tooltip title="Delete this team">
+          {!matches?.some(
+            (match) =>
+              record?._id?.toString() === match?.team1?._id?.toString() ||
+              record?._id?.toString() === match?.team2?._id?.toString()
+          ) ? (
+            <Tooltip title="Delete this team">
+              <button
+                onClick={() => handleDeleteTeam(record._id, record.fullName)}
+                className="bg-[#d9534f] border-[#d43f3a]"
+                disabled={matches?.some(
+                  (match) =>
+                    record?._id?.toString() === match?.team1?._id?.toString() ||
+                    record?._id?.toString() === match?.team2?._id?.toString()
+                )}
+              >
+                <CgClose />
+              </button>
+            </Tooltip>
+          ) : (
             <button
               onClick={() => handleDeleteTeam(record._id, record.fullName)}
               className="bg-[#d9534f] border-[#d43f3a]"
+              disabled={matches?.some(
+                (match) =>
+                  record?._id?.toString() === match?.team1?._id?.toString() ||
+                  record?._id?.toString() === match?.team2?._id?.toString()
+              )}
             >
               <CgClose />
             </button>
-          </Tooltip>
+          )}
         </div>
       ),
     },

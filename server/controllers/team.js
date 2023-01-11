@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
+import Match from "../models/match.js";
 import Team from "../models/team.js";
 
 export const createTeam = async (req, res, next) => {
@@ -156,9 +157,27 @@ export const deleteTeam = async (req, res, next) => {
     // Get id from request params
     const { id } = req.params;
 
+    // Get team by id
+    const getTeam = await Team.findById(id);
+    if (!getTeam) return sendError(res, "Team not found", 404);
+
+    // Get all matches
+    const matches = await Match.find()
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+
+    // Check if team have match coming
+    if (
+      matches.some(
+        (match) =>
+          match?.team1?._id?.toString() === getTeam?._id?.toString() ||
+          match?.team2?._id?.toString() === getTeam?._id?.toString()
+      )
+    )
+      return sendError(res, "Cannot delete team right now.");
+
     // Check if team not exist and delete team
-    const team = await Team.findByIdAndDelete(id);
-    if (!team) return sendError(res, "Team not found", 404);
+    await Team.findByIdAndDelete(id);
 
     // Get all teams after delete
     const teams = await Team.find().select("-__v");
