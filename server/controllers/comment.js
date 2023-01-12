@@ -128,7 +128,10 @@ export const updateCommentById = async (req, res, next) => {
     // Get comment by id
     const findComment = await Comment.findById(id);
     // Check if user not equal
-    if (findUser._id.toString() !== findComment.user.toString())
+    if (
+      findUser._id.toString() !== findComment.user.toString() &&
+      findUser.roleID !== "Admin"
+    )
       return sendError(res, "Can only update your comment", 400, "content");
 
     // Check if content not found
