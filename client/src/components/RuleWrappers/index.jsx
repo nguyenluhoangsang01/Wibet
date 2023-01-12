@@ -3,7 +3,7 @@ import React from "react";
 const RuleWrappers = ({ heading, children }) => {
   return (
     <div>
-      <h4 className="font-[arial] text-[24px] py-[10px] px-[15px] my-[20px] font-bold text-white bg-black uppercase">
+      <h4 className="font-[arial] text-[24px] py-[10px] px-[15px] my-[20px] font-bold text-white bg-[#222] uppercase">
         {heading}
       </h4>
 

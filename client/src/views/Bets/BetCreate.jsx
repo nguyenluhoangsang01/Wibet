@@ -171,7 +171,7 @@ const BetCreate = () => {
       <Breadcrumbs routes={createBetRoutes} />
 
       {/* Heading */}
-      <div className="text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px]">
+      <div className="text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] text-[#333]">
         <h2 className="text-[30px] mb-[10px] mt-[20px]">Create bet</h2>
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center gap-2">

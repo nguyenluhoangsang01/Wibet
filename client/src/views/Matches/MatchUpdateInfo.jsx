@@ -218,7 +218,7 @@ const MatchUpdateInfo = () => {
       <Breadcrumbs routes={matchUpdateInfo} key={match?._id} />
 
       {/* Heading */}
-      <h1 className="capitalize text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row">
+      <h1 className="capitalize text-[28px] md:text-[36px] font-[arial] font-bold mt-[20px] mb-[10px] flex items-center gap-4 flex-col md:flex-row text-[#333]">
         <p>update match:</p>
         <div className="flex items-center justify-center gap-2">
           <Image
