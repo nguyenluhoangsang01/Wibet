@@ -17,8 +17,6 @@ const Home = () => {
   const {
     matches: { matches },
   } = useSelector(selectMatch);
-  // Five minutes after
-  const fiveMinutesLater = moment().add(5, "minutes");
   // Get user logged
   const { user } = useSelector(selectUser);
 
@@ -29,15 +27,19 @@ const Home = () => {
 
   // Get first match
   useEffect(() => {
-    matches?.some(
-      (match) =>
-        moment(match.matchDate).isSameOrAfter(fiveMinutesLater) &&
-        !match.isCanceled &&
-        !match.result &&
-        match.isShow &&
-        setComingMatch(match)
-    );
-  }, [fiveMinutesLater, matches]);
+    [...matches]
+      ?.filter((match) =>
+        user?.roleID === "Admin" ? match : match.isShow === true
+      )
+      ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+      ?.some(
+        (match) =>
+          !match.isCanceled &&
+          !match.result &&
+          match.isShow &&
+          setComingMatch(match)
+      );
+  }, [matches, user?.roleID]);
 
   return (
     <div>

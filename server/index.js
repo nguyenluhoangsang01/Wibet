@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import betRoutes from "./routes/bet.js";
+import bracketRoutes from "./routes/bracket.js";
 import commentRoutes from "./routes/comment.js";
 import matchRoutes from "./routes/match.js";
 import teamRoutes from "./routes/team.js";
@@ -70,6 +71,7 @@ app.use("/api/match", matchRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/bet", betRoutes);
 app.use("/api/comment", commentRoutes);
+app.use("/api/bracket", bracketRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
