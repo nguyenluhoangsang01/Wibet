@@ -104,9 +104,6 @@ const MatchUpdateScore = () => {
       );
 
       if (data) {
-        // Send success notification
-        toast.success(data.message);
-
         // After set is finish to false
         setIsFinish(false);
 
