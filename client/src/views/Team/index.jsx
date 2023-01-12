@@ -134,7 +134,7 @@ const Team = () => {
             src={text}
             width={50}
             alt={record.fullName}
-            className="shadow-xl"
+            className="shadow-xl object-cover"
           />
         </div>
       ),

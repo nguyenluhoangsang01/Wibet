@@ -59,6 +59,7 @@ const Navbar = () => {
             preview={false}
             width={30}
             height={30}
+            className="object-cover"
           />
           <span className="text-[22px]">WIBET</span>
         </Link>

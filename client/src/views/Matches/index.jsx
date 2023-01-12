@@ -354,10 +354,15 @@ const Matches = () => {
         text ? (
           <div className="truncate flex items-center justify-center gap-1">
             <div className="w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
-              <Image src={text?.flag} preview={false} alt={text?.fullName} />
+              <Image
+                src={text?.flag}
+                preview={false}
+                alt={text?.fullName}
+                className="object-cover"
+              />
             </div>
             <Tooltip title={text?.fullName}>
-              <span className="font-semibold font-[arial] text-[14px]">
+              <span className="font-semibold font-[arial] text-[14px] obj">
                 {text?.fullName}
               </span>
             </Tooltip>
@@ -369,6 +374,7 @@ const Matches = () => {
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
                 preview={false}
                 alt="Team 1"
+                className="object-cover"
               />
             </div>
             <Tooltip title="Team 1">

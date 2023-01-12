@@ -50,7 +50,7 @@ const Home = () => {
           <img
             src="https://res.cloudinary.com/wibet/image/upload/v1673334130/home-background_alstvu.jpg"
             alt="home-background"
-            className="w-full h-full"
+            className="w-full h-full object-cover"
           />
         </div>
 
@@ -80,6 +80,7 @@ const Home = () => {
                         src={comingMatch?.team1?.flag}
                         preview={false}
                         alt={comingMatch?.team1?.fullName}
+                        className="object-cover"
                       />
                     </div>
                     <span className="font-medium font-[arial] text-[20px] uppercase">
@@ -108,6 +109,7 @@ const Home = () => {
                         src={comingMatch?.team2?.flag}
                         preview={false}
                         alt={comingMatch?.team2?.fullName}
+                        className="object-cover"
                       />
                     </div>
                     <span className="font-medium font-[arial] text-[20px] uppercase">

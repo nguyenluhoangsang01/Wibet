@@ -180,7 +180,7 @@ const BetCreate = () => {
               width={96}
               preview={false}
               alt={match?.team1?.fullName}
-              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden object-cover"
             />
             <span>{match?.team1?.fullName}</span>
           </div>
@@ -191,7 +191,7 @@ const BetCreate = () => {
               width={96}
               preview={false}
               alt={match?.team2?.fullName}
-              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden"
+              className="border-4 border-[#DFDFDF] rounded-md overflow-hidden object-cover"
             />
             <span>{match?.team2?.fullName}</span>
           </div>

@@ -59,7 +59,7 @@ const Comments = () => {
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334368/cup_t2bnfy.jpg"
                 alt="profile"
                 preview={false}
-                className="!w-[800px] !h-[400px] my-0 mx-auto inline"
+                className="!w-[800px] !h-[400px] my-0 mx-auto inline object-cover"
               />
             </div>
           </a>

@@ -12,6 +12,7 @@ const RenderFile = ({ file: { format, name, size } }) => {
         alt={name}
         preview={false}
         width={50}
+        className="object-cover"
       />
       <span className="font-semibold">{name}</span>
       <span>{sizeInMb(size)}</span>
