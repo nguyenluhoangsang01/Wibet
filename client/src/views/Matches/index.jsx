@@ -791,7 +791,7 @@ const Matches = () => {
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: "101vw" }}
+        scroll={{ x: user?.roleID === "Admin" ? "104vw" : "1vw" }}
       />
 
       {/* Delete Modal */}

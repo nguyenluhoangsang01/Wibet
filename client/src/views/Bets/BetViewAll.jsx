@@ -84,7 +84,11 @@ const BetViewAll = () => {
       title: "#",
       dataIndex: "_id",
       key: "_id",
-      render: (text, record, index) => <span>{index + 1}</span>,
+      render: (text, record, index) => (
+        <span className={record?.user?._id === user?._id ? "font-bold" : ""}>
+          {index + 1}
+        </span>
+      ),
     },
     {
       title: "Username",
@@ -94,7 +98,11 @@ const BetViewAll = () => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
       },
-      render: (text, record) => <span>{record.user.username}</span>,
+      render: (text, record) => (
+        <span className={record?.user?._id === user?._id ? "font-bold" : ""}>
+          {record.user.username}
+        </span>
+      ),
     },
     {
       title: "Option",
@@ -104,7 +112,11 @@ const BetViewAll = () => {
         if (a.option < b.option) return -1;
         if (a.option > b.option) return 1;
       },
-      render: (text, record) => <span>{record.team.fullName}</span>,
+      render: (text, record) => (
+        <span className={record?.user?._id === user?._id ? "font-bold" : ""}>
+          {record.team.fullName}
+        </span>
+      ),
     },
     {
       title: "Money",
@@ -114,7 +126,11 @@ const BetViewAll = () => {
         if (a.money < b.money) return -1;
         if (a.money > b.money) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span className={record?.user?._id === user?._id ? "font-bold" : ""}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Bet Time",
@@ -124,9 +140,11 @@ const BetViewAll = () => {
         if (a.betTime < b.betTime) return -1;
         if (a.betTime > b.betTime) return 1;
       },
-      render: (text) => (
+      render: (text, record) => (
         <Tooltip title={text}>
-          <span>{text}</span>
+          <span className={record?.user?._id === user?._id ? "font-bold" : ""}>
+            {text}
+          </span>
         </Tooltip>
       ),
     },

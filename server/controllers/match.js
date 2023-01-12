@@ -271,16 +271,14 @@ export const updateScoreById = async (req, res, next) => {
       .populate("team1 team2", "fullName flag name")
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404, "match");
+    if (match.isCanceled) return sendError(res, "The match has been canceled");
 
     // Get user id from request
     const user = await User.findById(userId).select("-__v -password");
     if (!user) return sendError(res, "User not found", 404, "user");
 
-    // Find bet by match id and user id
-    const bet = await Bet.where("user")
-      .equals(user._id)
-      .where("match")
-      .equals(match._id)
+    // Get all bets by match id
+    const bets = await Bet.find({ match: id })
       .populate("team user", "-__v -password")
       .select("-__v")
       .populate({
@@ -291,12 +289,10 @@ export const updateScoreById = async (req, res, next) => {
         },
         select: "-__v",
       });
-    if (!bet) return sendError(res, "Bet not found", 404, "bet");
 
-    if (bet[0]) {
-      // Check if user click auto generate result
-      // Update score
-      await Match.findByIdAndUpdate(
+    if (bets) {
+      // Update score check if user click auto generate result
+      const updatedMatch = await Match.findByIdAndUpdate(
         id,
         {
           ...req.body,
@@ -313,21 +309,34 @@ export const updateScoreById = async (req, res, next) => {
         .populate("team1 team2", "fullName flag name")
         .select("-__v");
 
-      // Update win times of user
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
+      await User.updateMany(
+        { _id: { $in: bets.map((bet) => bet.user._id.toString()) } },
         {
-          ...req.body,
-          winTimes: bet[0]?.match?.result
-            ? bet[0]?.team?.fullName === bet[0]?.match?.result &&
-              bet[0]?.match?.result !== "Draw"
-              ? user?.winTimes + 1
-              : user?.winTimes
-            : user?.winTimes,
-          money: user.money + bet[0]?.money * 2,
-        },
-        { new: true }
-      ).select("-__v -password");
+          $inc: bets.map(
+            async (bet) =>
+              await User.findByIdAndUpdate(
+                bet.user._id,
+                {
+                  money: updatedMatch.result
+                    ? updatedMatch.result === bet.team.fullName
+                      ? bet.money * 2 + bet.user.money
+                      : updatedMatch.result === "Draw"
+                      ? bet.money + bet.user.money
+                      : bet.user.money
+                    : bet.user.money,
+                  winTimes: updatedMatch.result
+                    ? updatedMatch.result === bet.team.fullName
+                      ? bet.user.winTimes + 1
+                      : bet.user.winTimes
+                    : bet.user.winTimes,
+                },
+                { new: true }
+              )
+          ),
+        }
+      );
+
+      const updatedUser = await User.findById(userId).select("-__v -password");
 
       // Send success notification
       return sendSuccess(res, "Update score successfully!", {
