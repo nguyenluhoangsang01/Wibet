@@ -99,6 +99,12 @@ export const deleteMatchById = async (req, res, next) => {
     // Get user id from request
     const { userId } = req;
 
+    // Get all bets by match id
+    const bets = await Bet.find({ match: id });
+    // Check if length of bet array is greater than 0
+    if (bets.length > 0)
+      return sendError(res, "Cannot delete this match right now");
+
     // Find match by id and delete
     const match = await Match.findByIdAndDelete(id);
     // Check if match not found
@@ -106,9 +112,6 @@ export const deleteMatchById = async (req, res, next) => {
     // Get user by user id
     const user = await User.findById(userId);
     if (!user) return sendError(res, "User not found", 404);
-
-    // Find bets by match id and delete
-    await Bet.deleteMany({ match: match._id });
 
     // Get all matches after delete match
     const matches = await Match.find()
