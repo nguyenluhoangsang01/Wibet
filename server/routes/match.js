@@ -1,11 +1,11 @@
 import express from "express";
 import {
-	createMatch,
-	deleteMatchById,
-	getAllMatches,
-	getMatchById,
-	updateMatchById,
-	updateScoreById
+  createMatch,
+  deleteMatchById,
+  getAllMatches,
+  getMatchById,
+  updateMatchById,
+  updateScoreById,
 } from "../controllers/match.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -24,7 +24,7 @@ router.delete("/:id", verifyToken, deleteMatchById);
 // @route GET api/match
 // @desc Get all matches
 // @access Private
-router.get("/", verifyToken, getAllMatches);
+router.get("/", getAllMatches);
 
 // @route GET api/match/:id
 // @desc Get match by id

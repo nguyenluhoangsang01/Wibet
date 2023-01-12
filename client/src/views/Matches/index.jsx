@@ -664,15 +664,17 @@ const Matches = () => {
               ))}
 
             {user?.roleID === "Admin" &&
-              (!bets.some((bet) => bet.match._id.toString() === record._id) ? (
+              (!bets.some(
+                (bet) => bet?.match?._id.toString() === record?._id
+              ) ? (
                 <Tooltip title="Delete this match">
                   <button
                     disabled={bets.some(
-                      (bet) => bet.match._id.toString() === record._id
+                      (bet) => bet?.match?._id?.toString() === record?._id
                     )}
                     onClick={() =>
                       handleDelete(
-                        record._id,
+                        record?._id,
                         record?.team1?.fullName,
                         record?.team2?.fullName
                       )
@@ -685,11 +687,11 @@ const Matches = () => {
               ) : (
                 <button
                   disabled={bets.some(
-                    (bet) => bet.match._id.toString() === record._id
+                    (bet) => bet?.match?._id?.toString() === record?._id
                   )}
                   onClick={() =>
                     handleDelete(
-                      record._id,
+                      record?._id,
                       record?.team1?.fullName,
                       record?.team2?.fullName
                     )
