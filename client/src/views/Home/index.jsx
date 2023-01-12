@@ -73,7 +73,7 @@ const Home = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-12">
+                <div className="flex gap-12 pt-1">
                   <div className="truncate flex flex-col items-center justify-center gap-1">
                     <div className="w-[60px] h-[60px] rounded-md flex items-center justify-center">
                       <Image
