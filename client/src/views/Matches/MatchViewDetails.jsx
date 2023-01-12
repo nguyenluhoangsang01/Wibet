@@ -34,8 +34,8 @@ const MatchViewDetails = () => {
 
   // Check if user role id not equal Admin
   useEffect(() => {
-    if (user.roleID !== "Admin") navigate("/matches");
-  }, [navigate, user.roleID]);
+    if (user?.roleID !== "Admin") navigate("/matches");
+  }, [navigate, user?.roleID]);
 
   // Set title
   useEffect(() => {
