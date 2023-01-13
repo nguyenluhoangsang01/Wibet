@@ -605,6 +605,7 @@ const Matches = () => {
     {
       title: "-",
       dataIndex: "actions",
+      width: user?.roleID !== "Admin" && "1%",
       render: (text, record) => (
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
@@ -797,7 +798,7 @@ const Matches = () => {
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: user?.roleID === "Admin" ? "104vw" : "1vw" }}
+        scroll={{ x: user?.roleID === "Admin" && "95vw" }}
       />
 
       {/* Delete Modal */}
