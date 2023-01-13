@@ -108,7 +108,7 @@ const Team = () => {
       title: "Id",
       dataIndex: "index",
       key: "index",
-      render: (text, record, index) => (
+      render: (text, record) => (
         <span>{[...teams.teams].indexOf(record) + 1}</span>
       ),
     },
@@ -132,7 +132,7 @@ const Team = () => {
         <div className="flex items-center justify-center w-full h-full">
           <Image
             src={text}
-            width={50}
+            width={80}
             alt={record.fullName}
             className="shadow-xl object-cover"
           />
@@ -199,9 +199,6 @@ const Team = () => {
 
       {/* Actions */}
       <div className="action-details mb-[10px] flex items-center justify-end gap-1">
-        {/* <button onClick={handleImportExcel} className="!bg-[#5CB85C]">
-          Import Excel
-        </button> */}
         <Link to="/teams/create">Create Team</Link>
       </div>
 
@@ -227,7 +224,7 @@ const Team = () => {
         columns={columns}
         dataSource={[...teams?.teams].sort((a, b) => a.fullName - b.fullName)}
         loading={teams?.teams ? false : true}
-        scroll={{ x: "90vw" }}
+        scroll={{ x: "80vw" }}
       />
 
       {/* Modal delete team */}
