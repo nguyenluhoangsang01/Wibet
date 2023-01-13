@@ -87,7 +87,11 @@ const Brackets = () => {
                                   id: game[0]?.team2?._id,
                                   name: game[0]?.team2?.fullName,
                                 },
-                                score: { score: game[0]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[0]?.resultOfTeam2 + game[0]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -99,7 +103,9 @@ const Brackets = () => {
                           id: game[8]?.team2?._id,
                           name: game[8]?.team2?.fullName,
                         },
-                        score: { score: game[8]?.resultOfTeam2 || "-" },
+                        score: {
+                          score: game[8]?.resultOfTeam2 + game[8]?.rate || "-",
+                        },
                         seed: {
                           displayName: "A2",
                           rank: 1,
@@ -120,7 +126,11 @@ const Brackets = () => {
                                   id: game[1]?.team2?._id,
                                   name: game[1]?.team2?.fullName,
                                 },
-                                score: { score: game[1]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[1]?.resultOfTeam2 + game[1]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -137,7 +147,9 @@ const Brackets = () => {
                   id: game[12]?.team2?._id,
                   name: game[12]?.team2?.fullName,
                 },
-                score: { score: game[12]?.resultOfTeam2 || "-" },
+                score: {
+                  score: game[12]?.resultOfTeam2 + game[12]?.rate || "-",
+                },
                 seed: {
                   displayName: "A2",
                   rank: 1,
@@ -172,7 +184,11 @@ const Brackets = () => {
                                   id: game[2]?.team2?._id,
                                   name: game[2]?.team2?.fullName,
                                 },
-                                score: { score: game[2]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[2]?.resultOfTeam2 + game[2]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -184,7 +200,9 @@ const Brackets = () => {
                           id: game[9]?.team2?._id,
                           name: game[9]?.team2?.fullName,
                         },
-                        score: { score: game[9]?.resultOfTeam2 || "-" },
+                        score: {
+                          score: game[9]?.resultOfTeam2 + game[9]?.rate || "-",
+                        },
                         seed: {
                           displayName: "A2",
                           rank: 1,
@@ -205,7 +223,11 @@ const Brackets = () => {
                                   id: game[3]?.team2?._id,
                                   name: game[3]?.team2?.fullName,
                                 },
-                                score: { score: game[3]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[3]?.resultOfTeam2 + game[3]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -224,7 +246,7 @@ const Brackets = () => {
       },
       visitor: {
         team: { id: game[14]?.team2?._id, name: game[14]?.team2?.fullName },
-        score: { score: game[14]?.resultOfTeam2 || "-" },
+        score: { score: game[14]?.resultOfTeam2 + game[14]?.rate || "-" },
         seed: {
           displayName: "A2",
           rank: 1,
@@ -273,7 +295,11 @@ const Brackets = () => {
                                   id: game[4]?.team2?._id,
                                   name: game[4]?.team2?.fullName,
                                 },
-                                score: { score: game[4]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[4]?.resultOfTeam2 + game[4]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -285,7 +311,10 @@ const Brackets = () => {
                           id: game[10]?.team2?._id,
                           name: game[10]?.team2?.fullName,
                         },
-                        score: { score: game[10]?.resultOfTeam2 || "-" },
+                        score: {
+                          score:
+                            game[10]?.resultOfTeam2 + game[10]?.rate || "-",
+                        },
                         seed: {
                           displayName: "A2",
                           rank: 1,
@@ -306,7 +335,11 @@ const Brackets = () => {
                                   id: game[5]?.team2?._id,
                                   name: game[5]?.team2?.fullName,
                                 },
-                                score: { score: game[5]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[5]?.resultOfTeam2 + game[5]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -323,7 +356,9 @@ const Brackets = () => {
                   id: game[13]?.team2?._id,
                   name: game[13]?.team2?.fullName,
                 },
-                score: { score: game[13]?.resultOfTeam2 || "-" },
+                score: {
+                  score: game[13]?.resultOfTeam2 + game[13]?.rate || "-",
+                },
                 seed: {
                   displayName: "A2",
                   rank: 1,
@@ -358,7 +393,11 @@ const Brackets = () => {
                                   id: game[6]?.team2?._id,
                                   name: game[6]?.team2?.fullName,
                                 },
-                                score: { score: game[6]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[6]?.resultOfTeam2 + game[6]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
@@ -370,7 +409,10 @@ const Brackets = () => {
                           id: game[11]?.team2?._id,
                           name: game[11]?.team2?.fullName,
                         },
-                        score: { score: game[11]?.resultOfTeam2 || "-" },
+                        score: {
+                          score:
+                            game[11]?.resultOfTeam2 + game[11]?.rate || "-",
+                        },
                         seed: {
                           displayName: "A2",
                           rank: 1,
@@ -391,7 +433,11 @@ const Brackets = () => {
                                   id: game[7]?.team2?._id,
                                   name: game[7]?.team2?.fullName,
                                 },
-                                score: { score: game[7]?.resultOfTeam2 || "-" },
+                                score: {
+                                  score:
+                                    game[7]?.resultOfTeam2 + game[7]?.rate ||
+                                    "-",
+                                },
                               },
                             },
                           },
