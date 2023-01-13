@@ -139,7 +139,7 @@ const Rules = () => {
               <ul>
                 <li>
                   <b>Vòng Bảng:</b> Từ trận đầu tiên đến vòng đầu cuối cùng của
-                  vòng bảng AFF 2022
+                  vòng bảng Worldcup 2022
                 </li>
                 <li>
                   <b>Vòng Loại Trực Tiếp:</b> Tất cả các trận đấu từ vòng đấu
@@ -464,7 +464,9 @@ const Rules = () => {
               </h4>
               <p className="text-[blue] text-[14px]">
                 <b>
-                  <em>#DC22WiBet - #DC22Activity - #AFF2022 - #Qatar2022</em>
+                  <em>
+                    #DC22WiBet - #DC22Activity - #WorldCup2022 - #Qatar2022
+                  </em>
                 </b>
               </p>
               <h5 className="text-[14px] font-bold">
