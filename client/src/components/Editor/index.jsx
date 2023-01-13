@@ -82,7 +82,7 @@ const Editor = () => {
           rules={[
             {
               required: true,
-              message: "Content cannot be blank.",
+              message: "Content cannot be blank",
             },
           ]}
         >

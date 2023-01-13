@@ -194,7 +194,7 @@ const MatchCreate = () => {
           rules={[
             {
               required: true,
-              message: "Team 1 cannot be blank.",
+              message: "Team 1 cannot be blank",
             },
           ]}
         >
@@ -216,7 +216,7 @@ const MatchCreate = () => {
           rules={[
             {
               required: true,
-              message: "Team 2 cannot be blank.",
+              message: "Team 2 cannot be blank",
             },
           ]}
         >
@@ -238,7 +238,7 @@ const MatchCreate = () => {
           rules={[
             {
               required: true,
-              message: "Match Date cannot be blank.",
+              message: "Match Date cannot be blank",
             },
           ]}
         >
@@ -257,21 +257,21 @@ const MatchCreate = () => {
           rules={[
             {
               required: true,
-              message: "Rate cannot be blank.",
+              message: "Rate cannot be blank",
             },
             {
               type: "number",
-              message: "Rate is not a valid number.",
+              message: "Rate is not a valid number",
             },
             {
               type: "number",
               min: 0,
-              message: "Rate must be greater than or equal to 0.",
+              message: "Rate must be greater than or equal to 0",
             },
             {
               type: "number",
               max: 3,
-              message: "Rate must be less than or equal to 3.",
+              message: "Rate must be less than or equal to 3",
             },
           ]}
         >

@@ -57,7 +57,9 @@ function App() {
         dispatch(getAllBetsReducerAsync(accessToken));
       }}
     >
-      <Toaster toastOptions={{ className: "font-[calibri] text-[16px]" }} />
+      <Toaster
+        toastOptions={{ className: "font-[calibri] text-[16px] mt-[40px]" }}
+      />
 
       <ScrollToTop />
 

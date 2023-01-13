@@ -23,7 +23,7 @@ export const createComment = async (req, res, next) => {
 
     // Check if content not found
     if (!content)
-      return sendError(res, "Content cannot be blank.", 400, "content");
+      return sendError(res, "Content cannot be blank", 400, "content");
 
     // Check if file exists
     if (file) {
@@ -136,7 +136,7 @@ export const updateCommentById = async (req, res, next) => {
 
     // Check if content not found
     if (!content)
-      return sendError(res, "Content cannot be blank.", 400, "content");
+      return sendError(res, "Content cannot be blank", 400, "content");
 
     // Check if file exists
     if (file) {

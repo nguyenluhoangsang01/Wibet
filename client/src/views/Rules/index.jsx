@@ -5,12 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
-import {
-  accessLevel,
-  dataReward,
-  formatTime,
-  ruleRoutes,
-} from "../../constants";
+import { accessLevel, dataReward, ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 
 const Rules = () => {
@@ -480,7 +475,7 @@ const Rules = () => {
 
               <div className="text-[18px] text-right font-[calibri]">
                 <em className="text-[#333333] font-bold">
-                  HCM, {moment(date).format(formatTime)}
+                  HCM, {moment(date).format("dddd Do of MMMM YYYY")}
                 </em>
 
                 <span>

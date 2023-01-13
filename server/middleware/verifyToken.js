@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
     const accessToken = authHeader?.split(" ")[1];
 
     if (!accessToken)
-      return sendError(res, "You are not authenticated, please login.", 401);
+      return sendError(res, "You are not authenticated, please login", 401);
 
     jwt.verify(
       accessToken,
@@ -16,7 +16,7 @@ const verifyToken = (req, res, next) => {
         if (error)
           return sendError(
             res,
-            "Access token has expired or is otherwise invalid.",
+            "Access token has expired or is otherwise invalid",
             498
           );
 

@@ -202,11 +202,11 @@ const UserUpdate = () => {
             rules={[
               {
                 required: true,
-                message: "Email cannot be blank.",
+                message: "Email cannot be blank",
               },
               {
-                type: "email",
-                message: "Email is not a valid email address.",
+                pattern: "^(.*)@(tma).com.vn",
+                message: "Email is not a valid email address",
               },
             ]}
           >
@@ -220,7 +220,7 @@ const UserUpdate = () => {
             rules={[
               {
                 required: true,
-                message: "Username cannot be blank.",
+                message: "Username cannot be blank",
               },
             ]}
           >
@@ -234,12 +234,12 @@ const UserUpdate = () => {
             rules={[
               {
                 type: "number",
-                message: "Money is not a valid number.",
+                message: "Money is not a valid number",
               },
               {
                 type: "number",
                 min: 0,
-                message: "Money must be greater than or equal to 0.",
+                message: "Money must be greater than or equal to 0",
               },
             ]}
           >
@@ -265,7 +265,7 @@ const UserUpdate = () => {
             rules={[
               {
                 min: 3,
-                message: "New Password should contain at least 3 characters.",
+                message: "New Password should contain at least 3 characters",
               },
             ]}
           >

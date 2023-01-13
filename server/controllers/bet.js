@@ -36,7 +36,7 @@ export const createBetById = async (req, res, next) => {
       return sendError(res, "Betted on this match", 400, "option");
 
     // Validate
-    if (!team) return sendError(res, "Option cannot be blank.", 400, "option");
+    if (!team) return sendError(res, "Option cannot be blank", 400, "option");
     // Check if team not exists
     const isExistingTeam = await Team.findById(team);
     if (!isExistingTeam) return sendError(res, "Team not found", 404, "option");
@@ -46,13 +46,13 @@ export const createBetById = async (req, res, next) => {
       team.toString() !== match.team1._id.toString() &&
       team.toString() !== match.team2._id.toString()
     )
-      return sendError(res, "The selected team is not valid.", 400, "option");
+      return sendError(res, "The selected team is not valid", 400, "option");
 
-    if (!money) return sendError(res, "Money cannot be blank.", 400, "money");
+    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
     if (money < 50)
       return sendError(
         res,
-        "Money must be greater than or equal to 50.",
+        "Money must be greater than or equal to 50",
         400,
         "money"
       );
@@ -247,7 +247,7 @@ export const updateBetById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!team) return sendError(res, "Option cannot be blank.", 400, "option");
+    if (!team) return sendError(res, "Option cannot be blank", 400, "option");
     // Check if team not exists
     const isExistingTeam = await Team.findById(team);
     if (!isExistingTeam) return sendError(res, "Team not found", 404, "option");
@@ -256,13 +256,13 @@ export const updateBetById = async (req, res, next) => {
       team.toString() !== match.team1._id.toString() &&
       team.toString() !== match.team2._id.toString()
     )
-      return sendError(res, "The selected team is not valid.", 400, "option");
+      return sendError(res, "The selected team is not valid", 400, "option");
 
-    if (!money) return sendError(res, "Money cannot be blank.", 400, "money");
+    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
     if (money < 50)
       return sendError(
         res,
-        "Money must be greater than or equal to 50.",
+        "Money must be greater than or equal to 50",
         400,
         "money"
       );

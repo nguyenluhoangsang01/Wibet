@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
-import validator from "validator";
 import { ROLES, STATUS } from "../constants.js";
+import { isValidEmail } from "../helpers/isValidEmail.js";
 
 const userSchema = new Schema(
   {
@@ -10,7 +10,7 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
       validate(value) {
-        if (!validator.isEmail(value)) {
+        if (!isValidEmail(value)) {
           throw new Error("Email is invalid!");
         }
       },

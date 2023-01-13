@@ -209,7 +209,7 @@ const Profile = () => {
             rules={[
               {
                 required: true,
-                message: "Full Name cannot be blank.",
+                message: "Full Name cannot be blank",
               },
             ]}
           >
@@ -223,7 +223,7 @@ const Profile = () => {
             rules={[
               {
                 required: true,
-                message: "Timezone cannot be blank.",
+                message: "Timezone cannot be blank",
               },
             ]}
           >

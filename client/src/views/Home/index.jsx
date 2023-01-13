@@ -28,9 +28,7 @@ const Home = () => {
   // Get first match
   useEffect(() => {
     [...matches]
-      ?.filter((match) =>
-        user?.roleID === "Admin" ? match : match.isShow === true
-      )
+      ?.filter((match) => (user?.roleID === "Admin" ? match : match.isShow))
       ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
       ?.some(
         (match) =>

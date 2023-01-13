@@ -13,13 +13,13 @@ export const createMatch = async (req, res, next) => {
     const { team1, team2, matchDate, rate } = req.body;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank.", 400, "team1");
+    if (!team1) return sendError(res, "Team 1 cannot be blank", 400, "team1");
     // Check if team 1 not exists
     const team1IsExisting = await Team.findById(team1);
     if (!team1IsExisting)
       return sendError(res, "Team 1 not found", 404, "team1");
     // Check if team 2 not exists
-    if (!team2) return sendError(res, "Team 2 cannot be blank.", 400, "team2");
+    if (!team2) return sendError(res, "Team 2 cannot be blank", 400, "team2");
     const team2IsExisting = await Team.findById(team2);
     if (!team2IsExisting)
       return sendError(res, "Team 2 not found", 404, "team2");
@@ -29,19 +29,20 @@ export const createMatch = async (req, res, next) => {
       return sendError(res, "Cannot choose the same team", 400, "team2");
 
     if (!matchDate)
-      return sendError(res, "Match Date cannot be blank.", 400, "matchDate");
-    if (!rate) return sendError(res, "Rate cannot be blank.", 400, "rate");
+      return sendError(res, "Match Date cannot be blank", 400, "matchDate");
+    if (!rate && rate !== 0)
+      return sendError(res, "Rate cannot be blank", 400, "rate");
     if (rate < 0)
       return sendError(
         res,
-        "Rate must be greater than or equal to 0.",
+        "Rate must be greater than or equal to 0",
         400,
         "rate"
       );
     if (rate > 3)
       return sendError(
         res,
-        "Rate must be less than or equal to 3.",
+        "Rate must be less than or equal to 3",
         400,
         "rate"
       );
@@ -63,7 +64,7 @@ export const createMatch = async (req, res, next) => {
     )
       return sendError(
         res,
-        "The match date of the match already exists for both teams.",
+        "The match date of the match already exists for both teams",
         400,
         "team1"
       );
@@ -182,32 +183,33 @@ export const updateMatchById = async (req, res, next) => {
     const { id } = req.params;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank.", 400, "team1");
+    if (!team1) return sendError(res, "Team 1 cannot be blank", 400, "team1");
     // Check if team 1 not exists
     const team1IsExisting = await Team.findById(team1);
     if (!team1IsExisting)
       return sendError(res, "Team 1 not found", 404, "team1");
 
-    if (!team2) return sendError(res, "Team 2 cannot be blank.", 400, "team2");
+    if (!team2) return sendError(res, "Team 2 cannot be blank", 400, "team2");
     // Check if team 2 not exists
     const team2IsExisting = await Team.findById(team2);
     if (!team2IsExisting)
       return sendError(res, "Team 2 not found", 404, "team2");
 
     if (!matchDate)
-      return sendError(res, "Match Date cannot be blank.", 400, "matchDate");
-    if (!rate) return sendError(res, "Rate cannot be blank.", 400, "rate");
+      return sendError(res, "Match Date cannot be blank", 400, "matchDate");
+    if (!rate && rate !== 0)
+      return sendError(res, "Rate cannot be blank", 400, "rate");
     if (rate < 0)
       return sendError(
         res,
-        "Rate must be greater than or equal to 0.",
+        "Rate must be greater than or equal to 0",
         400,
         "rate"
       );
     if (rate > 3)
       return sendError(
         res,
-        "Rate must be less than or equal to 3.",
+        "Rate must be less than or equal to 3",
         400,
         "rate"
       );
@@ -243,28 +245,28 @@ export const updateScoreById = async (req, res, next) => {
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
       return sendError(
         res,
-        "Team 1 Score cannot be blank.",
+        "Team 1 Score cannot be blank",
         400,
         "resultOfTeam1"
       );
     if (resultOfTeam1 < 0)
       return sendError(
         res,
-        "Team 1 Score must be no less than 0.",
+        "Team 1 Score must be no less than 0",
         400,
         "resultOfTeam1"
       );
     if (!resultOfTeam2 && resultOfTeam2 !== 0)
       return sendError(
         res,
-        "Team 2 Score cannot be blank.",
+        "Team 2 Score cannot be blank",
         400,
         "resultOfTeam2"
       );
     if (resultOfTeam2 < 0)
       return sendError(
         res,
-        "Team 2 Score must be no less than 0.",
+        "Team 2 Score must be no less than 0",
         400,
         "resultOfTeam1"
       );
@@ -293,7 +295,7 @@ export const updateScoreById = async (req, res, next) => {
         select: "-__v",
       });
 
-    if (bets) {
+    if (bets.length > 0) {
       // Update score check if user click auto generate result
       const updatedMatch = await Match.findByIdAndUpdate(
         id,
@@ -313,7 +315,7 @@ export const updateScoreById = async (req, res, next) => {
         .select("-__v");
 
       await User.updateMany(
-        { _id: { $in: bets.map((bet) => bet.user._id.toString()) } },
+        { _id: { $in: bets.map((bet) => bet.user._id) } },
         {
           $inc: bets.map(
             async (bet) =>
@@ -339,6 +341,7 @@ export const updateScoreById = async (req, res, next) => {
         }
       );
 
+      // Get user by id after updated
       const updatedUser = await User.findById(userId).select("-__v -password");
 
       // Send success notification

@@ -339,7 +339,7 @@ const Matches = () => {
         <p className="font-[calibri] text-[18px]">
           {[...matches.matches]
             ?.filter((match) =>
-              user?.roleID === "Admin" ? match : match.isShow === true
+              user?.roleID === "Admin" ? match : match.isShow
             )
             .indexOf(record) + 1}
         </p>
@@ -753,7 +753,7 @@ const Matches = () => {
       {/* Number of rows */}
       <NumberOfRows>
         {[...matches.matches]?.filter((match) =>
-          user?.roleID === "Admin" ? match : match.isShow === true
+          user?.roleID === "Admin" ? match : match.isShow
         ).length < 1 ? (
           "No result found"
         ) : (
@@ -762,10 +762,10 @@ const Matches = () => {
             <span className="font-bold">
               1-
               {[...matches.matches]?.filter((match) =>
-                user?.roleID === "Admin" ? match : match.isShow === true
+                user?.roleID === "Admin" ? match : match.isShow
               ).length < 10
                 ? [...matches.matches]?.filter((match) =>
-                    user?.roleID === "Admin" ? match : match.isShow === true
+                    user?.roleID === "Admin" ? match : match.isShow
                   ).length
                 : 10}
             </span>{" "}
@@ -773,13 +773,13 @@ const Matches = () => {
             <span className="font-bold">
               {
                 [...matches.matches]?.filter((match) =>
-                  user?.roleID === "Admin" ? match : match.isShow === true
+                  user?.roleID === "Admin" ? match : match.isShow
                 ).length
               }
             </span>{" "}
             item
             {[...matches.matches]?.filter((match) =>
-              user?.roleID === "Admin" ? match : match.isShow === true
+              user?.roleID === "Admin" ? match : match.isShow
             ).length > 1
               ? "s"
               : ""}
@@ -793,9 +793,7 @@ const Matches = () => {
         rowKey="_id"
         columns={columns}
         dataSource={[...matches.matches]
-          ?.filter((match) =>
-            user?.roleID === "Admin" ? match : match.isShow === true
-          )
+          ?.filter((match) => (user?.roleID === "Admin" ? match : match.isShow))
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}

@@ -232,7 +232,7 @@ const BetUpdate = () => {
           rules={[
             {
               required: true,
-              message: "Option cannot be blank.",
+              message: "Option cannot be blank",
             },
           ]}
         >
@@ -257,16 +257,16 @@ const BetUpdate = () => {
           rules={[
             {
               required: true,
-              message: "Money cannot be blank.",
+              message: "Money cannot be blank",
             },
             {
               type: "number",
-              message: "Money is not a valid number.",
+              message: "Money is not a valid number",
             },
             {
               type: "number",
               min: 50,
-              message: "Money must be greater than or equal to 50.",
+              message: "Money must be greater than or equal to 50",
             },
           ]}
         >

@@ -209,12 +209,12 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: "Team 1 Score cannot be blank.",
+              message: "Team 1 Score cannot be blank",
             },
             {
               type: "number",
               min: 0,
-              message: "Team 1 Score must be no less than 0.",
+              message: "Team 1 Score must be no less than 0",
             },
           ]}
         >
@@ -228,12 +228,12 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: "Team 2 Score cannot be blank.",
+              message: "Team 2 Score cannot be blank",
             },
             {
               type: "number",
               min: 0,
-              message: "Team 2 Score must be no less than 0.",
+              message: "Team 2 Score must be no less than 0",
             },
           ]}
         >

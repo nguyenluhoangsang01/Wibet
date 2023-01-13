@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export function isValidEmail(email) {
-  return /\S+@\S+\.\S+/.test(email);
+  return /^(.*)@(tma)\.com\.vn/.test(email);
 }
 
 export function useOutsideClick(callback) {

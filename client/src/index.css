@@ -207,6 +207,22 @@ g > svg > text {
   @apply !text-[12px];
 }
 
+g > svg > rect:nth-child(3) {
+  fill: #36a2eb !important;
+}
+
+g > svg > rect:nth-child(4) {
+  fill: #ff9f40 !important;
+}
+
 g > svg > rect:nth-child(6) {
   fill: #ffc107 !important;
+}
+
+g > svg > rect:nth-child(5) {
+  fill: #333 !important;
+}
+
+g svg g text {
+  @apply !fill-white;
 }

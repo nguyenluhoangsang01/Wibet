@@ -161,11 +161,11 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Email cannot be blank.",
+                message: "Email cannot be blank",
               },
               {
-                type: "email",
-                message: "Email is not a valid email address.",
+                pattern: "^(.*)@(tma).com.vn",
+                message: "Email is not a valid email address",
               },
             ]}
           >

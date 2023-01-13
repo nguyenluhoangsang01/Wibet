@@ -12,7 +12,7 @@ export const createTeam = async (req, res, next) => {
     const { file } = req;
 
     // Validate
-    if (!name) return sendError(res, "Name cannot be blank.", 400, "name");
+    if (!name) return sendError(res, "Name cannot be blank", 400, "name");
     const isExistingWithName = await Team.findOne({ name });
     if (isExistingWithName)
       return sendError(
@@ -23,7 +23,7 @@ export const createTeam = async (req, res, next) => {
       );
 
     if (!fullName)
-      return sendError(res, "Full name cannot be blank.", 400, "fullName");
+      return sendError(res, "Full name cannot be blank", 400, "fullName");
     const isExistingWithFullName = await Team.findOne({ fullName });
     if (isExistingWithFullName)
       return sendError(
@@ -86,11 +86,11 @@ export const updateTeam = async (req, res, next) => {
     const { file } = req;
 
     // Find team by id and check if not exists
-    const team = Team.findById(id);
+    const team = await Team.findById(id);
     if (!team) return sendError(res, "Team not found", 404, "name");
 
     // Validate
-    if (!name) return sendError(res, "Name cannot be blank.", 400, "name");
+    if (!name) return sendError(res, "Name cannot be blank", 400, "name");
     const isExistingWithName = await Team.findOne({
       name: { $ne: team.name, $eq: name },
     });
@@ -103,7 +103,7 @@ export const updateTeam = async (req, res, next) => {
       );
 
     if (!fullName)
-      return sendError(res, "Full name cannot be blank.", 400, "fullName");
+      return sendError(res, "Full name cannot be blank", 400, "fullName");
     const isExistingWithFullName = await Team.findOne({
       fullName: { $ne: team.fullName, $eq: fullName },
     });

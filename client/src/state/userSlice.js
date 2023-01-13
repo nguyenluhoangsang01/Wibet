@@ -8,7 +8,7 @@ const initialState = {
   user: null,
   users: [],
   isShowHistory: false,
-  remember: false,
+  remember: true,
 };
 
 export const userSlice = createSlice({

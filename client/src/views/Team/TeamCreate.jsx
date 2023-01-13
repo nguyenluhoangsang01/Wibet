@@ -125,7 +125,7 @@ const TeamCreate = () => {
           rules={[
             {
               required: true,
-              message: "Name cannot be blank.",
+              message: "Name cannot be blank",
             },
           ]}
         >
@@ -139,7 +139,7 @@ const TeamCreate = () => {
           rules={[
             {
               required: true,
-              message: "Full Name cannot be blank.",
+              message: "Full Name cannot be blank",
             },
           ]}
         >
