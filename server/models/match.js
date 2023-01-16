@@ -10,7 +10,6 @@ const matchSchema = new Schema(
     team2: {
       type: Schema.Types.ObjectId,
       ref: "Team",
-      require: true,
     },
     resultOfTeam1: Number,
     resultOfTeam2: Number,

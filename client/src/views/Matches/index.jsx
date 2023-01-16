@@ -490,7 +490,7 @@ const Matches = () => {
                 : record?.resultOfTeam2 === 0
                 ? formatNumber(Number(record?.rate))
                 : "-"
-            }] ${record?.team2?.name}`}
+            }] ${record?.team2?.name || "Team 2"}`}
           >
             <span>
               {`${record?.team1?.name} [${
@@ -507,7 +507,7 @@ const Matches = () => {
                   : record?.resultOfTeam2 === 0
                   ? formatNumber(Number(record?.rate))
                   : "-"
-              }] ${record?.team2?.name}`}
+              }] ${record?.team2?.name || "Team 2"}`}
             </span>
           </Tooltip>
         ),

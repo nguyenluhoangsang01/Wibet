@@ -344,6 +344,39 @@ export const updateScoreById = async (req, res, next) => {
       // Get user by id after updated
       const updatedUser = await User.findById(userId).select("-__v -password");
 
+      // Get all matches
+      const matches = await Match.find()
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+      if (!matches) return sendError(res, "Match not found", 404);
+
+      // Get match after update score
+      const getMatch = await Match.findById(id)
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+
+      // Get team by match result
+      const team1 = await Team.findOne({ fullName: getMatch.result });
+
+      // Check if team 1 exist
+      if (
+        team1 &&
+        matches
+          .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+          .findIndex(
+            (match) => match._id.toString() === getMatch._id.toString() && match
+          ) %
+          2 ===
+          0
+      ) {
+        // Auto create a new match with 2 result
+        await Match.create({
+          team1: team1._id,
+          rate: 0,
+          matchDate: moment().add(2, "weeks"),
+        });
+      }
+
       // Send success notification
       return sendSuccess(res, "Update score successfully!", {
         user: updatedUser,
@@ -367,6 +400,39 @@ export const updateScoreById = async (req, res, next) => {
       )
         .populate("team1 team2", "fullName flag name")
         .select("-__v");
+
+      // Get all matches
+      const matches = await Match.find()
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+      if (!matches) return sendError(res, "Match not found", 404);
+
+      // Get match after update score
+      const getMatch = await Match.findById(id)
+        .populate("team1 team2", "fullName flag name")
+        .select("-__v");
+
+      // Get team by match result
+      const team1 = await Team.findOne({ fullName: getMatch.result });
+
+      // Check if team 1 exist
+      if (
+        team1 &&
+        matches
+          .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+          .findIndex(
+            (match) => match._id.toString() === getMatch._id.toString() && match
+          ) %
+          2 ===
+          0
+      ) {
+        // Auto create a new match with 2 result
+        await Match.create({
+          team1: team1._id,
+          rate: 0,
+          matchDate: moment().add(2, "weeks"),
+        });
+      }
 
       // Send success notification
       return sendSuccess(res, "Update score successfully!", { user });
