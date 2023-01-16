@@ -48,26 +48,11 @@ export const createMatch = async (req, res, next) => {
       );
 
     // Find team 1 and team 2 in database
-    const matchExistingWithTeam1 = await Match.findOne({
+    const matchExistingWithTeam = await Match.findOne({
       $or: [{ team1 }, { team2 }],
     });
-    const matchExistingWithTeam2 = await Match.findOne({
-      $or: [{ team2 }, { team1 }],
-    });
-
-    // Check if match date is exists
-    if (
-      moment(matchExistingWithTeam1?.matchDate).format(formatTime) ===
-        moment(matchDate).format(formatTime) ||
-      moment(matchExistingWithTeam2?.matchDate).format(formatTime) ===
-        moment(matchDate).format(formatTime)
-    )
-      return sendError(
-        res,
-        "The match date of the match already exists for both teams",
-        400,
-        "team1"
-      );
+    if (matchExistingWithTeam)
+      return sendError(res, "Cannot chose this team right now", 400, "team1");
 
     // Create new match
     const newMatch = await Match.create({ ...req.body });
@@ -256,6 +241,20 @@ export const updateScoreById = async (req, res, next) => {
         400,
         "resultOfTeam1"
       );
+    if (resultOfTeam1 > 10)
+      return sendError(
+        res,
+        "Team 1 Score must be greater than or equal to 10",
+        400,
+        "resultOfTeam1"
+      );
+    if (!Number.isInteger(resultOfTeam1))
+      return sendError(
+        res,
+        "Team 1 Score must be an integer",
+        400,
+        "resultOfTeam1"
+      );
     if (!resultOfTeam2 && resultOfTeam2 !== 0)
       return sendError(
         res,
@@ -270,6 +269,20 @@ export const updateScoreById = async (req, res, next) => {
         400,
         "resultOfTeam1"
       );
+    if (resultOfTeam2 > 10)
+      return sendError(
+        res,
+        "Team 2 Score must be greater than or equal to 10",
+        400,
+        "resultOfTeam2"
+      );
+    if (!Number.isInteger(resultOfTeam2))
+      return sendError(
+        res,
+        "Team 2 Score must be an integer",
+        400,
+        "resultOfTeam2"
+      );
 
     // Get match by id
     const match = await Match.findById(id)
@@ -277,6 +290,14 @@ export const updateScoreById = async (req, res, next) => {
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404, "match");
     if (match.isCanceled) return sendError(res, "The match has been canceled");
+
+    if (resultOfTeam1 === resultOfTeam2 + match.rate)
+      return sendError(
+        res,
+        "The result of the match cannot be drawn",
+        400,
+        "resultOfTeam1"
+      );
 
     // Get user id from request
     const user = await User.findById(userId).select("-__v -password");
@@ -366,15 +387,50 @@ export const updateScoreById = async (req, res, next) => {
           .findIndex(
             (match) => match._id.toString() === getMatch._id.toString() && match
           ) %
-          2 ===
+          2 !==
           0
       ) {
-        // Auto create a new match with 2 result
-        await Match.create({
-          team1: team1._id,
-          rate: 0,
-          matchDate: moment().add(2, "weeks"),
-        });
+        // Get match 2 after update score
+        const getMatch2 =
+          matches[
+            matches
+              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+              .findIndex(
+                (match) =>
+                  match._id.toString() !== getMatch._id.toString() &&
+                  match.matchDate > getMatch.matchDate &&
+                  match
+              ) - 2 ||
+              matches
+                .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+                .findIndex(
+                  (match) =>
+                    match._id.toString() !== getMatch._id.toString() &&
+                    match.matchDate > getMatch.matchDate &&
+                    match
+                ) - 1
+          ];
+
+        if (getMatch2) {
+          // Get team 2 by match result
+          const team2 = await Team.findOne({ fullName: getMatch2.result });
+
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team1._id,
+            team2: team2._id,
+            rate: 0,
+            matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+          });
+        } else {
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team1._id,
+            team2: team1._id,
+            rate: 0,
+            matchDate: moment().add(1, "year"),
+          });
+        }
       }
 
       // Send success notification
@@ -383,7 +439,6 @@ export const updateScoreById = async (req, res, next) => {
       });
     } else {
       // Check if user clock auto generate result
-      // Update score
       await Match.findByIdAndUpdate(
         id,
         {
@@ -412,7 +467,7 @@ export const updateScoreById = async (req, res, next) => {
         .populate("team1 team2", "fullName flag name")
         .select("-__v");
 
-      // Get team by match result
+      // Get team 1 by match result
       const team1 = await Team.findOne({ fullName: getMatch.result });
 
       // Check if team 1 exist
@@ -423,15 +478,42 @@ export const updateScoreById = async (req, res, next) => {
           .findIndex(
             (match) => match._id.toString() === getMatch._id.toString() && match
           ) %
-          2 ===
+          2 !==
           0
       ) {
-        // Auto create a new match with 2 result
-        await Match.create({
-          team1: team1._id,
-          rate: 0,
-          matchDate: moment().add(2, "weeks"),
-        });
+        // Get match 2 after update score
+        const getMatch2 =
+          matches[
+            matches
+              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+              .findIndex(
+                (match) =>
+                  match._id.toString() !== getMatch._id.toString() &&
+                  match.matchDate > getMatch.matchDate &&
+                  match
+              ) - 2
+          ];
+
+        if (getMatch2) {
+          // Get team 2 by match result
+          const team2 = await Team.findOne({ fullName: getMatch2.result });
+
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team1._id,
+            team2: team2._id,
+            rate: 0,
+            matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+          });
+        } else {
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team1._id,
+            team2: team1._id,
+            rate: 0,
+            matchDate: moment().add(1, "year"),
+          });
+        }
       }
 
       // Send success notification

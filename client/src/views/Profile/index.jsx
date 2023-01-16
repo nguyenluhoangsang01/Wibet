@@ -232,6 +232,12 @@ const Profile = () => {
                 value: timezone,
                 label: timezone,
               }))}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
             />
           </Form.Item>
 
@@ -259,18 +265,7 @@ const Profile = () => {
             "No result found"
           ) : (
             <span>
-              {" "}
-              Showing{" "}
-              <span className="font-bold">
-                1-
-                {
-                  bets?.bets?.filter(
-                    (bet) =>
-                      bet?.user?._id?.toString() === user?._id?.toString()
-                  )?.length
-                }
-              </span>
-              of{" "}
+              Total{" "}
               <span className="font-bold">
                 {
                   bets?.bets?.filter(

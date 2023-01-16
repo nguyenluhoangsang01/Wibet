@@ -10,6 +10,7 @@ const commentSchema = new Schema(
     content: {
       type: String,
       require: true,
+      trim: true,
     },
     picture: String,
   },

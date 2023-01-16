@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
-import { selectBet } from "../../state/betSlice";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
 
 const BetCreate = () => {
@@ -22,10 +21,6 @@ const BetCreate = () => {
   const navigate = useNavigate();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
-  // Get all bets from global state
-  const {
-    bets: { bets },
-  } = useSelector(selectBet);
   // Initial form ref
   const form = useRef(null);
 
@@ -45,16 +40,6 @@ const BetCreate = () => {
       match?.team2?.fullName
     )}`;
   });
-
-  // Map over all bets check if user id in this bet equal with user logged and match id existed in bet
-  useEffect(() => {
-    bets.some(
-      (bet) =>
-        bet?.user?._id?.toString() === user?._id?.toString() &&
-        bet?.match?._id?.toString() === match?._id?.toString() &&
-        navigate("/matches")
-    );
-  }, [bets, match?._id, navigate, user?._id]);
 
   // Get match by id
   useEffect(() => {
@@ -232,6 +217,10 @@ const BetCreate = () => {
                 label: match?.team2?.fullName,
               },
             ]}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
           />
         </Form.Item>
 

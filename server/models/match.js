@@ -4,11 +4,12 @@ const matchSchema = new Schema(
   {
     team1: {
       type: Schema.Types.ObjectId,
-      ref: "Team",
       require: true,
+      ref: "Team",
     },
     team2: {
       type: Schema.Types.ObjectId,
+      require: true,
       ref: "Team",
     },
     resultOfTeam1: Number,

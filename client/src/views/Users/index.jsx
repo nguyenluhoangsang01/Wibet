@@ -285,9 +285,9 @@ const Users = () => {
             <span className="font-bold">
               1-
               {users?.users?.filter((item) => item._id !== user?._id).length <
-              10
+              20
                 ? users?.users?.filter((item) => item._id !== user?._id).length
-                : 10}
+                : 20}
             </span>{" "}
             of{" "}
             <span className="font-bold">
@@ -311,6 +311,7 @@ const Users = () => {
           .reverse()}
         loading={users?.users ? false : true}
         scroll={{ x: "90vw" }}
+        pagination={{ pageSize: 20 }}
       />
 
       {/* Modal */}

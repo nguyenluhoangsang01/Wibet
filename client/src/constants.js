@@ -59,7 +59,7 @@ export const routes = [
     element: <Login />,
   },
   {
-    path: "/*",
+    path: "*",
     element: <NotFound />,
   },
 ];

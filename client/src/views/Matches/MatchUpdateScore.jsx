@@ -216,6 +216,11 @@ const MatchUpdateScore = () => {
               min: 0,
               message: "Team 1 Score must be no less than 0",
             },
+            {
+              type: "number",
+              max: 10,
+              message: "Team 1 Score must be greater than or equal to 10",
+            },
           ]}
         >
           <InputNumber style={{ width: "100%" }} />
@@ -234,6 +239,11 @@ const MatchUpdateScore = () => {
               type: "number",
               min: 0,
               message: "Team 2 Score must be no less than 0",
+            },
+            {
+              type: "number",
+              max: 10,
+              message: "Team 2 Score must be greater than or equal to 10",
             },
           ]}
         >
@@ -271,6 +281,12 @@ const MatchUpdateScore = () => {
                     label: match?.team2?.fullName,
                   },
                 ]}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
               />
             </Form.Item>
 

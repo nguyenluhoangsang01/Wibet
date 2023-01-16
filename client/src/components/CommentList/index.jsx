@@ -144,7 +144,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
         ? comments.slice(0, maximumContent).map((comment) => (
             <li key={comment._id} className="flex gap-4 relative">
               {/* Avatar */}
-              <div className="bg-[#428bca] w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
+              <div className="bg-[#428bca] min-w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
                 <span className="text-white uppercase text-[36px] font-semibold">
                   {comment.user.fullName.slice(0, 1)}
                 </span>
@@ -189,7 +189,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
         : comments.map((comment) => (
             <li key={comment._id} className="flex gap-4 relative">
               {/* Avatar */}
-              <div className="bg-[#428bca] w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
+              <div className="bg-[#428bca] min-w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
                 <span className="text-white uppercase text-[36px] font-semibold">
                   {comment.user.fullName.slice(0, 1)}
                 </span>

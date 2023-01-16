@@ -50,7 +50,7 @@ function App() {
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        dispatch(getAllMatchesReducerAsync(accessToken));
+        dispatch(getAllMatchesReducerAsync());
         dispatch(getAllCommentsReducerAsync());
         dispatch(getAllUsersReducerAsync());
         dispatch(getAllTeamsReducerAsync(accessToken));

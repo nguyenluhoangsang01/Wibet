@@ -3,11 +3,11 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { GiPositionMarker } from "react-icons/gi";
 import { GoPrimitiveDot } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { formatTime } from "../../constants";
-import { selectMatch } from "../../state/matchSlice";
+import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Home = () => {
@@ -19,11 +19,18 @@ const Home = () => {
   } = useSelector(selectMatch);
   // Get user logged
   const { user } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
     document.title = `Wibet`;
   });
+
+  // Get all matches
+  useEffect(() => {
+    dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
 
   // Get first match
   useEffect(() => {

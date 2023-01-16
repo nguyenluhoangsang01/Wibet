@@ -210,7 +210,7 @@ const Team = () => {
           <span>
             Showing{" "}
             <span className="font-bold">
-              1-{teams.length < 10 ? teams.length : 10}
+              1-{teams.length < 20 ? teams.length : 20}
             </span>{" "}
             of <span className="font-bold">{teams.length}</span> item
             {teams.length > 1 ? "s" : ""}.
@@ -225,6 +225,7 @@ const Team = () => {
         dataSource={[...teams?.teams].sort((a, b) => a.fullName - b.fullName)}
         loading={teams?.teams ? false : true}
         scroll={{ x: "80vw" }}
+        pagination={{ pageSize: 20 }}
       />
 
       {/* Modal delete team */}

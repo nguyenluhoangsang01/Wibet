@@ -27,9 +27,9 @@ export const matchSlice = createSlice({
   },
 });
 
-export const getAllMatchesReducerAsync = (accessToken) => async (dispatch) => {
+export const getAllMatchesReducerAsync = () => async (dispatch) => {
   try {
-    const res = await axios.get("/match", { headers: headers(accessToken) });
+    const res = await axios.get("/match");
 
     if (res.data) {
       dispatch(getAllMatchesReducer(res.data));

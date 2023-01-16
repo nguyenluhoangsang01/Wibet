@@ -248,7 +248,16 @@ const UserUpdate = () => {
 
           {/* Status Select */}
           <Form.Item label="Status" name="status">
-            <Select onChange={handleChangeStatus} options={STATUS} />
+            <Select
+              onChange={handleChangeStatus}
+              options={STATUS}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+            />
           </Form.Item>
         </div>
 
@@ -274,12 +283,21 @@ const UserUpdate = () => {
 
           {/* Role ID Select */}
           <Form.Item label="Role ID" name="roleID">
-            <Select onChange={handleChangeRoleID} options={ROLES} />
+            <Select
+              onChange={handleChangeRoleID}
+              options={ROLES}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+            />
           </Form.Item>
 
           {/* Banned Reason input */}
           <Form.Item label="Banned Reason" name="bannedReason">
-            <Input disabled={isBanned || !user?.bannedReason} />
+            <Input />
           </Form.Item>
         </div>
 

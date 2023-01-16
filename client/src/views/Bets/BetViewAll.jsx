@@ -213,16 +213,16 @@ const BetViewAll = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {bets.bets.filter((bet) => bet.match._id === id).length < 1 ? (
+        {bets.bets.filter((bet) => bet.match?._id === id).length < 1 ? (
           "No result found"
         ) : (
           <span>
             Total{" "}
             <span className="font-bold">
-              {bets.bets.filter((bet) => bet.match._id === id).length}
+              {bets.bets.filter((bet) => bet.match?._id === id).length}
             </span>{" "}
             item
-            {bets.bets.filter((bet) => bet.match._id === id).length > 1
+            {bets.bets.filter((bet) => bet.match?._id === id).length > 1
               ? "s"
               : ""}
             .
@@ -235,7 +235,7 @@ const BetViewAll = () => {
         rowKey="_id"
         columns={columns}
         dataSource={[
-          ...bets.bets.filter((bet) => bet.match._id === id),
+          ...bets.bets.filter((bet) => bet.match?._id === id),
         ]?.reverse()}
         className="pt-[25px] -mt-4"
         loading={bets.bets ? false : true}

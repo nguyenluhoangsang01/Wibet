@@ -70,8 +70,8 @@ const Matches = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync(accessToken));
-  }, [accessToken, dispatch]);
+    dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
 
   // Get all bets
   useEffect(() => {
@@ -254,7 +254,7 @@ const Matches = () => {
         setOpenWithdrawMatch(false);
 
         // After get all matches
-        await dispatch(getAllMatchesReducerAsync(accessToken));
+        await dispatch(getAllMatchesReducerAsync());
       }
     } catch ({ response }) {
       // Check if success is false
@@ -304,7 +304,7 @@ const Matches = () => {
       if (res.data) {
         await dispatch(getAllBetsReducerAsync(accessToken));
 
-        await dispatch(getAllMatchesReducerAsync(accessToken));
+        await dispatch(getAllMatchesReducerAsync());
 
         await dispatch(updateUserAfterDeleteBet(res.data));
       }
@@ -540,7 +540,7 @@ const Matches = () => {
                 {/*  */}
                 <div>
                   {bets
-                    .filter(
+                    ?.filter(
                       (bet) =>
                         bet?.match?._id === record?._id &&
                         bet?.user?._id === user?._id
@@ -588,7 +588,7 @@ const Matches = () => {
                   <div className="flex items-center justify-center">
                     <button
                       onClick={() => handleBet(record)}
-                      className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1"
+                      className="bg-[#28a745] flex items-center justify-center rounded-full px-[10px] gap-1 hover:scale-105 transition"
                     >
                       <span className="!p-0 text-white text-[16px] whitespace-nowrap font-bold font-[calibri]">
                         Bet Now
@@ -665,12 +665,12 @@ const Matches = () => {
               ))}
 
             {user?.roleID === "Admin" &&
-              (!bets.some(
+              (!bets?.some(
                 (bet) => bet?.match?._id.toString() === record?._id
               ) ? (
                 <Tooltip title="Delete this match">
                   <button
-                    disabled={bets.some(
+                    disabled={bets?.some(
                       (bet) => bet?.match?._id?.toString() === record?._id
                     )}
                     onClick={() =>
@@ -687,7 +687,7 @@ const Matches = () => {
                 </Tooltip>
               ) : (
                 <button
-                  disabled={bets.some(
+                  disabled={bets?.some(
                     (bet) => bet?.match?._id?.toString() === record?._id
                   )}
                   onClick={() =>
@@ -764,11 +764,11 @@ const Matches = () => {
               1-
               {[...matches.matches]?.filter((match) =>
                 user?.roleID === "Admin" ? match : match.isShow
-              ).length < 10
+              ).length < 20
                 ? [...matches.matches]?.filter((match) =>
                     user?.roleID === "Admin" ? match : match.isShow
                   ).length
-                : 10}
+                : 20}
             </span>{" "}
             of{" "}
             <span className="font-bold">
@@ -799,6 +799,7 @@ const Matches = () => {
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
         scroll={{ x: user?.roleID === "Admin" && "95vw" }}
+        pagination={{ pageSize: 20 }}
       />
 
       {/* Delete Modal */}

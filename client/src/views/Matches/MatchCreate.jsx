@@ -206,6 +206,10 @@ const MatchCreate = () => {
                 value: team._id,
                 label: `${team.name} - ${team.fullName}`,
               }))}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
           />
         </Form.Item>
 
@@ -228,6 +232,10 @@ const MatchCreate = () => {
                 value: team._id,
                 label: `${team.name} - ${team.fullName}`,
               }))}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
           />
         </Form.Item>
 
