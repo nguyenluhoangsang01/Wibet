@@ -413,7 +413,7 @@ export const updateScoreById = async (req, res, next) => {
           team1: team1._id,
           team2: team2._id,
           rate: 0,
-          matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+          matchDate: moment(getMatch.matchDate).add(2, "weeks"),
         });
       }
 
@@ -488,7 +488,7 @@ export const updateScoreById = async (req, res, next) => {
           team1: team1._id,
           team2: team2._id,
           rate: 0,
-          matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+          matchDate: moment(getMatch.matchDate).add(2, "weeks"),
         });
       }
 
