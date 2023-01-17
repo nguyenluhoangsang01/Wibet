@@ -125,7 +125,16 @@ const Account = () => {
             </Form.Item>
 
             {/* New Password input */}
-            <Form.Item label="New Password" name="newPassword">
+            <Form.Item
+              label="New Password"
+              name="newPassword"
+              rules={[
+                {
+                  required: true,
+                  message: "New Password cannot be blank",
+                },
+              ]}
+            >
               <Input.Password />
             </Form.Item>
           </div>

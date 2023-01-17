@@ -12,6 +12,7 @@ import React from "react";
 
 const ChartPieCurrentPoints = ({
   id,
+  title,
   tooltip,
   legendSettings,
   data,
@@ -21,6 +22,7 @@ const ChartPieCurrentPoints = ({
   return (
     <AccumulationChartComponent
       id={id}
+      title={title}
       tooltip={tooltip}
       enableSmartLabels={true}
       legendSettings={legendSettings}

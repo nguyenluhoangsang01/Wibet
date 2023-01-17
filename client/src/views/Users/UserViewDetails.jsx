@@ -86,6 +86,11 @@ const UserViewDetails = () => {
     navigate(`/users/${user._id}/update`);
   };
 
+  // Handle update user'money
+  const handleUpdateUserMoney = () => {
+    navigate(`/users/${user._id}/update/money`);
+  };
+
   // Handle delete user
   const handleDeleteUser = () => {
     setOpen(true);
@@ -126,8 +131,14 @@ const UserViewDetails = () => {
       <Heading title={user.username} />
 
       {/* Actions */}
-      <div className="flex items-center gap-1 mb-[10px] action-details">
-        <button onClick={handleUpdateUser}>Update</button>
+      <div className="flex items-center gap-4 mb-[10px] action-details">
+        <button onClick={handleUpdateUser}>Update Information</button>
+        <button
+          onClick={handleUpdateUserMoney}
+          className="!bg-[#FFC107] !text-black"
+        >
+          Update Money
+        </button>
         <button onClick={handleDeleteUser} className="!bg-[#d9534f]">
           Delete
         </button>

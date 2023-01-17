@@ -88,7 +88,7 @@ const Analysis = () => {
         {/* Top 3 */}
         <ChartColumnTop
           id="top3"
-          title="Top 3 current points"
+          title="Top 3 Current Points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
           data={top3UserNameWithMoneyDataSources}
@@ -97,7 +97,7 @@ const Analysis = () => {
         {/* Top 10 */}
         <ChartColumnTop
           id="top10"
-          title="Top 10 current points"
+          title="Top 10 Current Points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
           data={top10UserNameWithMoneyDataSources}
@@ -106,7 +106,7 @@ const Analysis = () => {
         {/* Top 20 */}
         <ChartColumnTop
           id="top20"
-          title="Top 20 current points"
+          title="Top 20 Current Points"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
           data={top20UserNameWithMoneyDataSources?.slice(0, 20)}
@@ -137,7 +137,7 @@ const Analysis = () => {
         {/* Win rates */}
         <ChartColumnsWinRates
           id="winRates"
-          title="Win rates"
+          title="Win Rates"
           tooltip={tooltip}
           primaryXAxis={primaryXAxis}
           data={winRatesDataSource}
@@ -148,6 +148,7 @@ const Analysis = () => {
         {/* Current points with pie chart */}
         <ChartPieCurrentPoints
           id="currentPointsWithPieChart"
+          title="Current Points"
           tooltip={tooltip}
           legendSettings={legendSettings}
           data={userNameWithMoneyDataSources}

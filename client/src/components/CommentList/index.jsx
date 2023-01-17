@@ -146,28 +146,29 @@ const CommentList = ({ comments, isShowAllComments }) => {
               {/* Avatar */}
               <div className="bg-[#428bca] min-w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
                 <span className="text-white uppercase text-[36px] font-semibold">
-                  {comment.user.fullName.slice(0, 1)}
+                  {comment?.user?.fullName.slice(0, 1)}
                 </span>
               </div>
 
               {/* Content */}
               <div>
                 <span className="font-bold text-[#428bca] text-[18px]">
-                  {comment.user.fullName}
+                  {comment?.user?.fullName}
                 </span>
 
                 <p className="flex items-center gap-2 text-[#687a86] text-[12px]">
                   <span>
                     <GiTimeBomb />
                   </span>
-                  <span>{moment(comment.createdAt).format(formatTime)}</span>
+                  <span>{moment(comment?.createdAt).format(formatTime)}</span>
                 </p>
 
-                <p className="mt-[10px]">{comment.content}</p>
+                <p className="mt-[10px]">{comment?.content}</p>
               </div>
 
               {/* Options */}
-              {(user?._id === comment.user._id || user?.roleID === "Admin") && (
+              {(user?._id === comment?.user?._id ||
+                user?.roleID === "Admin") && (
                 <>
                   <button
                     className="absolute right-[40px] top-0 mt-2"
@@ -178,7 +179,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
 
                   <button
                     className="absolute right-0 top-0 mt-2"
-                    onClick={() => handleDelete(comment._id)}
+                    onClick={() => handleDelete(comment?._id)}
                   >
                     <BsFillTrashFill className="text-2xl text-[#656c7a] transition hover:text-[#d9534f]" />
                   </button>
@@ -191,28 +192,29 @@ const CommentList = ({ comments, isShowAllComments }) => {
               {/* Avatar */}
               <div className="bg-[#428bca] min-w-[60px] h-[60px] flex items-center justify-center rounded-[20px] select-none">
                 <span className="text-white uppercase text-[36px] font-semibold">
-                  {comment.user.fullName.slice(0, 1)}
+                  {comment?.user?.fullName.slice(0, 1)}
                 </span>
               </div>
 
               {/* Content */}
               <div>
                 <span className="font-bold text-[#428bca] text-[18px]">
-                  {comment.user.fullName}
+                  {comment?.user?.fullName}
                 </span>
 
                 <p className="flex items-center gap-2 text-[#687a86] text-[12px]">
                   <span>
                     <GiTimeBomb />
                   </span>
-                  <span>{moment(comment.createdAt).format(formatTime)}</span>
+                  <span>{moment(comment?.createdAt).format(formatTime)}</span>
                 </p>
 
                 <p className="mt-[10px]">{comment.content}</p>
               </div>
 
               {/* Options */}
-              {(user?._id === comment.user._id || user?.roleID === "Admin") && (
+              {(user?._id === comment?.user?._id ||
+                user?.roleID === "Admin") && (
                 <>
                   <button
                     className="absolute right-[40px] top-0 mt-2"
@@ -223,7 +225,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
 
                   <button
                     className="absolute right-0 top-0 mt-2"
-                    onClick={() => handleDelete(comment._id)}
+                    onClick={() => handleDelete(comment?._id)}
                   >
                     <BsFillTrashFill className="text-2xl text-[#656c7a] transition hover:text-[#d9534f]" />
                   </button>
@@ -232,7 +234,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
             </li>
           ))}
 
-      {comments.length <= 0 && (
+      {comments?.length <= 0 && (
         <p className="text-center opacity-60 text-[15px] text-[#2a2e2e]">
           Be the first to comment.
         </p>

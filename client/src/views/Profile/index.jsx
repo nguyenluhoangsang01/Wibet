@@ -135,7 +135,7 @@ const Profile = () => {
         if (a.rate < b.rate) return -1;
         if (a.rate > b.rate) return 1;
       },
-      render: (text, record) => <span>{record?.match?.rate}</span>,
+      render: (text, record) => <span>0:{record?.match?.rate}</span>,
     },
     {
       title: "Money",
@@ -183,7 +183,7 @@ const Profile = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={profileRoutes} />
       {/* Heading */}

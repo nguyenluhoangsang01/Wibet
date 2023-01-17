@@ -1,6 +1,7 @@
 import { Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
+import { GiReceiveMoney } from "react-icons/gi";
 import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -98,6 +99,11 @@ const Users = () => {
     navigate(`/users/${record._id}/update`);
   };
 
+  // Handle update user'money
+  const handleUpdateUserMoney = (record) => {
+    navigate(`/users/${record._id}/update/money`);
+  };
+
   const columns = [
     {
       title: "#",
@@ -192,10 +198,6 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-      sorter: (a, b) => {
-        if (a.loggedInAt < b.loggedInAt) return -1;
-        if (a.loggedInAt > b.loggedInAt) return 1;
-      },
       render: (text) =>
         text ? (
           <Tooltip title={text}>
@@ -209,10 +211,6 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
-      sorter: (a, b) => {
-        if (a.bannedAt < b.bannedAt) return -1;
-        if (a.bannedAt > b.bannedAt) return 1;
-      },
       render: (text, record) =>
         Boolean(record.bannedAt) ? (
           record.bannedAt === "false" ? (
@@ -237,9 +235,15 @@ const Users = () => {
             </Link>
           </Tooltip>
 
-          <Tooltip title="Update">
+          <Tooltip title="Update Information">
             <button onClick={() => handleUpdateUser(record)}>
               <BsPencilFill className="text-[#428bca]" />
+            </button>
+          </Tooltip>
+
+          <Tooltip title="Update Money">
+            <button onClick={() => handleUpdateUserMoney(record)}>
+              <GiReceiveMoney className="text-[#428bca]" />
             </button>
           </Tooltip>
 
@@ -261,7 +265,7 @@ const Users = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={usersRoutes} />
       {/* Heading */}

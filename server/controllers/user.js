@@ -37,6 +37,15 @@ export const createUser = async (req, res, next) => {
         400,
         "password"
       );
+    if (money && !Number.isInteger(money))
+      return sendError(res, "Money must be an integer", 400, "money");
+    if (money && money < 200)
+      return sendError(
+        res,
+        "Money must be greater than or equal to 200",
+        400,
+        "money"
+      );
 
     const isExistingWithEmail = await User.findOne({ email });
     if (isExistingWithEmail)
@@ -232,7 +241,7 @@ export const updateUserById = async (req, res, next) => {
   try {
     // Get id from request params
     const { id } = req.params;
-    const { email, username, newPassword, banned, money } = req.body;
+    const { email, username, newPassword, banned } = req.body;
 
     // Check if user not exists
     const user = await User.findById(id);
@@ -285,7 +294,6 @@ export const updateUserById = async (req, res, next) => {
           ...req.body,
           password: hashedNewPassword ? hashedNewPassword : user.password,
           bannedAt: banned && moment().format(formatTime),
-          money: money ? money : user.money,
         },
         { new: true }
       );
@@ -297,12 +305,50 @@ export const updateUserById = async (req, res, next) => {
       {
         ...req.body,
         bannedAt: banned && moment().format(formatTime),
-        money: money ? money : user.money,
       },
       { new: true }
     );
 
     return sendSuccess(res, "Update user successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateMoneyUserById = async (req, res, next) => {
+  try {
+    // Get data from request body
+    const { money } = req.body;
+    // Get user id from request params
+    const { id } = req.params;
+
+    // Check if user not exists
+    const user = await User.findById(id);
+    if (!user) return sendError(res, "User not found", 404);
+
+    // Validate
+    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
+    if (!Number.isInteger(money))
+      return sendError(res, "Money is not a valid number", 400, "money");
+    if (money < 0)
+      return sendError(
+        res,
+        "Money must be greater than or equal to 0",
+        400,
+        "money"
+      );
+
+    // Update money user
+    await User.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+        money: user.money + money,
+      },
+      { new: true }
+    );
+
+    return sendSuccess(res, "Update user's money successfully");
   } catch (error) {
     next(error);
   }
@@ -374,6 +420,8 @@ export const updatePassword = async (req, res, next) => {
         400,
         "currentPassword"
       );
+    if (!newPassword)
+      return sendError(res, "New Password cannot be blank", 400, "newPassword");
 
     // Get user
     const user = await User.findById(userId);
@@ -397,8 +445,13 @@ export const updatePassword = async (req, res, next) => {
     if (newPassword) {
       comparedNewPassword = bcrypt.compareSync(newPassword, user.password);
     } else {
-      // Send success notification
-      return sendSuccess(res, "Password has not been changed", { user });
+      // Send error notification
+      return sendError(
+        res,
+        "The new password must be different from the old password",
+        400,
+        "newPassword"
+      );
     }
 
     // Check if password is empty or not
@@ -427,8 +480,13 @@ export const updatePassword = async (req, res, next) => {
         user: updatedUser,
       });
     } else {
-      // Send success notification
-      return sendSuccess(res, "Password has not been changed", { user });
+      // Send error notification
+      return sendError(
+        res,
+        "The new password must be different from the old password",
+        400,
+        "newPassword"
+      );
     }
   } catch (error) {
     next(error);

@@ -29,6 +29,7 @@ const TeamCreate = lazy(() => import("./views/Team/TeamCreate"));
 const TeamUpdate = lazy(() => import("./views/Team/TeamUpdate"));
 const UserCreate = lazy(() => import("./views/Users/UserCreate"));
 const UserUpdate = lazy(() => import("./views/Users/UserUpdate"));
+const UserUpdateMoney = lazy(() => import("./views/Users/UserUpdateMoney"));
 const UserViewDetails = lazy(() => import("./views/Users/UserViewDetails"));
 
 function App() {
@@ -109,6 +110,10 @@ function App() {
               element={<UserViewDetails />}
             />
             <Route path="/users/:id/update" element={<UserUpdate />} />
+            <Route
+              path="/users/:id/update/money"
+              element={<UserUpdateMoney />}
+            />
 
             {/* Nested routes of team */}
             <Route path="/teams/create" element={<TeamCreate />} />

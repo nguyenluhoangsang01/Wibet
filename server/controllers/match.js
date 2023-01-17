@@ -290,7 +290,7 @@ export const updateScoreById = async (req, res, next) => {
     if (!match) return sendError(res, "Match not found", 404, "match");
     if (match.isCanceled) return sendError(res, "The match has been canceled");
 
-    if (resultOfTeam1 === resultOfTeam2 + match.rate)
+    if (resultOfTeam1 === resultOfTeam2)
       return sendError(
         res,
         "The result of the match cannot be drawn",
@@ -334,6 +334,7 @@ export const updateScoreById = async (req, res, next) => {
         .populate("team1 team2", "fullName flag name")
         .select("-__v");
 
+      // Update user
       await User.updateMany(
         { _id: { $in: bets.map((bet) => bet.user._id) } },
         {
@@ -407,13 +408,15 @@ export const updateScoreById = async (req, res, next) => {
         // Get team 2 by match result
         const team2 = await Team.findOne({ fullName: getMatch2.result });
 
-        // Auto create a new match with 2 result
-        await Match.create({
-          team1: team1._id,
-          team2: team2._id,
-          rate: 0,
-          matchDate: moment(getMatch.matchDate).add(2, "weeks"),
-        });
+        if (team1 && team2) {
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team2._id,
+            team2: team1._id,
+            rate: 0,
+            matchDate: moment(getMatch.matchDate).add(2, "weeks"),
+          });
+        }
       }
 
       // Send success notification
@@ -482,13 +485,15 @@ export const updateScoreById = async (req, res, next) => {
         // Get team 2 by match result
         const team2 = await Team.findOne({ fullName: getMatch2.result });
 
-        // Auto create a new match with 2 result
-        await Match.create({
-          team1: team1._id,
-          team2: team2._id,
-          rate: 0,
-          matchDate: moment(getMatch.matchDate).add(2, "weeks"),
-        });
+        if (team1 && team2) {
+          // Auto create a new match with 2 result
+          await Match.create({
+            team1: team2._id,
+            team2: team1._id,
+            rate: 0,
+            matchDate: moment(getMatch.matchDate).add(2, "weeks"),
+          });
+        }
       }
 
       // Send success notification

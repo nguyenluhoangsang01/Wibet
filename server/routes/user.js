@@ -6,6 +6,7 @@ import {
   getUserById,
   login,
   logout,
+  updateMoneyUserById,
   updatePassword,
   updateProfile,
   updateUser,
@@ -54,6 +55,11 @@ router.patch("/", verifyToken, updateUser);
 // @desc Update user by id
 // @access Private
 router.patch("/:id", verifyToken, updateUserById);
+
+// @route PATCH api/user/money/:id
+// @desc Update user'money by id
+// @access Private
+router.patch("/money/:id", verifyToken, updateMoneyUserById);
 
 // @route PATCH api/user/password
 // @desc Update password

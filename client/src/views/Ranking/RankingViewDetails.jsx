@@ -118,7 +118,7 @@ const RankingViewDetails = () => {
       title: "Rate",
       dataIndex: "match",
       key: "match",
-      render: (match) => <span>{match?.rate}</span>,
+      render: (match) => <span>0:{match?.rate}</span>,
     },
     {
       title: "Option",

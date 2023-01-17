@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
+import { Button, Checkbox, Form, Input, Select } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -228,7 +228,10 @@ const UserUpdate = () => {
           </Form.Item>
 
           {/* Money input */}
-          <Form.Item
+          <Form.Item label="Money">
+            <Input disabled value={user?.money} />
+          </Form.Item>
+          {/* <Form.Item
             label="Money"
             name="money"
             rules={[
@@ -244,7 +247,7 @@ const UserUpdate = () => {
             ]}
           >
             <InputNumber style={{ width: "100%" }} />
-          </Form.Item>
+          </Form.Item> */}
 
           {/* Status Select */}
           <Form.Item label="Status" name="status">

@@ -612,7 +612,7 @@ const Matches = () => {
             <Tooltip title="View All Bets">
               <button
                 onClick={() => handleViewAllBet(record)}
-                className="bg-[#222222]"
+                className="bg-[#222222] border-[#222222]"
               >
                 <FaShare />
               </button>
@@ -627,7 +627,7 @@ const Matches = () => {
                 >
                   <button
                     onClick={() => handleUpdateInfo(record)}
-                    className="bg-[#f0ad4e]"
+                    className="bg-[#f0ad4e] border-[#eea236]"
                     disabled={record.isCanceled || record.result}
                   >
                     <BsPencilFill />
@@ -636,7 +636,7 @@ const Matches = () => {
               ) : (
                 <button
                   onClick={() => handleUpdateInfo(record)}
-                  className="bg-[#f0ad4e]"
+                  className="bg-[#f0ad4e] border-[#eea236]"
                   disabled={record.isCanceled || record.result}
                 >
                   <BsPencilFill />
@@ -648,7 +648,7 @@ const Matches = () => {
                 <Tooltip title="View Detail">
                   <button
                     onClick={() => handleViewDetail(record)}
-                    className="bg-[#5bc0de]"
+                    className="bg-[#5bc0de] border-[#46b8da]"
                   >
                     <MdViewWeek />
                   </button>
@@ -657,7 +657,7 @@ const Matches = () => {
                 <Tooltip title="Update Score">
                   <button
                     onClick={() => handleUpdateScore(record)}
-                    className="bg-[#47a447]"
+                    className="bg-[#5cb85c] border-[#4cae4c]"
                   >
                     <TiTick />
                   </button>
@@ -680,7 +680,7 @@ const Matches = () => {
                         record?.team2?.fullName
                       )
                     }
-                    className="bg-[#d9534f]"
+                    className="bg-[#d9534f] border-[#d43f3a]"
                   >
                     <CgClose />
                   </button>
@@ -697,7 +697,7 @@ const Matches = () => {
                       record?.team2?.fullName
                     )
                   }
-                  className="bg-[#d9534f]"
+                  className="bg-[#d9534f] border-[#d43f3a]"
                 >
                   <CgClose />
                 </button>
@@ -710,7 +710,9 @@ const Matches = () => {
                 <button
                   onClick={() => handleHide(record)}
                   className={`${
-                    record.isShow ? "bg-[#f0ad4e]" : "bg-[#5bc0de]"
+                    record.isShow
+                      ? "bg-[#f0ad4e] border-[#eea236]"
+                      : "bg-[#5bc0de] border-[#46b8da]"
                   }`}
                 >
                   {record.isShow ? <BsEyeSlashFill /> : <IoEyeSharp />}
@@ -724,7 +726,7 @@ const Matches = () => {
                 <Tooltip title="Withdraw this match">
                   <button
                     onClick={() => handleWithdraw(record._id)}
-                    className="bg-[#d2322d]"
+                    className="bg-[#d9534f] border-[#d43f3a]"
                   >
                     <BsCloudMinusFill />
                   </button>
@@ -737,7 +739,7 @@ const Matches = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={matchesRoutes} />
 
@@ -798,7 +800,7 @@ const Matches = () => {
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: user?.roleID === "Admin" && "95vw" }}
+        scroll={{ x: user?.roleID === "Admin" && "100vw" }}
         pagination={{ pageSize: 20 }}
       />
 
