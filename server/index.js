@@ -45,7 +45,7 @@ mongoose.connect(
     if (error) {
       console.log(error.message);
     } else {
-      console.log("Connected to MongoDB successfully!");
+      console.log("Connected to MongoDB successfully");
     }
   }
 );
@@ -73,5 +73,5 @@ app.use("/api/comment", commentRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
-  res.status(501).send("Not implemented.");
+  res.status(501).send("Not implemented");
 });

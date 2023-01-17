@@ -60,7 +60,7 @@ export const createBetById = async (req, res, next) => {
       return sendError(
         res,
         user.money < 50
-          ? "The current money is not valid."
+          ? "The current money is not valid"
           : `Money must be less than or equal to ${user.money}.`,
         400,
         "money"
@@ -120,7 +120,7 @@ export const createBetById = async (req, res, next) => {
     if (!bet) return sendError(res, "No results found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Create bet successfully!", bet, 201);
+    return sendSuccess(res, "Create bet successfully", bet, 201);
   } catch (error) {
     next(error);
   }
@@ -185,7 +185,7 @@ export const deleteBetById = async (req, res, next) => {
     );
 
     // Send success notification
-    return sendSuccess(res, "Delete bet successfully!", userAfterDelete);
+    return sendSuccess(res, "Delete bet successfully", userAfterDelete);
   } catch (error) {
     next(error);
   }
@@ -214,7 +214,7 @@ export const getBetById = async (req, res, next) => {
     if (!bets) return sendError(res, "Bet not found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Get bet successfully!", {
+    return sendSuccess(res, "Get bet successfully", {
       length: bets.length,
       bets,
     });
@@ -342,7 +342,7 @@ export const updateBetById = async (req, res, next) => {
     if (!bet) return sendError(res, "Bet not found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Update bet successfully!", bet);
+    return sendSuccess(res, "Update bet successfully", bet);
   } catch (error) {
     next(error);
   }
@@ -363,10 +363,10 @@ export const getAllBets = async (req, res, next) => {
         select: "-__v",
       });
     // Check if bets not found
-    if (!bets) return sendError(res, "No results found.");
+    if (!bets) return sendError(res, "No results found");
 
     // Send success notification
-    return sendSuccess(res, "Retrieving bets successfully!", {
+    return sendSuccess(res, "Retrieving bets successfully", {
       length: bets.length,
       bets,
     });
@@ -419,7 +419,7 @@ export const withdrawMoney = async (req, res, next) => {
     );
 
     // Send success notification
-    return sendSuccess(res, "Withdraw match successfully!");
+    return sendSuccess(res, "Withdraw match successfully");
   } catch (error) {
     next(error);
   }

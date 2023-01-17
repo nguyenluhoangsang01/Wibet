@@ -64,7 +64,7 @@ export const createTeam = async (req, res, next) => {
     // Send success notification
     return sendSuccess(
       res,
-      "Create team successfully!",
+      "Create team successfully",
       {
         length: teams.length,
         teams,
@@ -143,7 +143,7 @@ export const updateTeam = async (req, res, next) => {
     const teams = await Team.find().select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "Update team successfully!", {
+    return sendSuccess(res, "Update team successfully", {
       length: teams.length,
       teams,
     });
@@ -174,7 +174,7 @@ export const deleteTeam = async (req, res, next) => {
           match?.team2?._id?.toString() === getTeam?._id?.toString()
       )
     )
-      return sendError(res, "Cannot delete team right now.");
+      return sendError(res, "Cannot delete team right now");
 
     // Check if team not exist and delete team
     await Team.findByIdAndDelete(id);
@@ -183,7 +183,7 @@ export const deleteTeam = async (req, res, next) => {
     const teams = await Team.find().select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "Delete team successfully!", {
+    return sendSuccess(res, "Delete team successfully", {
       length: teams.length,
       teams,
     });
@@ -199,7 +199,7 @@ export const getAllTeams = async (req, res, next) => {
     if (!teams) return sendError(res, "No results found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Retrieving teams successfully!", {
+    return sendSuccess(res, "Retrieving teams successfully", {
       length: teams.length,
       teams,
     });
@@ -218,7 +218,7 @@ export const getTeamById = async (req, res, next) => {
     if (!team) return sendError(res, "Team not found", 404);
 
     // Send notification success
-    return sendSuccess(res, "Get team successfully!", team);
+    return sendSuccess(res, "Get team successfully", team);
   } catch (error) {
     next(error);
   }

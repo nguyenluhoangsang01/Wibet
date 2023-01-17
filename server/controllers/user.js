@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import IP from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
-import validator from "validator";
 import { formatTime } from "../constants.js";
 import { isValidEmail } from "../helpers/isValidEmail.js";
 import sendError from "../helpers/sendError.js";
@@ -76,7 +75,7 @@ export const createUser = async (req, res, next) => {
     // Send success notification
     return sendSuccess(
       res,
-      "Create user successfully!",
+      "Create user successfully",
       { user: getNewCreatedNewUser },
       201
     );
@@ -144,15 +143,10 @@ export const login = async (req, res, next) => {
     if (user.banned)
       return sendError(res, "User is banned", 400, "emailOrUsername");
     if (user.status === "Inactive")
-      return sendError(
-        res,
-        "The account is inactive, please contact the Wibet Admin",
-        400,
-        "emailOrUsername"
-      );
+      return sendError(res, "The account is inactive", 400, "emailOrUsername");
 
     // Send success notification
-    return sendSuccess(res, "Logged successfully!", {
+    return sendSuccess(res, "Logged successfully", {
       accessToken,
       user,
     });
@@ -228,7 +222,7 @@ export const updateUser = async (req, res, next) => {
 
     const updatedUser = await User.findById(userId).select("-__v -password");
 
-    return sendSuccess(res, "Update user successfully!", updatedUser);
+    return sendSuccess(res, "Update user successfully", updatedUser);
   } catch (error) {
     next(error);
   }
@@ -308,7 +302,7 @@ export const updateUserById = async (req, res, next) => {
       { new: true }
     );
 
-    return sendSuccess(res, "Update user successfully!");
+    return sendSuccess(res, "Update user successfully");
   } catch (error) {
     next(error);
   }
@@ -320,7 +314,7 @@ export const logout = async (req, res, next) => {
     res.cookie("accessToken", "", { expires: new Date() });
 
     // Send the response
-    return sendSuccess(res, "User logged out successfully!");
+    return sendSuccess(res, "User logged out successfully");
   } catch (error) {
     next(error);
   }
@@ -339,7 +333,7 @@ export const deleteUserById = async (req, res, next) => {
     const users = await User.find().select("-__v -password");
 
     // Send success notification
-    return sendSuccess(res, "Delete user successfully!", {
+    return sendSuccess(res, "Delete user successfully", {
       length: users.length,
       users,
     });
@@ -358,7 +352,7 @@ export const getUserById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Get user successfully!", user);
+    return sendSuccess(res, "Get user successfully", user);
   } catch (error) {
     next(error);
   }
@@ -429,7 +423,7 @@ export const updatePassword = async (req, res, next) => {
       ).select("-__v -password");
 
       // Send success notification
-      return sendSuccess(res, "Update password successfully!", {
+      return sendSuccess(res, "Update password successfully", {
         user: updatedUser,
       });
     } else {
@@ -448,7 +442,7 @@ export const getAllUsers = async (req, res, next) => {
     if (!users) return sendError(res, "No results found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Retrieving users successfully!", {
+    return sendSuccess(res, "Retrieving users successfully", {
       length: users.length,
       users,
     });
@@ -480,7 +474,7 @@ export const updateProfile = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404, "user");
 
     // Send success notification
-    return sendSuccess(res, "Update profile successfully!", { user });
+    return sendSuccess(res, "Update profile successfully", { user });
   } catch (error) {
     next(error);
   }

@@ -179,7 +179,7 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Username cannot be blank.",
+                message: "Username cannot be blank",
               },
             ]}
           >
@@ -193,12 +193,12 @@ const UserCreate = () => {
             rules={[
               {
                 type: "number",
-                message: "Money is not a valid number.",
+                message: "Money is not a valid number",
               },
               {
                 type: "number",
                 min: 0,
-                message: "Money must be greater than or equal to 0.",
+                message: "Money must be greater than or equal to 0",
               },
             ]}
           >
@@ -233,11 +233,11 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Password cannot be blank.",
+                message: "Password cannot be blank",
               },
               {
                 min: 3,
-                message: "Password should contain at least 3 characters.",
+                message: "Password should contain at least 3 characters",
               },
             ]}
           >

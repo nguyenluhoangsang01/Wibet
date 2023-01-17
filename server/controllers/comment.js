@@ -16,7 +16,7 @@ export const createComment = async (req, res, next) => {
     if (!user)
       return sendError(
         res,
-        "Cannot create comment right now, please login!",
+        "Cannot create comment right now, please login",
         404,
         "content"
       );
@@ -79,7 +79,7 @@ export const getAllComments = async (req, res, next) => {
     if (!comments) return sendError(res, "No results found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Retrieving comments successfully!", {
+    return sendSuccess(res, "Retrieving comments successfully", {
       length: comments.length,
       comments,
     });
@@ -105,7 +105,7 @@ export const deleteCommentById = async (req, res, next) => {
     if (!comments) return sendError(res, "No results found", 404);
 
     // Send success notification
-    return sendSuccess(res, "Delete comment successfully!", {
+    return sendSuccess(res, "Delete comment successfully", {
       length: comments.length,
       comments,
     });
@@ -179,7 +179,7 @@ export const updateCommentById = async (req, res, next) => {
     if (!comments) return sendError(res, "No results found", 404, "content");
 
     // Send success notification
-    return sendSuccess(res, "Update comment successfully!", {
+    return sendSuccess(res, "Update comment successfully", {
       length: comments.length,
       comments,
     });

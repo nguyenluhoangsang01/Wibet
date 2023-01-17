@@ -1,5 +1,4 @@
 import moment from "moment/moment.js";
-import { formatTime } from "../constants.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
@@ -66,7 +65,7 @@ export const createMatch = async (req, res, next) => {
     // Send success notification
     return sendSuccess(
       res,
-      "Create match successfully!",
+      "Create match successfully",
       {
         length: matches.length,
         matches,
@@ -114,7 +113,7 @@ export const deleteMatchById = async (req, res, next) => {
     );
 
     // Send success notification
-    return sendSuccess(res, "Delete match successfully!", {
+    return sendSuccess(res, "Delete match successfully", {
       length: matches.length,
       matches,
     });
@@ -133,7 +132,7 @@ export const getAllMatches = async (req, res, next) => {
     if (!matches) return sendError(res, "No results found", 404);
 
     // Send notification success
-    return sendSuccess(res, "Retrieving matches successfully!", {
+    return sendSuccess(res, "Retrieving matches successfully", {
       length: matches.length,
       matches,
     });
@@ -154,7 +153,7 @@ export const getMatchById = async (req, res, next) => {
     if (!match) return sendError(res, "Match not found", 404);
 
     // Send notification success
-    return sendSuccess(res, "Get match successfully!", match);
+    return sendSuccess(res, "Get match successfully", match);
   } catch (error) {
     next(error);
   }
@@ -208,7 +207,7 @@ export const updateMatchById = async (req, res, next) => {
       .select("-__v");
 
     // Send success notification
-    return sendSuccess(res, "Update match successfully!", {
+    return sendSuccess(res, "Update match successfully", {
       length: matches.length,
       matches,
     });
@@ -418,7 +417,7 @@ export const updateScoreById = async (req, res, next) => {
       }
 
       // Send success notification
-      return sendSuccess(res, "Update score successfully!", {
+      return sendSuccess(res, "Update score successfully", {
         user: updatedUser,
       });
     } else {
@@ -493,7 +492,7 @@ export const updateScoreById = async (req, res, next) => {
       }
 
       // Send success notification
-      return sendSuccess(res, "Update score successfully!", { user });
+      return sendSuccess(res, "Update score successfully", { user });
     }
   } catch (error) {
     next(error);

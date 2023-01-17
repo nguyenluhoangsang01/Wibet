@@ -6,26 +6,26 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      require: [true, "Email cannot be blank."],
+      require: [true, "Email cannot be blank"],
       trim: true,
       unique: true,
       validate(value) {
         if (!isValidEmail(value)) {
-          throw new Error("Email is invalid!");
+          throw new Error("Email is not a valid email address");
         }
       },
     },
     fullName: String,
     username: {
       type: String,
-      require: [true, "Username cannot be blank."],
+      require: [true, "Username cannot be blank"],
       trim: true,
       unique: true,
     },
     password: {
       type: String,
       trim: true,
-      minLength: [3, "Password should contain at least 3 characters."],
+      minLength: [3, "Password should contain at least 3 characters"],
     },
     money: {
       type: Number,
