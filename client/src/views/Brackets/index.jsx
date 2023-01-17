@@ -1,10 +1,10 @@
 import moment from "moment";
 import React, { useEffect, useId, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Bracket } from "react-tournament-bracket";
 import { capitalize } from "../../helper";
-import { selectMatch } from "../../state/matchSlice";
+import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
 
 const Brackets = () => {
   // Get pathname from location
@@ -31,11 +31,18 @@ const Brackets = () => {
   const id2 = useId();
   const id1 = useId();
   const id0 = useId();
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
+
+  // Get all matches
+  useEffect(() => {
+    dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
 
   // Set game after filter
   useEffect(() => {
