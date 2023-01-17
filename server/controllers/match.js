@@ -376,7 +376,7 @@ export const updateScoreById = async (req, res, next) => {
         .populate("team1 team2", "fullName flag name")
         .select("-__v");
 
-      // Get team by match result
+      // Get team 1 by match result
       const team1 = await Team.findOne({ fullName: getMatch.result });
 
       // Check if team 1 exist
@@ -396,41 +396,25 @@ export const updateScoreById = async (req, res, next) => {
             matches
               .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
               .findIndex(
-                (match) =>
-                  match._id.toString() !== getMatch._id.toString() &&
-                  match.matchDate > getMatch.matchDate &&
-                  match
-              ) - 2 ||
-              matches
-                .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-                .findIndex(
-                  (match) =>
-                    match._id.toString() !== getMatch._id.toString() &&
-                    match.matchDate > getMatch.matchDate &&
-                    match
-                ) - 1
+                (match) => match.matchDate > getMatch.matchDate && match
+              ) - 2
+          ] ||
+          matches[
+            matches
+              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+              .findIndex((match) => match)
           ];
 
-        if (getMatch2) {
-          // Get team 2 by match result
-          const team2 = await Team.findOne({ fullName: getMatch2.result });
+        // Get team 2 by match result
+        const team2 = await Team.findOne({ fullName: getMatch2.result });
 
-          // Auto create a new match with 2 result
-          await Match.create({
-            team1: team1._id,
-            team2: team2._id,
-            rate: 0,
-            matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
-          });
-        } else {
-          // Auto create a new match with 2 result
-          await Match.create({
-            team1: team1._id,
-            team2: team1._id,
-            rate: 0,
-            matchDate: moment().add(1, "year"),
-          });
-        }
+        // Auto create a new match with 2 result
+        await Match.create({
+          team1: team1._id,
+          team2: team2._id,
+          rate: 0,
+          matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+        });
       }
 
       // Send success notification
@@ -487,33 +471,25 @@ export const updateScoreById = async (req, res, next) => {
             matches
               .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
               .findIndex(
-                (match) =>
-                  match._id.toString() !== getMatch._id.toString() &&
-                  match.matchDate > getMatch.matchDate &&
-                  match
+                (match) => match.matchDate > getMatch.matchDate && match
               ) - 2
+          ] ||
+          matches[
+            matches
+              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+              .findIndex((match) => match)
           ];
 
-        if (getMatch2) {
-          // Get team 2 by match result
-          const team2 = await Team.findOne({ fullName: getMatch2.result });
+        // Get team 2 by match result
+        const team2 = await Team.findOne({ fullName: getMatch2.result });
 
-          // Auto create a new match with 2 result
-          await Match.create({
-            team1: team1._id,
-            team2: team2._id,
-            rate: 0,
-            matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
-          });
-        } else {
-          // Auto create a new match with 2 result
-          await Match.create({
-            team1: team1._id,
-            team2: team1._id,
-            rate: 0,
-            matchDate: moment().add(1, "year"),
-          });
-        }
+        // Auto create a new match with 2 result
+        await Match.create({
+          team1: team1._id,
+          team2: team2._id,
+          rate: 0,
+          matchDate: moment(getMatch2.matchDate).add(2, "weeks"),
+        });
       }
 
       // Send success notification
