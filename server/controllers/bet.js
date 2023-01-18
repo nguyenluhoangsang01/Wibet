@@ -379,6 +379,8 @@ export const withdrawMoney = async (req, res, next) => {
   try {
     // Get match id from request params
     const { matchId } = req.params;
+    // Get user id from request
+    const { userId } = req;
 
     // Get all bets by match id
     const bets = await Bet.find({ match: matchId })
@@ -418,8 +420,11 @@ export const withdrawMoney = async (req, res, next) => {
       }
     );
 
+    // Get current user
+    const user = await User.findById(userId).select("-__v -password");
+
     // Send success notification
-    return sendSuccess(res, "Withdraw match successfully");
+    return sendSuccess(res, "Withdraw match successfully", { user });
   } catch (error) {
     next(error);
   }

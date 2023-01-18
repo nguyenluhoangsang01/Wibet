@@ -27,7 +27,11 @@ import {
   getAllMatchesReducerAsync,
   selectMatch,
 } from "../../state/matchSlice";
-import { selectUser, updateUserAfterDeleteBet } from "../../state/userSlice";
+import {
+  selectUser,
+  updateProfileReducer,
+  updateUserAfterDeleteBet,
+} from "../../state/userSlice";
 
 const Matches = () => {
   // Get pathname from location
@@ -255,6 +259,8 @@ const Matches = () => {
 
         // After get all matches
         await dispatch(getAllMatchesReducerAsync());
+
+        dispatch(updateProfileReducer(data));
       }
     } catch ({ response }) {
       // Check if success is false
@@ -800,7 +806,7 @@ const Matches = () => {
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
         rowClassName={(record) => !record.isShow && "disabled-row"}
         loading={matches.matches ? false : true}
-        scroll={{ x: user?.roleID === "Admin" && "100vw" }}
+        scroll={{ x: user?.roleID === "Admin" && "105vw" }}
         pagination={{ pageSize: 20 }}
       />
 
