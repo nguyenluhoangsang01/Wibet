@@ -109,12 +109,9 @@ const Users = () => {
       title: "#",
       dataIndex: "index",
       key: "index",
-      render: (text, record, index) => (
-        <span>
-          {users?.users
-            ?.filter((item) => item._id !== user?._id)
-            .reverse()
-            .indexOf(record) + 1}
+      render: (text, record) => (
+        <span className={record?._id === user?._id ? "font-bold" : ""}>
+          {[...users?.users].reverse().indexOf(record) + 1}
         </span>
       ),
     },
@@ -126,9 +123,11 @@ const Users = () => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
       },
-      render: (text) => (
+      render: (text, record) => (
         <Tooltip title={text}>
-          <span>{text}</span>
+          <span className={record?._id === user?._id ? "font-bold" : ""}>
+            {text}
+          </span>
         </Tooltip>
       ),
     },
@@ -140,7 +139,11 @@ const Users = () => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span className={record?._id === user?._id ? "font-bold" : ""}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Status",
@@ -150,7 +153,11 @@ const Users = () => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
       },
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span className={record?._id === user?._id ? "font-bold" : ""}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Email",
@@ -160,14 +167,16 @@ const Users = () => {
         if (a.email < b.email) return -1;
         if (a.email > b.email) return 1;
       },
-      render: (text) => (
+      render: (text, record) => (
         <Tooltip title={text}>
-          <a
-            href={`mailto:${text}`}
-            className="text-[#2A6496] transition hover:underline"
-          >
-            {text}
-          </a>
+          <span className={record?._id === user?._id ? "font-bold" : ""}>
+            <a
+              href={`mailto:${text}`}
+              className="text-[#2A6496] transition hover:underline"
+            >
+              {text}
+            </a>
+          </span>
         </Tooltip>
       ),
     },
@@ -179,32 +188,56 @@ const Users = () => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
       },
-      render: (text) =>
+      render: (text, record) =>
         text ? (
           <Tooltip title={text}>
-            <span>{text}</span>
+            <span className={record?._id === user?._id ? "font-bold" : ""}>
+              {text}
+            </span>
           </Tooltip>
         ) : (
-          <span className="text-[red] italic">(not set)</span>
+          <span
+            className={
+              record?._id === user?._id
+                ? "font-bold text-[red] italic"
+                : "text-[red] italic"
+            }
+          >
+            (not set)
+          </span>
         ),
     },
     {
       title: "Money",
       dataIndex: "money",
       key: "money",
-      render: (text) => <span>{text}</span>,
+      render: (text, record) => (
+        <span className={record?._id === user?._id ? "font-bold" : ""}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-      render: (text) =>
+      render: (text, record) =>
         text ? (
           <Tooltip title={text}>
-            <span>{text}</span>
+            <span className={record?._id === user?._id ? "font-bold" : ""}>
+              {text}
+            </span>
           </Tooltip>
         ) : (
-          <span className="text-[red] italic">(not set)</span>
+          <span
+            className={
+              record?._id === user?._id
+                ? "font-bold text-[red] italic"
+                : "text-[red] italic"
+            }
+          >
+            (not set)
+          </span>
         ),
     },
     {
@@ -214,14 +247,32 @@ const Users = () => {
       render: (text, record) =>
         Boolean(record.bannedAt) ? (
           record.bannedAt === "false" ? (
-            <span className="text-[red] italic">(not set)</span>
+            <span
+              className={
+                record?._id === user?._id
+                  ? "font-bold text-[red] italic"
+                  : "text-[red] italic"
+              }
+            >
+              (not set)
+            </span>
           ) : (
             <Tooltip title={record.bannedAt}>
-              <span>{record.bannedAt}</span>
+              <span className={record?._id === user?._id ? "font-bold" : ""}>
+                {record.bannedAt}
+              </span>
             </Tooltip>
           )
         ) : (
-          <span className="text-[red] italic">(not set)</span>
+          <span
+            className={
+              record?._id === user?._id
+                ? "font-bold text-[red] italic"
+                : "text-[red] italic"
+            }
+          >
+            (not set)
+          </span>
         ),
     },
     {
@@ -281,27 +332,18 @@ const Users = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {users?.users?.filter((item) => item._id !== user?._id).length < 1 ? (
+        {[...users?.users]?.length < 1 ? (
           "No result found"
         ) : (
           <span>
             Showing{" "}
             <span className="font-bold">
               1-
-              {users?.users?.filter((item) => item._id !== user?._id).length <
-              20
-                ? users?.users?.filter((item) => item._id !== user?._id).length
-                : 20}
+              {[...users?.users]?.length < 20 ? [...users?.users]?.length : 20}
             </span>{" "}
-            of{" "}
-            <span className="font-bold">
-              {users?.users?.filter((item) => item._id !== user?._id).length}
-            </span>{" "}
+            of <span className="font-bold">{[...users?.users]?.length}</span>{" "}
             item
-            {users?.users?.filter((item) => item._id !== user?._id).length > 1
-              ? "s"
-              : ""}
-            .
+            {[...users?.users]?.length > 1 ? "s" : ""}.
           </span>
         )}
       </NumberOfRows>
@@ -310,10 +352,8 @@ const Users = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={users?.users
-          ?.filter((item) => item._id !== user?._id)
-          .reverse()}
-        loading={users?.users ? false : true}
+        dataSource={[...users?.users].reverse()}
+        loading={[...users?.users] ? false : true}
         scroll={{ x: "90vw" }}
         pagination={{ pageSize: 20 }}
       />
