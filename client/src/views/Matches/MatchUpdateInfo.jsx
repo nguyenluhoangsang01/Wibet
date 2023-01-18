@@ -65,14 +65,7 @@ const MatchUpdateInfo = () => {
           form.current.resetFields();
         }
       } catch ({ response: { data } }) {
-        // if (response.status === 500) {
-        //   navigate("/matches");
-        // } else if (!response.data.success) {
-        //   // When get failured
-        //   toast.error(response.data.message);
-        //   navigate("/matches");
-        // }
-        console.log(data);
+        toast.error(data.message);
       }
     })();
   }, [accessToken, id, navigate]);
