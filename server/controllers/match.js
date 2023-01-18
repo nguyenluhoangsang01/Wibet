@@ -1,4 +1,4 @@
-import moment from "moment/moment.js";
+import moment from "moment";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
@@ -224,8 +224,8 @@ export const updateScoreById = async (req, res, next) => {
     const { resultOfTeam1, resultOfTeam2, autoGenerate, result } = req.body;
     // Get user id from request
     const { userId } = req;
-    // Ninety minutes after
-    const ninetyMinutesLater = moment().add(90, "minutes");
+    // Before time
+    const beforeTime = 90;
 
     // Validate
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
@@ -291,14 +291,23 @@ export const updateScoreById = async (req, res, next) => {
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404, "match");
     if (match.isCanceled) return sendError(res, "The match has been canceled");
-    if (moment(match.matchDate).isBefore(ninetyMinutesLater))
+
+    // Ninety minutes after
+    const ninetyMinutesLater = moment(match.matchDate).add(
+      beforeTime,
+      "minutes"
+    );
+
+    // Check if current time before match date about times
+    if (moment().isBefore(ninetyMinutesLater))
       return sendError(
         res,
-        "Cannot update score of this match right now",
+        `Results can only be updated ${beforeTime} minutes after the match starts`,
         400,
         "resultOfTeam1"
       );
 
+    // Check if result of team 1 equal with result of team 2
     if (resultOfTeam1 === resultOfTeam2)
       return sendError(
         res,
@@ -338,6 +347,7 @@ export const updateScoreById = async (req, res, next) => {
             (match) => match.matchDate < currentMatch.matchDate && match
           )
       ];
+
     // Check if previous match is exist and it not have result
     if (previousMatch) {
       if (!previousMatch.result)
