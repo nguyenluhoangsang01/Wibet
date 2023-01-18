@@ -7,6 +7,7 @@ import {
   updateBetById,
   withdrawMoney,
 } from "../controllers/bet.js";
+import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
@@ -34,7 +35,7 @@ router.get("/", verifyToken, getAllBets);
 // @route PATCH api/bet/:matchId
 // @desc Update money of user when withdraw
 // @access Private
-router.patch("/:matchId", verifyToken, withdrawMoney);
+router.patch("/:matchId", verifyToken, verifyAdmin, withdrawMoney);
 
 // @route GET api/bet/:id
 // @desc Get bet by id

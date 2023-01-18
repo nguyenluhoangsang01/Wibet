@@ -92,11 +92,32 @@ export const deleteCommentById = async (req, res, next) => {
   try {
     // Get comment id from request params
     const { id } = req.params;
+    // Get user if from request
+    const { userId } = req;
 
-    // Find comment by id and delete it
-    const comment = await Comment.findByIdAndDelete(id);
+    // Get user by user id
+    const user = await User.findById(userId).select("-__v -password");
+    if (!user) return sendError(res, "User not found", 404);
+
+    // Get comment by comment id
+    const getComment = await Comment.findById(id).populate(
+      "user",
+      "-__v -password"
+    );
     // Check if comment not found
-    if (!comment) return sendError(res, "Comment not found", 404);
+    if (!getComment) return sendError(res, "Comment not found", 404);
+
+    if (user.roleID === "Admin") {
+      // Find comment by id and delete it
+      await Comment.findByIdAndDelete(id);
+    } else if (user.roleID === "User") {
+      if (user._id.toString() !== getComment.user._id.toString()) {
+        return sendError(res, "You are not authorized to do this", 403);
+      } else {
+        // Find comment by id and delete it
+        await Comment.findByIdAndDelete(id);
+      }
+    }
 
     // Get all comments after deleted
     const comments = await Comment.find()

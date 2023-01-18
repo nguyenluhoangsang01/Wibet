@@ -12,6 +12,7 @@ import {
   updateUser,
   updateUserById,
 } from "../controllers/user.js";
+import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.get("/logout", logout);
 // @route GET api/user/:id
 // @desc Get user
 // @access Private
-router.get("/:id", verifyToken, getUserById);
+router.get("/:id", verifyToken, verifyAdmin, getUserById);
 
 // @route POST api/user/login
 // @desc Login user
@@ -39,27 +40,27 @@ router.post("/login", login);
 // @route POST api/user
 // @desc Register user
 // @access Private
-router.post("/", verifyToken, createUser);
+router.post("/", verifyToken, verifyAdmin, createUser);
 
 // @route DELETE api/user/:id
 // @desc Delete user
 // @access Private
-router.delete("/:id", verifyToken, deleteUserById);
+router.delete("/:id", verifyToken, verifyAdmin, deleteUserById);
 
 // @route PATCH api/user
 // @desc Update user logged
 // @access Private
-router.patch("/", verifyToken, updateUser);
+router.patch("/", verifyToken, verifyAdmin, updateUser);
 
 // @route PATCH api/user/:id
 // @desc Update user by id
 // @access Private
-router.patch("/:id", verifyToken, updateUserById);
+router.patch("/:id", verifyToken, verifyAdmin, updateUserById);
 
 // @route PATCH api/user/money/:id
 // @desc Update user'money by id
 // @access Private
-router.patch("/money/:id", verifyToken, updateMoneyUserById);
+router.patch("/money/:id", verifyToken, verifyAdmin, updateMoneyUserById);
 
 // @route PATCH api/user/password
 // @desc Update password
