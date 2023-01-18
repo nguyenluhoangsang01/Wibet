@@ -3,12 +3,12 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { capitalize, headers } from "../../helper";
-import { selectUser } from "../../state/userSlice";
+import { selectUser, updateProfileReducer } from "../../state/userSlice";
 
 const UserUpdateMoney = () => {
   // Get user id from params
@@ -23,6 +23,8 @@ const UserUpdateMoney = () => {
   // Get user logged
   const userLogged = useSelector(selectUser);
   const { accessToken } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Check if user logged not exists
   useEffect(() => {
@@ -101,14 +103,19 @@ const UserUpdateMoney = () => {
         { headers: headers(accessToken) }
       );
 
-      // After set is finish to false
-      setIsFinish(false);
+      if (data.success) {
+        // After set is finish to false
+        setIsFinish(false);
 
-      // Send success notification
-      toast.success(data.message);
+        // Send success notification
+        toast.success(data.message);
 
-      // And navigate
-      navigate(`/users/${user._id}/view-details`);
+        // Update current user information
+        dispatch(updateProfileReducer(data));
+
+        // And navigate
+        navigate(`/users/${user._id}/view-details`);
+      }
     } catch ({ response: { data } }) {
       // When update failured
       if (data.name === "money") {

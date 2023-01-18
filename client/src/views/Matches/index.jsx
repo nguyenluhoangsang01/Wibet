@@ -260,6 +260,7 @@ const Matches = () => {
         // After get all matches
         await dispatch(getAllMatchesReducerAsync());
 
+        // Update current user information
         dispatch(updateProfileReducer(data));
       }
     } catch ({ response }) {

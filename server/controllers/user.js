@@ -348,7 +348,13 @@ export const updateMoneyUserById = async (req, res, next) => {
       { new: true }
     );
 
-    return sendSuccess(res, "Update user's money successfully");
+    // Get current user after updated
+    const updatedUser = await User.findById(id).select("-__v -password");
+    if (!updatedUser) return sendError(res, "User not found", 404);
+
+    return sendSuccess(res, "Update user's money successfully", {
+      user: updatedUser,
+    });
   } catch (error) {
     next(error);
   }
