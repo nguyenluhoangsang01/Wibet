@@ -302,6 +302,44 @@ export const updateScoreById = async (req, res, next) => {
     const user = await User.findById(userId).select("-__v -password");
     if (!user) return sendError(res, "User not found", 404, "user");
 
+    // Get all matches
+    const getAllMatches = await Match.find()
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+    if (!getAllMatches) return sendError(res, "Match not found", 404);
+
+    // Get match after update score
+    const currentMatch = await Match.findById(id)
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+
+    // Get match 2 after update score
+    const previousMatch =
+      getAllMatches[
+        getAllMatches
+          .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+          .findIndex(
+            (match) => match.matchDate > currentMatch.matchDate && match
+          ) - 2
+      ] ||
+      getAllMatches[
+        getAllMatches
+          .sort((a, b) => moment(b.matchDate) - moment(a.matchDate))
+          .findIndex(
+            (match) => match.matchDate < currentMatch.matchDate && match
+          )
+      ];
+    // Check if previous match is exist and it not have result
+    if (previousMatch) {
+      if (!previousMatch.result)
+        return sendError(
+          res,
+          "Cannot update score of this match right now",
+          400,
+          "resultOfTeam1"
+        );
+    }
+
     // Get all bets by match id
     const bets = await Bet.find({ match: id })
       .populate("team user", "-__v -password")
