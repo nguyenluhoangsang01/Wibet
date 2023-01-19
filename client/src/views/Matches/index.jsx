@@ -660,6 +660,18 @@ const Matches = () => {
                     <MdViewWeek />
                   </button>
                 </Tooltip>
+              ) : moment().isBefore(
+                  moment(record.matchDate).add(90, "minutes")
+                ) ? (
+                <button
+                  onClick={() => handleUpdateScore(record)}
+                  className="bg-[#5cb85c] border-[#4cae4c]"
+                  disabled={moment().isBefore(
+                    moment(record.matchDate).add(90, "minutes")
+                  )}
+                >
+                  <TiTick />
+                </button>
               ) : (
                 <Tooltip title="Update Score">
                   <button

@@ -302,7 +302,7 @@ export const updateScoreById = async (req, res, next) => {
     if (moment().isBefore(ninetyMinutesLater))
       return sendError(
         res,
-        `Results can only be updated ${beforeTime} minutes after the match starts`,
+        `Results can only be updated ${beforeTime} minutes after the match has started`,
         400,
         "resultOfTeam1"
       );
