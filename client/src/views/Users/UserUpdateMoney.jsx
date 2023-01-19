@@ -103,15 +103,15 @@ const UserUpdateMoney = () => {
         { headers: headers(accessToken) }
       );
 
-      if (data.success) {
+      if (data) {
         // After set is finish to false
         setIsFinish(false);
 
-        // Send success notification
-        toast.success(data.message);
-
         // Update current user information
         dispatch(updateProfileReducer(data));
+
+        // Send success notification
+        toast.success(data.message);
 
         // And navigate
         navigate(`/users/${user._id}/view-details`);
@@ -160,7 +160,6 @@ const UserUpdateMoney = () => {
         layout="vertical"
       >
         {/* Money input */}
-
         <Form.Item
           label="Money"
           name="money"
@@ -175,8 +174,8 @@ const UserUpdateMoney = () => {
             },
             {
               type: "number",
-              min: 0,
-              message: "Money must be greater than or equal to 0",
+              min: 1,
+              message: "Money must be greater than 0",
             },
           ]}
         >

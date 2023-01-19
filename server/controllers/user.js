@@ -321,6 +321,8 @@ export const updateMoneyUserById = async (req, res, next) => {
     const { money } = req.body;
     // Get user id from request params
     const { id } = req.params;
+    // Get user logged in
+    const { userId } = req;
 
     // Check if user not exists
     const user = await User.findById(id);
@@ -330,13 +332,8 @@ export const updateMoneyUserById = async (req, res, next) => {
     if (!money) return sendError(res, "Money cannot be blank", 400, "money");
     if (!Number.isInteger(money))
       return sendError(res, "Money is not a valid number", 400, "money");
-    if (money < 0)
-      return sendError(
-        res,
-        "Money must be greater than or equal to 0",
-        400,
-        "money"
-      );
+    if (money <= 0)
+      return sendError(res, "Money must be greater than 0", 400, "money");
 
     // Update money user
     await User.findByIdAndUpdate(
@@ -349,7 +346,7 @@ export const updateMoneyUserById = async (req, res, next) => {
     );
 
     // Get current user after updated
-    const updatedUser = await User.findById(id).select("-__v -password");
+    const updatedUser = await User.findById(userId).select("-__v -password");
     if (!updatedUser) return sendError(res, "User not found", 404);
 
     return sendSuccess(res, "Update user's money successfully", {
