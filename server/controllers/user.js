@@ -373,10 +373,17 @@ export const deleteUserById = async (req, res, next) => {
   try {
     // Get id from params
     const { id } = req.params;
+    // Get user id from request
+    const { userId } = req;
 
-    // Check if user not exist and delete user
-    const user = await User.findByIdAndDelete(id);
+    // Get user by id
+    const user = await User.findById(id).select("-__v -password");
     if (!user) return sendError(res, "User not found", 404);
+    if (user._id.toString() === userId)
+      return sendError(res, "Cannot delete this user");
+
+    // Delete user
+    await User.findByIdAndDelete(id);
 
     // Get all users after delete
     const users = await User.find().select("-__v -password");

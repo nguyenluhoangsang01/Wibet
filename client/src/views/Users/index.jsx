@@ -298,13 +298,22 @@ const Users = () => {
             </button>
           </Tooltip>
 
-          <Tooltip title="Delete">
+          {record?._id !== user?._id ? (
+            <Tooltip title="Delete">
+              <button
+                onClick={() => handleDeleteUser(record?._id, record?.username)}
+              >
+                <BsTrashFill className="text-[#428bca]" />
+              </button>
+            </Tooltip>
+          ) : (
             <button
-              onClick={() => handleDeleteUser(record._id, record.username)}
+              onClick={() => handleDeleteUser(record?._id, record?.username)}
+              disabled={record?._id === user?._id}
             >
               <BsTrashFill className="text-[#428bca]" />
             </button>
-          </Tooltip>
+          )}
         </div>
       ),
     },
