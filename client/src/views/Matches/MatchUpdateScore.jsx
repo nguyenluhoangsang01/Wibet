@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
 import { selectUser, updateUserReducer } from "../../state/userSlice";
@@ -69,7 +69,7 @@ const MatchUpdateScore = () => {
   }, [accessToken, id, navigate]);
 
   // Check if match had result
-  if (match.result) return <Navigate to="/matches" />;
+  if (match.result) navigate("/matches");
 
   // Breadcrumbs
   const matchUpdateScore = [
