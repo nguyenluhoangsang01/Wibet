@@ -487,7 +487,7 @@ const Brackets = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-50px-60px-40px)] -ml-[50px] overflow-x-scroll xl:overflow-hidden">
+    <div className="min-h-[calc(100vh-50px-60px-40px)] -ml-[50px] overflow-scroll xl:overflow-hidden">
       <Bracket game={gameBracket} />
     </div>
   );

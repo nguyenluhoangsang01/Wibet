@@ -206,7 +206,7 @@ const MatchUpdateInfo = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-50px-60px-40px)]">
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={matchUpdateInfo} key={match?._id} />
 

@@ -80,7 +80,7 @@ const Account = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={accountRoutesB} />
       {/* Heading */}
@@ -95,7 +95,6 @@ const Account = () => {
         wrapperCol={{ span: 6 }}
         onFinish={onFinish}
         autoComplete="off"
-        className="h-[calc(100vh-60px*2-24px*2-32px-16px-40px-36px)]"
         ref={form}
       >
         <div className="divide-y-2">

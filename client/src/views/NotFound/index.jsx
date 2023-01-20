@@ -16,7 +16,7 @@ const NotFound = () => {
   };
 
   return (
-    <div className="text-center bg-[#222222] -mx-[65px] -my-[20px] h-[calc(100vh-50px-60px)] flex items-center justify-center flex-col">
+    <div className="text-center bg-[#222222] -mx-[65px] -my-[20px] min-h-[calc(100vh-50px-60px)] flex items-center justify-center flex-col">
       <button
         onClick={handleGoHome}
         className="px-4 py-2 border-white rounded-lg text-white font-[calibri] text-[18px] border-[2px] transition hover:border-[#FFC107] hover:text-[#FFC107] mb-10"

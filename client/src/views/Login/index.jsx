@@ -116,7 +116,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
       <Breadcrumbs routes={loginRoutes} />
       {/* Heading */}
@@ -130,7 +130,6 @@ const Login = () => {
         initialValues={{ remember }}
         onFinish={onFinish}
         autoComplete="off"
-        className="h-[calc(100vh-50px-60px-40px-54px-70px)]"
         ref={form}
       >
         {/* Email / Username input */}
