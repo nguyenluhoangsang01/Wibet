@@ -201,6 +201,7 @@ const MatchCreate = () => {
           <Select
             onChange={handleChangeTeam1}
             options={teams
+              .sort((a, b) => a.fullName - b.fullName)
               .filter((team) => team._id !== team2Selected)
               .map((team) => ({
                 value: team._id,
@@ -227,6 +228,7 @@ const MatchCreate = () => {
           <Select
             onChange={handleChangeTeam2}
             options={teams
+              .sort((a, b) => a.fullName - b.fullName)
               .filter((team) => team._id !== team1Selected)
               .map((team) => ({
                 value: team._id,
