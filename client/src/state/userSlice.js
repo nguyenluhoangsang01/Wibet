@@ -89,20 +89,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const loginReducerAsync = (values) => async (dispatch) => {
-  try {
-    const res = await axios.post("/user/login", values);
-
-    if (res.data) {
-      dispatch(loginReducer(res.data));
-    }
-  } catch ({ response }) {
-    if (response.data) {
-      dispatch(loginReducer(response.data));
-    }
-  }
-};
-
 export const logoutReducerAsync = (accessToken) => async (dispatch) => {
   try {
     const res = await axios.get("/user/logout", {
