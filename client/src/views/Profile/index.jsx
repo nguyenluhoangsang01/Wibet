@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import NumberOfRows from "../../components/NumberOfRows";
-import SuccessMessage from "../../components/SuccessMesasge";
+import SuccessMessage from "../../components/SuccessMessage";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
@@ -189,7 +189,11 @@ const Profile = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      {isUpdated && <SuccessMessage>Profile updated</SuccessMessage>}
+      {isUpdated && (
+        <SuccessMessage isUpdated={isUpdated} setIsUpdated={setIsUpdated}>
+          Profile updated successfully
+        </SuccessMessage>
+      )}
 
       <div>
         {/* Form */}

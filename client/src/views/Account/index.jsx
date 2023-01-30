@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import SuccessMessage from "../../components/SuccessMesasge";
+import SuccessMessage from "../../components/SuccessMessage";
 import { accountRoutesB } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectUser, updateProfileReducer } from "../../state/userSlice";
@@ -86,7 +86,11 @@ const Account = () => {
       {/* Heading */}
       <Heading title={pathname.slice(1)} />
 
-      {isUpdated && <SuccessMessage>Account updated</SuccessMessage>}
+      {isUpdated && (
+        <SuccessMessage isUpdated={isUpdated} setIsUpdated={setIsUpdated}>
+          Account updated successfully
+        </SuccessMessage>
+      )}
 
       {/* Account form */}
       <Form
