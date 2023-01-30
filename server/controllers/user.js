@@ -532,14 +532,26 @@ export const updateProfile = async (req, res, next) => {
     if (!timezone)
       return sendError(res, "Timezone cannot be blank", 400, "timezone");
 
+    // Get user
+    const getUser = await User.findById(userId);
+    // Check if user not exists
+    if (!getUser) return sendError(res, "User not found", 404, "user");
+
+    // Check if full name and timezone does not change
+    if (fullName === getUser.fullName && timezone === getUser.timezone)
+      return sendError(
+        res,
+        "The new full name or timezone must be different from the old full name or timezone",
+        400,
+        "fullName"
+      );
+
     // Get user logged
     const user = await User.findByIdAndUpdate(
       userId,
       { ...req.body },
       { new: true }
     ).select("-__v -password");
-    // Check if user not exists
-    if (!user) return sendError(res, "User not found", 404, "user");
 
     // Send success notification
     return sendSuccess(res, "Update profile successfully", { user });

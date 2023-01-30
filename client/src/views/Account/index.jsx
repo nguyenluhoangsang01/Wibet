@@ -65,12 +65,20 @@ const Account = () => {
             name: "currentPassword",
             errors: [data.message],
           },
+          {
+            name: "newPassword",
+            errors: null,
+          },
         ]);
       } else if (data.name === "newPassword") {
         form.current.setFields([
           {
             name: "newPassword",
             errors: [data.message],
+          },
+          {
+            name: "currentPassword",
+            errors: null,
           },
         ]);
       }

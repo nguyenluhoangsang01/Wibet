@@ -73,12 +73,20 @@ const Profile = () => {
               name: "fullName",
               errors: [data.message],
             },
+            {
+              name: "timezone",
+              errors: null,
+            },
           ]);
         } else if (data.name === "timezone") {
           form.current.setFields([
             {
               name: "timezone",
               errors: [data.message],
+            },
+            {
+              name: "fullName",
+              errors: null,
             },
           ]);
         }
