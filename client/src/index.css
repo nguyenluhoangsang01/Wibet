@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+@layer base {
+  html {
+    font-family: "Bebas Neue", "Segoe UI", Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    box-sizing: border-box;
+    overflow-x: hidden;
+    color: #333;
+  }
+
+  label {
+    @apply !font-[calibri] !text-[18px] !font-bold;
+  }
+
+  svg {
+    user-select: none;
+  }
+}
+
+.action-details > a,
+.action-details > button {
+  @apply pt-[8px] pr-[10px] pb-[5px] pl-[9px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
+}
+
+table > thead > tr > th {
+  @apply !bg-[#212529] !text-white !text-center font-[calibri] text-[18px] !p-2 whitespace-nowrap select-none;
+}
+
+table > tbody > tr > td {
+  @apply !p-2 !max-w-[200px] !text-[#333];
+}
+
+.ant-table-column-title {
+  @apply hover:!underline !transition;
+}
+
+.ant-table-column-sorter.ant-table-column-sorter-full {
+  @apply !hidden;
+}
+
+table > tbody > tr:nth-child(odd) {
+  @apply !bg-[#f9f9f9];
+}
+
+table > tbody > tr > td,
+table > tbody > tr > td p,
+table > tbody > tr > td span,
+table > tbody > tr > td a {
+  @apply text-[18px] font-[calibri] !text-center !truncate;
+}
+
+.ant-table-measure-row {
+  display: none !important;
+}
+
+table > tbody > tr > td > div {
+  @apply flex items-center gap-1 !text-[20px];
+}
+
+table > tbody > tr > td > div > a {
+  @apply !p-0 !text-[20px];
+}
+
+.table-view-details > tbody > tr {
+  @apply border-t-[1px] hover:bg-[#f9f9f9] transition;
+}
+
+.table-view-details > tbody > tr > th,
+.table-view-details > tbody > tr > td {
+  @apply w-[50%] font-[calibri] text-[18px];
+}
+
+.table-view-details > tbody > tr > td {
+  @apply !max-w-[500px] !truncate !block !mx-auto;
+}
+
+.ant-table-cell > div > a,
+.ant-table-cell > div > button,
+.ant-table-cell > div > div > button {
+  @apply !p-[7px] !rounded !text-white !text-[18px] !border-[1px];
+}
+
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.disabled-row .ant-table-cell:nth-child(-n + 10) {
+  @apply opacity-20;
+}
+
+.ant-picker-dropdown table > thead > tr > th,
+.ant-picker-content,
+.ant-picker-time-panel-cell-inner,
+.ant-picker-cell-inner {
+  @apply !text-[14px] font-[calibri];
+}
+
+.ant-picker-dropdown table > thead > tr > th {
+  @apply !bg-white !text-black;
+}
+
+.ant-picker-dropdown button {
+  @apply pt-[8px] pr-[10px] pb-[5px] pl-[9px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
+}
+
+.ant-picker-dropdown table > tbody > tr:nth-child(odd) {
+  @apply !bg-[#fff];
+}
+
+.ant-image-preview-img-wrapper {
+  @apply flex items-center justify-center;
+}
+
+.ant-image-preview-img {
+  @apply w-[900px] h-[600px];
+}
+
+text {
+  @apply !text-[15px];
+}
+
+svg > text {
+  @apply !text-[17px];
+}
+
+.bg-wrapper {
+  @apply rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] bg-[#28a745];
+}
+
+.rules ul {
+  list-style-type: disc;
+  @apply pl-[30px] md:pl-[60px];
+}
+
+.rules ul ul {
+  list-style-type: circle;
+  padding-left: 30px;
+}
+
+.rules p,
+.rules li {
+  margin-bottom: 10px;
+}
+
+.rules hr {
+  @apply w-full md:w-[60%] mx-auto;
+}
+
+.rules h4 {
+  @apply my-[10px] font-[arial] font-bold;
+}
+
+.t16lsehf {
+  @apply ml-[100px];
+}
+
+.n3v5c1 {
+  @apply -ml-[100px];
+}
+
+.ant-table-cell::before {
+  display: none;
+}
+
+.reward tr:nth-child(1) {
+  @apply !bg-[#dff0d8];
+}
+.reward tr:nth-child(2) {
+  @apply !bg-[#b8daff];
+}
+.reward tr:nth-child(3) {
+  @apply !bg-[#fcf8e3];
+}
+.reward tr:nth-child(4) {
+  @apply !bg-[#d9edf7];
+}
+
+.not-found {
+  text-shadow: -1px -1px 3px #fff, 2px 2px 4px #fff;
+}
+
+.accessLevel td {
+  overflow: auto !important;
+  text-overflow: unset !important;
+}
+
+.image-cropper {
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgb(0, 0, 0) 0px 10px 13px -7px, rgba(0, 0, 0, 0) 4px 3px 0px 2px;
+}
+
+g g text {
+  @apply font-[calibri] !not-italic;
+}
+
+line {
+  @apply !stroke-[white];
+}
+
+g > svg > text {
+  @apply !text-[12px];
+}
+
+g > svg > rect:nth-child(3) {
+  fill: #36a2eb !important;
+}
+
+g > svg > rect:nth-child(4) {
+  fill: #ff9f40 !important;
+}
+
+g > svg > rect:nth-child(6) {
+  fill: #ffc107 !important;
+}
+
+g > svg > rect:nth-child(5) {
+  fill: #333 !important;
+}
+
+g svg g text {
+  @apply !fill-white;
+}

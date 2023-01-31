@@ -1,0 +1,65 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@syncfusion/ej2-base": "^20.4.40",
+    "@syncfusion/ej2-charts": "^20.4.40",
+    "@syncfusion/ej2-compression": "^20.4.40",
+    "@syncfusion/ej2-data": "^20.4.40",
+    "@syncfusion/ej2-file-utils": "^20.4.40",
+    "@syncfusion/ej2-pdf-export": "^20.4.40",
+    "@syncfusion/ej2-react-base": "^20.4.40",
+    "@syncfusion/ej2-react-charts": "^20.4.40",
+    "@syncfusion/ej2-svg-base": "^20.4.40",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "antd": "^5.0.7",
+    "axios": "^1.2.1",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.40",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-error-boundary": "^3.1.4",
+    "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.7.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.5",
+    "react-scripts": "5.0.1",
+    "react-tournament-bracket": "^0.2.4",
+    "redux-persist": "^6.0.0",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4"
+  }
+}
