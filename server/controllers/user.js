@@ -138,9 +138,7 @@ export const login = async (req, res, next) => {
     );
 
     // Send HTTP-only cookie
-    res.cookie("accessToken", accessToken, {
-      expires: new Date(Date.now() + 1000 * 86400), // 1 day
-    });
+    res.cookie("accessToken", accessToken);
 
     // Get user logged
     const user = await User.findByIdAndUpdate(isExistingUser._id, {
