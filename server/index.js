@@ -11,12 +11,14 @@ import matchRoutes from "./routes/match.js";
 import teamRoutes from "./routes/team.js";
 import userRoutes from "./routes/user.js";
 
+dotenv.config();
+
 // Constants
 const PORT = process.env.PORT || 8000;
+const HOST = process.env.HOST || "localhost";
 
 // Config app
 const app = express();
-dotenv.config();
 
 // Middleware
 app.use(cookieParser());
