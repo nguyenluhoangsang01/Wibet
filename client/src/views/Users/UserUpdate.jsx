@@ -3,13 +3,13 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { ROLES, STATUS } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { selectUser } from "../../state/userSlice";
+import { selectUser, updateProfileReducer } from "../../state/userSlice";
 
 const UserUpdate = () => {
   // Get user id from params
@@ -27,6 +27,8 @@ const UserUpdate = () => {
   // Get user logged
   const userLogged = useSelector(selectUser);
   const { accessToken } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Check if user logged not exists
   useEffect(() => {
@@ -110,6 +112,11 @@ const UserUpdate = () => {
 
       // Send success notification
       toast.success(data.message);
+
+      // Check if current user id equal with user id selected
+      if (userLogged.user._id === user._id) {
+        dispatch(updateProfileReducer(data));
+      }
 
       // And navigate
       navigate(`/users/${user._id}/view-details`);
