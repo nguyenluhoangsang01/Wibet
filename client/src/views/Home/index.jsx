@@ -36,7 +36,7 @@ const Home = () => {
   useEffect(() => {
     [...matches]
       ?.filter((match) => match.isShow)
-      ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+      ?.sort((a, b) => moment(b.matchDate) - moment(a.matchDate))
       ?.some(
         (match) =>
           !match.isCanceled &&
