@@ -226,3 +226,7 @@ g > svg > rect:nth-child(5) {
 g svg g text {
   @apply !fill-white;
 }
+
+.ant-table-expanded-row-fixed {
+  @apply flex items-center justify-center;
+}
