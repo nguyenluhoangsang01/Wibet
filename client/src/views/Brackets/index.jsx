@@ -114,9 +114,7 @@ const Brackets = () => {
                                   name: game[0]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[0]?.resultOfTeam2 + game[0]?.rate ||
-                                    "-",
+                                  score: game[0]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -130,7 +128,7 @@ const Brackets = () => {
                           name: game[8]?.team2?.fullName || "Team 2",
                         },
                         score: {
-                          score: game[8]?.resultOfTeam2 + game[8]?.rate || "-",
+                          score: game[8]?.resultOfTeam2 || "-",
                         },
                         seed: {
                           displayName: "A2",
@@ -153,9 +151,7 @@ const Brackets = () => {
                                   name: game[1]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[1]?.resultOfTeam2 + game[1]?.rate ||
-                                    "-",
+                                  score: game[1]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -174,7 +170,7 @@ const Brackets = () => {
                   name: game[12]?.team2?.fullName || "Team 2",
                 },
                 score: {
-                  score: game[12]?.resultOfTeam2 + game[12]?.rate || "-",
+                  score: game[12]?.resultOfTeam2 || "-",
                 },
                 seed: {
                   displayName: "A2",
@@ -211,9 +207,7 @@ const Brackets = () => {
                                   name: game[2]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[2]?.resultOfTeam2 + game[2]?.rate ||
-                                    "-",
+                                  score: game[2]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -227,7 +221,7 @@ const Brackets = () => {
                           name: game[9]?.team2?.fullName || "Team 2",
                         },
                         score: {
-                          score: game[9]?.resultOfTeam2 + game[9]?.rate || "-",
+                          score: game[9]?.resultOfTeam2 || "-",
                         },
                         seed: {
                           displayName: "A2",
@@ -250,9 +244,7 @@ const Brackets = () => {
                                   name: game[3]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[3]?.resultOfTeam2 + game[3]?.rate ||
-                                    "-",
+                                  score: game[3]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -275,7 +267,7 @@ const Brackets = () => {
           id: game[14]?.team2?._id || id14,
           name: game[14]?.team2?.fullName || "Team 2",
         },
-        score: { score: game[14]?.resultOfTeam2 + game[14]?.rate || "-" },
+        score: { score: game[14]?.resultOfTeam2 || "-" },
         seed: {
           displayName: "A2",
           rank: 1,
@@ -325,9 +317,7 @@ const Brackets = () => {
                                   name: game[4]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[4]?.resultOfTeam2 + game[4]?.rate ||
-                                    "-",
+                                  score: game[4]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -341,8 +331,7 @@ const Brackets = () => {
                           name: game[10]?.team2?.fullName || "Team 2",
                         },
                         score: {
-                          score:
-                            game[10]?.resultOfTeam2 + game[10]?.rate || "-",
+                          score: game[10]?.resultOfTeam2 || "-",
                         },
                         seed: {
                           displayName: "A2",
@@ -365,9 +354,7 @@ const Brackets = () => {
                                   name: game[5]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[5]?.resultOfTeam2 + game[5]?.rate ||
-                                    "-",
+                                  score: game[5]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -386,7 +373,7 @@ const Brackets = () => {
                   name: game[13]?.team2?.fullName || "Team 2",
                 },
                 score: {
-                  score: game[13]?.resultOfTeam2 + game[13]?.rate || "-",
+                  score: game[13]?.resultOfTeam2 || "-",
                 },
                 seed: {
                   displayName: "A2",
@@ -423,9 +410,7 @@ const Brackets = () => {
                                   name: game[6]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[6]?.resultOfTeam2 + game[6]?.rate ||
-                                    "-",
+                                  score: game[6]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
@@ -439,8 +424,7 @@ const Brackets = () => {
                           name: game[11]?.team2?.fullName || "Team 2",
                         },
                         score: {
-                          score:
-                            game[11]?.resultOfTeam2 + game[11]?.rate || "-",
+                          score: game[11]?.resultOfTeam2 || "-",
                         },
                         seed: {
                           displayName: "A2",
@@ -463,9 +447,7 @@ const Brackets = () => {
                                   name: game[7]?.team2?.fullName || "Team 2",
                                 },
                                 score: {
-                                  score:
-                                    game[7]?.resultOfTeam2 + game[7]?.rate ||
-                                    "-",
+                                  score: game[7]?.resultOfTeam2 || "-",
                                 },
                               },
                             },
