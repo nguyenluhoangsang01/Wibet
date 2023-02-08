@@ -1,4 +1,3 @@
-import { v2 as cloudinary } from "cloudinary";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Comment from "../models/comment.js";
