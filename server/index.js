@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(
   cors({
     origin:
-      process.env.NODE_ENV === "development"
+      process.env.NODE_ENV === "dev"
         ? process.env.API_BASE_ENDPOINT_CLIENT
         : [`http://${HOST}`, `https://${HOST}`],
     credentials: true,
