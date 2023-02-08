@@ -63,12 +63,7 @@ const UserUpdate = () => {
           form.current.resetFields();
         }
       } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/users");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
+        if (response) {
           navigate("/users");
         }
       }

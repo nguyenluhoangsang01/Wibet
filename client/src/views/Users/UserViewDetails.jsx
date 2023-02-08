@@ -2,7 +2,6 @@ import { Tooltip } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -53,12 +52,7 @@ const UserViewDetails = () => {
         // Set data
         setUser(data.data);
       } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/users");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
+        if (response) {
           navigate("/users");
         }
       }

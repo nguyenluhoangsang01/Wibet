@@ -46,9 +46,9 @@ const MatchUpdateInfo = () => {
 
   // Check if match had result
   useEffect(() => {
-    if (user.roleID !== "Admin" || match?.result || match?.isCanceled)
+    if (user?.roleID !== "Admin" || match?.result || match?.isCanceled)
       navigate("/");
-  }, [match?.isCanceled, match?.result, navigate, user.roleID]);
+  }, [match?.isCanceled, match?.result, navigate, user?.roleID]);
 
   // Get match by id
   useEffect(() => {
@@ -64,8 +64,10 @@ const MatchUpdateInfo = () => {
           // Reset form
           form.current.resetFields();
         }
-      } catch ({ response: { data } }) {
-        toast.error(data.message);
+      } catch ({ response }) {
+        if (response) {
+          navigate("/matches");
+        }
       }
     })();
   }, [accessToken, id, navigate]);
@@ -264,7 +266,7 @@ const MatchUpdateInfo = () => {
         >
           <Select
             onChange={handleChangeTeam1}
-            options={teams
+            options={[...teams]
               .sort((a, b) => a.fullName - b.fullName)
               .filter((team) => team._id !== team2Selected)
               .map((team) => ({
@@ -291,7 +293,7 @@ const MatchUpdateInfo = () => {
         >
           <Select
             onChange={handleChangeTeam2}
-            options={teams
+            options={[...teams]
               .sort((a, b) => a.fullName - b.fullName)
               .filter((team) => team._id !== team1Selected)
               .map((team) => ({

@@ -53,12 +53,7 @@ const BetCreate = () => {
           setMatch(data.data);
         }
       } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/matches");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
+        if (response) {
           navigate("/matches");
         }
       }

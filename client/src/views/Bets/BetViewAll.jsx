@@ -1,7 +1,6 @@
 import { Image, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -46,12 +45,7 @@ const BetViewAll = () => {
           setMatch(data.data);
         }
       } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/matches");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
+        if (response) {
           navigate("/matches");
         }
       }

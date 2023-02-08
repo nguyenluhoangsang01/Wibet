@@ -2,7 +2,6 @@ import { Button, Checkbox, Form, Image, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -56,12 +55,7 @@ const MatchUpdateScore = () => {
           setMatch(data.data);
         }
       } catch ({ response }) {
-        if (response.status === 500) {
-          navigate("/matches");
-        } else if (!response.data.success) {
-          // When get failured
-          toast.error(response.data.message);
-
+        if (response) {
           navigate("/matches");
         }
       }
