@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import IP from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
-import { formatTime } from "../constants.js";
+import { formatTime, STATUS } from "../constants.js";
 import { isValidEmail } from "../helpers/isValidEmail.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
@@ -112,9 +112,11 @@ export const login = async (req, res, next) => {
     if (!password)
       return sendError(res, "Password cannot be blank", 400, "password");
 
+    // Get user selected to check if it not exist
     const isExistingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
+    // Check if user not found
     if (!isExistingUser)
       return sendError(
         res,
@@ -122,14 +124,55 @@ export const login = async (req, res, next) => {
         400,
         "emailOrUsername"
       );
+    // Check if user is inactive
+    if (isExistingUser.status === "Inactive")
+      return sendError(res, "The account is inactive", 400, "emailOrUsername");
+    // Check if user is banned
+    if (isExistingUser.banned)
+      return sendError(res, "User is banned", 400, "emailOrUsername");
 
     // Compare password
     const comparedPassword = bcrypt.compareSync(
       password,
       isExistingUser.password
     );
-    if (!comparedPassword)
-      return sendError(res, "Incorrect password", 400, "password");
+
+    // Check if incorrect password
+    if (!comparedPassword) {
+      // +1 times wrong password
+      const updatedWrongPasswordTimes = await User.findOneAndUpdate(
+        { $or: [{ email }, { username }] },
+        { wrongPassword: isExistingUser.wrongPassword + 1 },
+        { new: true }
+      );
+
+      // Check if wrong password times greater than 5
+      if (
+        updatedWrongPasswordTimes.wrongPassword >= 5 &&
+        updatedWrongPasswordTimes.status !== "Inactive"
+      ) {
+        await User.findOneAndUpdate(
+          { $or: [{ email }, { username }] },
+          { status: Object.keys(STATUS)[0], wrongPassword: 0 },
+          { new: true }
+        );
+      }
+
+      // Send error notification
+      return sendError(
+        res,
+        `You have entered incorrect login information ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password 5 times. You can reset the password by contact with Wibet Admin.`,
+        400,
+        "password"
+      );
+    }
+
+    // if logging successfully set wrong password is default
+    await User.findOneAndUpdate(
+      { $or: [{ email }, { username }] },
+      { wrongPassword: 0 },
+      { new: true }
+    );
 
     // Set up access token
     const accessToken = jwt.sign(
@@ -145,11 +188,6 @@ export const login = async (req, res, next) => {
       loggedInAt: moment().format(formatTime),
       loggedInIp: currentIpAddress,
     }).select("-__v -password");
-    // Check if user is banned
-    if (user.banned)
-      return sendError(res, "User is banned", 400, "emailOrUsername");
-    if (user.status === "Inactive")
-      return sendError(res, "The account is inactive", 400, "emailOrUsername");
 
     // Send success notification
     return sendSuccess(res, "Logged successfully", {

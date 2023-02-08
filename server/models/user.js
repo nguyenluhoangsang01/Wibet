@@ -73,6 +73,10 @@ const userSchema = new Schema(
       default: 0,
     },
     match: Array,
+    wrongPassword: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
