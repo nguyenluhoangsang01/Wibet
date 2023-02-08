@@ -136,7 +136,7 @@ const UserViewDetails = () => {
         <button
           onClick={handleDeleteUser}
           className="!bg-[#d9534f]"
-          disabled={id === userLogged.user._id}
+          disabled={id === userLogged?.user?._id}
         >
           Delete
         </button>
