@@ -38,7 +38,7 @@ const UserUpdateMoney = () => {
 
   // Set title
   useEffect(() => {
-    document.title = `Update User's Money: ${capitalize(user?.username)}`;
+    document.title = `Add User's Money: ${capitalize(user?.username)}`;
   }, [user?.username]);
 
   // Get user by id
@@ -82,13 +82,13 @@ const UserUpdateMoney = () => {
     },
     {
       path: "",
-      name: "update money",
+      name: "add money",
     },
   ];
 
   // Handle on finish
   const onFinish = async (values) => {
-    // Initial loading with true when user click update button
+    // Initial loading with true when user click add button
     setIsFinish(true);
 
     try {
@@ -102,7 +102,7 @@ const UserUpdateMoney = () => {
         // After set is finish to false
         setIsFinish(false);
 
-        // Update current user information
+        // Add current user information
         dispatch(updateProfileReducer(data));
 
         // Send success notification
@@ -112,7 +112,7 @@ const UserUpdateMoney = () => {
         navigate(`/users/${user._id}/view-details`);
       }
     } catch ({ response: { data } }) {
-      // When update failured
+      // When add failured
       if (data.name === "money") {
         form.current.setFields([
           {
@@ -132,7 +132,7 @@ const UserUpdateMoney = () => {
       {/* Breadcrumbs */}
       <Breadcrumbs routes={userViewDetailsUpdateRules} key={user?._id} />
       {/* Heading */}
-      <Heading title={`update user's money`} />
+      <Heading title={`add user's money`} />
 
       <p className="font-[calibri] text-[17px]">
         Username: <span className="font-bold">{user?.username}</span>
@@ -146,7 +146,7 @@ const UserUpdateMoney = () => {
 
       {/* Form */}
       <Form
-        name="update-money"
+        name="add-money"
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{ money: "" }}
@@ -177,7 +177,7 @@ const UserUpdateMoney = () => {
           <InputNumber style={{ width: "100%" }} placeholder={0} />
         </Form.Item>
 
-        {/* Update button */}
+        {/* Add button */}
         <Form.Item>
           <Button
             type="primary"
@@ -186,7 +186,7 @@ const UserUpdateMoney = () => {
             disabled={isFinish}
           >
             {isFinish && <AiOutlineLoading3Quarters className="animate-spin" />}
-            <span>Update</span>
+            <span>Add</span>
           </Button>
         </Form.Item>
       </Form>

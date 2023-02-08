@@ -292,7 +292,7 @@ const Users = () => {
             </button>
           </Tooltip>
 
-          <Tooltip title="Update Money">
+          <Tooltip title="Add Money">
             <button onClick={() => handleUpdateUserMoney(record)}>
               <GiReceiveMoney className="text-[#428bca]" />
             </button>

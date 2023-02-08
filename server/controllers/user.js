@@ -350,9 +350,15 @@ export const updateMoneyUserById = async (req, res, next) => {
     const updatedUser = await User.findById(userId).select("-__v -password");
     if (!updatedUser) return sendError(res, "User not found", 404);
 
-    return sendSuccess(res, "Update user's money successfully", {
-      user: updatedUser,
-    });
+    return sendSuccess(
+      res,
+      `Successfully added ${money} point${money > 1 ? "s" : ""} to account ${
+        user.username
+      }`,
+      {
+        user: updatedUser,
+      }
+    );
   } catch (error) {
     next(error);
   }

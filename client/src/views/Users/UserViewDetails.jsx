@@ -131,7 +131,7 @@ const UserViewDetails = () => {
           onClick={handleUpdateUserMoney}
           className="!bg-[#FFC107] !text-black"
         >
-          Update Money
+          Add Money
         </button>
         <button onClick={handleDeleteUser} className="!bg-[#d9534f]">
           Delete
