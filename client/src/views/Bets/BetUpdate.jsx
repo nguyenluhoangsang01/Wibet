@@ -124,8 +124,6 @@ const BetUpdate = () => {
       }
     } catch ({ response: { data } }) {
       // When update failure
-      console.log(data);
-
       if (data.name === "option") {
         form.current.setFields([
           {
