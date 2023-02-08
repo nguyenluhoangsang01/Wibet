@@ -39,7 +39,7 @@ function App() {
   const { accessToken } = useSelector(selectUser);
 
   // Set axios defaults
-  axios.defaults.baseURL = "http://11.11.7.222:8000/api";
+  axios.defaults.baseURL = "http://localhost:8000/api";
   axios.defaults.headers.common = `Bearer ${accessToken}`;
 
   // Registering Syncfusion license key

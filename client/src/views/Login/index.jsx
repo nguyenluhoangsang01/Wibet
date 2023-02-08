@@ -29,6 +29,8 @@ const Login = () => {
   const navigate = useNavigate();
   // Initial form ref
   const form = useRef(null);
+  // Get remember information on local storage
+  const values = JSON.parse(localStorage.getItem("rememberMe"));
 
   // Set title
   useEffect(() => {
@@ -65,6 +67,19 @@ const Login = () => {
         // Check if data is exists, dispatch login reducer to update user logged to global state and render success notification
         if (data) {
           dispatch(loginReducer(data));
+
+          if (values.remember) {
+            localStorage.setItem(
+              "rememberMe",
+              JSON.stringify({
+                ...values,
+                email,
+                username,
+              })
+            );
+          } else {
+            localStorage.removeItem("rememberMe");
+          }
 
           // When login success
           setIsFinish(false);
@@ -127,7 +142,7 @@ const Login = () => {
         name="login"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 6 }}
-        initialValues={{ remember }}
+        initialValues={{ ...values, remember }}
         onFinish={onFinish}
         autoComplete="off"
         ref={form}
