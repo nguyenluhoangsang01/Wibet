@@ -133,7 +133,11 @@ const UserViewDetails = () => {
         >
           Add Money
         </button>
-        <button onClick={handleDeleteUser} className="!bg-[#d9534f]">
+        <button
+          onClick={handleDeleteUser}
+          className="!bg-[#d9534f]"
+          disabled={id === userLogged.user._id}
+        >
           Delete
         </button>
       </div>
