@@ -161,8 +161,8 @@ const Rules = () => {
             <li>
               <p>
                 Nhằm tri ân những Accounts đã tham gia Vòng Bảng, mỗi account cũ
-                khi tạo Account mới ở Vòng Loại Trực Tiếp(Vòng LTT) sẽ được nhận
-                ưu đãi cụ thể như sau
+                khi tạo Account mới ở Vòng Loại Trực Tiếp (Vòng LTT) sẽ được
+                nhận ưu đãi cụ thể như sau
               </p>
               <ul>
                 <li>
@@ -170,12 +170,12 @@ const Rules = () => {
                   khởi đầu cho Vòng LTT
                 </li>
                 <li>
-                  Account cũ đã từng refill 02 lần ở Vòng Bảng được tặng thêm
+                  Account cũ đã từng refill 02 lần ở Vòng Bảng được tặng thêm{" "}
                   <b>100 điểm</b> khởi đầu cho Vòng LTT
                 </li>
                 <li>
                   <p>
-                    Account cũ đã từng refill 03 lần ở Vòng Bảng được tặng thêm
+                    Account cũ đã từng refill 03 lần ở Vòng Bảng được tặng thêm{" "}
                     <b>100 điểm</b> khởi đầu cho Vòng LTT
                   </p>{" "}
                   Và sẽ được tặng thêm 50 điểm (chỉ 01 lần duy nhất) cho lượt
@@ -372,7 +372,7 @@ const Rules = () => {
                   scroll={{ x: "80vw" }}
                 />
                 <p className="text-[12px] mt-[20px]">
-                  Tỷ lệ phần trăm(%) trên tổng giá trị quỹ thưởng VND (10% cho
+                  Tỷ lệ phần trăm (%) trên tổng giá trị quỹ thưởng VND (10% cho
                   công tác Maintenance)
                 </p>
               </div>
