@@ -168,6 +168,10 @@ svg > text {
   display: none;
 }
 
+.reward td {
+  @apply border-r-2;
+}
+
 .reward tr:nth-child(2) {
   @apply !bg-[#dff0d8];
 }
@@ -183,11 +187,6 @@ svg > text {
 
 .not-found {
   text-shadow: -1px -1px 3px #fff, 2px 2px 4px #fff;
-}
-
-.accessLevel td {
-  overflow: auto !important;
-  text-overflow: unset !important;
 }
 
 .image-cropper {
@@ -229,4 +228,8 @@ g svg g text {
 
 .ant-table-expanded-row-fixed {
   @apply flex items-center justify-center;
+}
+
+.accessLevel td {
+  @apply border-r-2;
 }
