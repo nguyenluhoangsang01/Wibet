@@ -588,7 +588,7 @@ export const updateProfile = async (req, res, next) => {
         res,
         "The new full name or timezone must be different from the old full name or timezone",
         400,
-        "fullName"
+        "fullName&timezone"
       );
 
     // Get user logged

@@ -89,6 +89,17 @@ const Profile = () => {
               errors: null,
             },
           ]);
+        } else if (data.name === "fullName&timezone") {
+          form.current.setFields([
+            {
+              name: "timezone",
+              errors: [data.message.replaceAll("full name or", "")],
+            },
+            {
+              name: "fullName",
+              errors: [data.message.replaceAll("or timezone", "")],
+            },
+          ]);
         }
 
         setIsFinish(false);
