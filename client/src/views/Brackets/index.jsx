@@ -469,8 +469,15 @@ const Brackets = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-50px-60px-40px)] -ml-[50px] overflow-scroll xl:overflow-hidden">
-      <Bracket game={gameBracket} />
+    <div className="flex items-center min-h-[calc(100vh-50px-60px-40px)]">
+      <div className="overflow-x-scroll xl:overflow-x-hidden">
+        <Bracket game={gameBracket} />
+      </div>
+
+      <div className="ml-16 flex flex-col items-center justify-center">
+        <p>{game[14]?.result || "Champion team"}</p>
+        <p className="font-[calibri] text-[12px] text-[#999999]">Champion</p>
+      </div>
     </div>
   );
 };
