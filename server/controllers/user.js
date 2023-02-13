@@ -183,11 +183,17 @@ export const login = async (req, res, next) => {
     // Send HTTP-only cookie
     res.cookie("accessToken", accessToken);
 
-    // Get user logged
-    const user = await User.findByIdAndUpdate(isExistingUser._id, {
+    // Find user and update
+    await User.findByIdAndUpdate(isExistingUser._id, {
       loggedInAt: moment().format(formatTime),
       loggedInIp: currentIpAddress,
-    }).select("-__v -password");
+      accessToken,
+    });
+
+    // Get user
+    const user = await User.findById(isExistingUser._id).select(
+      "-__v -password"
+    );
 
     // Send success notification
     return sendSuccess(res, "Logged successfully", {
@@ -404,6 +410,12 @@ export const updateMoneyUserById = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
   try {
+    // Get user id from request
+    const { userId } = req;
+
+    // Delete access token
+    await User.findByIdAndUpdate(userId, { accessToken: null }, { new: true });
+
     // Clear the cookie
     res.clearCookie("accessToken");
 
