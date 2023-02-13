@@ -21,8 +21,8 @@ const HOST = process.env.HOST || "localhost";
 const app = express();
 
 // Middleware
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin:
