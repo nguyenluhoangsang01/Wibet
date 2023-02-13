@@ -59,13 +59,13 @@ const Team = () => {
   }, [navigate, user?.roleID]);
 
   // Handle confirm ok when user delete
-  const handleOk = async () => {
+  const handleOk = () => {
     // Set loading to true first
     setConfirmLoading(true);
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteTeamReducerAsync(accessToken, deleteTeam._id));
+      dispatch(deleteTeamReducerAsync(accessToken, deleteTeam._id));
 
       // After delete successfully hide modal
       setOpen(false);

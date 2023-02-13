@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
-import { selectUser, updateUserReducer } from "../../state/userSlice";
+import {
+  logoutReducerAsync,
+  selectUser,
+  updateUserReducer,
+} from "../../state/userSlice";
 
 const BetUpdate = () => {
   // Get match id and bet id from request params
@@ -55,11 +59,13 @@ const BetUpdate = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, matchId, navigate]);
+  }, [accessToken, dispatch, matchId, navigate]);
 
   // Get bet by bet id
   useEffect(() => {
@@ -77,11 +83,13 @@ const BetUpdate = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, betId, navigate]);
+  }, [accessToken, betId, dispatch, navigate]);
 
   // Routes for breadcrumbs
   const updateBetRoutes = [

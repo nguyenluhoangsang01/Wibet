@@ -1,12 +1,12 @@
 import { Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import NumberOfRows from "../../components/NumberOfRows";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const RankingViewDetails = () => {
   // Get id from request params
@@ -17,6 +17,8 @@ const RankingViewDetails = () => {
   const [bets, setBets] = useState([]);
   // Get accessToken from global state
   const { accessToken } = useSelector(selectUser);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
@@ -34,11 +36,13 @@ const RankingViewDetails = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/ranking");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   const rankingRoutesViewDetails = [
     {

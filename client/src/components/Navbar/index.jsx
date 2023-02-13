@@ -36,9 +36,9 @@ const Navbar = () => {
   };
 
   // Handle logout
-  const handleLogout = async () => {
+  const handleLogout = () => {
     // Dispatch log out reducer async action
-    await dispatch(logoutReducerAsync(accessToken));
+    dispatch(logoutReducerAsync(accessToken));
 
     // After dispatch finish set account dropdown to false
     setIsClicked(false);

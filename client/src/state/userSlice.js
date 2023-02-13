@@ -25,10 +25,10 @@ export const userSlice = createSlice({
     },
 
     logoutReducer: (state, { payload }) => {
-      if (payload.success) {
-        state.accessToken = null;
-        state.user = null;
+      state.accessToken = null;
+      state.user = null;
 
+      if (payload.success) {
         toast.success(payload.message);
       } else {
         toast.error(payload.message);

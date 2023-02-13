@@ -1,13 +1,13 @@
 import { Image, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import NumberOfRows from "../../components/NumberOfRows";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const BetViewAll = () => {
   // Get match id from params
@@ -20,6 +20,8 @@ const BetViewAll = () => {
   const navigate = useNavigate();
   // Get all bets from global state
   const { bets } = useSelector(selectBet);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
@@ -46,11 +48,13 @@ const BetViewAll = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const matchUpdateScore = [

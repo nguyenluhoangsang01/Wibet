@@ -117,9 +117,9 @@ const Login = () => {
 
       // Check if user click on remember me, dispatch update remember actions
       if (values.remember) {
-        await dispatch(updateRememberToTrue());
+        dispatch(updateRememberToTrue());
       } else {
-        await dispatch(updateRememberToFalse());
+        dispatch(updateRememberToFalse());
       }
     } catch (error) {
       // When update failured

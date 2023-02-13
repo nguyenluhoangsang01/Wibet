@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
-import { selectUser, updateUserReducer } from "../../state/userSlice";
+import {
+  logoutReducerAsync,
+  selectUser,
+  updateUserReducer,
+} from "../../state/userSlice";
 
 const MatchUpdateScore = () => {
   // Get match id from request params
@@ -56,11 +60,13 @@ const MatchUpdateScore = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Check if match had result
   if (match.result) navigate("/matches");

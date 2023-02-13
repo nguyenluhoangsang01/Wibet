@@ -9,7 +9,11 @@ import Heading from "../../components/Heading";
 import ModalDeleteUser from "../../components/ModalDeleteUser";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { deleteUserReducerAsync, selectUser } from "../../state/userSlice";
+import {
+  deleteUserReducerAsync,
+  logoutReducerAsync,
+  selectUser,
+} from "../../state/userSlice";
 
 const UserViewDetails = () => {
   // Get id from params
@@ -53,11 +57,13 @@ const UserViewDetails = () => {
         setUser(data.data);
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/users");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const userViewDetailsRules = [
@@ -91,12 +97,12 @@ const UserViewDetails = () => {
   };
 
   // Handle confirm ok when user delete
-  const handleOk = async () => {
+  const handleOk = () => {
     // Set loading to true first
     setConfirmLoading(true);
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteUserReducerAsync(accessToken, user._id));
+      dispatch(deleteUserReducerAsync(accessToken, user._id));
 
       // After delete successfully hide modal
       setOpen(false);

@@ -9,7 +9,11 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { ROLES, STATUS } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { selectUser, updateProfileReducer } from "../../state/userSlice";
+import {
+  logoutReducerAsync,
+  selectUser,
+  updateProfileReducer,
+} from "../../state/userSlice";
 
 const UserUpdate = () => {
   // Get user id from params
@@ -64,11 +68,13 @@ const UserUpdate = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/users");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [

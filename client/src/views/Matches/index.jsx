@@ -131,13 +131,13 @@ const Matches = () => {
   };
 
   // Handle confirm ok when user delete
-  const handleOk = async () => {
+  const handleOk = () => {
     // Set loading to true first
     setConfirmLoading(true);
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteMatchReducerAsync(accessToken, deleteMatch._id));
+      dispatch(deleteMatchReducerAsync(accessToken, deleteMatch._id));
 
       // After set loading to false
       setConfirmLoading(false);
@@ -258,7 +258,7 @@ const Matches = () => {
         setOpenWithdrawMatch(false);
 
         // After get all matches
-        await dispatch(getAllMatchesReducerAsync());
+        dispatch(getAllMatchesReducerAsync());
 
         // Update current user information
         dispatch(updateProfileReducer(data));
@@ -309,11 +309,11 @@ const Matches = () => {
       );
 
       if (res.data) {
-        await dispatch(getAllBetsReducerAsync(accessToken));
+        dispatch(getAllBetsReducerAsync(accessToken));
 
-        await dispatch(getAllMatchesReducerAsync());
+        dispatch(getAllMatchesReducerAsync());
 
-        await dispatch(updateUserAfterDeleteBet(res.data));
+        dispatch(updateUserAfterDeleteBet(res.data));
       }
 
       // Set loading to false

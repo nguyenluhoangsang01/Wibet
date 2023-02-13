@@ -9,7 +9,7 @@ import ModalDeleteMatch from "../../components/ModalDeleteMatch";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const MatchViewDetails = () => {
   // Get match id from request params
@@ -56,11 +56,13 @@ const MatchViewDetails = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const matchViewDetails = [
@@ -85,13 +87,13 @@ const MatchViewDetails = () => {
   };
 
   // Handle confirm ok when user delete
-  const handleOk = async () => {
+  const handleOk = () => {
     // Set loading to true first
     setConfirmLoading(true);
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteMatchReducerAsync(accessToken, match._id));
+      dispatch(deleteMatchReducerAsync(accessToken, match._id));
 
       // After set loading to false
       setConfirmLoading(false);

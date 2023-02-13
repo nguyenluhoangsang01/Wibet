@@ -10,7 +10,7 @@ import Heading from "../../components/Heading";
 import RenderFile from "../../components/RenderFile";
 import { headers, headersWithMultipartFormData } from "../../helper";
 import { updateTeamReducer } from "../../state/teamSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const TeamUpdate = () => {
   // Get team id from params
@@ -62,11 +62,13 @@ const TeamUpdate = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/teams");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [

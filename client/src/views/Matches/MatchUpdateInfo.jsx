@@ -5,13 +5,13 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectTeam } from "../../state/teamSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const MatchUpdateInfo = () => {
   // Get match id from params
@@ -31,6 +31,8 @@ const MatchUpdateInfo = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
@@ -66,11 +68,13 @@ const MatchUpdateInfo = () => {
         }
       } catch ({ response }) {
         if (response) {
+          dispatch(logoutReducerAsync(accessToken));
+
           navigate("/matches");
         }
       }
     })();
-  }, [accessToken, id, navigate]);
+  }, [accessToken, dispatch, id, navigate]);
 
   // Breadcrumbs
   const matchUpdateInfo = [
