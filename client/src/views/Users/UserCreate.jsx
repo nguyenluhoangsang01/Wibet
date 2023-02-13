@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
@@ -15,7 +15,7 @@ import {
   STATUSDEFAULT,
 } from "../../constants";
 import { headers } from "../../helper";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserCreate = () => {
   // Initial state
@@ -29,6 +29,8 @@ const UserCreate = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
+  // Initial dispatch
+  const dispatch = useDispatch();
 
   // Set title
   useEffect(() => {
@@ -119,6 +121,10 @@ const UserCreate = () => {
 
       // After that, set is finish to false
       setIsFinish(false);
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
+      }
     }
   };
 

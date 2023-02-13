@@ -141,6 +141,10 @@ const MatchUpdateScore = () => {
 
       // After set is finish to false
       setIsFinish(false);
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
+      }
     }
   };
 

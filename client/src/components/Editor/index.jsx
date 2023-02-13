@@ -7,7 +7,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const Editor = () => {
   // Get user from global state
@@ -54,6 +54,10 @@ const Editor = () => {
             errors: [data.message],
           },
         ]);
+      }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
       }
     }
   };

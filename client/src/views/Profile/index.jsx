@@ -12,7 +12,11 @@ import SuccessMessage from "../../components/SuccessMessage";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { selectBet } from "../../state/betSlice";
-import { selectUser, updateProfileReducer } from "../../state/userSlice";
+import {
+  logoutReducerAsync,
+  selectUser,
+  updateProfileReducer,
+} from "../../state/userSlice";
 
 const Profile = () => {
   // Get pathname from location
@@ -103,6 +107,10 @@ const Profile = () => {
         }
 
         setIsFinish(false);
+
+        if (data.statusCode === 498) {
+          dispatch(logoutReducerAsync(accessToken));
+        }
       }
     }
   };

@@ -11,6 +11,7 @@ import { loginRoutes } from "../../constants";
 import { capitalize, isValidEmail } from "../../helper";
 import {
   loginReducer,
+  logoutReducerAsync,
   selectUser,
   updateRememberToFalse,
   updateRememberToTrue,
@@ -22,7 +23,7 @@ const Login = () => {
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user from global state
-  const { user, remember } = useSelector(selectUser);
+  const { user, remember, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   // Initial navigate
@@ -113,6 +114,10 @@ const Login = () => {
 
         // When login failure
         setIsFinish(false);
+
+        if (data.statusCode === 498) {
+          dispatch(logoutReducerAsync(accessToken));
+        }
       }
 
       // Check if user click on remember me, dispatch update remember actions
@@ -124,6 +129,8 @@ const Login = () => {
     } catch (error) {
       // When update failured
       toast.error(error.message);
+
+      dispatch(logoutReducerAsync(accessToken));
 
       // When login failure
       setIsFinish(false);

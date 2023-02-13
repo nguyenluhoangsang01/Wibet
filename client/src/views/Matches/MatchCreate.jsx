@@ -12,7 +12,7 @@ import { createMatchRoutes } from "../../constants";
 import { headers } from "../../helper";
 import { updateMatchReducer } from "../../state/matchSlice";
 import { selectTeam } from "../../state/teamSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const MatchCreate = () => {
   // Initial state
@@ -152,6 +152,10 @@ const MatchCreate = () => {
 
       // Set is finish to false
       setIsFinish(false);
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
+      }
     }
   };
 

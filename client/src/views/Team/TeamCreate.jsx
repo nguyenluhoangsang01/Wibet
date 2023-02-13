@@ -11,7 +11,7 @@ import RenderFile from "../../components/RenderFile";
 import { createTeamRoutes } from "../../constants";
 import { headersWithMultipartFormData } from "../../helper";
 import { updateTeamReducer } from "../../state/teamSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const TeamCreate = () => {
   // Initial navigate
@@ -90,6 +90,10 @@ const TeamCreate = () => {
             errors: null,
           },
         ]);
+      }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
       }
 
       // Then set is finish to false

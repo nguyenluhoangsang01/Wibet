@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatTime } from "../../constants";
 import { headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
-import { selectUser } from "../../state/userSlice";
+import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 import ModalDeleteComment from "../ModalDeleteComment";
 import ModalUpdateComment from "../ModalUpdateComment";
 
@@ -79,6 +79,10 @@ const CommentList = ({ comments, isShowAllComments }) => {
           },
         ]);
       }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
+      }
     }
   };
 
@@ -129,6 +133,10 @@ const CommentList = ({ comments, isShowAllComments }) => {
             errors: [data.message],
           },
         ]);
+      }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
       }
     }
   };

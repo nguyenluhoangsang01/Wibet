@@ -9,7 +9,11 @@ import Heading from "../../components/Heading";
 import SuccessMessage from "../../components/SuccessMessage";
 import { accountRoutesB } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { selectUser, updateProfileReducer } from "../../state/userSlice";
+import {
+  logoutReducerAsync,
+  selectUser,
+  updateProfileReducer,
+} from "../../state/userSlice";
 
 const Account = () => {
   // Get pathname from location
@@ -81,6 +85,10 @@ const Account = () => {
             errors: null,
           },
         ]);
+      }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
       }
 
       setIsFinish(false);
