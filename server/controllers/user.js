@@ -405,7 +405,7 @@ export const updateMoneyUserById = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     // Clear the cookie
-    res.cookie("accessToken");
+    res.clearCookie("accessToken");
 
     // Send the response
     return sendSuccess(res, "User logged out successfully");
