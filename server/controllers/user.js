@@ -178,7 +178,7 @@ export const login = async (req, res, next) => {
     // if logging successfully set wrong password is default
     await User.findOneAndUpdate(
       { $or: [{ email }, { username }] },
-      { wrongPassword: 0 },
+      { wrongPassword: 0, isLogging: true },
       { new: true }
     );
 
