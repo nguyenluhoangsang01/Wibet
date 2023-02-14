@@ -67,10 +67,19 @@ const Matches = () => {
   const [confirmLoadingWithdrawMatch, setConfirmLoadingWithdrawMatch] =
     useState(false);
   const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Five minutes after
   const fiveMinutesLater = moment().add(5, "minutes");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Get all matches
   useEffect(() => {
@@ -91,6 +100,8 @@ const Matches = () => {
   useEffect(() => {
     if (!user) navigate("/");
   }, [navigate, user]);
+
+  if (!isShow) return null;
 
   // Handle bet
   const handleBet = (record) => {
@@ -765,7 +776,8 @@ const Matches = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {[...matches.matches]?.filter((match) =>
+        {isShow &&
+        [...matches?.matches]?.filter((match) =>
           user?.roleID === "Admin" ? match : match.isShow
         ).length < 1 ? (
           "No result found"
@@ -774,7 +786,8 @@ const Matches = () => {
             Showing{" "}
             <span className="font-bold">
               1-
-              {[...matches.matches]?.filter((match) =>
+              {isShow &&
+              [...matches?.matches]?.filter((match) =>
                 user?.roleID === "Admin" ? match : match.isShow
               ).length < 20
                 ? [...matches.matches]?.filter((match) =>

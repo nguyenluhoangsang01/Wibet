@@ -34,6 +34,15 @@ const Users = () => {
     _id: "",
     username: "",
   });
+  const [isShow, setIsShow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -54,6 +63,8 @@ const Users = () => {
   useEffect(() => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
+
+  if (!isShow) return null;
 
   // Handle delete user
   const handleDeleteUser = (_id, username) => {
