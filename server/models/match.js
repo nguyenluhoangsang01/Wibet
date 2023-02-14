@@ -24,11 +24,11 @@ const matchSchema = new Schema(
     },
     matchDate: {
       type: Date,
-      require: [true, "Match Date cannot be blank"],
+      require: [true, "Match Date can not be blank"],
     },
     rate: {
       type: Number,
-      require: [true, "Rate cannot be blank"],
+      require: [true, "Rate can not be blank"],
       trim: true,
     },
     description: String,

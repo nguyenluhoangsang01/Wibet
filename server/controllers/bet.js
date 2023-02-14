@@ -24,7 +24,7 @@ export const createBetById = async (req, res, next) => {
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404, "option");
     if (moment(match.matchDate).isBefore(fiveMinutesLater))
-      return sendError(res, "Cannot bet this match right now", 400, "bet");
+      return sendError(res, "Can not bet this match right now", 400, "bet");
     // Check if the match is over
     if (match.resultOfTeam1 || match.resultOfTeam2)
       return sendError(res, "The match is over", 400, "bet");
@@ -36,7 +36,7 @@ export const createBetById = async (req, res, next) => {
       return sendError(res, "Betted on this match", 400, "option");
 
     // Validate
-    if (!team) return sendError(res, "Option cannot be blank", 400, "option");
+    if (!team) return sendError(res, "Option can not be blank", 400, "option");
     // Check if team not exists
     const isExistingTeam = await Team.findById(team);
     if (!isExistingTeam) return sendError(res, "Team not found", 404, "option");
@@ -48,7 +48,7 @@ export const createBetById = async (req, res, next) => {
     )
       return sendError(res, "The selected team is not valid", 400, "option");
 
-    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
+    if (!money) return sendError(res, "Money can not be blank", 400, "money");
     if (money < 50)
       return sendError(
         res,
@@ -240,14 +240,14 @@ export const updateBetById = async (req, res, next) => {
       .select("-__v");
     if (!match) return sendError(res, "Match not found", 404, "option");
     if (moment(match.matchDate).isBefore(fiveMinutesLater))
-      return sendError(res, "Cannot bet this match right now", 400, "bet");
+      return sendError(res, "Can not bet this match right now", 400, "bet");
 
     // Get user by id
     const user = await User.findById(userId);
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!team) return sendError(res, "Option cannot be blank", 400, "option");
+    if (!team) return sendError(res, "Option can not be blank", 400, "option");
     // Check if team not exists
     const isExistingTeam = await Team.findById(team);
     if (!isExistingTeam) return sendError(res, "Team not found", 404, "option");
@@ -258,7 +258,7 @@ export const updateBetById = async (req, res, next) => {
     )
       return sendError(res, "The selected team is not valid", 400, "option");
 
-    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
+    if (!money) return sendError(res, "Money can not be blank", 400, "money");
     if (money < 50)
       return sendError(
         res,

@@ -23,13 +23,13 @@ export const createUser = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!email) return sendError(res, "Email cannot be blank", 400, "email");
+    if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
       return sendError(res, "Email is not a valid email address", 400, "email");
     if (!username)
-      return sendError(res, "Username cannot be blank", 400, "username");
+      return sendError(res, "Username can not be blank", 400, "username");
     if (!password)
-      return sendError(res, "Password cannot be blank", 400, "password");
+      return sendError(res, "Password can not be blank", 400, "password");
     if (password.length < 3)
       return sendError(
         res,
@@ -105,12 +105,12 @@ export const login = async (req, res, next) => {
     if (!email && !username)
       return sendError(
         res,
-        "Email / Username cannot be blank",
+        "Email / Username can not be blank",
         400,
         "emailOrUsername"
       );
     if (!password)
-      return sendError(res, "Password cannot be blank", 400, "password");
+      return sendError(res, "Password can not be blank", 400, "password");
 
     // Get user selected to check if it not exist
     const isExistingUser = await User.findOne({
@@ -130,6 +130,13 @@ export const login = async (req, res, next) => {
     // Check if user is banned
     if (isExistingUser.banned)
       return sendError(res, "User is banned", 400, "emailOrUsername");
+    if (!isExistingUser.isLogout && isExistingUser.accessToken)
+      return sendError(
+        res,
+        "Can not login at the same time",
+        400,
+        "emailOrUsername"
+      );
 
     // Compare password
     const comparedPassword = bcrypt.compareSync(
@@ -188,6 +195,7 @@ export const login = async (req, res, next) => {
       loggedInAt: moment().format(formatTime),
       loggedInIp: currentIpAddress,
       accessToken,
+      isLogout: false,
     });
 
     // Get user
@@ -213,11 +221,11 @@ export const updateUser = async (req, res, next) => {
     const { email, username, newPassword } = req.body;
 
     // Validate
-    if (!email) return sendError(res, "Email cannot be blank", 400, "email");
+    if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
       return sendError(res, "Email is not a valid email address", 400, "email");
     if (!username)
-      return sendError(res, "Username cannot be blank", 400, "username");
+      return sendError(res, "Username can not be blank", 400, "username");
 
     // Check if user not exists
     const user = await User.findById(userId);
@@ -289,7 +297,7 @@ export const updateUserById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!email) return sendError(res, "Email cannot be blank", 400, "email");
+    if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
       return sendError(res, "Email is not a valid email address", 400, "email");
     const isExistingWithEmail = await User.findOne({
@@ -304,7 +312,7 @@ export const updateUserById = async (req, res, next) => {
       );
 
     if (!username)
-      return sendError(res, "Username cannot be blank", 400, "username");
+      return sendError(res, "Username can not be blank", 400, "username");
     const isExistingWithUsername = await User.findOne({
       username: { $ne: user.username, $eq: username },
     });
@@ -374,7 +382,7 @@ export const updateMoneyUserById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!money) return sendError(res, "Money cannot be blank", 400, "money");
+    if (!money) return sendError(res, "Money can not be blank", 400, "money");
     if (!Number.isInteger(money))
       return sendError(res, "Money is not a valid number", 400, "money");
     if (money <= 0)
@@ -414,7 +422,11 @@ export const logout = async (req, res, next) => {
     const { userId } = req;
 
     // Delete access token
-    await User.findByIdAndUpdate(userId, { accessToken: null }, { new: true });
+    await User.findByIdAndUpdate(
+      userId,
+      { accessToken: null, isLogout: true },
+      { new: true }
+    );
 
     // Clear the cookie
     res.clearCookie("accessToken");
@@ -437,7 +449,7 @@ export const deleteUserById = async (req, res, next) => {
     const user = await User.findById(id).select("-__v -password");
     if (!user) return sendError(res, "User not found", 404);
     if (user._id.toString() === userId)
-      return sendError(res, "Cannot delete this user");
+      return sendError(res, "Can not delete this user");
 
     // Delete user
     await User.findByIdAndDelete(id);
@@ -483,12 +495,17 @@ export const updatePassword = async (req, res, next) => {
     if (!currentPassword)
       return sendError(
         res,
-        "Current Password cannot be blank",
+        "Current Password can not be blank",
         400,
         "currentPassword"
       );
     if (!newPassword)
-      return sendError(res, "New Password cannot be blank", 400, "newPassword");
+      return sendError(
+        res,
+        "New Password can not be blank",
+        400,
+        "newPassword"
+      );
 
     // Get user
     const user = await User.findById(userId);
@@ -585,9 +602,9 @@ export const updateProfile = async (req, res, next) => {
 
     // Validate
     if (!fullName)
-      return sendError(res, "Full Name cannot be blank", 400, "fullName");
+      return sendError(res, "Full Name can not be blank", 400, "fullName");
     if (!timezone)
-      return sendError(res, "Timezone cannot be blank", 400, "timezone");
+      return sendError(res, "Timezone can not be blank", 400, "timezone");
 
     // Get user
     const getUser = await User.findById(userId);

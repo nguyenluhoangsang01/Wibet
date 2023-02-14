@@ -207,7 +207,7 @@ const BetCreate = () => {
           rules={[
             {
               required: true,
-              message: "Option cannot be blank",
+              message: "Option can not be blank",
             },
           ]}
         >
@@ -236,7 +236,7 @@ const BetCreate = () => {
           rules={[
             {
               required: true,
-              message: "Money cannot be blank",
+              message: "Money can not be blank",
             },
             {
               type: "number",

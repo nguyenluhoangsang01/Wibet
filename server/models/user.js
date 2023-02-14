@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      require: [true, "Email cannot be blank"],
+      require: [true, "Email can not be blank"],
       trim: true,
       unique: true,
       validate(value) {
@@ -18,7 +18,7 @@ const userSchema = new Schema(
     fullName: String,
     username: {
       type: String,
-      require: [true, "Username cannot be blank"],
+      require: [true, "Username can not be blank"],
       trim: true,
       unique: true,
     },
@@ -78,6 +78,10 @@ const userSchema = new Schema(
       default: 0,
     },
     accessToken: String,
+    isLogout: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

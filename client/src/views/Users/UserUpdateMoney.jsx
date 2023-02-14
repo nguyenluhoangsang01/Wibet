@@ -182,7 +182,7 @@ const UserUpdateMoney = () => {
           rules={[
             {
               required: true,
-              message: "Money cannot be blank",
+              message: "Money can not be blank",
             },
             {
               type: "number",

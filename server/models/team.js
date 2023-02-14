@@ -5,13 +5,13 @@ const teamSchema = new Schema(
   {
     name: {
       type: String,
-      require: [true, "Name cannot be blank"],
+      require: [true, "Name can not be blank"],
       unique: true,
       trim: true,
     },
     fullName: {
       type: String,
-      require: [true, "Full name cannot be blank"],
+      require: [true, "Full name can not be blank"],
       unique: true,
       trim: true,
     },

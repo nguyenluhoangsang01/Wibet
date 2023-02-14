@@ -125,7 +125,7 @@ const Account = () => {
             rules={[
               {
                 required: true,
-                message: "Current Password cannot be blank",
+                message: "Current Password can not be blank",
               },
             ]}
           >
@@ -150,7 +150,7 @@ const Account = () => {
               rules={[
                 {
                   required: true,
-                  message: "New Password cannot be blank",
+                  message: "New Password can not be blank",
                 },
               ]}
             >

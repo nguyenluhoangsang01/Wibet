@@ -15,14 +15,14 @@ export const createComment = async (req, res, next) => {
     if (!user)
       return sendError(
         res,
-        "Cannot create comment right now, please login",
+        "Can not create comment right now, please login",
         404,
         "content"
       );
 
     // Check if content not found
     if (!content)
-      return sendError(res, "Content cannot be blank", 400, "content");
+      return sendError(res, "Content can not be blank", 400, "content");
 
     // Create a new comment
     const newComment = await Comment.create({
@@ -134,7 +134,7 @@ export const updateCommentById = async (req, res, next) => {
 
     // Check if content not found
     if (!content)
-      return sendError(res, "Content cannot be blank", 400, "content");
+      return sendError(res, "Content can not be blank", 400, "content");
 
     // Find and update comment
     const comment = await Comment.findByIdAndUpdate(

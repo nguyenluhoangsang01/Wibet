@@ -279,7 +279,7 @@ const MatchUpdateInfo = () => {
           rules={[
             {
               required: true,
-              message: "Team 1 cannot be blank",
+              message: "Team 1 can not be blank",
             },
           ]}
         >
@@ -306,7 +306,7 @@ const MatchUpdateInfo = () => {
           rules={[
             {
               required: true,
-              message: "Team 2 cannot be blank",
+              message: "Team 2 can not be blank",
             },
           ]}
         >
@@ -333,7 +333,7 @@ const MatchUpdateInfo = () => {
           rules={[
             {
               required: true,
-              message: "Match Date cannot be blank",
+              message: "Match Date can not be blank",
             },
           ]}
         >
@@ -353,7 +353,7 @@ const MatchUpdateInfo = () => {
           rules={[
             {
               required: true,
-              message: "Rate cannot be blank",
+              message: "Rate can not be blank",
             },
             {
               type: "number",

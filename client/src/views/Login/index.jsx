@@ -161,7 +161,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: "Email / Username cannot be blank",
+              message: "Email / Username can not be blank",
             },
           ]}
         >
@@ -175,7 +175,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: "Password cannot be blank",
+              message: "Password can not be blank",
             },
           ]}
         >

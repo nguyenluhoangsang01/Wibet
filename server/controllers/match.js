@@ -12,25 +12,25 @@ export const createMatch = async (req, res, next) => {
     const { team1, team2, matchDate, rate } = req.body;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank", 400, "team1");
+    if (!team1) return sendError(res, "Team 1 can not be blank", 400, "team1");
     // Check if team 1 not exists
     const team1IsExisting = await Team.findById(team1);
     if (!team1IsExisting)
       return sendError(res, "Team 1 not found", 404, "team1");
     // Check if team 2 not exists
-    if (!team2) return sendError(res, "Team 2 cannot be blank", 400, "team2");
+    if (!team2) return sendError(res, "Team 2 can not be blank", 400, "team2");
     const team2IsExisting = await Team.findById(team2);
     if (!team2IsExisting)
       return sendError(res, "Team 2 not found", 404, "team2");
 
     // Check if team 1 equal team 2
     if (team1 === team2)
-      return sendError(res, "Cannot choose the same team", 400, "team2");
+      return sendError(res, "Can not choose the same team", 400, "team2");
 
     if (!matchDate)
-      return sendError(res, "Match Date cannot be blank", 400, "matchDate");
+      return sendError(res, "Match Date can not be blank", 400, "matchDate");
     if (!rate && rate !== 0)
-      return sendError(res, "Rate cannot be blank", 400, "rate");
+      return sendError(res, "Rate can not be blank", 400, "rate");
     if (rate < 0)
       return sendError(
         res,
@@ -51,7 +51,7 @@ export const createMatch = async (req, res, next) => {
       $or: [{ team1 }, { team2 }],
     });
     if (matchExistingWithTeam)
-      return sendError(res, "Cannot chose this team right now", 400, "team1");
+      return sendError(res, "Can not chose this team right now", 400, "team1");
 
     // Create new match
     const newMatch = await Match.create({ ...req.body });
@@ -88,7 +88,7 @@ export const deleteMatchById = async (req, res, next) => {
     const bets = await Bet.find({ match: id });
     // Check if length of bet array is greater than 0
     if (bets.length > 0)
-      return sendError(res, "Cannot delete this match right now");
+      return sendError(res, "Can not delete this match right now");
 
     // Find match by id and delete
     const match = await Match.findByIdAndDelete(id);
@@ -167,22 +167,22 @@ export const updateMatchById = async (req, res, next) => {
     const { id } = req.params;
 
     // Validate
-    if (!team1) return sendError(res, "Team 1 cannot be blank", 400, "team1");
+    if (!team1) return sendError(res, "Team 1 can not be blank", 400, "team1");
     // Check if team 1 not exists
     const team1IsExisting = await Team.findById(team1);
     if (!team1IsExisting)
       return sendError(res, "Team 1 not found", 404, "team1");
 
-    if (!team2) return sendError(res, "Team 2 cannot be blank", 400, "team2");
+    if (!team2) return sendError(res, "Team 2 can not be blank", 400, "team2");
     // Check if team 2 not exists
     const team2IsExisting = await Team.findById(team2);
     if (!team2IsExisting)
       return sendError(res, "Team 2 not found", 404, "team2");
 
     if (!matchDate)
-      return sendError(res, "Match Date cannot be blank", 400, "matchDate");
+      return sendError(res, "Match Date can not be blank", 400, "matchDate");
     if (!rate && rate !== 0)
-      return sendError(res, "Rate cannot be blank", 400, "rate");
+      return sendError(res, "Rate can not be blank", 400, "rate");
     if (rate < 0)
       return sendError(
         res,
@@ -231,7 +231,7 @@ export const updateScoreById = async (req, res, next) => {
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
       return sendError(
         res,
-        "Team 1 Score cannot be blank",
+        "Team 1 Score can not be blank",
         400,
         "resultOfTeam1"
       );
@@ -259,7 +259,7 @@ export const updateScoreById = async (req, res, next) => {
     if (!resultOfTeam2 && resultOfTeam2 !== 0)
       return sendError(
         res,
-        "Team 2 Score cannot be blank",
+        "Team 2 Score can not be blank",
         400,
         "resultOfTeam2"
       );
@@ -311,7 +311,7 @@ export const updateScoreById = async (req, res, next) => {
     if (resultOfTeam1 === resultOfTeam2)
       return sendError(
         res,
-        "The result of the match cannot be drawn",
+        "The result of the match can not be drawn",
         400,
         "resultOfTeam1"
       );
@@ -353,7 +353,7 @@ export const updateScoreById = async (req, res, next) => {
       if (!previousMatch.result)
         return sendError(
           res,
-          "Cannot update score of this match right now",
+          "Can not update score of this match right now",
           400,
           "resultOfTeam1"
         );

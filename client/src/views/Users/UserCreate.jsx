@@ -167,7 +167,7 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Email cannot be blank",
+                message: "Email can not be blank",
               },
               {
                 pattern: "^(.*)@(tma).com.vn",
@@ -185,7 +185,7 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Username cannot be blank",
+                message: "Username can not be blank",
               },
             ]}
           >
@@ -239,7 +239,7 @@ const UserCreate = () => {
             rules={[
               {
                 required: true,
-                message: "Password cannot be blank",
+                message: "Password can not be blank",
               },
               {
                 min: 3,

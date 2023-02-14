@@ -225,7 +225,7 @@ const UserUpdate = () => {
             rules={[
               {
                 required: true,
-                message: "Email cannot be blank",
+                message: "Email can not be blank",
               },
               {
                 pattern: "^(.*)@(tma).com.vn",
@@ -243,7 +243,7 @@ const UserUpdate = () => {
             rules={[
               {
                 required: true,
-                message: "Username cannot be blank",
+                message: "Username can not be blank",
               },
             ]}
           >

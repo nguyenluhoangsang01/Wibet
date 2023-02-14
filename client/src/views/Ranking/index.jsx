@@ -1,5 +1,5 @@
 import { Table, Tooltip } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaShare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +19,16 @@ const Ranking = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+  // Initial state
+  const [isShow, setIsShow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -29,6 +39,8 @@ const Ranking = () => {
   useEffect(() => {
     dispatch(getAllUsersReducerAsync());
   }, [accessToken, dispatch]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle tracking
   const handleTracking = async (id) => {

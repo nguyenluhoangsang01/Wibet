@@ -203,7 +203,7 @@ const MatchUpdateScore = () => {
       {/* Note */}
       <div className="w-full bg-[#fcf8e3] text-[#8a6d3b] mb-[20px] p-[15px] rounded font-[arial]">
         <p>
-          <b>Note:</b> After you update score of this match, you cannot update
+          <b>Note:</b> After you update score of this match, you can not update
           this match anymore.
         </p>
       </div>
@@ -224,7 +224,7 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: "Team 1 Score cannot be blank",
+              message: "Team 1 Score can not be blank",
             },
             {
               type: "number",
@@ -248,7 +248,7 @@ const MatchUpdateScore = () => {
           rules={[
             {
               required: true,
-              message: "Team 2 Score cannot be blank",
+              message: "Team 2 Score can not be blank",
             },
             {
               type: "number",
