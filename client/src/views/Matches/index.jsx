@@ -544,6 +544,7 @@ const Matches = () => {
       title: "Your Bet",
       dataIndex: "bet-action",
       key: "bet-action",
+      width: "250px",
       render: (text, record) =>
         record.result || moment(record.matchDate).isBefore(fiveMinutesLater) ? (
           "-"
