@@ -367,7 +367,7 @@ const Matches = () => {
       title: "Team 1",
       dataIndex: "team1",
       key: "team1",
-			width: "150px",
+      width: "150px",
       render: (text) =>
         text ? (
           <div className="truncate flex items-center gap-1">
@@ -429,7 +429,7 @@ const Matches = () => {
       title: "Team 2",
       dataIndex: "team2",
       key: "team2",
-			width: "150px",
+      width: "150px",
       render: (text) =>
         text ? (
           <div className="truncate flex items-center gap-1">
@@ -468,7 +468,7 @@ const Matches = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
-			width: "50px",
+      width: "50px",
       render: (text) => <span>0:{formatNumber(text)}</span>,
     },
     {
@@ -485,7 +485,7 @@ const Matches = () => {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
-			width: "100px",
+      width: "110px",
       render: (text, record) =>
         record.isCanceled ? (
           <span className="bg-[#6c757d] rounded-full gap-1 text-white text-[16px] font-bold font-[calibri] px-4">
@@ -533,7 +533,7 @@ const Matches = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-			width: "150px",
+      width: "150px",
       render: (text, record) => (
         <Tooltip title={`${record.statusOfTeam1} / ${record.statusOfTeam2}`}>
           <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
