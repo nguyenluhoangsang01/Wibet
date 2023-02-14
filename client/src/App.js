@@ -59,7 +59,11 @@ function App() {
       }}
     >
       <Toaster
-        toastOptions={{ className: "font-[calibri] text-[16px] mt-[40px]" }}
+        toastOptions={{
+          className:
+            "font-[calibri] text-[16px] mt-[40px] border-[1px] border-[#222] shadow-xl",
+          duration: 5000,
+        }}
       />
 
       <ScrollToTop />
