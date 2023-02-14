@@ -352,6 +352,7 @@ const Matches = () => {
       title: "#",
       dataIndex: "index",
       key: "index",
+      width: "50px",
       render: (text, record) => (
         <p className="font-[calibri] text-[18px]">
           {[...matches.matches]
@@ -366,9 +367,10 @@ const Matches = () => {
       title: "Team 1",
       dataIndex: "team1",
       key: "team1",
+			width: "150px",
       render: (text) =>
         text ? (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src={text?.flag}
@@ -384,7 +386,7 @@ const Matches = () => {
             </Tooltip>
           </div>
         ) : (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
@@ -405,6 +407,7 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam1",
       key: "resultOfTeam1",
+      width: "30px",
       render: (text) => (
         <span className="font-[calibri] text-[18px]">
           {text ? text : text === 0 ? "0" : "-"}
@@ -415,6 +418,7 @@ const Matches = () => {
       title: "-",
       dataIndex: "resultOfTeam2",
       key: "resultOfTeam2",
+      width: "30px",
       render: (text) => (
         <span className="font-[calibri] text-[18px]">
           {text ? text : text === 0 ? "0" : "-"}
@@ -425,9 +429,10 @@ const Matches = () => {
       title: "Team 2",
       dataIndex: "team2",
       key: "team2",
+			width: "150px",
       render: (text) =>
         text ? (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src={text?.flag}
@@ -443,7 +448,7 @@ const Matches = () => {
             </Tooltip>
           </div>
         ) : (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
@@ -463,6 +468,7 @@ const Matches = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
+			width: "50px",
       render: (text) => <span>0:{formatNumber(text)}</span>,
     },
     {
@@ -479,6 +485,7 @@ const Matches = () => {
       title: "After Rate",
       dataIndex: "rate",
       key: "rate",
+			width: "100px",
       render: (text, record) =>
         record.isCanceled ? (
           <span className="bg-[#6c757d] rounded-full gap-1 text-white text-[16px] font-bold font-[calibri] px-4">
@@ -502,7 +509,7 @@ const Matches = () => {
                 : "-"
             }] ${record?.team2?.name || "Team 2"}`}
           >
-            <span>
+            <span className="text-center">
               {`${record?.team1?.name} [${
                 record?.resultOfTeam1
                   ? Number(record?.resultOfTeam1)
@@ -526,6 +533,7 @@ const Matches = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+			width: "150px",
       render: (text, record) => (
         <Tooltip title={`${record.statusOfTeam1} / ${record.statusOfTeam2}`}>
           <span>{`${record.statusOfTeam1} / ${record.statusOfTeam2}`}</span>
