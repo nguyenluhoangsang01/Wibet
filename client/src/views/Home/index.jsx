@@ -12,6 +12,7 @@ import { selectUser } from "../../state/userSlice";
 const Home = () => {
   // Initial state
   const [comingMatch, setComingMatch] = useState({});
+  const [isShow, setIsShow] = useState(false);
   // Get all matches from global state
   const {
     matches: { matches },
@@ -20,6 +21,14 @@ const Home = () => {
   const { user } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -33,17 +42,18 @@ const Home = () => {
 
   // Get first match
   useEffect(() => {
-    [...matches]
-      ?.filter((match) => match.isShow)
-      ?.sort((a, b) => moment(b.matchDate) - moment(a.matchDate))
-      ?.some(
-        (match) =>
-          !match.isCanceled &&
-          !match.result &&
-          match.isShow &&
-          setComingMatch(match)
-      );
-  }, [matches, user?.roleID]);
+    isShow &&
+      [...matches]
+        ?.filter((match) => match.isShow)
+        ?.sort((a, b) => moment(b.matchDate) - moment(a.matchDate))
+        ?.some(
+          (match) =>
+            !match.isCanceled &&
+            !match.result &&
+            match.isShow &&
+            setComingMatch(match)
+        );
+  }, [isShow, matches, user?.roleID]);
 
   return (
     <div className="min-h-[calc(100vh-50px-60px-40px)]">

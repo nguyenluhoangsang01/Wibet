@@ -37,6 +37,15 @@ const Team = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [deleteTeam, setDeleteTeam] = useState({ _id: null, fullName: null });
+  const [isShow, setIsShow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -57,6 +66,8 @@ const Team = () => {
   useEffect(() => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
+
+  if (!isShow) return null;
 
   // Handle confirm ok when user delete
   const handleOk = () => {

@@ -21,14 +21,19 @@ const Comments = () => {
   const { comments } = useSelector(selectComment);
   // Get user from global state
   const { user } = useSelector(selectUser);
+  // Initial navigate
+  const navigate = useNavigate();
   // Initial state
   const [isShowAllComments, setIsShowAllComments] = useState(false);
-  const navigate = useNavigate();
+  const [isShow, setIsShow] = useState(false);
 
-  //
   useEffect(() => {
-    if (!comments) return null;
-  }, [comments]);
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -39,6 +44,8 @@ const Comments = () => {
   useEffect(() => {
     dispatch(getAllCommentsReducerAsync());
   }, [dispatch]);
+
+  if (!isShow) return null;
 
   // Handle login
   const handleLogin = () => {
