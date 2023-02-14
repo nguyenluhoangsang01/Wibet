@@ -130,12 +130,13 @@ export const login = async (req, res, next) => {
     // Check if user is banned
     if (isExistingUser.banned)
       return sendError(res, "User is banned", 400, "emailOrUsername");
-    if (!isExistingUser.isLogout && isExistingUser.accessToken)
+    // Check if is logging is true
+    if (isExistingUser.isLogging)
       return sendError(
         res,
-        "Can not login at the same time",
+        "Account is logged in on another device",
         400,
-        "emailOrUsername"
+        "toastEmailOrUsername"
       );
 
     // Compare password
@@ -195,7 +196,7 @@ export const login = async (req, res, next) => {
       loggedInAt: moment().format(formatTime),
       loggedInIp: currentIpAddress,
       accessToken,
-      isLogout: false,
+      isLogging: true,
     });
 
     // Get user
@@ -424,7 +425,7 @@ export const logout = async (req, res, next) => {
     // Delete access token
     await User.findByIdAndUpdate(
       userId,
-      { accessToken: null, isLogout: true },
+      { accessToken: null, isLogging: false },
       { new: true }
     );
 

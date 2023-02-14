@@ -112,6 +112,10 @@ const Login = () => {
           ]);
         }
 
+        if (data.name === "toastEmailOrUsername") {
+          toast.error(data.message);
+        }
+
         // When login failure
         setIsFinish(false);
 

@@ -78,9 +78,9 @@ const userSchema = new Schema(
       default: 0,
     },
     accessToken: String,
-    isLogout: {
+    isLogging: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {
