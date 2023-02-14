@@ -21,6 +21,7 @@ const MatchUpdateInfo = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [team1Selected, setTeam1Selected] = useState("");
   const [team2Selected, setTeam2Selected] = useState("");
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Get all teams from global state
@@ -33,6 +34,14 @@ const MatchUpdateInfo = () => {
   const form = useRef(null);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -75,6 +84,8 @@ const MatchUpdateInfo = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const matchUpdateInfo = [

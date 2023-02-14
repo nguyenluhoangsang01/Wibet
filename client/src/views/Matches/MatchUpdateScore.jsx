@@ -21,6 +21,7 @@ const MatchUpdateScore = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [autoGenerate, setAutoGenerate] = useState(true);
   const [result, setResult] = useState("Draw");
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Get user from global state
@@ -29,6 +30,14 @@ const MatchUpdateScore = () => {
   const dispatch = useDispatch();
   // Initial form ref
   const form = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if user not exists
   useEffect(() => {
@@ -67,6 +76,8 @@ const MatchUpdateScore = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Check if match had result
   if (match.result) navigate("/matches");

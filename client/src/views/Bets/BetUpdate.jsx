@@ -26,8 +26,17 @@ const BetUpdate = () => {
   const [match, setMatch] = useState({});
   const [bet, setBet] = useState({});
   const [isFinish, setIsFinish] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial form ref
   const form = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if user not exists
   useEffect(() => {
@@ -90,6 +99,8 @@ const BetUpdate = () => {
       }
     })();
   }, [accessToken, betId, dispatch, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Routes for breadcrumbs
   const updateBetRoutes = [

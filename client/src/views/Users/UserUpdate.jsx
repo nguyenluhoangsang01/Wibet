@@ -24,6 +24,7 @@ const UserUpdate = () => {
   const [status, setStatus] = useState(user?.status);
   const [roleID, setRoleID] = useState(user?.roleID);
   const [isBanned, setIsBanned] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
@@ -33,6 +34,14 @@ const UserUpdate = () => {
   const { accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -75,6 +84,8 @@ const UserUpdate = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [

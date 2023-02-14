@@ -20,6 +20,7 @@ const UserUpdateMoney = () => {
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [user, setUser] = useState(null);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
@@ -29,6 +30,14 @@ const UserUpdateMoney = () => {
   const { accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -71,6 +80,8 @@ const UserUpdateMoney = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const userViewDetailsUpdateRules = [

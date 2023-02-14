@@ -19,6 +19,7 @@ const TeamUpdate = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [file, setFile] = useState(null);
   const [team, setTeam] = useState(null);
+  const [isShow, setIsShow] = useState(false);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -27,6 +28,14 @@ const TeamUpdate = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -69,6 +78,8 @@ const TeamUpdate = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const teamViewDetailsUpdateRules = [
