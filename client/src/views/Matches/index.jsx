@@ -101,7 +101,7 @@ const Matches = () => {
     if (!user) navigate("/");
   }, [navigate, user]);
 
-  if (!isShow) return null;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle bet
   const handleBet = (record) => {

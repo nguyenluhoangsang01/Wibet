@@ -67,7 +67,7 @@ const Team = () => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
 
-  if (!isShow) return null;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle confirm ok when user delete
   const handleOk = () => {

@@ -45,7 +45,7 @@ const Comments = () => {
     dispatch(getAllCommentsReducerAsync());
   }, [dispatch]);
 
-  if (!isShow) return null;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle login
   const handleLogin = () => {

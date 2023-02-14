@@ -3,12 +3,8 @@ import User from "../models/user.js";
 
 const verifyInvalidToken = async (req, res, next) => {
   try {
-    // Get user if from request
-    const { userId } = req;
-
-    // Get access token from request headers
-    const authHeader = req.headers.authorization;
-    const accessToken = authHeader?.split(" ")[1];
+    // Get user id and access token from request
+    const { userId, accessToken } = req;
 
     // Get user by user id
     const user = await User.findById(userId);
