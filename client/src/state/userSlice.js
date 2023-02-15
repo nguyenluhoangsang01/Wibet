@@ -30,8 +30,6 @@ export const userSlice = createSlice({
 
       if (payload.success) {
         toast.success(payload.message);
-      } else {
-        toast.error(payload.message);
       }
     },
 
