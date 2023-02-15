@@ -230,6 +230,6 @@ g svg g text {
   @apply flex items-center justify-center;
 }
 
-.accessLevel td {
+.accessLevel td:not(:last-child) {
   @apply border-r-2;
 }
