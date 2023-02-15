@@ -11,7 +11,7 @@ import User from "../models/user.js";
 export const createUser = async (req, res, next) => {
   try {
     // Get data from request body
-    const { email, username, password, money } = req.body;
+    const { email, username, password, money, banned } = req.body;
     // Get user id from request
     const { userId } = req;
 
@@ -74,6 +74,7 @@ export const createUser = async (req, res, next) => {
       createdBy: user.username,
       createdIp: currentIpAddress,
       money: money < 200 ? 200 : money,
+      bannedAt: banned && moment().format(formatTime),
     });
     await newUser.save();
 
@@ -126,15 +127,10 @@ export const login = async (req, res, next) => {
       );
     // Check if user is inactive
     if (isExistingUser.status === "Inactive")
-      return sendError(
-        res,
-        "The account is inactive",
-        400,
-        "toastEmailOrUsername"
-      );
+      return sendError(res, "Account is inactive", 400, "toastEmailOrUsername");
     // Check if user is banned
     if (isExistingUser.banned)
-      return sendError(res, "User is banned", 400, "emailOrUsername");
+      return sendError(res, "Account is banned", 400, "toastEmailOrUsername");
     // Check if is logging is true
     if (isExistingUser.isLogging)
       return sendError(
