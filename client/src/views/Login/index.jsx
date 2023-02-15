@@ -27,6 +27,7 @@ const Login = () => {
   const { user, remember, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
@@ -41,6 +42,14 @@ const Login = () => {
       ).toString(CryptoJS.enc.Utf8)
     );
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -50,6 +59,8 @@ const Login = () => {
   useEffect(() => {
     if (user) navigate("/");
   }, [navigate, user]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {

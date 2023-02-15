@@ -30,7 +30,7 @@ const Comments = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsShow(true);
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);

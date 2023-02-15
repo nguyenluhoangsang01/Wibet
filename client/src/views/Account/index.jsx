@@ -23,12 +23,21 @@ const Account = () => {
   // State
   const [isFinish, setIsFinish] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Redux
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
   const form = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -39,6 +48,8 @@ const Account = () => {
   useEffect(() => {
     if (!user) navigate("/");
   }, [navigate, user]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {
