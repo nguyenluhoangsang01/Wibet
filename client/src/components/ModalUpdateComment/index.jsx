@@ -1,16 +1,33 @@
 import { Button, Form, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const ModalUpdateComment = ({
   openUpdate,
   confirmLoadingUpdate,
   handleOkUpdate,
   handleCancelUpdate,
-  form,
   user,
   setContentEdit,
+  selectedCommentUpdate,
 }) => {
+  // Initial state
+  const [isShow, setIsShow] = useState(false);
+  // Initial form ref
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    // Reset form
+    formRef?.current?.resetFields();
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isShow) return <span>Loading...</span>;
+
   return (
     <Modal
       title="Update comment"
@@ -40,7 +57,12 @@ const ModalUpdateComment = ({
       ]}
     >
       {/* Form */}
-      <Form name="update-comment" autoComplete="off" ref={form}>
+      <Form
+        name="update-comment"
+        autoComplete="off"
+        ref={formRef}
+        initialValues={{ content: selectedCommentUpdate?.content }}
+      >
         {/* Content input */}
         <Form.Item
           name="content"

@@ -122,20 +122,20 @@ const CommentList = ({ comments, isShowAllComments }) => {
         // Reset form
         form.current.resetFields();
       }
-    } catch ({ response: { data } }) {
+    } catch ({ response }) {
       // Set is finish to false
       setConfirmLoadingUpdate(false);
 
-      if (data.name === "content") {
+      if (response?.data?.name === "content") {
         form.current.setFields([
           {
             name: "content",
-            errors: [data.message],
+            errors: [response?.data?.message],
           },
         ]);
       }
 
-      if (data.statusCode === 498) {
+      if (response?.data?.statusCode === 498) {
         dispatch(logoutReducerAsync(accessToken));
       }
     }
@@ -265,6 +265,7 @@ const CommentList = ({ comments, isShowAllComments }) => {
         form={form}
         user={user}
         setContentEdit={setContentEdit}
+        selectedCommentUpdate={selectedCommentUpdate}
       />
     </ul>
   );
