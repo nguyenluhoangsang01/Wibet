@@ -126,7 +126,12 @@ export const login = async (req, res, next) => {
       );
     // Check if user is inactive
     if (isExistingUser.status === "Inactive")
-      return sendError(res, "The account is inactive", 400, "emailOrUsername");
+      return sendError(
+        res,
+        "The account is inactive",
+        400,
+        "toastEmailOrUsername"
+      );
     // Check if user is banned
     if (isExistingUser.banned)
       return sendError(res, "User is banned", 400, "emailOrUsername");
