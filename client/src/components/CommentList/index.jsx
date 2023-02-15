@@ -262,7 +262,6 @@ const CommentList = ({ comments, isShowAllComments }) => {
         confirmLoadingUpdate={confirmLoadingUpdate}
         handleOkUpdate={handleOkUpdate}
         handleCancelUpdate={handleCancelUpdate}
-        form={form}
         user={user}
         setContentEdit={setContentEdit}
         selectedCommentUpdate={selectedCommentUpdate}
