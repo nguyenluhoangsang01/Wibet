@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { loginRoutes } from "../../constants";
+import { loginRoutes, REACT_TRANSFORM_SECRET_KEY } from "../../constants";
 import { capitalize, isValidEmail } from "../../helper";
 import {
   loginReducer,
@@ -16,6 +16,7 @@ import {
   updateRememberToFalse,
   updateRememberToTrue,
 } from "../../state/userSlice";
+import CryptoJS from "crypto-js";
 
 const Login = () => {
   // Get pathname from location
@@ -31,7 +32,14 @@ const Login = () => {
   // Initial form ref
   const form = useRef(null);
   // Get remember information on local storage
-  const values = JSON.parse(localStorage.getItem("rememberMe"));
+  const values =
+    JSON.parse(localStorage.getItem("rememberMe")) &&
+    JSON.parse(
+      CryptoJS.AES.decrypt(
+        JSON.parse(localStorage.getItem("rememberMe")),
+        REACT_TRANSFORM_SECRET_KEY
+      ).toString(CryptoJS.enc.Utf8)
+    );
 
   // Set title
   useEffect(() => {
@@ -72,11 +80,16 @@ const Login = () => {
           if (values.remember) {
             localStorage.setItem(
               "rememberMe",
-              JSON.stringify({
-                ...values,
-                email,
-                username,
-              })
+              JSON.stringify(
+                CryptoJS.AES.encrypt(
+                  JSON.stringify({
+                    ...values,
+                    email,
+                    username,
+                  }),
+                  REACT_TRANSFORM_SECRET_KEY
+                ).toString()
+              )
             );
           } else {
             localStorage.removeItem("rememberMe");
