@@ -22,6 +22,7 @@ const UserViewDetails = () => {
   const [user, setUser] = useState({});
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial dispatch from redux
@@ -29,6 +30,14 @@ const UserViewDetails = () => {
   // Get user logged
   const userLogged = useSelector(selectUser);
   const { accessToken } = useSelector(selectUser);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -64,6 +73,8 @@ const UserViewDetails = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const userViewDetailsRules = [

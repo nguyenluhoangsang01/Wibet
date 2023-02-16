@@ -15,6 +15,7 @@ const Brackets = () => {
   } = useSelector(selectMatch);
   // Initial state
   const [game, setGame] = useState([]);
+  const [isShow, setIsShow] = useState(false);
   // Initial id
   const id14 = useId();
   const id13 = useId();
@@ -34,24 +35,35 @@ const Brackets = () => {
   // Initial dispatch
   const dispatch = useDispatch();
 
-  // Set title
   useEffect(() => {
-    document.title = capitalize(pathname.slice(1));
-  }, [pathname]);
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Get all matches
   useEffect(() => {
     dispatch(getAllMatchesReducerAsync());
   }, [dispatch]);
 
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  }, [pathname]);
+
   // Set game after filter
   useEffect(() => {
-    setGame(
-      [...matches]
-        ?.filter((match) => match.isShow && !match.isCanceled)
-        ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-    );
-  }, [matches]);
+    isShow &&
+      setGame(
+        [...matches]
+          ?.filter((match) => match.isShow && !match.isCanceled)
+          ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+      );
+  }, [isShow, matches]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Game bracket
   const gameBracket = {

@@ -150,7 +150,8 @@ const Ranking = () => {
       title: "-",
       dataIndex: "actions",
       render: (text, record) =>
-        isShowHistory && (
+        isShowHistory &&
+        user && (
           <div className="flex items-center justify-center">
             <Tooltip title="View info">
               <button
@@ -183,11 +184,10 @@ const Ranking = () => {
             <span className="font-bold">
               {[...users?.users].filter((user) => user.betTimes > 0).length}
             </span>{" "}
-            item
+            user
             {[...users?.users].filter((user) => user.betTimes > 0).length > 1
               ? "s"
               : ""}
-            .
           </span>
         )}
       </NumberOfRows>

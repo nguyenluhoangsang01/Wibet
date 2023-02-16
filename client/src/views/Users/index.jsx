@@ -356,14 +356,12 @@ const Users = () => {
           "No result found"
         ) : (
           <span>
-            Showing{" "}
+            Total{" "}
             <span className="font-bold">
-              1-
               {[...users?.users]?.length < 20 ? [...users?.users]?.length : 20}
             </span>{" "}
-            of <span className="font-bold">{[...users?.users]?.length}</span>{" "}
-            item
-            {[...users?.users]?.length > 1 ? "s" : ""}.
+            user
+            {[...users?.users]?.length > 1 ? "s" : ""}
           </span>
         )}
       </NumberOfRows>

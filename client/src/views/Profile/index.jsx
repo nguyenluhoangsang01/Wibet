@@ -316,8 +316,7 @@ const Profile = () => {
                   )?.length
                 }
               </span>{" "}
-              item
-              {bets?.length > 1 ? "s" : ""}.
+              bet
             </span>
           )}
         </NumberOfRows>

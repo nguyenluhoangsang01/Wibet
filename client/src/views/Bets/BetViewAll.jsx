@@ -14,6 +14,7 @@ const BetViewAll = () => {
   const { id } = useParams();
   // Initial state
   const [match, setMatch] = useState({});
+  const [isShow, setIsShow] = useState(false);
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
   // Initial navigate
@@ -22,6 +23,14 @@ const BetViewAll = () => {
   const { bets } = useSelector(selectBet);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -55,6 +64,8 @@ const BetViewAll = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
   const matchUpdateScore = [
@@ -219,11 +230,7 @@ const BetViewAll = () => {
             <span className="font-bold">
               {bets.bets.filter((bet) => bet.match?._id === id).length}
             </span>{" "}
-            item
-            {bets.bets.filter((bet) => bet.match?._id === id).length > 1
-              ? "s"
-              : ""}
-            .
+            bet
           </span>
         )}
       </NumberOfRows>

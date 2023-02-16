@@ -145,7 +145,7 @@ const Team = () => {
             src={text}
             width={80}
             alt={record.fullName}
-            className="shadow-xl object-cover"
+            className="shadow-xl object-cover border-[#FFC107] border-2 rounded"
           />
         </div>
       ),
@@ -219,12 +219,8 @@ const Team = () => {
           "No result found"
         ) : (
           <span>
-            Showing{" "}
-            <span className="font-bold">
-              1-{teams.length < 20 ? teams.length : 20}
-            </span>{" "}
-            of <span className="font-bold">{teams.length}</span> item
-            {teams.length > 1 ? "s" : ""}.
+            Total <span className="font-bold">{teams.length}</span> team
+            {teams.length > 1 ? "s" : ""}
           </span>
         )}
       </NumberOfRows>

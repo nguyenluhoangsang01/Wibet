@@ -15,10 +15,19 @@ const RankingViewDetails = () => {
   const navigate = useNavigate();
   // Initial state
   const [bets, setBets] = useState([]);
+  const [isShow, setIsShow] = useState(false);
   // Get accessToken from global state
   const { accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -43,6 +52,8 @@ const RankingViewDetails = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   const rankingRoutesViewDetails = [
     {
@@ -176,12 +187,7 @@ const RankingViewDetails = () => {
         ) : (
           <span>
             {" "}
-            Showing{" "}
-            <span className="font-bold">
-              1-{[...bets].length < 10 ? [...bets].length : 10}
-            </span>{" "}
-            of <span className="font-bold">{[...bets].length}</span> item
-            {[...bets].length > 1 ? "s" : ""}.
+            Total <span className="font-bold">{[...bets].length}</span> bet
           </span>
         )}
       </NumberOfRows>
