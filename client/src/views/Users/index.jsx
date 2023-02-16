@@ -84,7 +84,7 @@ const Users = () => {
 
     try {
       // Dispatch delete user reducer async action
-      await dispatch(deleteUserReducerAsync(accessToken, deleteUser._id));
+      dispatch(deleteUserReducerAsync(accessToken, deleteUser._id));
 
       // After delete successfully hide modal
       setOpen(false);
@@ -120,6 +120,7 @@ const Users = () => {
       title: "#",
       dataIndex: "index",
       key: "index",
+			width: 50,
       render: (text, record) => (
         <span className={record?._id === user?._id ? "font-bold" : ""}>
           {[...users?.users].reverse().indexOf(record) + 1}
@@ -130,6 +131,7 @@ const Users = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
+			width: 140,
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
@@ -146,6 +148,7 @@ const Users = () => {
       title: "Role",
       dataIndex: "roleID",
       key: "roleID",
+			width: 70,
       sorter: (a, b) => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
@@ -160,20 +163,24 @@ const Users = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+			width: 160,
       sorter: (a, b) => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
       },
       render: (text, record) => (
-        <span className={record?._id === user?._id ? "font-bold" : ""}>
-          {text}
-        </span>
+        <Tooltip title={text}>
+          <span className={record?._id === user?._id ? "font-bold" : ""}>
+            {text}
+          </span>
+        </Tooltip>
       ),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      width: 200,
       sorter: (a, b) => {
         if (a.email < b.email) return -1;
         if (a.email > b.email) return 1;
@@ -195,6 +202,7 @@ const Users = () => {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
+			width: 200,
       sorter: (a, b) => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
@@ -222,6 +230,7 @@ const Users = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
+			width: 80,
       render: (text, record) => (
         <span className={record?._id === user?._id ? "font-bold" : ""}>
           {text}
@@ -232,6 +241,7 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
+			width: 200,
       render: (text, record) =>
         text ? (
           <Tooltip title={text}>
@@ -255,6 +265,7 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
+			width: 200,
       render: (text, record) =>
         Boolean(record.bannedAt) ? (
           record.bannedAt === "false" ? (
@@ -289,6 +300,8 @@ const Users = () => {
     {
       title: "-",
       dataIndex: "action",
+      fixed: "right",
+      width: 180,
       render: (text, record) => (
         <div className="flex items-center justify-center">
           <Tooltip title="View">
@@ -372,7 +385,7 @@ const Users = () => {
         columns={columns}
         dataSource={[...users?.users].reverse()}
         loading={[...users?.users] ? false : true}
-        scroll={{ x: "90vw" }}
+        scroll={{ x: "100vw" }}
         pagination={{ pageSize: 20 }}
       />
 
