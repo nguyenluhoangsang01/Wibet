@@ -71,7 +71,9 @@ const Home = () => {
         <div className="absolute bg-[#ffffffcc] px-[15px] py-[30px] rounded-[10px] w-[50%] top-[70px] left-0 right-0 mx-auto flex items-center lg:justify-center overflow-x-scroll lg:overflow-hidden">
           <div className="h-[120px] flex items-center lg:justify-center">
             {Object.keys(comingMatch).length === 0 || !user ? (
-              <p className="text-[25px]">No matches coming up</p>
+              <p className="text-[25px]">
+                {isShow ? "No matches coming up" : "Loading..."}
+              </p>
             ) : (
               <div className="divide-y-2 divide-black font-[calibri] flex flex-col items-center justify-between">
                 <div>
