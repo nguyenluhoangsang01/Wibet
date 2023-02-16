@@ -93,7 +93,7 @@ const MatchUpdateScore = () => {
       name: "matches",
     },
     {
-      path: `/matches/${match?._id}/view-details`,
+      path: "",
       name: `${match?.team1?.fullName} - ${match?.team2?.fullName}` || "key",
     },
     {

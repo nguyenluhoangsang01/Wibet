@@ -641,7 +641,7 @@ const Matches = () => {
               (!record.isCanceled && !record.result ? (
                 <Tooltip
                   title={` ${
-                    !record.isCanceled && !record.result && "Update info"
+                    !record.isCanceled && !record.result && "Update Info"
                   }`}
                 >
                   <button
