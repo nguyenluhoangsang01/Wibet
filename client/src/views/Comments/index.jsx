@@ -85,7 +85,7 @@ const Comments = () => {
         <div className="w-full flex items-center justify-between text-[#343434] py-[12px] font-bold relative">
           <span className="text-[18px]">
             {comments.length} <span className="font-normal">comment</span>
-            {comments.length > 1 ? "s" : ""}
+            {comments.length > 1 ? <span className="font-normal">s</span> : ""}
           </span>
           {!user && (
             <button
