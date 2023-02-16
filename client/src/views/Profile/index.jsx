@@ -143,9 +143,7 @@ const Profile = () => {
       },
       render: (text, record) => (
         <span>
-          {record?.match?.team1?.fullName
-            ? record?.match?.team1?.fullName
-            : "Team 1"}
+          {record?.match?.team1?.fullName && record?.match?.team1?.fullName}
         </span>
       ),
     },
@@ -159,9 +157,7 @@ const Profile = () => {
       },
       render: (text, record) => (
         <span>
-          {record?.match?.team2?.fullName
-            ? record?.match?.team2?.fullName
-            : "Team 2"}
+          {record?.match?.team2?.fullName && record?.match?.team2?.fullName}
         </span>
       ),
     },
@@ -326,7 +322,8 @@ const Profile = () => {
           rowKey="_id"
           columns={columns}
           dataSource={[...bets?.bets]?.filter(
-            (bet) => bet?.user?._id?.toString() === user?._id?.toString()
+            (bet) =>
+              bet?.user?._id?.toString() === user?._id?.toString() && bet.match
           )}
           className="pt-[25px] -mt-4"
           scroll={{ x: "90vw" }}

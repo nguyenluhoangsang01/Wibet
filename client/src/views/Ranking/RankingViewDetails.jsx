@@ -101,7 +101,7 @@ const RankingViewDetails = () => {
                     "bg-[#ffc107] text-[#212529]"
               }`}
             >
-              {match?.team1?.fullName ? match?.team1?.fullName : "Team 1"}
+              {match?.team1?.fullName && match?.team1?.fullName}
             </span>{" "}
             vs{" "}
             <span
@@ -117,7 +117,7 @@ const RankingViewDetails = () => {
                     "bg-[#ffc107] text-[#212529]"
               }`}
             >
-              {match?.team2?.fullName ? match?.team2?.fullName : "Team 2"}
+              {match?.team2?.fullName && match?.team2?.fullName}
             </span>
           </p>
         </Tooltip>
@@ -133,7 +133,7 @@ const RankingViewDetails = () => {
       title: "Option",
       dataIndex: "team",
       key: "team",
-      render: (team) => <span>{team?.fullName ? team?.fullName : "Team"}</span>,
+      render: (team) => <span>{team?.fullName && team?.fullName}</span>,
     },
     {
       title: "Placed",
