@@ -370,7 +370,7 @@ const Matches = () => {
       width: 50,
       render: (text) =>
         text ? (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src={text?.flag}
@@ -386,7 +386,7 @@ const Matches = () => {
             </Tooltip>
           </div>
         ) : (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
@@ -432,7 +432,7 @@ const Matches = () => {
       width: 50,
       render: (text) =>
         text ? (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-white rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src={text?.flag}
@@ -448,7 +448,7 @@ const Matches = () => {
             </Tooltip>
           </div>
         ) : (
-          <div className="truncate flex items-center justify-center gap-1">
+          <div className="truncate flex items-center gap-1">
             <div className="max-w-[35px] h-[35px] bg-black rounded-md flex items-center justify-center p-1 shadow-inner shadow-[#ccc]">
               <Image
                 src="https://res.cloudinary.com/wibet/image/upload/v1673334255/logo-w_ahvbug.png"
