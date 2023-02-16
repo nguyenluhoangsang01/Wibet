@@ -59,6 +59,7 @@ const Analysis = () => {
     .flat(1)
     .sort((a, b) => b.money - a.money);
   const userNameWithMoneyDataSources = users
+    ?.filter((user) => user.betTimes > 0)
     ?.map((user) => [{ username: user.username, money: user.money }])
     .flat(1)
     .sort((a, b) => b.money - a.money);
