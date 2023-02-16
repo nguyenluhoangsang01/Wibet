@@ -545,7 +545,7 @@ const Matches = () => {
       title: "Your Bet",
       dataIndex: "bet-action",
       key: "bet-action",
-      width: 50,
+      width: 60,
       render: (text, record) =>
         record.result || moment(record.matchDate).isBefore(fiveMinutesLater) ? (
           "-"
@@ -624,7 +624,7 @@ const Matches = () => {
       title: "-",
       dataIndex: "actions",
       fixed: "right",
-      width: user?.roleID !== "Admin" ? 30 : 80,
+      width: user?.roleID !== "Admin" ? 30 : 100,
       render: (text, record) => (
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
