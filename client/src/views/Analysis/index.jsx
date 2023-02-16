@@ -66,9 +66,11 @@ const Analysis = () => {
 
   // Win/Bet data resources
   const winBetDataSourceWithWinTimes = users
+    ?.filter((user) => user.betTimes > 0)
     ?.map((user) => [{ username: user.username, winTimes: user.winTimes }])
     .flat(1);
   const winBetDataSourceWithBetTimes = users
+    ?.filter((user) => user.betTimes > 0)
     ?.map((user) => [{ username: user.username, betTimes: user.betTimes }])
     .flat(1);
 
