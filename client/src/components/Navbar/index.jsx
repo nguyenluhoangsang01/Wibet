@@ -142,22 +142,45 @@ const Navbar = () => {
                 >
                   {accountRoutes.map((route) =>
                     route.path ? (
-                      <Link
-                        key={route.name}
-                        to={route.path}
-                        onClick={() => {
-                          setIsShowMenu(false);
-                          setIsClicked(false);
-                        }}
-                      >
-                        <div
-                          className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-black hover:text-white ${
-                            isShowMenu ? "justify-center" : ""
-                          }`}
-                        >
-                          {route.name}
-                        </div>
-                      </Link>
+                      user.roleID === "Admin" ? (
+                        route && (
+                          <Link
+                            key={route.name}
+                            to={route.path}
+                            onClick={() => {
+                              setIsShowMenu(false);
+                              setIsClicked(false);
+                            }}
+                          >
+                            <div
+                              className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-black hover:text-white ${
+                                isShowMenu ? "justify-center" : ""
+                              }`}
+                            >
+                              {route.name}
+                            </div>
+                          </Link>
+                        )
+                      ) : (
+                        route.name !== "settings" && (
+                          <Link
+                            key={route.name}
+                            to={route.path}
+                            onClick={() => {
+                              setIsShowMenu(false);
+                              setIsClicked(false);
+                            }}
+                          >
+                            <div
+                              className={`font-medium text-[15px] h-[30px] flex items-center px-4 transition hover:bg-black hover:text-white ${
+                                isShowMenu ? "justify-center" : ""
+                              }`}
+                            >
+                              {route.name}
+                            </div>
+                          </Link>
+                        )
+                      )
                     ) : (
                       <button
                         key={route.name}

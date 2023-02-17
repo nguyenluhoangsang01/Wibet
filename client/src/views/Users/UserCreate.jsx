@@ -15,6 +15,7 @@ import {
   STATUSDEFAULT,
 } from "../../constants";
 import { headers } from "../../helper";
+import { selectSetting } from "../../state/settingSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserCreate = () => {
@@ -27,6 +28,8 @@ const UserCreate = () => {
   const navigate = useNavigate();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  const { settings } = useSelector(selectSetting);
+  console.log(settings);
   // Initial form ref
   const form = useRef(null);
   // Initial dispatch

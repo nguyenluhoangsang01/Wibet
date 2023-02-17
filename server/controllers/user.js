@@ -6,6 +6,7 @@ import { formatTime, STATUS } from "../constants.js";
 import { isValidEmail } from "../helpers/isValidEmail.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
+import Setting from "../models/setting.js";
 import User from "../models/user.js";
 
 export const createUser = async (req, res, next) => {
@@ -22,6 +23,10 @@ export const createUser = async (req, res, next) => {
     const user = await User.findById(userId);
     if (!user) return sendError(res, "User not found", 404);
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
@@ -30,10 +35,10 @@ export const createUser = async (req, res, next) => {
       return sendError(res, "Username can not be blank", 400, "username");
     if (!password)
       return sendError(res, "Password can not be blank", 400, "password");
-    if (password.length < 3)
+    if (password.length < lastSetting.minPassword)
       return sendError(
         res,
-        "Password should contain at least 3 characters",
+        `Password should contain at least ${lastSetting.minPassword} characters`,
         400,
         "password"
       );
@@ -222,6 +227,10 @@ export const updateUser = async (req, res, next) => {
     // Get data from request body
     const { email, username, newPassword } = req.body;
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
@@ -256,10 +265,10 @@ export const updateUser = async (req, res, next) => {
 
     // Check if password exist
     if (newPassword) {
-      if (newPassword.length < 3)
+      if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          "Password should contain at least 3 characters",
+          `Password should contain at least ${lastSetting.minPassword} characters`,
           400,
           "newPassword"
         );
@@ -298,6 +307,10 @@ export const updateUserById = async (req, res, next) => {
     const user = await User.findById(id);
     if (!user) return sendError(res, "User not found", 404);
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
@@ -328,10 +341,10 @@ export const updateUserById = async (req, res, next) => {
 
     // Check if password exist
     if (newPassword) {
-      if (newPassword.length < 3)
+      if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          "Password should contain at least 3 characters",
+          `Password should contain at least ${lastSetting.minPassword} characters`,
           400,
           "newPassword"
         );
@@ -493,6 +506,10 @@ export const updatePassword = async (req, res, next) => {
     const { currentPassword, newPassword } = req.body;
     let updatedUser = null;
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!currentPassword)
       return sendError(
@@ -542,10 +559,10 @@ export const updatePassword = async (req, res, next) => {
 
     // Check if password is empty or not
     if (newPassword && !comparedNewPassword) {
-      if (newPassword.length < 3)
+      if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          "Password should contain at least 3 characters",
+          `Password should contain at least ${lastSetting.minPassword} characters`,
           400,
           "newPassword"
         );

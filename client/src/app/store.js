@@ -1,14 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import CryptoJS from "crypto-js";
 import {
-	FLUSH,
-	PAUSE,
-	PERSIST,
-	persistReducer,
-	persistStore,
-	PURGE,
-	REGISTER,
-	REHYDRATE
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
 } from "redux-persist";
 import createTransform from "redux-persist/es/createTransform";
 import storage from "redux-persist/lib/storage";
@@ -16,6 +16,7 @@ import { REACT_TRANSFORM_SECRET_KEY } from "../constants";
 import betReducer from "../state/betSlice";
 import commentReducer from "../state/commentSlice";
 import matchReducer from "../state/matchSlice";
+import settingReducer from "../state/settingSlice";
 import teamReducer from "../state/teamSlice";
 import userReducer from "../state/userSlice";
 
@@ -71,6 +72,11 @@ const commentPersistConfig = {
   storage,
   transforms: [encrypt],
 };
+const settingPersistConfig = {
+  key: "setting",
+  storage,
+  transforms: [encrypt],
+};
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
@@ -78,6 +84,7 @@ const rootReducer = combineReducers({
   match: persistReducer(matchPersistConfig, matchReducer),
   bet: persistReducer(betPersistConfig, betReducer),
   comment: persistReducer(commentPersistConfig, commentReducer),
+  setting: persistReducer(settingPersistConfig, settingReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

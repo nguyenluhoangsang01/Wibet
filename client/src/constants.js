@@ -123,6 +123,7 @@ export const accountRoutes = [
   {
     path: "/settings",
     name: "settings",
+    roleID: "Admin",
   },
   {
     path: "",
