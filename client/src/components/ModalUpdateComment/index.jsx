@@ -21,7 +21,7 @@ const ModalUpdateComment = ({
       setIsShow(true);
 
       // Reset form
-      formRef.current.resetFields();
+      formRef?.current?.resetFields();
     });
 
     return () => clearTimeout(timer);

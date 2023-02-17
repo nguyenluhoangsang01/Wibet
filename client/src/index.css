@@ -25,7 +25,7 @@
 
 .action-details > a,
 .action-details > button {
-  @apply pt-[8px] pr-[10px] pb-[5px] pl-[9px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
+  @apply p-[8px] bg-[#333] text-[#fff] cursor-pointer text-[14px] select-none rounded-md font-[calibri] hover:scale-105 active:scale-100 transition;
 }
 
 table > thead > tr > th {

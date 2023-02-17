@@ -12,6 +12,7 @@ const Ranking = lazy(() => import("./views/Ranking"));
 const Rules = lazy(() => import("./views/Rules"));
 const Team = lazy(() => import("./views/Team"));
 const Users = lazy(() => import("./views/Users"));
+const Settings = lazy(() => import("./views/Settings"));
 
 export const REACT_TRANSFORM_SECRET_KEY =
   "5050258b73c97ab79c806255cd08c817005e696e79d22e8f833ff9f7b32902b8b5f0c30567eb059c3fb3776be1f21c979f18a78f620dfa574b28cdafcec5efb700d9912a9342dff5d21245ac4b70a6e9248254cdc68cf5e858f895664ca76f81e90ef5b815614f377104f0fba73accb283ae689eb56047711ff65a7287f970d7";
@@ -56,6 +57,10 @@ export const routes = [
   {
     path: "/account",
     element: <Account />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
   },
   {
     path: "/login",
@@ -114,6 +119,10 @@ export const accountRoutes = [
   {
     path: "/profile",
     name: "profile",
+  },
+  {
+    path: "/settings",
+    name: "settings",
   },
   {
     path: "",
@@ -195,6 +204,17 @@ export const accountRoutesB = [
   {
     path: "",
     name: "account",
+  },
+];
+
+export const settingsRoutes = [
+  {
+    path: "/",
+    name: "home",
+  },
+  {
+    path: "",
+    name: "settings",
   },
 ];
 
