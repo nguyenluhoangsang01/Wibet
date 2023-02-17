@@ -10,6 +10,10 @@ import Heading from "../../components/Heading";
 import { ROLES, STATUS } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
+  getTheLastSettingReducerAsync,
+  selectSetting,
+} from "../../state/settingSlice";
+import {
   logoutReducerAsync,
   selectUser,
   updateProfileReducer,
@@ -34,6 +38,8 @@ const UserUpdate = () => {
   const { accessToken } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -84,6 +90,11 @@ const UserUpdate = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  // Get the last setting
+  useEffect(() => {
+    dispatch(getTheLastSettingReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   if (!isShow) return <span>Loading...</span>;
 
@@ -254,23 +265,6 @@ const UserUpdate = () => {
           <Form.Item label="Money">
             <Input disabled value={user?.money} />
           </Form.Item>
-          {/* <Form.Item
-            label="Money"
-            name="money"
-            rules={[
-              {
-                type: "number",
-                message: "Money is not a valid number",
-              },
-              {
-                type: "number",
-                min: 0,
-                message: "Money must be greater than or equal to 0",
-              },
-            ]}
-          >
-            <InputNumber style={{ width: "100%" }} />
-          </Form.Item> */}
 
           {/* Status Select */}
           <Form.Item label="Status" name="status">
@@ -299,8 +293,12 @@ const UserUpdate = () => {
             name="newPassword"
             rules={[
               {
-                min: 3,
-                message: "New Password should contain at least 3 characters",
+                min: settings?.minPassword,
+                message: `New Password should contain at least ${settings?.minPassword} characters`,
+              },
+              {
+                max: settings?.maxPassword,
+                message: `New password contain up to ${settings?.maxPassword} characters`,
               },
             ]}
           >

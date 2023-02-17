@@ -10,6 +10,10 @@ import SuccessMessage from "../../components/SuccessMessage";
 import { accountRoutesB } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
+  getTheLastSettingReducerAsync,
+  selectSetting,
+} from "../../state/settingSlice";
+import {
   logoutReducerAsync,
   selectUser,
   updateProfileReducer,
@@ -30,6 +34,8 @@ const Account = () => {
   const navigate = useNavigate();
   // Initial form ref
   const form = useRef(null);
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,6 +54,11 @@ const Account = () => {
   useEffect(() => {
     if (!user) navigate("/");
   }, [navigate, user]);
+
+  // Get the last setting
+  useEffect(() => {
+    dispatch(getTheLastSettingReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   if (!isShow) return <span>Loading...</span>;
 
@@ -136,7 +147,7 @@ const Account = () => {
             rules={[
               {
                 required: true,
-                message: "Current Password can not be blank",
+                message: "Current password can not be blank",
               },
             ]}
           >
@@ -161,7 +172,15 @@ const Account = () => {
               rules={[
                 {
                   required: true,
-                  message: "New Password can not be blank",
+                  message: "New password can not be blank",
+                },
+                {
+                  min: settings?.minPassword,
+                  message: `New password should contain at least ${settings?.minPassword} characters`,
+                },
+                {
+                  max: settings?.maxPassword,
+                  message: `New password contain up to ${settings?.maxPassword} characters`,
                 },
               ]}
             >

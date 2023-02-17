@@ -15,7 +15,10 @@ import {
   STATUSDEFAULT,
 } from "../../constants";
 import { headers } from "../../helper";
-import { selectSetting } from "../../state/settingSlice";
+import {
+  getTheLastSettingReducerAsync,
+  selectSetting,
+} from "../../state/settingSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const UserCreate = () => {
@@ -28,8 +31,8 @@ const UserCreate = () => {
   const navigate = useNavigate();
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Get settings from global state
   const { settings } = useSelector(selectSetting);
-  console.log(settings);
   // Initial form ref
   const form = useRef(null);
   // Initial dispatch
@@ -49,6 +52,11 @@ const UserCreate = () => {
   useEffect(() => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
+
+  // Get the last setting
+  useEffect(() => {
+    dispatch(getTheLastSettingReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   // Handle on finish
   const onFinish = async (values) => {
@@ -245,8 +253,12 @@ const UserCreate = () => {
                 message: "Password can not be blank",
               },
               {
-                min: 3,
-                message: "Password should contain at least 3 characters",
+                min: settings?.minPassword,
+                message: `Password should contain at least ${settings?.minPassword} characters`,
+              },
+              {
+                max: settings?.maxPassword,
+                message: `Password contain up to ${settings?.maxPassword} characters`,
               },
             ]}
           >

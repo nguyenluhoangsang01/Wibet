@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import SuccessMessage from "../../components/SuccessMessage";
 import { settingsRoutes } from "../../constants";
 import { headers } from "../../helper";
 import {
@@ -21,7 +20,6 @@ const Settings = () => {
   const { pathname } = useLocation();
   // Initial state
   const [isShow, setIsShow] = useState(false);
-  const [isUpdated, setIsUpdated] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
   const [open, setOpen] = useState(false);
@@ -112,7 +110,7 @@ const Settings = () => {
 
         setIsFinish(false);
 
-        setIsUpdated(true);
+        navigate("/");
       }
     } catch ({ response: { data } }) {
       // Check if name error is name and set error message after set fields to null
@@ -362,12 +360,6 @@ const Settings = () => {
           Refresh
         </button>
       </div>
-
-      {isUpdated && (
-        <SuccessMessage isUpdated={isUpdated} setIsUpdated={setIsUpdated}>
-          Settings updated successfully
-        </SuccessMessage>
-      )}
 
       {/* Settings form */}
       <Form
