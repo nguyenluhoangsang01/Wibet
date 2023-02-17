@@ -42,6 +42,13 @@ export const createUser = async (req, res, next) => {
         400,
         "password"
       );
+    if (password.length > lastSetting.maxPassword)
+      return sendError(
+        res,
+        `Password contain up to ${lastSetting.maxPassword} characters`,
+        400,
+        "password"
+      );
     if (money && !Number.isInteger(money))
       return sendError(res, "Money must be an integer", 400, "money");
     if (money && money < 200)
@@ -268,7 +275,14 @@ export const updateUser = async (req, res, next) => {
       if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          `Password should contain at least ${lastSetting.minPassword} characters`,
+          `New password should contain at least ${lastSetting.minPassword} characters`,
+          400,
+          "newPassword"
+        );
+      if (newPassword.length > lastSetting.maxPassword)
+        return sendError(
+          res,
+          `New password contain up to ${lastSetting.maxPassword} characters`,
           400,
           "newPassword"
         );
@@ -344,7 +358,14 @@ export const updateUserById = async (req, res, next) => {
       if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          `Password should contain at least ${lastSetting.minPassword} characters`,
+          `New password should contain at least ${lastSetting.minPassword} characters`,
+          400,
+          "newPassword"
+        );
+      if (newPassword.length > lastSetting.maxPassword)
+        return sendError(
+          res,
+          `New password contain up to ${lastSetting.maxPassword} characters`,
           400,
           "newPassword"
         );
@@ -562,7 +583,14 @@ export const updatePassword = async (req, res, next) => {
       if (newPassword.length < lastSetting.minPassword)
         return sendError(
           res,
-          `Password should contain at least ${lastSetting.minPassword} characters`,
+          `New password should contain at least ${lastSetting.minPassword} characters`,
+          400,
+          "newPassword"
+        );
+      if (newPassword.length > lastSetting.maxPassword)
+        return sendError(
+          res,
+          `New password contain up to ${lastSetting.maxPassword} characters`,
           400,
           "newPassword"
         );
