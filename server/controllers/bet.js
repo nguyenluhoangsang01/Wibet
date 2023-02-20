@@ -6,6 +6,7 @@ import Bet from "../models/bet.js";
 import Match from "../models/match.js";
 import Team from "../models/team.js";
 import User from "../models/user.js";
+import Setting from "../models/setting.js";
 
 export const createBetById = async (req, res, next) => {
   try {
@@ -17,6 +18,10 @@ export const createBetById = async (req, res, next) => {
     const { team, money } = req.body;
     // Five minutes after
     const fiveMinutesLater = moment().add(5, "minutes");
+
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
 
     // Check if match not exists
     const match = await Match.findById(matchId)
@@ -49,17 +54,17 @@ export const createBetById = async (req, res, next) => {
       return sendError(res, "The selected team is not valid", 400, "option");
 
     if (!money) return sendError(res, "Money can not be blank", 400, "money");
-    if (money < 50)
+    if (money < lastSetting.minBetMoney)
       return sendError(
         res,
-        "Money must be greater than or equal to 50",
+        `Money must be greater than or equal to ${lastSetting.minBetMoney}`,
         400,
         "money"
       );
     if (money > Number(user.money))
       return sendError(
         res,
-        user.money < 50
+        user.money < lastSetting.minBetMoney
           ? "The current money is not valid"
           : `Money must be less than or equal to ${user.money}.`,
         400,
@@ -234,6 +239,10 @@ export const updateBetById = async (req, res, next) => {
     // Five minutes after
     const fiveMinutesLater = moment().add(5, "minutes");
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Check if match not exists
     const match = await Match.findById(matchId)
       .populate("team1 team2", "fullName flag")
@@ -259,10 +268,10 @@ export const updateBetById = async (req, res, next) => {
       return sendError(res, "The selected team is not valid", 400, "option");
 
     if (!money) return sendError(res, "Money can not be blank", 400, "money");
-    if (money < 50)
+    if (money < lastSetting.minBetMoney)
       return sendError(
         res,
-        "Money must be greater than or equal to 50",
+        `Money must be greater than or equal to ${lastSetting.minBetMoney}`,
         400,
         "money"
       );
