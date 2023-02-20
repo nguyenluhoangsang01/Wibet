@@ -16,6 +16,14 @@ const settingSchema = new Schema({
     type: Number,
     default: 5,
   },
+  isMin: {
+    type: Boolean,
+    default: true,
+  },
+  isMax: {
+    type: Boolean,
+    default: true,
+  },
   isUppercaseLetter: {
     type: Boolean,
     default: true,
