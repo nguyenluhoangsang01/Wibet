@@ -64,31 +64,40 @@ const Settings = () => {
     setOpen(true);
   };
 
+  // Handle ok when refresh settings
   const handleOk = async () => {
     // Initial loading with true when user click refresh button
     setIsFinishRefresh(true);
 
     try {
+      // Refresh settings api
       const { data } = await axios.post("/setting", null, {
         headers: headers(accessToken),
       });
 
+      // Check if data is exists
       if (data) {
+        // Dispatch update settings reducer
         dispatch(updateSettingReducer(data));
 
+        // Close model when refresh successfully
         setOpen(false);
 
+        // Set loading to false when refresh successfully
         setIsFinishRefresh(false);
 
+        // And navigate to home page
         navigate("/");
       }
     } catch (error) {
+      // If occur error close model and set loading to false when have error
       setOpen(false);
 
       setIsFinishRefresh(false);
     }
   };
 
+  // Handle close model
   const handleCancel = async () => {
     setOpen(false);
   };
@@ -99,17 +108,22 @@ const Settings = () => {
     setIsFinish(true);
 
     try {
+      // Update settings api with values get from form and headers
       const { data } = await axios.patch(
         "/setting",
         { ...values },
         { headers: headers(accessToken) }
       );
 
+      // Check if data is exists
       if (data) {
+        // Dispatch update settings reducer
         dispatch(updateSettingReducer(data));
 
+        // Set loading of button to false when update successfully
         setIsFinish(false);
 
+        // And navigate to home page
         navigate("/");
       }
     } catch ({ response: { data } }) {
