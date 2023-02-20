@@ -314,18 +314,18 @@ const UserCreate = () => {
           <Form.Item label="Banned Reason" name="bannedReason">
             <Input disabled={!isBanned} />
           </Form.Item>
-        </div>
 
-        {/* Banned check box */}
-        <Form.Item
-          name="banned"
-          valuePropName="checked"
-          className="w-fit md:w-full"
-        >
-          <Checkbox value="checked" onClick={() => setIsBanned(!isBanned)}>
-            Banned
-          </Checkbox>
-        </Form.Item>
+          {/* Banned check box */}
+          <Form.Item
+            name="banned"
+            valuePropName="checked"
+            className="w-fit md:w-full"
+          >
+            <Checkbox value="checked" onClick={() => setIsBanned(!isBanned)}>
+              Banned
+            </Checkbox>
+          </Form.Item>
+        </div>
 
         {/* Create button */}
         <Form.Item className="w-fit md:w-full">
