@@ -36,7 +36,7 @@ const settingSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  isSpecialCharacter: {
+  isSymbols: {
     type: Boolean,
     default: true,
   },

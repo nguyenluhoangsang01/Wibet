@@ -2,12 +2,29 @@ import bcrypt from "bcrypt";
 import IP from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment/moment.js";
+import PasswordValidator from "password-validator";
 import { formatTime, STATUS } from "../constants.js";
 import { isValidEmail } from "../helpers/isValidEmail.js";
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Setting from "../models/setting.js";
 import User from "../models/user.js";
+
+// Validate password with uppercase letter
+let passwordWithUppercaseLetter = new PasswordValidator();
+passwordWithUppercaseLetter.has().uppercase();
+
+// Validate password with lowercase letter
+let passwordWithLowercaseLetter = new PasswordValidator();
+passwordWithLowercaseLetter.has().lowercase();
+
+// Validate password with number
+let passwordWithNumber = new PasswordValidator();
+passwordWithNumber.has().digits();
+
+// Validate password with symbols
+let passwordWithSymbols = new PasswordValidator();
+passwordWithSymbols.has().symbols();
 
 export const createUser = async (req, res, next) => {
   try {
@@ -27,28 +44,77 @@ export const createUser = async (req, res, next) => {
     if (!settings) return sendError(res, "No settings found", 400);
     const lastSetting = settings[settings.length - 1];
 
-    // Validate
+    // Validate email
     if (!email) return sendError(res, "Email can not be blank", 400, "email");
     if (!isValidEmail(email))
       return sendError(res, "Email is not a valid email address", 400, "email");
+    // Validate username
     if (!username)
       return sendError(res, "Username can not be blank", 400, "username");
+    // Validate password
     if (!password)
       return sendError(res, "Password can not be blank", 400, "password");
-    if (password.length < lastSetting.minPassword)
-      return sendError(
-        res,
-        `Password should contain at least ${lastSetting.minPassword} characters`,
-        400,
-        "password"
-      );
-    if (password.length > lastSetting.maxPassword)
-      return sendError(
-        res,
-        `Password contain up to ${lastSetting.maxPassword} characters`,
-        400,
-        "password"
-      );
+    // Validate password with min length
+    if (lastSetting.isMin) {
+      if (password.length < lastSetting.minPassword)
+        return sendError(
+          res,
+          `Password should contain at least ${lastSetting.minPassword} characters`,
+          400,
+          "password"
+        );
+    }
+    // Validate password with max length
+    if (lastSetting.isMax) {
+      if (password.length > lastSetting.maxPassword)
+        return sendError(
+          res,
+          `Password contain up to ${lastSetting.maxPassword} characters`,
+          400,
+          "password"
+        );
+    }
+    // Validate password with at least one uppercase letter
+    if (lastSetting.isUppercaseLetter) {
+      if (!passwordWithUppercaseLetter.validate(password))
+        return sendError(
+          res,
+          "Password must contain at least one uppercase letter",
+          400,
+          "password"
+        );
+    }
+    // Validate password with at least one lowercase letter
+    if (lastSetting.isLowercaseLetter) {
+      if (!passwordWithLowercaseLetter.validate(password))
+        return sendError(
+          res,
+          "Password must contain at least one lowercase letter",
+          400,
+          "password"
+        );
+    }
+    // Validate password with at least one digit
+    if (lastSetting.isNumber) {
+      if (!passwordWithNumber.validate(password))
+        return sendError(
+          res,
+          "Password must contain at least one digit",
+          400,
+          "password"
+        );
+    }
+    // Validate password with at least one symbols
+    if (lastSetting.isSymbols) {
+      if (!passwordWithSymbols.validate(password))
+        return sendError(
+          res,
+          "Password must contain at least one symbol",
+          400,
+          "password"
+        );
+    }
+    // Validate money
     if (money && !Number.isInteger(money))
       return sendError(res, "Money must be an integer", 400, "money");
 
@@ -265,22 +331,68 @@ export const updateUser = async (req, res, next) => {
         "username"
       );
 
-    // Check if password exist
+    // Check if password exists
     if (newPassword) {
-      if (newPassword.length < lastSetting.minPassword)
-        return sendError(
-          res,
-          `New password should contain at least ${lastSetting.minPassword} characters`,
-          400,
-          "newPassword"
-        );
-      if (newPassword.length > lastSetting.maxPassword)
-        return sendError(
-          res,
-          `New password contain up to ${lastSetting.maxPassword} characters`,
-          400,
-          "newPassword"
-        );
+      // Validate new password with min length
+      if (lastSetting.isMin) {
+        if (newPassword.length < lastSetting.minPassword)
+          return sendError(
+            res,
+            `New password should contain at least ${lastSetting.minPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with max length
+      if (lastSetting.isMax) {
+        if (newPassword.length > lastSetting.maxPassword)
+          return sendError(
+            res,
+            `New password contain up to ${lastSetting.maxPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one uppercase letter
+      if (lastSetting.isUppercaseLetter) {
+        if (!passwordWithUppercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one uppercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one lowercase letter
+      if (lastSetting.isLowercaseLetter) {
+        if (!passwordWithLowercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one lowercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one digit
+      if (lastSetting.isNumber) {
+        if (!passwordWithNumber.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one digit",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one symbols
+      if (lastSetting.isSymbols) {
+        if (!passwordWithSymbols.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one symbol",
+            400,
+            "newPassword"
+          );
+      }
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
@@ -350,20 +462,66 @@ export const updateUserById = async (req, res, next) => {
 
     // Check if password exist
     if (newPassword) {
-      if (newPassword.length < lastSetting.minPassword)
-        return sendError(
-          res,
-          `New password should contain at least ${lastSetting.minPassword} characters`,
-          400,
-          "newPassword"
-        );
-      if (newPassword.length > lastSetting.maxPassword)
-        return sendError(
-          res,
-          `New password contain up to ${lastSetting.maxPassword} characters`,
-          400,
-          "newPassword"
-        );
+      // Validate new password with min length
+      if (lastSetting.isMin) {
+        if (newPassword.length < lastSetting.minPassword)
+          return sendError(
+            res,
+            `New password should contain at least ${lastSetting.minPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with max length
+      if (lastSetting.isMax) {
+        if (newPassword.length > lastSetting.maxPassword)
+          return sendError(
+            res,
+            `New password contain up to ${lastSetting.maxPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one uppercase letter
+      if (lastSetting.isUppercaseLetter) {
+        if (!passwordWithUppercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one uppercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one lowercase letter
+      if (lastSetting.isLowercaseLetter) {
+        if (!passwordWithLowercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one lowercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one digit
+      if (lastSetting.isNumber) {
+        if (!passwordWithNumber.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one digit",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one symbols
+      if (lastSetting.isSymbols) {
+        if (!passwordWithSymbols.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one symbol",
+            400,
+            "newPassword"
+          );
+      }
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
@@ -534,14 +692,14 @@ export const updatePassword = async (req, res, next) => {
     if (!currentPassword)
       return sendError(
         res,
-        "Current Password can not be blank",
+        "Current password can not be blank",
         400,
         "currentPassword"
       );
     if (!newPassword)
       return sendError(
         res,
-        "New Password can not be blank",
+        "New password can not be blank",
         400,
         "newPassword"
       );
@@ -579,20 +737,66 @@ export const updatePassword = async (req, res, next) => {
 
     // Check if password is empty or not
     if (newPassword && !comparedNewPassword) {
-      if (newPassword.length < lastSetting.minPassword)
-        return sendError(
-          res,
-          `New password should contain at least ${lastSetting.minPassword} characters`,
-          400,
-          "newPassword"
-        );
-      if (newPassword.length > lastSetting.maxPassword)
-        return sendError(
-          res,
-          `New password contain up to ${lastSetting.maxPassword} characters`,
-          400,
-          "newPassword"
-        );
+      // Validate new password with min length
+      if (lastSetting.isMin) {
+        if (newPassword.length < lastSetting.minPassword)
+          return sendError(
+            res,
+            `New password should contain at least ${lastSetting.minPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with max length
+      if (lastSetting.isMax) {
+        if (newPassword.length > lastSetting.maxPassword)
+          return sendError(
+            res,
+            `New password contain up to ${lastSetting.maxPassword} characters`,
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one uppercase letter
+      if (lastSetting.isUppercaseLetter) {
+        if (!passwordWithUppercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one uppercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one lowercase letter
+      if (lastSetting.isLowercaseLetter) {
+        if (!passwordWithLowercaseLetter.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one lowercase letter",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one digit
+      if (lastSetting.isNumber) {
+        if (!passwordWithNumber.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one digit",
+            400,
+            "newPassword"
+          );
+      }
+      // Validate new password with at least one symbols
+      if (lastSetting.isSymbols) {
+        if (!passwordWithSymbols.validate(newPassword))
+          return sendError(
+            res,
+            "New password must contain at least one symbol",
+            400,
+            "newPassword"
+          );
+      }
 
       const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 
