@@ -180,7 +180,7 @@ export const login = async (req, res, next) => {
       // Send error notification
       return sendError(
         res,
-        `You have entered incorrect login information ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password ${lastSetting.wrongPasswordTimes} times. You can reset the password by contact with Wibet Admin.`,
+        `You have entered incorrect password ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password ${lastSetting.wrongPasswordTimes} times.`,
         400,
         "password"
       );

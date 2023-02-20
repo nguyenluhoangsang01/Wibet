@@ -4,6 +4,9 @@ import Setting from "../models/setting.js";
 
 export const refreshSetting = async (req, res, next) => {
   try {
+    // Delete previous settings
+    await Setting.deleteMany();
+
     // Create with default values
     await Setting.create({});
 
