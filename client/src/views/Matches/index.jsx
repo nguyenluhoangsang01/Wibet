@@ -73,8 +73,8 @@ const Matches = () => {
   const navigate = useNavigate();
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
-  // Five minutes after
-  const fiveMinutesLater = moment().add(5, "minutes");
+  // Time to bet
+  const [timeBet, setTimeBet] = useState(settings?.timeBet);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -103,6 +103,10 @@ const Matches = () => {
   useEffect(() => {
     if (!user) navigate("/");
   }, [navigate, user]);
+
+  useEffect(() => {
+    setTimeBet(moment().add(settings?.timeBet, "minutes"));
+  }, [settings?.timeBet]);
 
   if (!isShow) return <span>Loading...</span>;
 
@@ -472,7 +476,7 @@ const Matches = () => {
       dataIndex: "rate",
       key: "rate",
       width: 20,
-      render: (text) => <span>0:{formatNumber(text)}</span>,
+      render: (text) => text && <span>0:{formatNumber(text)}</span>,
     },
     {
       title: "Match Date",
@@ -550,7 +554,7 @@ const Matches = () => {
       key: "bet-action",
       width: 60,
       render: (text, record) =>
-        record.result || moment(record.matchDate).isBefore(fiveMinutesLater) ? (
+        record.result || moment(record.matchDate).isBefore(timeBet) ? (
           "-"
         ) : (
           <div className="flex items-center justify-center">

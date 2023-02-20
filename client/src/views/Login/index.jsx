@@ -216,7 +216,7 @@ const Login = () => {
           valuePropName="checked"
           wrapperCol={{ offset: 4, span: 16 }}
         >
-          <Checkbox value="checked">Remember Me</Checkbox>
+          <Checkbox value="checked">Remember me</Checkbox>
         </Form.Item>
 
         {/* Login button */}

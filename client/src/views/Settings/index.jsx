@@ -157,6 +157,10 @@ const Settings = () => {
             name: "timeUpdateScore",
             errors: null,
           },
+          {
+            name: "timeBet",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxPassword") {
         form.current.setFields([
@@ -194,6 +198,10 @@ const Settings = () => {
           },
           {
             name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
             errors: null,
           },
         ]);
@@ -235,6 +243,10 @@ const Settings = () => {
             name: "timeUpdateScore",
             errors: null,
           },
+          {
+            name: "timeBet",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxRate") {
         form.current.setFields([
@@ -272,6 +284,10 @@ const Settings = () => {
           },
           {
             name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
             errors: null,
           },
         ]);
@@ -313,6 +329,10 @@ const Settings = () => {
             name: "timeUpdateScore",
             errors: null,
           },
+          {
+            name: "timeBet",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxScore") {
         form.current.setFields([
@@ -350,6 +370,10 @@ const Settings = () => {
           },
           {
             name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
             errors: null,
           },
         ]);
@@ -391,6 +415,10 @@ const Settings = () => {
             name: "timeUpdateScore",
             errors: null,
           },
+          {
+            name: "timeBet",
+            errors: null,
+          },
         ]);
       } else if (data.name === "wrongPasswordTimes") {
         form.current.setFields([
@@ -430,6 +458,10 @@ const Settings = () => {
             name: "timeUpdateScore",
             errors: null,
           },
+          {
+            name: "timeBet",
+            errors: null,
+          },
         ]);
       } else if (data.name === "timeUpdateScore") {
         form.current.setFields([
@@ -467,6 +499,53 @@ const Settings = () => {
           },
           {
             name: "timeUpdateScore",
+            errors: [data.message],
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "timeBet") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
             errors: [data.message],
           },
         ]);
@@ -671,6 +750,24 @@ const Settings = () => {
             {
               type: "number",
               message: "Time to update score is not a valid number",
+            },
+          ]}
+        >
+          <InputNumber style={{ width: "100%" }} />
+        </Form.Item>
+
+        {/* Time bet */}
+        <Form.Item
+          label="Time bet"
+          name="timeBet"
+          rules={[
+            {
+              required: true,
+              message: "Time bet can not be blank",
+            },
+            {
+              type: "number",
+              message: "Time bet is not a valid number",
             },
           ]}
         >

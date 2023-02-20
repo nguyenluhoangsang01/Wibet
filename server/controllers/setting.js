@@ -56,6 +56,7 @@ export const updateTheLastSetting = async (req, res, next) => {
       defaultMoney,
       wrongPasswordTimes,
       timeUpdateScore,
+      timeBet,
     } = req.body;
 
     // Validate min password
@@ -171,6 +172,12 @@ export const updateTheLastSetting = async (req, res, next) => {
         400,
         "timeUpdateScore"
       );
+
+    // Validate time to bet
+    if (!timeBet && timeBet !== 0)
+      return sendError(res, "Time bet can not be blank", 400, "timeBet");
+    if (!Number.isInteger(timeBet))
+      return sendError(res, "Time bet must be an integer", 400, "timeBet");
 
     // Get all settings
     const settings = await Setting.find().select("-__v");

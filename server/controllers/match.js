@@ -484,7 +484,7 @@ export const updateScoreById = async (req, res, next) => {
           await Match.create({
             team1: team2._id,
             team2: team1._id,
-            rate: 0,
+            rate: lastSetting.minRate,
             matchDate: moment(getMatch.matchDate).add(2, "weeks"),
           });
         }
@@ -561,7 +561,7 @@ export const updateScoreById = async (req, res, next) => {
           await Match.create({
             team1: team2._id,
             team2: team1._id,
-            rate: 0,
+            rate: lastSetting.minRate,
             matchDate: moment(getMatch.matchDate).add(2, "weeks"),
           });
         }

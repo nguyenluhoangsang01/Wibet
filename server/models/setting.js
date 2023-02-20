@@ -50,6 +50,12 @@ const settingSchema = new Schema({
     type: Number,
     default: 90,
   },
+
+  // Time to bet
+  timeBet: {
+    type: Number,
+    default: 5,
+  },
 });
 
 export default model("Setting", settingSchema);
