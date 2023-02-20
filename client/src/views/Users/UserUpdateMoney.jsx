@@ -191,11 +191,11 @@ const UserUpdateMoney = () => {
             {
               type: "number",
               min: 1,
-              message: "Money must be greater than 0",
+              message: "Money must be greater than 1",
             },
           ]}
         >
-          <InputNumber style={{ width: "100%" }} placeholder={0} />
+          <InputNumber style={{ width: "100%" }} placeholder={1} />
         </Form.Item>
 
         {/* Add button */}
