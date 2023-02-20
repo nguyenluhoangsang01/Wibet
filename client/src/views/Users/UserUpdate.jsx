@@ -287,14 +287,14 @@ const UserUpdate = () => {
             <Input />
           </Form.Item>
 
-          {/* New Password input */}
+          {/* New password input */}
           <Form.Item
-            label="New Password"
+            label="New password"
             name="newPassword"
             rules={[
               {
                 min: settings?.minPassword,
-                message: `New Password should contain at least ${settings?.minPassword} characters`,
+                message: `New password should contain at least ${settings?.minPassword} characters`,
               },
               {
                 max: settings?.maxPassword,
