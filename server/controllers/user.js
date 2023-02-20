@@ -63,7 +63,7 @@ export const createUser = async (req, res, next) => {
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`,
+        `Email ${isExistingWithEmail.email} has already been taken`,
         400,
         "email"
       );
@@ -71,7 +71,7 @@ export const createUser = async (req, res, next) => {
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`,
+        `Username ${isExistingWithUsername.username} has already been taken`,
         400,
         "username"
       );
@@ -255,7 +255,7 @@ export const updateUser = async (req, res, next) => {
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`,
+        `Email ${isExistingWithEmail.email} has already been taken`,
         400,
         "email"
       );
@@ -265,7 +265,7 @@ export const updateUser = async (req, res, next) => {
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`,
+        `Username ${isExistingWithUsername.username} has already been taken`,
         400,
         "username"
       );
@@ -335,7 +335,7 @@ export const updateUserById = async (req, res, next) => {
     if (isExistingWithEmail)
       return sendError(
         res,
-        `Email ${isExistingWithEmail.email} has already been taken.`,
+        `Email ${isExistingWithEmail.email} has already been taken`,
         400,
         "email"
       );
@@ -348,7 +348,7 @@ export const updateUserById = async (req, res, next) => {
     if (isExistingWithUsername)
       return sendError(
         res,
-        `Username ${isExistingWithUsername.username} has already been taken.`,
+        `Username ${isExistingWithUsername.username} has already been taken`,
         400,
         "username"
       );

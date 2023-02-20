@@ -17,7 +17,7 @@ export const createTeam = async (req, res, next) => {
     if (isExistingWithName)
       return sendError(
         res,
-        `Name ${isExistingWithName.name} has already been taken.`,
+        `Name ${isExistingWithName.name} has already been taken`,
         400,
         "name"
       );
@@ -28,7 +28,7 @@ export const createTeam = async (req, res, next) => {
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithFullName.fullName} has already been taken.`,
+        `Full name ${isExistingWithFullName.fullName} has already been taken`,
         400,
         "fullName"
       );
@@ -97,7 +97,7 @@ export const updateTeam = async (req, res, next) => {
     if (isExistingWithName)
       return sendError(
         res,
-        `Name ${isExistingWithName.name} has already been taken.`,
+        `Name ${isExistingWithName.name} has already been taken`,
         400,
         "name"
       );
@@ -110,7 +110,7 @@ export const updateTeam = async (req, res, next) => {
     if (isExistingWithFullName)
       return sendError(
         res,
-        `Full name ${isExistingWithFullName.fullName} has already been taken.`,
+        `Full name ${isExistingWithFullName.fullName} has already been taken`,
         400,
         "fullName"
       );
