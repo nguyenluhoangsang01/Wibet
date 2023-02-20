@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
+import { selectSetting } from "../../state/settingSlice";
 import { selectTeam } from "../../state/teamSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -34,6 +35,8 @@ const MatchUpdateInfo = () => {
   const form = useRef(null);
   // Initial dispatch
   const dispatch = useDispatch();
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -361,13 +364,13 @@ const MatchUpdateInfo = () => {
             },
             {
               type: "number",
-              min: 0,
-              message: "Rate must be greater than or equal to 0",
+              min: settings?.minRate,
+              message: `Rate must be greater than or equal to ${settings?.minRate}`,
             },
             {
               type: "number",
-              max: 3,
-              message: "Rate must be less than or equal to 3",
+              max: settings?.maxRate,
+              message: `Rate must be less than or equal to ${settings?.maxRate}`,
             },
           ]}
         >

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
+import { selectSetting } from "../../state/settingSlice";
 import {
   logoutReducerAsync,
   selectUser,
@@ -30,6 +31,8 @@ const MatchUpdateScore = () => {
   const dispatch = useDispatch();
   // Initial form ref
   const form = useRef(null);
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -233,8 +236,8 @@ const MatchUpdateScore = () => {
             },
             {
               type: "number",
-              max: 10,
-              message: "Team 1 Score must be greater than or equal to 10",
+              max: settings?.maxScore,
+              message: `Team 1 Score must be greater than or equal to ${settings?.maxScore}`,
             },
           ]}
         >
@@ -257,8 +260,8 @@ const MatchUpdateScore = () => {
             },
             {
               type: "number",
-              max: 10,
-              message: "Team 2 Score must be greater than or equal to 10",
+              max: settings?.maxScore,
+              message: `Team 2 Score must be greater than or equal to ${settings?.maxScore}`,
             },
           ]}
         >

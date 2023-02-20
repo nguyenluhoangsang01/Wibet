@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { capitalize, headers } from "../../helper";
+import { selectSetting } from "../../state/settingSlice";
 import {
   logoutReducerAsync,
   selectUser,
@@ -27,6 +28,8 @@ const BetCreate = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   // Check if user not exists
   useEffect(() => {
@@ -244,8 +247,8 @@ const BetCreate = () => {
             },
             {
               type: "number",
-              min: 50,
-              message: "Money must be greater than or equal to 50",
+              min: settings?.minBetMoney,
+              message: `Money must be greater than or equal to ${settings?.minBetMoney}`,
             },
           ]}
         >

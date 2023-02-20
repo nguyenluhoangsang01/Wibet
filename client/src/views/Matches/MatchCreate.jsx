@@ -11,6 +11,7 @@ import Heading from "../../components/Heading";
 import { createMatchRoutes } from "../../constants";
 import { headers } from "../../helper";
 import { updateMatchReducer } from "../../state/matchSlice";
+import { selectSetting } from "../../state/settingSlice";
 import { selectTeam } from "../../state/teamSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -31,6 +32,8 @@ const MatchCreate = () => {
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
   const form = useRef(null);
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
 
   // Set title
   useEffect(() => {
@@ -279,13 +282,13 @@ const MatchCreate = () => {
             },
             {
               type: "number",
-              min: 0,
-              message: "Rate must be greater than or equal to 0",
+              min: settings?.minRate,
+              message: `Rate must be greater than or equal to ${settings?.minRate}`,
             },
             {
               type: "number",
-              max: 3,
-              message: "Rate must be less than or equal to 3",
+              max: settings?.maxRate,
+              message: `Rate must be less than or equal to ${settings?.maxRate}`,
             },
           ]}
         >
