@@ -302,7 +302,7 @@ const UserUpdate = () => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password showCount maxLength={settings?.maxPassword} />
           </Form.Item>
 
           {/* Role ID Select */}
