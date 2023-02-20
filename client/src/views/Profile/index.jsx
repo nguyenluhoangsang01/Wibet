@@ -28,7 +28,6 @@ const Profile = () => {
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
-  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial dispatch
@@ -37,14 +36,6 @@ const Profile = () => {
   const timezones = momentTimezone.tz.names();
   // Initial form ref
   const form = useRef(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Set title
   useEffect(() => {
@@ -56,7 +47,7 @@ const Profile = () => {
     if (!user) navigate("/");
   }, [navigate, user]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!user) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {
