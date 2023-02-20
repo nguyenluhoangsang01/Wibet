@@ -3,6 +3,7 @@ import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
 import Bet from "../models/bet.js";
 import Match from "../models/match.js";
+import Setting from "../models/setting.js";
 import Team from "../models/team.js";
 import User from "../models/user.js";
 
@@ -10,6 +11,10 @@ export const createMatch = async (req, res, next) => {
   try {
     // Get data from request body
     const { team1, team2, matchDate, rate } = req.body;
+
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
 
     // Validate
     if (!team1) return sendError(res, "Team 1 can not be blank", 400, "team1");
@@ -31,17 +36,17 @@ export const createMatch = async (req, res, next) => {
       return sendError(res, "Match Date can not be blank", 400, "matchDate");
     if (!rate && rate !== 0)
       return sendError(res, "Rate can not be blank", 400, "rate");
-    if (rate < 0)
+    if (rate < lastSetting.minRate)
       return sendError(
         res,
-        "Rate must be greater than or equal to 0",
+        `Rate must be greater than or equal to ${lastSetting.minRate}`,
         400,
         "rate"
       );
-    if (rate > 3)
+    if (rate > lastSetting.maxRate)
       return sendError(
         res,
-        "Rate must be less than or equal to 3",
+        `Rate must be less than or equal to ${lastSetting.maxRate}`,
         400,
         "rate"
       );
@@ -66,10 +71,7 @@ export const createMatch = async (req, res, next) => {
     return sendSuccess(
       res,
       "Create match successfully",
-      {
-        length: matches.length,
-        matches,
-      },
+      { length: matches.length, matches },
       201
     );
   } catch (error) {
@@ -106,9 +108,7 @@ export const deleteMatchById = async (req, res, next) => {
     // Update user
     await User.findByIdAndUpdate(
       userId,
-      {
-        match: user.match.filter((match) => match.toString() !== id),
-      },
+      { match: user.match.filter((match) => match.toString() !== id) },
       { new: true }
     );
 
@@ -166,6 +166,10 @@ export const updateMatchById = async (req, res, next) => {
     //  Get id from request params
     const { id } = req.params;
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!team1) return sendError(res, "Team 1 can not be blank", 400, "team1");
     // Check if team 1 not exists
@@ -183,17 +187,17 @@ export const updateMatchById = async (req, res, next) => {
       return sendError(res, "Match Date can not be blank", 400, "matchDate");
     if (!rate && rate !== 0)
       return sendError(res, "Rate can not be blank", 400, "rate");
-    if (rate < 0)
+    if (rate < lastSetting.minRate)
       return sendError(
         res,
-        "Rate must be greater than or equal to 0",
+        `Rate must be greater than or equal to ${lastSetting.minRate}`,
         400,
         "rate"
       );
-    if (rate > 3)
+    if (rate > lastSetting.maxRate)
       return sendError(
         res,
-        "Rate must be less than or equal to 3",
+        `Rate must be less than or equal to ${lastSetting.maxRate}`,
         400,
         "rate"
       );
@@ -227,6 +231,10 @@ export const updateScoreById = async (req, res, next) => {
     // Before time
     const beforeTime = 90;
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
       return sendError(
@@ -242,10 +250,10 @@ export const updateScoreById = async (req, res, next) => {
         400,
         "resultOfTeam1"
       );
-    if (resultOfTeam1 > 10)
+    if (resultOfTeam1 > lastSetting.maxScore)
       return sendError(
         res,
-        "Team 1 Score must be greater than or equal to 10",
+        `Team 1 Score must be greater than or equal to ${lastSetting.maxScore}`,
         400,
         "resultOfTeam1"
       );
@@ -268,12 +276,12 @@ export const updateScoreById = async (req, res, next) => {
         res,
         "Team 2 Score must be no less than 0",
         400,
-        "resultOfTeam1"
+        "resultOfTeam2"
       );
-    if (resultOfTeam2 > 10)
+    if (resultOfTeam2 > lastSetting.maxScore)
       return sendError(
         res,
-        "Team 2 Score must be greater than or equal to 10",
+        `Team 2 Score must be greater than or equal to ${lastSetting.maxScore}`,
         400,
         "resultOfTeam2"
       );
