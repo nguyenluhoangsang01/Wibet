@@ -44,6 +44,12 @@ const settingSchema = new Schema({
     type: Number,
     default: 200,
   },
+
+  // Time to update score
+  timeUpdateScore: {
+    type: Number,
+    default: 90,
+  },
 });
 
 export default model("Setting", settingSchema);

@@ -55,6 +55,7 @@ export const updateTheLastSetting = async (req, res, next) => {
       maxScore,
       defaultMoney,
       wrongPasswordTimes,
+      timeUpdateScore,
     } = req.body;
 
     // Validate min password
@@ -153,6 +154,22 @@ export const updateTheLastSetting = async (req, res, next) => {
         "Wrong password times must be an integer",
         400,
         "wrongPasswordTimes"
+      );
+
+    // Validate time to update score
+    if (!timeUpdateScore && timeUpdateScore !== 0)
+      return sendError(
+        res,
+        "Time to update score can not be blank",
+        400,
+        "timeUpdateScore"
+      );
+    if (!Number.isInteger(timeUpdateScore))
+      return sendError(
+        res,
+        "Time to update score must be an integer",
+        400,
+        "timeUpdateScore"
       );
 
     // Get all settings

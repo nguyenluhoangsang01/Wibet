@@ -56,7 +56,12 @@ export const createMatch = async (req, res, next) => {
       $or: [{ team1 }, { team2 }],
     });
     if (matchExistingWithTeam)
-      return sendError(res, "Can not chose this team right now", 400, "team1");
+      return sendError(
+        res,
+        "Can not choose team 1 or team 2 right now",
+        400,
+        "team"
+      );
 
     // Create new match
     const newMatch = await Match.create({ ...req.body });
@@ -228,12 +233,13 @@ export const updateScoreById = async (req, res, next) => {
     const { resultOfTeam1, resultOfTeam2, autoGenerate, result } = req.body;
     // Get user id from request
     const { userId } = req;
-    // Before time
-    const beforeTime = 90;
 
     const settings = await Setting.find().select("-__v");
     if (!settings) return sendError(res, "No settings found", 400);
     const lastSetting = settings[settings.length - 1];
+
+    // Time update score setting
+    const timeUpdateScoreSetting = lastSetting.timeUpdateScore;
 
     // Validate
     if (!resultOfTeam1 && resultOfTeam1 !== 0)
@@ -302,7 +308,7 @@ export const updateScoreById = async (req, res, next) => {
 
     // Ninety minutes after
     const ninetyMinutesLater = moment(match.matchDate).add(
-      beforeTime,
+      timeUpdateScoreSetting,
       "minutes"
     );
 
@@ -310,7 +316,7 @@ export const updateScoreById = async (req, res, next) => {
     if (moment().isBefore(ninetyMinutesLater))
       return sendError(
         res,
-        `Results can only be updated ${beforeTime} minutes after the match has started`,
+        `Results can only be updated ${timeUpdateScoreSetting} minutes after the match has started`,
         400,
         "resultOfTeam1"
       );

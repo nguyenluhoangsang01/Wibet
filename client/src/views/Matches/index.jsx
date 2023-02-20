@@ -27,6 +27,7 @@ import {
   getAllMatchesReducerAsync,
   selectMatch,
 } from "../../state/matchSlice";
+import { selectSetting } from "../../state/settingSlice";
 import {
   selectUser,
   updateProfileReducer,
@@ -70,6 +71,8 @@ const Matches = () => {
   const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
   // Five minutes after
   const fiveMinutesLater = moment().add(5, "minutes");
 
@@ -673,13 +676,19 @@ const Matches = () => {
                   </button>
                 </Tooltip>
               ) : moment().isBefore(
-                  moment(record.matchDate).add(90, "minutes")
+                  moment(record.matchDate).add(
+                    settings?.timeUpdateScore,
+                    "minutes"
+                  )
                 ) ? (
                 <button
                   onClick={() => handleUpdateScore(record)}
                   className="bg-[#5cb85c] border-[#4cae4c]"
                   disabled={moment().isBefore(
-                    moment(record.matchDate).add(90, "minutes")
+                    moment(record.matchDate).add(
+                      settings?.timeUpdateScore,
+                      "minutes"
+                    )
                   )}
                 >
                   <TiTick />

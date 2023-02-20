@@ -3,6 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -151,6 +152,10 @@ const MatchCreate = () => {
             errors: [data.message],
           },
         ]);
+      }
+
+      if (data.name === "team") {
+        toast.error(data.message);
       }
 
       // Set is finish to false

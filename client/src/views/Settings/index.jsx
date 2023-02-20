@@ -19,7 +19,6 @@ const Settings = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Initial state
-  const [isShow, setIsShow] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
   const [open, setOpen] = useState(false);
@@ -44,20 +43,12 @@ const Settings = () => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Get the last settings
   useEffect(() => {
     dispatch(getTheLastSettingReducerAsync(accessToken));
   }, [accessToken, dispatch]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!settings) return <span>Loading...</span>;
 
   // Handle refresh setting action
   const handleRefresh = async () => {
@@ -162,6 +153,10 @@ const Settings = () => {
             name: "wrongPasswordTimes",
             errors: null,
           },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxPassword") {
         form.current.setFields([
@@ -195,6 +190,10 @@ const Settings = () => {
           },
           {
             name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
             errors: null,
           },
         ]);
@@ -232,6 +231,10 @@ const Settings = () => {
             name: "wrongPasswordTimes",
             errors: null,
           },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxRate") {
         form.current.setFields([
@@ -265,6 +268,10 @@ const Settings = () => {
           },
           {
             name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
             errors: null,
           },
         ]);
@@ -302,6 +309,10 @@ const Settings = () => {
             name: "wrongPasswordTimes",
             errors: null,
           },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxScore") {
         form.current.setFields([
@@ -335,6 +346,10 @@ const Settings = () => {
           },
           {
             name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
             errors: null,
           },
         ]);
@@ -372,6 +387,10 @@ const Settings = () => {
             name: "wrongPasswordTimes",
             errors: null,
           },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
         ]);
       } else if (data.name === "wrongPasswordTimes") {
         form.current.setFields([
@@ -405,6 +424,49 @@ const Settings = () => {
           },
           {
             name: "wrongPasswordTimes",
+            errors: [data.message],
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "timeUpdateScore") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
             errors: [data.message],
           },
         ]);
@@ -591,6 +653,24 @@ const Settings = () => {
             {
               type: "number",
               message: "Wrong password times is not a valid number",
+            },
+          ]}
+        >
+          <InputNumber style={{ width: "100%" }} />
+        </Form.Item>
+
+        {/* Time to update score */}
+        <Form.Item
+          label="Time to update score"
+          name="timeUpdateScore"
+          rules={[
+            {
+              required: true,
+              message: "Time to update score can not be blank",
+            },
+            {
+              type: "number",
+              message: "Time to update score is not a valid number",
             },
           ]}
         >
