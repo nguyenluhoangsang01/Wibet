@@ -16,6 +16,22 @@ const settingSchema = new Schema({
     type: Number,
     default: 5,
   },
+  isUppercaseLetter: {
+    type: Boolean,
+    default: true,
+  },
+  isLowercaseLetter: {
+    type: Boolean,
+    default: true,
+  },
+  isNumber: {
+    type: Boolean,
+    default: true,
+  },
+  isSpecialCharacter: {
+    type: Boolean,
+    default: true,
+  },
 
   // Rate
   minRate: {
