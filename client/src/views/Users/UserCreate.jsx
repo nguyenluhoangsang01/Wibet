@@ -97,6 +97,10 @@ const UserCreate = () => {
             name: "password",
             errors: null,
           },
+          {
+            name: "money",
+            errors: null,
+          },
         ]);
       } else if (data.name === "username") {
         form.current.setFields([
@@ -110,6 +114,10 @@ const UserCreate = () => {
           },
           {
             name: "password",
+            errors: null,
+          },
+          {
+            name: "money",
             errors: null,
           },
         ]);
@@ -126,6 +134,29 @@ const UserCreate = () => {
           {
             name: "username",
             errors: null,
+          },
+          {
+            name: "money",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "money") {
+        form.current.setFields([
+          {
+            name: "password",
+            errors: null,
+          },
+          {
+            name: "email",
+            errors: null,
+          },
+          {
+            name: "username",
+            errors: null,
+          },
+          {
+            name: "money",
+            errors: [data.message],
           },
         ]);
       }

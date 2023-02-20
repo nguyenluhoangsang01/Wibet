@@ -191,7 +191,7 @@ const UserUpdateMoney = () => {
             {
               type: "number",
               min: 1,
-              message: "Money must be greater than 1",
+              message: "Money must be greater than or equal to 1",
             },
           ]}
         >

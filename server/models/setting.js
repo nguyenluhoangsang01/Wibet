@@ -12,6 +12,10 @@ const settingSchema = new Schema({
     type: Number,
     default: 20,
   },
+  wrongPasswordTimes: {
+    type: Number,
+    default: 5,
+  },
 
   // Rate
   minRate: {

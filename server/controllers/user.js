@@ -51,13 +51,6 @@ export const createUser = async (req, res, next) => {
       );
     if (money && !Number.isInteger(money))
       return sendError(res, "Money must be an integer", 400, "money");
-    if (money && money < 200)
-      return sendError(
-        res,
-        "Money must be greater than or equal to 200",
-        400,
-        "money"
-      );
 
     const isExistingWithEmail = await User.findOne({ email });
     if (isExistingWithEmail)
@@ -114,6 +107,10 @@ export const login = async (req, res, next) => {
     // Get current ip address
     const currentIpAddress = IP.address();
 
+    const settings = await Setting.find().select("-__v");
+    if (!settings) return sendError(res, "No settings found", 400);
+    const lastSetting = settings[settings.length - 1];
+
     // Validate
     if (!email && !username)
       return sendError(
@@ -167,9 +164,10 @@ export const login = async (req, res, next) => {
         { new: true }
       );
 
-      // Check if wrong password times greater than 5
+      // Check if wrong password times greater than lastSetting.wrongPasswordTimes
       if (
-        updatedWrongPasswordTimes.wrongPassword >= 5 &&
+        updatedWrongPasswordTimes.wrongPassword >=
+          lastSetting.wrongPasswordTimes &&
         updatedWrongPasswordTimes.status !== "Inactive"
       ) {
         await User.findOneAndUpdate(
@@ -182,7 +180,7 @@ export const login = async (req, res, next) => {
       // Send error notification
       return sendError(
         res,
-        `You have entered incorrect login information ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password 5 times. You can reset the password by contact with Wibet Admin.`,
+        `You have entered incorrect login information ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password ${lastSetting.wrongPasswordTimes} times. You can reset the password by contact with Wibet Admin.`,
         400,
         "password"
       );
@@ -218,10 +216,7 @@ export const login = async (req, res, next) => {
     );
 
     // Send success notification
-    return sendSuccess(res, "Logged successfully", {
-      accessToken,
-      user,
-    });
+    return sendSuccess(res, "Logged successfully", { accessToken, user });
   } catch (error) {
     next(error);
   }
@@ -418,11 +413,17 @@ export const updateMoneyUserById = async (req, res, next) => {
     if (!user) return sendError(res, "User not found", 404);
 
     // Validate
-    if (!money) return sendError(res, "Money can not be blank", 400, "money");
+    if (!money && money !== 0)
+      return sendError(res, "Money can not be blank", 400, "money");
     if (!Number.isInteger(money))
       return sendError(res, "Money is not a valid number", 400, "money");
-    if (money <= 0)
-      return sendError(res, "Money must be greater than 0", 400, "money");
+    if (money < 1)
+      return sendError(
+        res,
+        "Money must be greater than or equal to 1",
+        400,
+        "money"
+      );
 
     // Update money user
     await User.findByIdAndUpdate(
@@ -443,9 +444,7 @@ export const updateMoneyUserById = async (req, res, next) => {
       `Successfully added ${money} point${money > 1 ? "s" : ""} to account ${
         user.username
       }`,
-      {
-        user: updatedUser,
-      }
+      { user: updatedUser }
     );
   } catch (error) {
     next(error);
@@ -600,9 +599,7 @@ export const updatePassword = async (req, res, next) => {
       // Update user with new password
       updatedUser = await User.findByIdAndUpdate(
         userId,
-        {
-          password: hashedNewPassword,
-        },
+        { password: hashedNewPassword },
         { new: true }
       ).select("-__v -password");
 

@@ -158,6 +158,10 @@ const Settings = () => {
             name: "defaultMoney",
             errors: null,
           },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxPassword") {
         form.current.setFields([
@@ -187,6 +191,10 @@ const Settings = () => {
           },
           {
             name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
             errors: null,
           },
         ]);
@@ -220,6 +228,10 @@ const Settings = () => {
             name: "defaultMoney",
             errors: null,
           },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxRate") {
         form.current.setFields([
@@ -249,6 +261,10 @@ const Settings = () => {
           },
           {
             name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
             errors: null,
           },
         ]);
@@ -282,6 +298,10 @@ const Settings = () => {
             name: "defaultMoney",
             errors: null,
           },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxScore") {
         form.current.setFields([
@@ -313,6 +333,10 @@ const Settings = () => {
             name: "defaultMoney",
             errors: null,
           },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
         ]);
       } else if (data.name === "defaultMoney") {
         form.current.setFields([
@@ -342,6 +366,45 @@ const Settings = () => {
           },
           {
             name: "defaultMoney",
+            errors: [data.message],
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "wrongPasswordTimes") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
             errors: [data.message],
           },
         ]);
@@ -510,6 +573,24 @@ const Settings = () => {
             {
               type: "number",
               message: "Default money is not a valid number",
+            },
+          ]}
+        >
+          <InputNumber style={{ width: "100%" }} />
+        </Form.Item>
+
+        {/* Wrong password times */}
+        <Form.Item
+          label="Wrong password times"
+          name="wrongPasswordTimes"
+          rules={[
+            {
+              required: true,
+              message: "Wrong password times can not be blank",
+            },
+            {
+              type: "number",
+              message: "Wrong password times is not a valid number",
             },
           ]}
         >

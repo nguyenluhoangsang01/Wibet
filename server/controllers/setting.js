@@ -51,6 +51,7 @@ export const updateTheLastSetting = async (req, res, next) => {
       minBetMoney,
       maxScore,
       defaultMoney,
+      wrongPasswordTimes,
     } = req.body;
 
     // Validate min password
@@ -133,6 +134,22 @@ export const updateTheLastSetting = async (req, res, next) => {
         "Default money must be an integer",
         400,
         "defaultMoney"
+      );
+
+    // Validate wrong password times
+    if (!wrongPasswordTimes && wrongPasswordTimes !== 0)
+      return sendError(
+        res,
+        "Wrong password times can not be blank",
+        400,
+        "wrongPasswordTimes"
+      );
+    if (!Number.isInteger(wrongPasswordTimes))
+      return sendError(
+        res,
+        "Wrong password times must be an integer",
+        400,
+        "wrongPasswordTimes"
       );
 
     // Get all settings
