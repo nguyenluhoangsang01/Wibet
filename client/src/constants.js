@@ -401,3 +401,12 @@ export const dataReward = [
 ];
 
 export const formatTime = "MMM Do YYYY, h:mm:ss A";
+
+export const plainPasswordOptions = [
+  "Min",
+  "Max",
+  "Uppercase",
+  "Lowercase",
+  "Digit",
+  "Symbols",
+];

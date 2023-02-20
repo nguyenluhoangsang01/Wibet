@@ -1,4 +1,4 @@
-import { Button, Form, InputNumber, Modal } from "antd";
+import { Button, Checkbox, Form, InputNumber, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import { settingsRoutes } from "../../constants";
+import { plainPasswordOptions, settingsRoutes } from "../../constants";
 import { headers } from "../../helper";
 import {
-  getTheLastSettingReducerAsync,
-  selectSetting,
-  updateSettingReducer,
+	getTheLastSettingReducerAsync,
+	selectSetting,
+	updateSettingReducer
 } from "../../state/settingSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -22,14 +22,16 @@ const Settings = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
   const [open, setOpen] = useState(false);
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
+  // Check list
+  const [checkedList, setCheckedList] = useState([]);
   // Initial form ref
   const form = useRef(null);
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user and access token from global state
   const { user, accessToken } = useSelector(selectUser);
-  // Get settings from global state
-  const { settings } = useSelector(selectSetting);
   // Initial navigate
   const navigate = useNavigate();
 
@@ -47,6 +49,18 @@ const Settings = () => {
   useEffect(() => {
     dispatch(getTheLastSettingReducerAsync(accessToken));
   }, [accessToken, dispatch]);
+
+  // Default options selected
+  useEffect(() => {
+    setCheckedList([
+      settings?.isMin && "Min",
+      settings?.isMax && "Max",
+      settings?.isUppercaseLetter && "Uppercase",
+      settings?.isLowercaseLetter && "Lowercase",
+      settings?.isNumber && "Digit",
+      settings?.isSymbols && "Symbols",
+    ]);
+  }, [settings]);
 
   if (!settings) return <span>Loading...</span>;
 
@@ -102,7 +116,15 @@ const Settings = () => {
       // Update settings api with values get from form and headers
       const { data } = await axios.patch(
         "/setting",
-        { ...values },
+        {
+          ...values,
+          isMin: checkedList.includes("Min"),
+          isMax: checkedList.includes("Max"),
+          isUppercaseLetter: checkedList.includes("Uppercase"),
+          isLowercaseLetter: checkedList.includes("Lowercase"),
+          isNumber: checkedList.includes("Digit"),
+          isSymbols: checkedList.includes("Symbols"),
+        },
         { headers: headers(accessToken) }
       );
 
@@ -560,6 +582,11 @@ const Settings = () => {
     }
   };
 
+  // Handle select password options
+  const onChange = (list) => {
+    setCheckedList(list);
+  };
+
   return (
     <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
@@ -625,6 +652,12 @@ const Settings = () => {
           >
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
+
+          <Checkbox.Group
+            options={plainPasswordOptions}
+            value={checkedList}
+            onChange={onChange}
+          />
         </div>
 
         {/* Rate */}
