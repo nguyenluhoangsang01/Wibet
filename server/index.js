@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import betRoutes from "./routes/bet.js";
 import commentRoutes from "./routes/comment.js";
 import matchRoutes from "./routes/match.js";
+import rewardRoutes from "./routes/reward.js";
 import settingRoutes from "./routes/setting.js";
 import teamRoutes from "./routes/team.js";
 import userRoutes from "./routes/user.js";
@@ -74,6 +75,7 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/bet", betRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/setting", settingRoutes);
+app.use("/api/reward", rewardRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
