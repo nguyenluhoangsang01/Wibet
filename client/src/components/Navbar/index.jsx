@@ -162,7 +162,8 @@ const Navbar = () => {
                           </Link>
                         )
                       ) : (
-                        route.name !== "settings" && (
+                        route.name !== "settings" &&
+                        route.name !== "rewards" && (
                           <Link
                             key={route.name}
                             to={route.path}

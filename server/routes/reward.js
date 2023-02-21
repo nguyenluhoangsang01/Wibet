@@ -3,6 +3,7 @@ import {
   createReward,
   deleteReward,
   getAllRewards,
+  getReward,
   updateReward,
 } from "../controllers/reward.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
@@ -20,6 +21,11 @@ router.post("/", verifyToken, verifyInvalidToken, verifyAdmin, createReward);
 // @desc Get all rewards
 // @access Public
 router.get("/", getAllRewards);
+
+// @route GET api/reward/:id
+// @desc Get reward by id
+// @access Public
+router.get("/:id", getReward);
 
 // @route DELETE api/reward/:id
 // @desc Delete reward with id

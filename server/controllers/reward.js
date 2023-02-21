@@ -35,6 +35,14 @@ export const createReward = async (req, res, next) => {
         400,
         "numberOfReward"
       );
+    // Check if number of reward less than 1
+    if (numberOfReward < 1)
+      return sendError(
+        res,
+        "Number of reward must be greater than or equal to 1",
+        400,
+        "numberOfReward"
+      );
     // Validate reward rate is null
     if (!rewardRate)
       return sendError(res, "Reward rate can not be blank", 400, "rewardRate");
@@ -63,6 +71,22 @@ export const getAllRewards = async (req, res, next) => {
   }
 };
 
+export const getReward = async (req, res, next) => {
+  try {
+    // Get id from params
+    const { id } = req.params;
+
+    //  Get reward by id
+    const reward = await Reward.findById(id).select("-__v");
+    if (!reward) return sendError(res, "Reward not found", 404);
+
+    // Send success notification
+    return sendSuccess(res, "Get reward successfully", reward);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateReward = async (req, res, next) => {
   try {
     // Get reward id from request params
@@ -70,11 +94,17 @@ export const updateReward = async (req, res, next) => {
     // Get data from request body
     const { rewardName, numberOfReward, rewardRate } = req.body;
 
+    // Get reward by id
+    const reward = await Reward.findById(id);
+    if (!reward) return sendError(res, "Reward not found", 404);
+
     // Validate not null reward name
     if (!rewardName)
       return sendError(res, "Reward name can not be blank", 400, "rewardName");
     // Find reward name and check if not exists
-    const isExistingWithRewardName = await Reward.findOne({ rewardName });
+    const isExistingWithRewardName = await Reward.findOne({
+      rewardName: { $ne: reward.rewardName, $eq: rewardName },
+    });
     if (isExistingWithRewardName)
       return sendError(
         res,
@@ -101,10 +131,6 @@ export const updateReward = async (req, res, next) => {
     // Validate reward rate is null
     if (!rewardRate)
       return sendError(res, "Reward rate can not be blank", 400, "rewardRate");
-
-    // Get reward by id
-    const reward = await Reward.findById(id);
-    if (!reward) return sendError(res, "Reward not found", 404);
 
     // Find again with id and update
     await Reward.findByIdAndUpdate(id, { ...req.body }, { new: true });
