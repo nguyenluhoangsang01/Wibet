@@ -1,23 +1,52 @@
 import { Table, Tooltip } from "antd";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
 import { accessLevel, dataReward, ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
+import {
+  getTheLastSettingReducerAsync,
+  selectSetting,
+} from "../../state/settingSlice";
+import { selectUser } from "../../state/userSlice";
 
 const Rules = () => {
   // Get pathname from location
   const { pathname } = useLocation();
   // Get current date
   const date = new Date();
+  // Get settings from global state
+  const { settings } = useSelector(selectSetting);
+  // Initial state
+  const [isShow, setIsShow] = useState(false);
+  // Initial dispatch
+  const dispatch = useDispatch();
+  // Get user and access token from global state
+  const { accessToken } = useSelector(selectUser);
 
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
   }, [pathname]);
+
+  // Get the last settings
+  useEffect(() => {
+    dispatch(getTheLastSettingReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Columns for priority
   const columns = [
@@ -119,11 +148,16 @@ const Rules = () => {
           <ul>
             <li>
               Mỗi cá nhân và tập thể tạo Account bằng cách liên hệ Ban Tổ Chức
-              để nạp vào <b>200K VND (tương ứng 200 điểm)</b>
+              để nạp vào{" "}
+              <b>
+                {settings?.defaultMoney}K VND (tương ứng{" "}
+                {settings?.defaultMoney} điểm)
+              </b>
             </li>
             <li>
               Account ngay lập tức được{" "}
-              <span className="bg-wrapper">Active</span> với <b>200p.</b>
+              <span className="bg-wrapper">Active</span> với{" "}
+              <b>{settings?.defaultMoney}p.</b>
             </li>
             <li>
               <div>
@@ -166,20 +200,20 @@ const Rules = () => {
               </p>
               <ul>
                 <li>
-                  Account cũ đã từng refill 01 lần được tặng thêm <b>50 điểm</b>{" "}
-                  khởi đầu cho Vòng LTT
+                  Account cũ đã từng refill 01 lần được tặng thêm{" "}
+                  <b>{settings.minBetMoney} điểm</b> khởi đầu cho Vòng LTT
                 </li>
                 <li>
                   Account cũ đã từng refill 02 lần ở Vòng Bảng được tặng thêm{" "}
-                  <b>100 điểm</b> khởi đầu cho Vòng LTT
+                  <b>{settings.minBetMoney * 2} điểm</b> khởi đầu cho Vòng LTT
                 </li>
                 <li>
                   <p>
                     Account cũ đã từng refill 03 lần ở Vòng Bảng được tặng thêm{" "}
-                    <b>100 điểm</b> khởi đầu cho Vòng LTT
+                    <b>{settings.minBetMoney * 2} điểm</b> khởi đầu cho Vòng LTT
                   </p>{" "}
-                  Và sẽ được tặng thêm 50 điểm (chỉ 01 lần duy nhất) cho lượt
-                  refill ở Vòng LTT này.
+                  Và sẽ được tặng thêm {settings.minBetMoney} điểm (chỉ 01 lần
+                  duy nhất) cho lượt refill ở Vòng LTT này.
                 </li>
               </ul>
             </li>
@@ -190,7 +224,8 @@ const Rules = () => {
                   Mỗi cá nhân hoặc tập thể tối đa được tạo <b>02 Accounts</b>
                 </li>
                 <li>
-                  Được nạp tiền lại (200K) sau khi số điểm dưới <b>50 điểm</b>
+                  Được nạp tiền lại ({settings?.defaultMoney}K) sau khi số điểm
+                  dưới <b>{settings.minBetMoney} điểm</b>
                 </li>
                 <li>
                   01 account được <b>nạp lại 03 lần cho Vòng Bảng</b> và{" "}
@@ -199,7 +234,7 @@ const Rules = () => {
                 <li>
                   Mỗi tài khoản phải tham gia đặt <b>ít nhất 04 trận</b>, với số
                   điểm tối thiểu đặt trong mỗi trận phải từ{" "}
-                  <b>50 điểm trở lên</b>.
+                  <b>{settings.minBetMoney} điểm trở lên</b>.
                 </li>
                 <li>
                   Các bạn dùng <b>Email TMA</b> để đăng ký nhưng không giới hạn
@@ -404,7 +439,10 @@ const Rules = () => {
                     <li>
                       Bet hợp lệ là bet được tính đến thời điểm{" "}
                       <b>
-                        05 PHÚT TRƯỚC LÚC TRỌNG TÀI THỔI CÒI BẮT ĐẦU TRẬN ĐẤU
+                        {settings.timeBet < 10
+                          ? `0${settings.timeBet}`
+                          : settings.timeBet}{" "}
+                        PHÚT TRƯỚC LÚC TRỌNG TÀI THỔI CÒI BẮT ĐẦU TRẬN ĐẤU
                       </b>{" "}
                       (thời gian bắt đầu hiệp 01 của trận đấu đó)
                     </li>
