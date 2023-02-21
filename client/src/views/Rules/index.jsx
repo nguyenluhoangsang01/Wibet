@@ -6,8 +6,12 @@ import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
-import { accessLevel, dataReward, ruleRoutes } from "../../constants";
+import { accessLevel, ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
+import {
+  getAllRewardsReducerAsync,
+  selectReward,
+} from "../../state/rewardSlice";
 import {
   getTheLastSettingReducerAsync,
   selectSetting,
@@ -27,6 +31,8 @@ const Rules = () => {
   const dispatch = useDispatch();
   // Get user and access token from global state
   const { accessToken } = useSelector(selectUser);
+  // Get rewards from global state
+  const { rewards } = useSelector(selectReward);
 
   // Set title
   useEffect(() => {
@@ -37,6 +43,11 @@ const Rules = () => {
   useEffect(() => {
     dispatch(getTheLastSettingReducerAsync(accessToken));
   }, [accessToken, dispatch]);
+
+  // Get reward information
+  useEffect(() => {
+    dispatch(getAllRewardsReducerAsync());
+  }, [dispatch]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -112,18 +123,19 @@ const Rules = () => {
     },
     {
       title: "Giải",
-      dataIndex: "award",
-      key: "award",
+      dataIndex: "rewardName",
+      key: "rewardName",
     },
     {
       title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
+      dataIndex: "numberOfReward",
+      key: "numberOfReward",
+      render: (text) => <span>{text < 10 ? `0${text}` : text}</span>,
     },
     {
       title: "Tỷ lệ",
-      dataIndex: "rates",
-      key: "rates",
+      dataIndex: "rewardRate",
+      key: "rewardRate",
     },
   ];
 
@@ -397,7 +409,7 @@ const Rules = () => {
                 <Table
                   rowKey="_id"
                   columns={columnsReward}
-                  dataSource={dataReward}
+                  dataSource={rewards}
                   pagination={false}
                   className="reward"
                   scroll={{ x: "80vw" }}
