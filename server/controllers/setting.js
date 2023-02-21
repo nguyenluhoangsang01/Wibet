@@ -57,127 +57,129 @@ export const updateTheLastSetting = async (req, res, next) => {
       wrongPasswordTimes,
       timeUpdateScore,
       timeBet,
+      nameOfBank,
+      stkOfBank,
+      bank,
+      contentOfBank,
+      noteOfBank,
+      numberOfMoMo,
+      nameOfMoMo,
+      contentOfMoMo,
+      noteOfMoMo,
+      skypeName,
+      skypeLink,
     } = req.body;
 
+    const validate = (cst, text1, text2) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+    };
+
     // Validate min password
-    if (!minPassword && minPassword !== 0)
-      return sendError(
-        res,
-        "Min password can not be blank",
-        400,
-        "minPassword"
-      );
-    if (!Number.isInteger(minPassword))
-      return sendError(
-        res,
-        "Min password must be an integer",
-        400,
-        "minPassword"
-      );
+    validate(
+      minPassword,
+      "Min password can not be blank",
+      "Min password must be an integer"
+    );
 
     // Validate max password
-    if (!maxPassword && maxPassword !== 0)
-      return sendError(
-        res,
-        "Max password can not be blank",
-        400,
-        "maxPassword"
-      );
-    if (!Number.isInteger(maxPassword))
-      return sendError(
-        res,
-        "Max password must be an integer",
-        400,
-        "maxPassword"
-      );
+    validate(
+      maxPassword,
+      "Max password can not be blank",
+      "Max password must be an integer"
+    );
 
     // Validate min rate
-    if (!minRate && minRate !== 0)
-      return sendError(res, "Min rate can not be blank", 400, "minRate");
-    if (!Number.isInteger(minRate))
-      return sendError(res, "Min rate must be an integer", 400, "minRate");
+    validate(
+      minRate,
+      "Min rate can not be blank",
+      "Min rate must be an integer"
+    );
 
     // Validate max rate
-    if (!maxRate && maxRate !== 0)
-      return sendError(res, "Max rate can not be blank", 400, "maxRate");
-    if (!Number.isInteger(maxRate))
-      return sendError(res, "Max rate must be an integer", 400, "maxRate");
+    validate(
+      maxRate,
+      "Max rate can not be blank",
+      "Max rate must be an integer"
+    );
 
     // Validate min bet money
-    if (!minBetMoney && minBetMoney !== 0)
-      return sendError(
-        res,
-        "Min bet money can not be blank",
-        400,
-        "minBetMoney"
-      );
-    if (!Number.isInteger(minBetMoney))
-      return sendError(
-        res,
-        "Min bet money must be an integer",
-        400,
-        "minBetMoney"
-      );
+    validate(
+      minBetMoney,
+      "Min bet money can not be blank",
+      "Min bet money must be an integer"
+    );
 
     // Validate max score
-    if (!maxScore && maxScore !== 0)
-      return sendError(res, "Max score can not be blank", 400, "maxScore");
-    if (!Number.isInteger(maxScore))
-      return sendError(res, "Max score must be an integer", 400, "maxScore");
+    validate(
+      maxScore,
+      "Max score can not be blank",
+      "Max score must be an integer"
+    );
 
     // Validate default money
-    if (!defaultMoney && defaultMoney !== 0)
-      return sendError(
-        res,
-        "Default money can not be blank",
-        400,
-        "defaultMoney"
-      );
-    if (!Number.isInteger(defaultMoney))
-      return sendError(
-        res,
-        "Default money must be an integer",
-        400,
-        "defaultMoney"
-      );
+    validate(
+      defaultMoney,
+      "Default money can not be blank",
+      "Default money must be an integer"
+    );
 
     // Validate wrong password times
-    if (!wrongPasswordTimes && wrongPasswordTimes !== 0)
-      return sendError(
-        res,
-        "Wrong password times can not be blank",
-        400,
-        "wrongPasswordTimes"
-      );
-    if (!Number.isInteger(wrongPasswordTimes))
-      return sendError(
-        res,
-        "Wrong password times must be an integer",
-        400,
-        "wrongPasswordTimes"
-      );
+    validate(
+      wrongPasswordTimes,
+      "Wrong password times can not be blank",
+      "Wrong password times must be an integer"
+    );
 
     // Validate time to update score
-    if (!timeUpdateScore && timeUpdateScore !== 0)
-      return sendError(
-        res,
-        "Time to update score can not be blank",
-        400,
-        "timeUpdateScore"
-      );
-    if (!Number.isInteger(timeUpdateScore))
-      return sendError(
-        res,
-        "Time to update score must be an integer",
-        400,
-        "timeUpdateScore"
-      );
+    validate(
+      timeUpdateScore,
+      "Time to update score can not be blank",
+      "Time to update score must be an integer"
+    );
 
     // Validate time to bet
-    if (!timeBet && timeBet !== 0)
-      return sendError(res, "Time bet can not be blank", 400, "timeBet");
-    if (!Number.isInteger(timeBet))
-      return sendError(res, "Time bet must be an integer", 400, "timeBet");
+    validate(
+      timeBet,
+      "Time bet can not be blank",
+      "Time bet must be an integer"
+    );
+
+    // Validate Name of bank
+    validate(nameOfBank, "Name of bank can not be blank");
+
+    // Validate Bank account number
+    validate(stkOfBank, "Bank account number can not be blank");
+
+    // Validate Bank
+    validate(bank, "Bank can not be blank");
+
+    // Validate Content of bank
+    validate(contentOfBank, "Transfer content can not be blank");
+
+    // Validate Note of bank
+    validate(noteOfBank, "Note of bank can not be blank");
+
+    // Validate MoMo account number
+    validate(numberOfMoMo, "MoMo account number can not be blank");
+
+    // Validate MoMo account name
+    validate(nameOfMoMo, "MoMo account name can not be blank");
+
+    // Validate Transfer content
+    validate(contentOfMoMo, "Transfer content can not be blank");
+
+    // Validate Note of MoMo
+    validate(noteOfMoMo, "Note of MoMo can not be blank");
+
+    // Validate Skype name
+    validate(skypeName, "Skype name can not be blank");
+
+    // Validate Skype link
+    validate(skypeLink, "Skype link can not be blank");
 
     // Get all settings
     const settings = await Setting.find().select("-__v");

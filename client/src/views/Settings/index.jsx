@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, InputNumber, Modal } from "antd";
+import { Button, Checkbox, Form, Input, InputNumber, Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -9,9 +9,9 @@ import Heading from "../../components/Heading";
 import { plainPasswordOptions, settingsRoutes } from "../../constants";
 import { headers } from "../../helper";
 import {
-	getTheLastSettingReducerAsync,
-	selectSetting,
-	updateSettingReducer
+  getTheLastSettingReducerAsync,
+  selectSetting,
+  updateSettingReducer,
 } from "../../state/settingSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -183,6 +183,50 @@ const Settings = () => {
             name: "timeBet",
             errors: null,
           },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxPassword") {
         form.current.setFields([
@@ -224,6 +268,50 @@ const Settings = () => {
           },
           {
             name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
             errors: null,
           },
         ]);
@@ -269,6 +357,50 @@ const Settings = () => {
             name: "timeBet",
             errors: null,
           },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxRate") {
         form.current.setFields([
@@ -310,6 +442,50 @@ const Settings = () => {
           },
           {
             name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
             errors: null,
           },
         ]);
@@ -355,6 +531,50 @@ const Settings = () => {
             name: "timeBet",
             errors: null,
           },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
         ]);
       } else if (data.name === "maxScore") {
         form.current.setFields([
@@ -396,6 +616,50 @@ const Settings = () => {
           },
           {
             name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
             errors: null,
           },
         ]);
@@ -441,6 +705,50 @@ const Settings = () => {
             name: "timeBet",
             errors: null,
           },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
         ]);
       } else if (data.name === "wrongPasswordTimes") {
         form.current.setFields([
@@ -482,6 +790,50 @@ const Settings = () => {
           },
           {
             name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
             errors: null,
           },
         ]);
@@ -527,6 +879,50 @@ const Settings = () => {
             name: "timeBet",
             errors: null,
           },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
         ]);
       } else if (data.name === "timeBet") {
         form.current.setFields([
@@ -568,6 +964,1007 @@ const Settings = () => {
           },
           {
             name: "timeBet",
+            errors: [data.message],
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "nameOfBank") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: [data.message],
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "stkOfBank") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: [data.message],
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "bank") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: [data.message],
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "contentOfBank") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: [data.message],
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "noteOfBank") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: [data.message],
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "numberOfMoMo") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: [data.message],
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "nameOfMoMo") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: [data.message],
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "contentOfMoMo") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: [data.message],
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "noteOfMoMo") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: [data.message],
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "skypeName") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: [data.message],
+          },
+          {
+            name: "skypeLink",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "skypeLink") {
+        form.current.setFields([
+          {
+            name: "minPassword",
+            errors: null,
+          },
+          {
+            name: "maxPassword",
+            errors: null,
+          },
+          {
+            name: "minRate",
+            errors: null,
+          },
+          {
+            name: "maxRate",
+            errors: null,
+          },
+          {
+            name: "minBetMoney",
+            errors: null,
+          },
+          {
+            name: "maxScore",
+            errors: null,
+          },
+          {
+            name: "defaultMoney",
+            errors: null,
+          },
+          {
+            name: "wrongPasswordTimes",
+            errors: null,
+          },
+          {
+            name: "timeUpdateScore",
+            errors: null,
+          },
+          {
+            name: "timeBet",
+            errors: null,
+          },
+          {
+            name: "nameOfBank",
+            errors: null,
+          },
+          {
+            name: "stkOfBank",
+            errors: null,
+          },
+          {
+            name: "bank",
+            errors: null,
+          },
+          {
+            name: "contentOfBank",
+            errors: null,
+          },
+          {
+            name: "noteOfBank",
+            errors: null,
+          },
+          {
+            name: "numberOfMoMo",
+            errors: null,
+          },
+          {
+            name: "nameOfMoMo",
+            errors: null,
+          },
+          {
+            name: "contentOfMoMo",
+            errors: null,
+          },
+          {
+            name: "noteOfMoMo",
+            errors: null,
+          },
+          {
+            name: "skypeName",
+            errors: null,
+          },
+          {
+            name: "skypeLink",
             errors: [data.message],
           },
         ]);
@@ -614,6 +2011,7 @@ const Settings = () => {
         initialValues={{ ...settings }}
         ref={form}
         className="grid grid-cols-1 md:grid-cols-2 pr-4 md:pr-0 md:gap-10"
+        labelCol={{ span: 10 }}
       >
         {/* Password */}
         <div>
@@ -806,6 +2204,158 @@ const Settings = () => {
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
+
+        <div>
+          {/* Name of bank */}
+          <Form.Item
+            label="Name of bank"
+            name="nameOfBank"
+            rules={[
+              {
+                required: true,
+                message: "Name of bank can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Bank account number */}
+          <Form.Item
+            label="Bank account number"
+            name="stkOfBank"
+            rules={[
+              {
+                required: true,
+                message: "Bank account number can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Bank */}
+          <Form.Item
+            label="Bank"
+            name="bank"
+            rules={[
+              {
+                required: true,
+                message: "Bank can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Transfer content of bank */}
+          <Form.Item
+            label="Transfer content of bank"
+            name="contentOfBank"
+            rules={[
+              {
+                required: true,
+                message: "Transfer content of bank can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Note of bank */}
+          <Form.Item
+            label="Note of bank"
+            name="noteOfBank"
+            rules={[
+              {
+                required: true,
+                message: "Note of bank can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </div>
+
+        <div>
+          {/* MoMo account number */}
+          <Form.Item
+            label="MoMo account number"
+            name="numberOfMoMo"
+            rules={[
+              {
+                required: true,
+                message: "MoMo account number can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* MoMo account name */}
+          <Form.Item
+            label="MoMo account name"
+            name="nameOfMoMo"
+            rules={[
+              {
+                required: true,
+                message: "MoMo account name can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Transfer content of MoMo */}
+          <Form.Item
+            label="Transfer content of MoMo"
+            name="contentOfMoMo"
+            rules={[
+              {
+                required: true,
+                message: "Transfer content of MoMo can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Note of MoMo */}
+          <Form.Item
+            label="Note of MoMo"
+            name="noteOfMoMo"
+            rules={[
+              {
+                required: true,
+                message: "Note of MoMo can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </div>
+
+        <div>
+          {/* Skype name */}
+          <Form.Item
+            label="Skype name"
+            name="skypeName"
+            rules={[
+              {
+                required: true,
+                message: "Skype name can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          {/* Skype link */}
+          <Form.Item
+            label="Skype link"
+            name="skypeLink"
+            rules={[
+              {
+                required: true,
+                message: "Skype link can not be blank",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </div>
 
         {/* Update button */}
         <Form.Item>

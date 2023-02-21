@@ -262,12 +262,12 @@ const Rules = () => {
           <p>
             Liên hệ{" "}
             <a
-              href="https://join.skype.com/tMRrQSXDthKA"
+              href={settings?.skypeLink}
               target="_blank"
               rel="noreferrer"
               className="text-[#428bca] font-bold transition hover:underline hover:text-[#2a6496] uppercase"
             >
-              SKYPE: NGUYỄN MINH TUẤN
+              SKYPE: {settings?.nameOfMoMo.split("-")[0]}
             </a>{" "}
             nạp tiền và tạo Account.
           </p>
@@ -279,34 +279,32 @@ const Rules = () => {
                 <tbody>
                   <tr>
                     <th>Tên</th>
-                    <Tooltip title="NGUYEN MINH TUAN">
-                      <td>NGUYEN MINH TUAN</td>
+                    <Tooltip title={settings?.nameOfBank}>
+                      <td>{settings?.nameOfBank}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>STK</th>
-                    <Tooltip title="31010001645607">
-                      <td>31010001645607</td>
+                    <Tooltip title={settings?.stkOfBank}>
+                      <td>{settings?.stkOfBank}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>Ngân hàng</th>
-                    <Tooltip title="BIDV CN TN TpHCM">
-                      <td>BIDV CN TN TpHCM</td>
+                    <Tooltip title={settings?.bank}>
+                      <td>{settings?.bank}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>Nội dung</th>
-                    <Tooltip title="TMA Account_nick_Tên Họ_wibet">
-                      <td>TMA Account_nick_Tên Họ_wibet</td>
+                    <Tooltip title={settings?.contentOfBank}>
+                      <td>{settings?.contentOfBank}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th></th>
-                    <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
-                      <td className="text-[12px]">
-                        (VD: nmtuan_Batman_Tuấn Nguyễn_wibet)
-                      </td>
+                    <Tooltip title={settings?.noteOfBank}>
+                      <td className="text-[12px]">{settings?.noteOfBank}</td>
                     </Tooltip>
                   </tr>
                 </tbody>
@@ -319,41 +317,39 @@ const Rules = () => {
                 <tbody>
                   <tr>
                     <th>MoMo</th>
-                    <Tooltip title="0934719115">
-                      <td>0934719115</td>
+                    <Tooltip title={settings?.numberOfMoMo}>
+                      <td>{settings?.numberOfMoMo}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>Tên</th>
-                    <Tooltip title="Nguyễn Minh Tuấn - DC22">
-                      <td>Nguyễn Minh Tuấn - DC22</td>
+                    <Tooltip title={settings?.nameOfMoMo}>
+                      <td>{settings?.nameOfMoMo}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>Nội dung </th>
-                    <Tooltip title="TMA Account_nickname_Tên Họ_wibet">
-                      <td>TMA Account_nickname_Tên Họ_wibet</td>
+                    <Tooltip title={settings?.contentOfMoMo}>
+                      <td>{settings?.contentOfMoMo}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th></th>
-                    <Tooltip title="(VD: nmtuan_Batman_Tuấn Nguyễn_wibet)">
-                      <td className="text-[12px]">
-                        (VD: nmtuan_Batman_Tuấn Nguyễn_wibet)
-                      </td>
+                    <Tooltip title={settings?.noteOfMoMo}>
+                      <td className="text-[12px]">{settings?.noteOfMoMo}</td>
                     </Tooltip>
                   </tr>
                   <tr>
                     <th>Skype</th>
                     <td>
-                      <Tooltip title="tuannguyen5989">
+                      <Tooltip title={settings?.skypeName}>
                         <a
-                          href="https://join.skype.com/tMRrQSXDthKA"
+                          href={settings?.skypeLink}
                           target="_blank"
                           rel="noreferrer"
                           className="text-[#428bca] transition hover:underline hover:text-[#2a6496]"
                         >
-                          tuannguyen5989
+                          {settings?.skypeName}
                         </a>
                       </Tooltip>
                     </td>
