@@ -476,7 +476,12 @@ const Matches = () => {
       dataIndex: "rate",
       key: "rate",
       width: 20,
-      render: (text) => text && <span>0:{formatNumber(text)}</span>,
+      render: (text) =>
+        text === 0 ? (
+          <span>0:{text}</span>
+        ) : (
+          <span>0:{formatNumber(text)}</span>
+        ),
     },
     {
       title: "Match Date",

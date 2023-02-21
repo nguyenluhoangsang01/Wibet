@@ -386,25 +386,66 @@ export const updateScoreById = async (req, res, next) => {
         select: "-__v",
       });
 
-    if (bets.length > 0) {
-      // Update score check if user click auto generate result
-      const updatedMatch = await Match.findByIdAndUpdate(
-        id,
-        {
-          ...req.body,
-          result: autoGenerate
-            ? resultOfTeam1 > resultOfTeam2 + match.rate
-              ? match.team1.fullName
-              : resultOfTeam1 < resultOfTeam2 + match.rate
-              ? match.team2.fullName
-              : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
-            : result,
-        },
-        { new: true }
-      )
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
+    // Update score check if user click auto generate result
+    const updatedMatch = await Match.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+        result: autoGenerate
+          ? resultOfTeam1 > resultOfTeam2 + match.rate
+            ? match.team1.fullName
+            : resultOfTeam1 < resultOfTeam2 + match.rate
+            ? match.team2.fullName
+            : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
+          : result,
+      },
+      { new: true }
+    )
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
 
+    // Get all matches
+    const matches = await Match.find()
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+    if (!matches) return sendError(res, "Match not found", 404);
+
+    // Get match after update score
+    const getMatch = await Match.findById(id)
+      .populate("team1 team2", "fullName flag name")
+      .select("-__v");
+
+    // Get team 1 by match result
+    const team1 = await Team.findOne({
+      fullName:
+        getMatch.resultOfTeam1 < getMatch.resultOfTeam2
+          ? getMatch.team2.fullName
+          : getMatch.team1.fullName,
+    });
+
+    // Get match 2 after update score
+    const getMatch2 =
+      matches[
+        matches
+          .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+          .findIndex((match) => match.matchDate > getMatch.matchDate && match) -
+          2
+      ] ||
+      matches[
+        matches
+          .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+          .findIndex((match) => match)
+      ];
+
+    // Get team 2 by match result
+    const team2 = await Team.findOne({
+      fullName:
+        getMatch2.resultOfTeam1 < getMatch2.resultOfTeam2
+          ? getMatch2.team2.fullName
+          : getMatch2.team1.fullName,
+    });
+
+    if (bets.length > 0) {
       // Update user
       await User.updateMany(
         { _id: { $in: bets.map((bet) => bet.user._id) } },
@@ -436,20 +477,6 @@ export const updateScoreById = async (req, res, next) => {
       // Get user by id after updated
       const updatedUser = await User.findById(userId).select("-__v -password");
 
-      // Get all matches
-      const matches = await Match.find()
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-      if (!matches) return sendError(res, "Match not found", 404);
-
-      // Get match after update score
-      const getMatch = await Match.findById(id)
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-
-      // Get team 1 by match result
-      const team1 = await Team.findOne({ fullName: getMatch.result });
-
       // Check if team 1 exist
       if (
         team1 &&
@@ -461,29 +488,11 @@ export const updateScoreById = async (req, res, next) => {
           2 !==
           0
       ) {
-        // Get match 2 after update score
-        const getMatch2 =
-          matches[
-            matches
-              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-              .findIndex(
-                (match) => match.matchDate > getMatch.matchDate && match
-              ) - 2
-          ] ||
-          matches[
-            matches
-              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-              .findIndex((match) => match)
-          ];
-
-        // Get team 2 by match result
-        const team2 = await Team.findOne({ fullName: getMatch2.result });
-
         if (team1 && team2) {
           // Auto create a new match with 2 result
           await Match.create({
-            team1: team2._id,
-            team2: team1._id,
+            team1: team1._id,
+            team2: team2._id,
             rate: lastSetting.minRate,
             matchDate: moment(getMatch.matchDate).add(2, "weeks"),
           });
@@ -495,38 +504,6 @@ export const updateScoreById = async (req, res, next) => {
         user: updatedUser,
       });
     } else {
-      // Check if user clock auto generate result
-      await Match.findByIdAndUpdate(
-        id,
-        {
-          ...req.body,
-          result: autoGenerate
-            ? resultOfTeam1 > resultOfTeam2 + match.rate
-              ? match.team1.fullName
-              : resultOfTeam1 < resultOfTeam2 + match.rate
-              ? match.team2.fullName
-              : resultOfTeam1 === resultOfTeam2 + match.rate && "Draw"
-            : result,
-        },
-        { new: true }
-      )
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-
-      // Get all matches
-      const matches = await Match.find()
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-      if (!matches) return sendError(res, "Match not found", 404);
-
-      // Get match after update score
-      const getMatch = await Match.findById(id)
-        .populate("team1 team2", "fullName flag name")
-        .select("-__v");
-
-      // Get team 1 by match result
-      const team1 = await Team.findOne({ fullName: getMatch.result });
-
       // Check if team 1 exist
       if (
         team1 &&
@@ -538,29 +515,11 @@ export const updateScoreById = async (req, res, next) => {
           2 !==
           0
       ) {
-        // Get match 2 after update score
-        const getMatch2 =
-          matches[
-            matches
-              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-              .findIndex(
-                (match) => match.matchDate > getMatch.matchDate && match
-              ) - 2
-          ] ||
-          matches[
-            matches
-              .sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-              .findIndex((match) => match)
-          ];
-
-        // Get team 2 by match result
-        const team2 = await Team.findOne({ fullName: getMatch2.result });
-
         if (team1 && team2) {
           // Auto create a new match with 2 result
           await Match.create({
-            team1: team2._id,
-            team2: team1._id,
+            team1: team1._id,
+            team2: team2._id,
             rate: lastSetting.minRate,
             matchDate: moment(getMatch.matchDate).add(2, "weeks"),
           });
