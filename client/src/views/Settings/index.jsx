@@ -773,7 +773,7 @@ const Settings = () => {
 
         {/* Time to update score */}
         <Form.Item
-          label="Time to update score"
+          label="Time to update score (m)"
           name="timeUpdateScore"
           rules={[
             {
@@ -789,18 +789,18 @@ const Settings = () => {
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
 
-        {/* Time bet */}
+        {/* Time to bet */}
         <Form.Item
-          label="Time bet"
+          label="Time to bet (m)"
           name="timeBet"
           rules={[
             {
               required: true,
-              message: "Time bet can not be blank",
+              message: "Time to bet can not be blank",
             },
             {
               type: "number",
-              message: "Time bet is not a valid number",
+              message: "Time to bet is not a valid number",
             },
           ]}
         >
