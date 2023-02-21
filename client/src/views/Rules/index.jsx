@@ -173,7 +173,7 @@ const Rules = () => {
               <ul>
                 <li>
                   <b>Vòng Bảng:</b> Từ trận đầu tiên đến vòng đầu cuối cùng của
-                  vòng bảng Worldcup 2022
+                  vòng bảng Worldcup {date.getFullYear()}
                 </li>
                 <li>
                   <b>Vòng Loại Trực Tiếp:</b> Tất cả các trận đấu từ vòng đấu
@@ -498,12 +498,13 @@ const Rules = () => {
             <div className="text-center font-[arial]">
               <h4 className="font-bold">
                 CHÚC TOÀN THỂ ANH CHỊ EM CÓ MỘT SÂN CHƠI LÀNH MẠNH VÀ VUI VẺ
-                TRONG NHỮNG NGÀY CUỐI NĂM 2022
+                TRONG NHỮNG NGÀY CUỐI NĂM {date.getFullYear()}
               </h4>
               <p className="text-[blue] text-[14px]">
                 <b>
                   <em>
-                    #DC22WiBet - #DC22Activity - #WorldCup2022 - #Qatar2022
+                    #DC22WiBet - #DC22Activity - #WorldCup{date.getFullYear()} -
+                    #Qatar{date.getFullYear()}
                   </em>
                 </b>
               </p>
