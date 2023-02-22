@@ -9,7 +9,7 @@ import { useOutsideClick } from "../../helper";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
 const Navbar = () => {
-  // State
+  // Initial state
   const [isClicked, setIsClicked] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
   // Get user from global state
@@ -162,8 +162,7 @@ const Navbar = () => {
                           </Link>
                         )
                       ) : (
-                        route.name !== "settings" &&
-                        route.name !== "rewards" && (
+                        route.name !== "settings" && (
                           <Link
                             key={route.name}
                             to={route.path}

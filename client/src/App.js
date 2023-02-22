@@ -13,14 +13,14 @@ import { getAllCommentsReducerAsync } from "./state/commentSlice";
 import { getAllMatchesReducerAsync } from "./state/matchSlice";
 import { getAllTeamsReducerAsync } from "./state/teamSlice";
 import { getAllUsersReducerAsync, selectUser } from "./state/userSlice";
-import BetUpdate from "./views/Bets/BetUpdate";
-import BetViewAll from "./views/Bets/BetViewAll";
-import Loading from "./views/Loading";
-import RankingViewDetails from "./views/Ranking/RankingViewDetails";
 
+import Loading from "./views/Loading";
+
+const BetCreate = lazy(() => import("./views/Bets/BetCreate"));
+const BetUpdate = lazy(() => import("./views/Bets/BetUpdate"));
+const BetViewAll = lazy(() => import("./views/Bets/BetViewAll"));
 const Default = lazy(() => import("./layouts/Default"));
 const Home = lazy(() => import("./views/Home"));
-const BetCreate = lazy(() => import("./views/Bets/BetCreate"));
 const MatchCreate = lazy(() => import("./views/Matches/MatchCreate"));
 const MatchUpdateInfo = lazy(() => import("./views/Matches/MatchUpdateInfo"));
 const MatchUpdateScore = lazy(() => import("./views/Matches/MatchUpdateScore"));
@@ -31,6 +31,10 @@ const UserCreate = lazy(() => import("./views/Users/UserCreate"));
 const UserUpdate = lazy(() => import("./views/Users/UserUpdate"));
 const UserUpdateMoney = lazy(() => import("./views/Users/UserUpdateMoney"));
 const UserViewDetails = lazy(() => import("./views/Users/UserViewDetails"));
+const RewardUpdate = lazy(() => import("./views/Reward/RewardUpdate"));
+const RankingViewDetails = lazy(() =>
+  import("./views/Ranking/RankingViewDetails")
+);
 
 function App() {
   // Initial dispatch
@@ -125,6 +129,9 @@ function App() {
 
             {/* Nested routes of ranking */}
             <Route path="/ranking/:id" element={<RankingViewDetails />} />
+
+            {/* Nested route of reward */}
+            <Route path="/rewards/:id/update" element={<RewardUpdate />} />
           </Route>
         </Routes>
       </Suspense>

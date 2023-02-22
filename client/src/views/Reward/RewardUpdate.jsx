@@ -82,16 +82,12 @@ const RewardUpdate = () => {
       name: "home",
     },
     {
-      path: "/rewards",
-      name: "rewards",
+      path: "/settings",
+      name: "settings",
     },
     {
       path: "",
       name: reward?.rewardName || "key",
-    },
-    {
-      path: "",
-      name: "update",
     },
   ];
 
@@ -114,7 +110,7 @@ const RewardUpdate = () => {
         setIsFinish(false);
 
         // And navigate to teams page
-        navigate("/rewards");
+        navigate("/settings");
       }
     } catch ({ response: { data } }) {
       // Check if name error is name and set error message after set fields to null
