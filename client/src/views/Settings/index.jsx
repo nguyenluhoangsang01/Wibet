@@ -2145,8 +2145,11 @@ const Settings = () => {
         dispatch(getAllRewardsReducerAsync());
 
         // Reset form
-        form.current.resetFields();
+        formR.current.resetFields();
       }
+
+      // Reset form
+      form.current.resetFields();
     } catch ({ response: { data } }) {
       // Check if name error is name and set error message after set fields to null
       if (data.name === "rewardName") {

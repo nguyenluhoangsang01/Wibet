@@ -184,21 +184,6 @@ svg > text {
 .reward tr:nth-child(5) {
   @apply !bg-[#d9edf7];
 }
-.reward tr:nth-child(6) {
-  @apply !bg-[#EF7C8E];
-}
-.reward tr:nth-child(7) {
-  @apply !bg-[#FAE8E0];
-}
-.reward tr:nth-child(8) {
-  @apply !bg-[#B6E2D3];
-}
-.reward tr:nth-child(9) {
-  @apply !bg-[#D8A7B1];
-}
-.reward tr:nth-child(10) {
-  @apply !bg-[#F1CCD7];
-}
 
 .not-found {
   text-shadow: -1px -1px 3px #fff, 2px 2px 4px #fff;
