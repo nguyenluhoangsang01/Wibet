@@ -11,6 +11,8 @@ import { routes } from "./constants";
 import { getAllBetsReducerAsync } from "./state/betSlice";
 import { getAllCommentsReducerAsync } from "./state/commentSlice";
 import { getAllMatchesReducerAsync } from "./state/matchSlice";
+import { getAllRewardsReducerAsync } from "./state/rewardSlice";
+import { getTheLastSettingReducerAsync } from "./state/settingSlice";
 import { getAllTeamsReducerAsync } from "./state/teamSlice";
 import { getAllUsersReducerAsync, selectUser } from "./state/userSlice";
 
@@ -55,11 +57,13 @@ function App() {
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        dispatch(getAllMatchesReducerAsync());
-        dispatch(getAllCommentsReducerAsync());
-        dispatch(getAllUsersReducerAsync());
-        dispatch(getAllTeamsReducerAsync(accessToken));
         dispatch(getAllBetsReducerAsync(accessToken));
+        dispatch(getAllCommentsReducerAsync());
+        dispatch(getAllMatchesReducerAsync());
+        dispatch(getAllRewardsReducerAsync());
+        dispatch(getTheLastSettingReducerAsync());
+        dispatch(getAllTeamsReducerAsync(accessToken));
+        dispatch(getAllUsersReducerAsync());
       }}
     >
       <Toaster
