@@ -256,3 +256,7 @@ g svg g text {
 .ant-tabs.ant-tabs-top {
   gap: 40px;
 }
+
+.ant-picker-cell {
+  overflow: unset !important;
+}
