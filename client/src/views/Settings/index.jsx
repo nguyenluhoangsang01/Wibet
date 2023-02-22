@@ -2231,7 +2231,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Min password input */}
           <Form.Item
@@ -2323,7 +2323,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Min rate input */}
           <Form.Item
@@ -2389,7 +2389,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Min bet money input */}
           <Form.Item
@@ -2455,7 +2455,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Max score input */}
           <Form.Item
@@ -2521,7 +2521,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Default money */}
           <Form.Item
@@ -2569,7 +2569,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           {/* Name of bank */}
           <Form.Item
@@ -2668,7 +2668,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           <Form.Item
             label="MoMo account number"
@@ -2750,7 +2750,7 @@ const Settings = () => {
           initialValues={{ ...settings }}
           ref={form}
           labelCol={{ span: 6 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
         >
           <Form.Item
             label="Skype name"
@@ -2806,7 +2806,7 @@ const Settings = () => {
             autoComplete="off"
             ref={formR}
             labelCol={{ span: 6 }}
-            wrapperCol={{ span: 8 }}
+            wrapperCol={{ span: 14 }}
           >
             {/* Reward name input */}
             <Form.Item

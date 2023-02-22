@@ -233,3 +233,22 @@ g svg g text {
 .accessLevel td:not(:last-child) {
   @apply border-r-2;
 }
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-[#FFC107] font-bold;
+}
+
+.ant-checkbox-inner {
+  @apply !bg-[#FFC107] !border-[#FFC107];
+}
+
+.ant-tabs-tab-btn {
+  @apply text-[18px] font-[calibri];
+}
+
+.ant-tabs-nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+}
