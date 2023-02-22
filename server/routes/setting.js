@@ -17,14 +17,8 @@ router.post("/", verifyToken, verifyInvalidToken, verifyAdmin, refreshSetting);
 
 // @route GET api/setting
 // @desc Get the last setting
-// @access Private
-router.get(
-  "/",
-  verifyToken,
-  verifyInvalidToken,
-  verifyAdmin,
-  getTheLastSetting
-);
+// @access Public
+router.get("/", getTheLastSetting);
 
 // @route PATCH api/setting
 // @desc Update the last setting

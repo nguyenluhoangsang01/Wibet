@@ -279,7 +279,7 @@ const Rules = () => {
               rel="noreferrer"
               className="text-[#428bca] font-bold transition hover:underline hover:text-[#2a6496] uppercase"
             >
-              SKYPE: {settings?.nameOfMoMo.split("-")[0]}
+              SKYPE: {settings?.nameOfMoMo?.split("-")[0]}
             </a>{" "}
             nạp tiền và tạo Account.
           </p>
