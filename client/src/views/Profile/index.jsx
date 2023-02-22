@@ -28,6 +28,7 @@ const Profile = () => {
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial dispatch
@@ -36,6 +37,14 @@ const Profile = () => {
   const timezones = momentTimezone.tz.names();
   // Initial form ref
   const form = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Set title
   useEffect(() => {
@@ -47,7 +56,7 @@ const Profile = () => {
     if (!user) navigate("/");
   }, [navigate, user]);
 
-  if (!user) return <span>Loading...</span>;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {
@@ -285,10 +294,9 @@ const Profile = () => {
             </Button>
           </Form.Item>
         </Form>
-
         {/* Number of rows */}
         <NumberOfRows>
-          {bets?.bets?.filter(
+          {[...bets?.bets]?.filter(
             (bet) => bet?.user?._id?.toString() === user?._id?.toString()
           ) < 1 ? (
             "No result found"
@@ -297,7 +305,7 @@ const Profile = () => {
               Total{" "}
               <span className="font-bold">
                 {
-                  bets?.bets?.filter(
+                  [...bets?.bets]?.filter(
                     (bet) =>
                       bet?.user?._id?.toString() === user?._id?.toString()
                   )?.length
@@ -309,18 +317,24 @@ const Profile = () => {
         </NumberOfRows>
 
         {/* Table */}
-        <Table
-          rowKey="_id"
-          columns={columns}
-          dataSource={[...bets?.bets]?.filter(
-            (bet) =>
-              bet?.user?._id?.toString() === user?._id?.toString() && bet.match
-          )}
-          className="pt-[25px] -mt-4"
-          scroll={{ x: "90vw" }}
-          loading={bets.bets ? false : true}
-          pagination={false}
-        />
+        {isShow && (
+          <Table
+            rowKey="_id"
+            columns={columns}
+            dataSource={
+              isShow &&
+              [...bets?.bets]?.filter(
+                (bet) =>
+                  bet?.user?._id?.toString() === user?._id?.toString() &&
+                  bet?.match
+              )
+            }
+            className="pt-[25px] -mt-4"
+            scroll={{ x: "90vw" }}
+            loading={bets.bets ? false : true}
+            pagination={false}
+          />
+        )}
       </div>
     </div>
   );

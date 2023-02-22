@@ -20,7 +20,7 @@ import { useLocation, useNavigate } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import { plainPasswordOptions, settingsRoutes } from "../../constants";
-import { headers } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import {
   getAllRewardsReducerAsync,
   selectReward,
@@ -47,6 +47,7 @@ const Settings = () => {
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
   const [confirmLoadingR, setConfirmLoadingR] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
+  const [isShow, setIsShow] = useState(false);
   // Get rewards from global state
   const { rewards } = useSelector(selectReward);
   // Get settings from global state
@@ -60,6 +61,19 @@ const Settings = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShow(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Set title
+  useEffect(() => {
+    document.title = capitalize(pathname.slice(1));
+  }, [pathname]);
 
   // Check if user not exists
   useEffect(() => {
@@ -100,7 +114,7 @@ const Settings = () => {
     settings?.isSymbols,
   ]);
 
-  if (!settings) return <span>Loading...</span>;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle refresh setting action
   const handleRefresh = async () => {
