@@ -252,3 +252,7 @@ g svg g text {
   justify-content: space-between;
   width: -webkit-fill-available;
 }
+
+.ant-tabs.ant-tabs-top {
+  gap: 40px;
+}
