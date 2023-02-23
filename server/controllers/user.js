@@ -223,30 +223,42 @@ export const login = async (req, res, next) => {
 
     // Check if incorrect password
     if (!comparedPassword) {
-      // +1 times wrong password
-      const updatedWrongPasswordTimes = await User.findOneAndUpdate(
-        { $or: [{ email }, { username }] },
-        { wrongPassword: isExistingUser.wrongPassword + 1 },
-        { new: true }
-      );
+      let updatedWrongPasswordTimes;
 
-      // Check if wrong password times greater than lastSetting.wrongPasswordTimes
-      if (
-        updatedWrongPasswordTimes.wrongPassword >=
-          lastSetting.wrongPasswordTimes &&
-        updatedWrongPasswordTimes.status !== "Inactive"
-      ) {
-        await User.findOneAndUpdate(
+      if (lastSetting.wrongPasswordTimes > 0) {
+        // +1 times wrong password
+        updatedWrongPasswordTimes = await User.findOneAndUpdate(
           { $or: [{ email }, { username }] },
-          { status: Object.keys(STATUS)[0], wrongPassword: 0 },
+          { wrongPassword: isExistingUser.wrongPassword + 1 },
           { new: true }
         );
+
+        // Check if wrong password times greater than lastSetting.wrongPasswordTimes
+        if (
+          updatedWrongPasswordTimes.wrongPassword >=
+            lastSetting.wrongPasswordTimes &&
+          updatedWrongPasswordTimes.status !== "Inactive"
+        ) {
+          await User.findOneAndUpdate(
+            { $or: [{ email }, { username }] },
+            { status: Object.keys(STATUS)[0], wrongPassword: 0 },
+            { new: true }
+          );
+        }
       }
 
       // Send error notification
       return sendError(
         res,
-        `You have entered incorrect password ${updatedWrongPasswordTimes.wrongPassword} times consecutively. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password ${lastSetting.wrongPasswordTimes} times.`,
+        updatedWrongPasswordTimes
+          ? `You have entered incorrect password ${
+              updatedWrongPasswordTimes.wrongPassword
+            } times ${
+              updatedWrongPasswordTimes.wrongPassword > 1 ? "consecutively" : ""
+            }. Please note that Wibet service will be TEMPORARY INACTIVE if you enter the wrong password ${
+              lastSetting.wrongPasswordTimes
+            } times.`
+          : `You have entered incorrect password`,
         400,
         "password"
       );

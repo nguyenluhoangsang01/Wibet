@@ -48,37 +48,19 @@ export const getTheLastSetting = async (req, res, next) => {
   }
 };
 
-export const updateTheLastSetting = async (req, res, next) => {
+export const updatePassword = async (req, res, next) => {
   try {
-    const {
-      minPassword,
-      maxPassword,
-      minRate,
-      maxRate,
-      minBetMoney,
-      maxScore,
-      defaultMoney,
-      wrongPasswordTimes,
-      timeUpdateScore,
-      timeBet,
-      nameOfBank,
-      stkOfBank,
-      bank,
-      contentOfBank,
-      noteOfBank,
-      numberOfMoMo,
-      nameOfMoMo,
-      contentOfMoMo,
-      noteOfMoMo,
-      skypeName,
-      skypeLink,
-    } = req.body;
+    const { minPassword, maxPassword, wrongPasswordTimes } = req.body;
 
-    const validate = (cst, text1, text2) => {
+    const validate = (cst, text1, text2, text3, number) => {
       if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
 
       if (text2) {
         if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
       }
     };
 
@@ -86,71 +68,292 @@ export const updateTheLastSetting = async (req, res, next) => {
     validate(
       minPassword,
       "Min password can not be blank",
-      "Min password must be an integer"
+      "Min password is not a valid number",
+      "Min password must be greater than or equal to 3",
+      3
     );
 
     // Validate max password
     validate(
       maxPassword,
       "Max password can not be blank",
-      "Max password must be an integer"
+      "Max password is not a valid number",
+      "Max password must be greater than or equal to 3",
+      3
     );
+
+    if (minPassword > maxPassword)
+      return sendError(
+        res,
+        "Min password must be less than max password",
+        400,
+        "minPassword"
+      );
+
+    // Validate wrong password times
+    validate(
+      wrongPasswordTimes,
+      "Wrong password times can not be blank",
+      "Wrong password times is not a valid number",
+      "Wrong password times must be greater than or equal to 0",
+      0
+    );
+
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateRate = async (req, res, next) => {
+  try {
+    const { minRate, maxRate } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
 
     // Validate min rate
     validate(
       minRate,
       "Min rate can not be blank",
-      "Min rate must be an integer"
+      "Min rate is not a valid number",
+      "Min rate must be greater than or equal to 0",
+      0
     );
 
     // Validate max rate
     validate(
       maxRate,
       "Max rate can not be blank",
-      "Max rate must be an integer"
+      "Max rate is not a valid number",
+      "Max rate must be greater than or equal to 0",
+      0
     );
+
+    if (minRate > maxRate)
+      return sendError(
+        res,
+        "Min rate must be less than max rate",
+        400,
+        "minRate"
+      );
+
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateBet = async (req, res, next) => {
+  try {
+    const { minBetMoney, timeBet } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
 
     // Validate min bet money
     validate(
       minBetMoney,
       "Min bet money can not be blank",
-      "Min bet money must be an integer"
+      "Min bet money is not a valid number",
+      "Min bet must be greater than or equal to 1",
+      1
     );
+
+    // Validate time to bet
+    validate(
+      timeBet,
+      "Time to bet can not be blank",
+      "Time to bet is not a valid number",
+      "Time to bet must be greater than or equal to 0",
+      0
+    );
+
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateScore = async (req, res, next) => {
+  try {
+    const { maxScore, timeUpdateScore } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
 
     // Validate max score
     validate(
       maxScore,
       "Max score can not be blank",
-      "Max score must be an integer"
-    );
-
-    // Validate default money
-    validate(
-      defaultMoney,
-      "Default money can not be blank",
-      "Default money must be an integer"
-    );
-
-    // Validate wrong password times
-    validate(
-      wrongPasswordTimes,
-      "Wrong password times can not be blank",
-      "Wrong password times must be an integer"
+      "Max score is not a valid number",
+      "Max score must be greater than or equal to 0",
+      0
     );
 
     // Validate time to update score
     validate(
       timeUpdateScore,
       "Time to update score can not be blank",
-      "Time to update score must be an integer"
+      "Time to update score is not a valid number",
+      "Time to update score must be greater than or equal to 0",
+      0
     );
 
-    // Validate time to bet
-    validate(
-      timeBet,
-      "Time bet can not be blank",
-      "Time bet must be an integer"
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
     );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateMoney = async (req, res, next) => {
+  try {
+    const { defaultMoney } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
+
+    // Validate default money
+    validate(
+      defaultMoney,
+      "Default money can not be blank",
+      "Default money is not a valid number",
+      "Default money must be greater than or equal to 0",
+      0
+    );
+
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateBank = async (req, res, next) => {
+  try {
+    const { nameOfBank, stkOfBank, bank, contentOfBank, noteOfBank } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
 
     // Validate Name of bank
     validate(nameOfBank, "Name of bank can not be blank");
@@ -167,6 +370,43 @@ export const updateTheLastSetting = async (req, res, next) => {
     // Validate Note of bank
     validate(noteOfBank, "Note of bank can not be blank");
 
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateMoMo = async (req, res, next) => {
+  try {
+    const { numberOfMoMo, nameOfMoMo, contentOfMoMo, noteOfMoMo } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
+
     // Validate MoMo account number
     validate(numberOfMoMo, "MoMo account number can not be blank");
 
@@ -178,6 +418,43 @@ export const updateTheLastSetting = async (req, res, next) => {
 
     // Validate Note of MoMo
     validate(noteOfMoMo, "Note of MoMo can not be blank");
+
+    // Get all settings
+    const settings = await Setting.find().select("-__v");
+    // Check if not found settings
+    if (!settings) return sendError(res, "No settings found", 400);
+    // Get the last setting
+    const lastSetting = settings[settings.length - 1];
+
+    // Update setting with if of the last setting after validate
+    await Setting.findByIdAndUpdate(
+      lastSetting._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    // Send success notification
+    return sendSuccess(res, "Update setting successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateSkype = async (req, res, next) => {
+  try {
+    const { skypeName, skypeLink } = req.body;
+
+    const validate = (cst, text1, text2, text3, number, text4) => {
+      if (!cst && cst !== 0) return sendError(res, text1, 400, cst);
+
+      if (text2) {
+        if (!Number.isInteger(cst)) return sendError(res, text2, 400, cst);
+      }
+
+      if (text3) {
+        if (cst < number) return sendError(res, text3, 400, cst);
+      }
+    };
 
     // Validate Skype name
     validate(skypeName, "Skype name can not be blank");
