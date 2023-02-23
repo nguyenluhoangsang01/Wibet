@@ -1,11 +1,15 @@
 import sendError from "../helpers/sendError.js";
 import sendSuccess from "../helpers/sendSuccess.js";
+import AccessLevel from "../models/accessLevel.js";
+import Reward from "../models/reward.js";
 import Setting from "../models/setting.js";
 
 export const refreshSetting = async (req, res, next) => {
   try {
     // Delete previous settings
     await Setting.deleteMany();
+    await Reward.deleteMany();
+    await AccessLevel.deleteMany();
 
     // Create with default values
     await Setting.create({});
