@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -9,13 +9,15 @@ import Heading from "../../components/Heading";
 import { headers } from "../../helper";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
-const RewardUpdate = () => {
+const AccessLevelUpdate = () => {
   // Get team id from params
   const { id } = useParams();
   // Initial state
   const [isShow, setIsShow] = useState(false);
-  const [reward, setReward] = useState({});
   const [isFinish, setIsFinish] = useState(false);
+  const [accessLevel, setAccessLevel] = useState({});
+  const [gsCheckbox, setGsCheckbox] = useState(false);
+  const [lgsCheckbox, setLgsCheckbox] = useState(false);
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
@@ -35,7 +37,7 @@ const RewardUpdate = () => {
 
   // Set title
   useEffect(() => {
-    document.title = "Update Reward";
+    document.title = "Update Access Level";
   }, []);
 
   // Check if user not exists
@@ -48,17 +50,17 @@ const RewardUpdate = () => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
 
-  // Get reward by id
+  // Get access level by id
   useEffect(() => {
     (async () => {
       try {
-        // Get reward by id with get method
-        const { data } = await axios.get(`/reward/${id}`);
+        // Get access level by id with get method
+        const { data } = await axios.get(`/accessLevel/${id}`);
 
         // Check if data exists
         if (data) {
-          // Set reward with data found
-          setReward(data.data);
+          // Set access level with data found
+          setAccessLevel(data.data);
 
           // Reset form
           form.current.resetFields();
@@ -76,7 +78,7 @@ const RewardUpdate = () => {
   if (!isShow) return <span>Loading...</span>;
 
   // Breadcrumbs
-  const rewardUpdateRoutes = [
+  const accessLevelUpdateRoutes = [
     {
       path: "/",
       name: "home",
@@ -87,7 +89,7 @@ const RewardUpdate = () => {
     },
     {
       path: "",
-      name: reward?.rewardName || "key",
+      name: accessLevel?.category || "key",
     },
   ];
 
@@ -97,67 +99,43 @@ const RewardUpdate = () => {
     setIsFinish(true);
 
     try {
-      // update reward
-      const res = await axios.patch(
-        `/reward/${id}`,
-        { ...values },
+      // update access level
+      const { data } = await axios.patch(
+        `/accessLevel/${id}`,
+        { ...values, isGroupStage: gsCheckbox, isLiveGroupStage: lgsCheckbox },
         { headers: headers(accessToken) }
       );
 
       // Check if data is exists
-      if (res.data) {
+      if (data) {
         // Then set is finish to false
         setIsFinish(false);
 
-        // And navigate to teams page
+        // And navigate to settings page
         navigate("/settings");
       }
     } catch ({ response: { data } }) {
       // Check if name error is name and set error message after set fields to null
-      if (data.name === "rewardName") {
+      if (data.name === "category") {
         form.current.setFields([
           {
-            name: "rewardName",
+            name: "category",
             errors: [data.message],
           },
           {
-            name: "numberOfReward",
-            errors: null,
-          },
-          {
-            name: "rewardRate",
+            name: "detail",
             errors: null,
           },
         ]);
-      } else if (data.name === "numberOfReward") {
+      } else if (data.name === "detail") {
         // Check if name error is fullName and set error message after set fields to null
         form.current.setFields([
           {
-            name: "rewardName",
+            name: "category",
             errors: null,
           },
           {
-            name: "numberOfReward",
-            errors: [data.message],
-          },
-          {
-            name: "rewardRate",
-            errors: null,
-          },
-        ]);
-      } else if (data.name === "rewardRate") {
-        // Check if name error is fullName and set error message after set fields to null
-        form.current.setFields([
-          {
-            name: "rewardName",
-            errors: null,
-          },
-          {
-            name: "numberOfReward",
-            errors: null,
-          },
-          {
-            name: "rewardRate",
+            name: "detail",
             errors: [data.message],
           },
         ]);
@@ -172,13 +150,23 @@ const RewardUpdate = () => {
     }
   };
 
+  // Handle change group stage
+  const onChangeGS = (e) => {
+    setGsCheckbox(e.target.checked);
+  };
+
+  // Handle change live group stage
+  const onChangeLGS = (e) => {
+    setLgsCheckbox(e.target.checked);
+  };
+
   return (
     <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* Breadcrumbs */}
-      <Breadcrumbs routes={rewardUpdateRoutes} key={reward?._id} />
+      <Breadcrumbs routes={accessLevelUpdateRoutes} key={accessLevel?._id} />
 
       {/* Heading */}
-      <Heading title={`update reward: ${reward?.rewardName}`} />
+      <Heading title={`update access level: ${accessLevel?.category}`} />
 
       {/* Form */}
       <Form
@@ -186,58 +174,55 @@ const RewardUpdate = () => {
         onFinish={onFinish}
         autoComplete="off"
         ref={form}
-        initialValues={{ ...reward }}
+        initialValues={{ ...accessLevel }}
         layout="vertical"
       >
-        {/* Reward name input */}
+        {/* Category input */}
         <Form.Item
-          label="Reward name"
-          name="rewardName"
+          label="Category"
+          name="category"
           rules={[
             {
               required: true,
-              message: "Reward name can not be blank",
+              message: "Category can not be blank",
             },
           ]}
         >
           <Input />
         </Form.Item>
 
-        {/* Number of reward input */}
+        {/* Detail input */}
         <Form.Item
-          label="Number of reward"
-          name="numberOfReward"
+          label="Detail"
+          name="detail"
           rules={[
             {
               required: true,
-              message: "Number of reward can not be blank",
-            },
-            {
-              type: "number",
-              message: "Number of reward must be an integer",
-            },
-            {
-              type: "number",
-              min: 1,
-              message: "Number of reward must be greater than or equal to 1",
-            },
-          ]}
-        >
-          <InputNumber style={{ width: "100%" }} />
-        </Form.Item>
-
-        {/* Reward rate input */}
-        <Form.Item
-          label="Reward rate"
-          name="rewardRate"
-          rules={[
-            {
-              required: true,
-              message: "Reward rate can not be blank",
+              message: "Detail can not be blank",
             },
           ]}
         >
           <Input />
+        </Form.Item>
+
+        {/* Group stage check box */}
+        <Form.Item wrapperCol={{ offset: 6 }}>
+          <Checkbox
+            defaultChecked={accessLevel?.isGroupStage}
+            onChange={onChangeGS}
+          >
+            Group stage
+          </Checkbox>
+        </Form.Item>
+
+        {/* Live group stage check box */}
+        <Form.Item wrapperCol={{ offset: 6 }}>
+          <Checkbox
+            defaultChecked={accessLevel?.isLiveGroupStage}
+            onChange={onChangeLGS}
+          >
+            Live group stage
+          </Checkbox>
         </Form.Item>
 
         {/* Update button */}
@@ -257,4 +242,4 @@ const RewardUpdate = () => {
   );
 };
 
-export default RewardUpdate;
+export default AccessLevelUpdate;

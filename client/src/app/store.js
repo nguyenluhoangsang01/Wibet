@@ -13,6 +13,7 @@ import {
 import createTransform from "redux-persist/es/createTransform";
 import storage from "redux-persist/lib/storage";
 import { REACT_TRANSFORM_SECRET_KEY } from "../constants";
+import accessLevelReducer from "../state/accessLevelSlice";
 import betReducer from "../state/betSlice";
 import commentReducer from "../state/commentSlice";
 import matchReducer from "../state/matchSlice";
@@ -83,6 +84,11 @@ const rewardPersistConfig = {
   storage,
   transforms: [encrypt],
 };
+const accessLevelPersistConfig = {
+  key: "accessLevel",
+  storage,
+  transforms: [encrypt],
+};
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
@@ -92,6 +98,7 @@ const rootReducer = combineReducers({
   comment: persistReducer(commentPersistConfig, commentReducer),
   setting: persistReducer(settingPersistConfig, settingReducer),
   reward: persistReducer(rewardPersistConfig, rewardReducer),
+  accessLevel: persistReducer(accessLevelPersistConfig, accessLevelReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

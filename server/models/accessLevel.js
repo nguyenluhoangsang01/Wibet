@@ -5,10 +5,12 @@ const accessLevelSchema = new Schema(
     category: {
       type: String,
       require: true,
+      trim: true,
     },
     detail: {
       type: String,
       require: true,
+      trim: true,
     },
     isGroupStage: {
       type: Boolean,

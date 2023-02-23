@@ -34,6 +34,9 @@ const UserUpdate = lazy(() => import("./views/Users/UserUpdate"));
 const UserUpdateMoney = lazy(() => import("./views/Users/UserUpdateMoney"));
 const UserViewDetails = lazy(() => import("./views/Users/UserViewDetails"));
 const RewardUpdate = lazy(() => import("./views/Reward/RewardUpdate"));
+const AccessLevelUpdate = lazy(() =>
+  import("./views/AccessLevel/AccessLevelUpdate")
+);
 const RankingViewDetails = lazy(() =>
   import("./views/Ranking/RankingViewDetails")
 );
@@ -136,6 +139,12 @@ function App() {
 
             {/* Nested route of reward */}
             <Route path="/rewards/:id/update" element={<RewardUpdate />} />
+
+            {/* Nested route of access level */}
+            <Route
+              path="/accessLevel/:id/update"
+              element={<AccessLevelUpdate />}
+            />
           </Route>
         </Routes>
       </Suspense>

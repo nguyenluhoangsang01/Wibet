@@ -4,7 +4,6 @@ import {
   Form,
   Input,
   InputNumber,
-  Modal,
   Table,
   Tabs,
   Tooltip,
@@ -19,8 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
+import ModalDeleteAccessLevel from "../../components/ModalDeleteAccessLevel";
+import ModalDeleteReward from "../../components/ModalDeleteReward";
+import ModalRefreshCurrentSettings from "../../components/ModalRefreshCurrentSettings";
 import { plainPasswordOptions, settingsRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
+import {
+  getAllAccessLevelReducerAsync,
+  selectAccessLevel,
+} from "../../state/accessLevelSlice";
 import {
   getAllRewardsReducerAsync,
   selectReward,
@@ -38,25 +44,34 @@ const Settings = () => {
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
   const [isFinishR, setIsFinishR] = useState(false);
+  const [isFinishA, setIsFinishA] = useState(false);
   const [open, setOpen] = useState(false);
   const [openR, setOpenR] = useState(false);
+  const [openA, setOpenA] = useState(false);
   const [deleteReward, setDeleteReward] = useState({
     _id: null,
     rewardName: null,
   });
+  const [deleteAccessLevel, setDeleteAccessLevel] = useState({ _id: null });
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
   const [confirmLoadingR, setConfirmLoadingR] = useState(false);
+  const [confirmLoadingA, setConfirmLoadingA] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
   const [isShow, setIsShow] = useState(false);
+  const [gsCheckbox, setGsCheckbox] = useState(false);
+  const [lgsCheckbox, setLgsCheckbox] = useState(false);
   // Get rewards from global state
   const { rewards } = useSelector(selectReward);
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
   // Get user and access token from global state
   const { user, accessToken } = useSelector(selectUser);
+  // Get access level from global state
+  const { accessLevel } = useSelector(selectAccessLevel);
   // Initial form ref
   const form = useRef(null);
   const formR = useRef(null);
+  const formA = useRef(null);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -93,6 +108,11 @@ const Settings = () => {
   // Get reward information
   useEffect(() => {
     dispatch(getAllRewardsReducerAsync());
+  }, [dispatch]);
+
+  // Get access level information
+  useEffect(() => {
+    dispatch(getAllAccessLevelReducerAsync());
   }, [dispatch]);
 
   // Default options selected
@@ -186,22 +206,67 @@ const Settings = () => {
     }
   };
 
-  // Handle close model
+  // Handle confirm ok when user delete
+  const handleOkA = async () => {
+    // Set loading to true first
+    setConfirmLoadingA(true);
+
+    try {
+      const { data } = await axios.delete(
+        `/accessLevel/${deleteAccessLevel._id}`,
+        {
+          headers: headers(accessToken),
+        }
+      );
+
+      if (data) {
+        // Dispatch get all rewards action
+        dispatch(getAllAccessLevelReducerAsync());
+
+        // After delete successfully hide modal
+        setOpenA(false);
+
+        // And set loading to false
+        setConfirmLoadingA(false);
+
+        // Send success notification
+        toast.success(data.message);
+      }
+    } catch (error) {
+      // Set loading to false if have error
+      setConfirmLoadingA(false);
+
+      // After delete successfully hide modal
+      setOpenA(false);
+    }
+  };
+
+  // Handle close modal
   const handleCancel = () => {
     setOpen(false);
   };
 
-  // Handle cancel when user no delete
+  // Handle close reward modal
   const handleCancelR = () => {
     setOpenR(false);
   };
 
-  // Handle update reward with id
+  // Handle close access level modal
+  const handleCancelA = () => {
+    setOpenA(false);
+  };
+
+  // Handle update reward by id
   const handleUpdateReward = (values) => {
     navigate(`/rewards/${values._id}/update`);
   };
 
-  // Handle delete reward with id
+  // Handle update access by id
+  const handleUpdateAccessLevel = (values) => {
+    navigate(`/accessLevel/${values._id}/update`);
+  };
+
+  // Handle delete reward by id
   const handleDeleteReward = (_id, rewardName) => {
     // Open modal when user click trash icon
     setOpenR(true);
@@ -211,6 +276,15 @@ const Settings = () => {
       _id,
       rewardName,
     });
+  };
+
+  // Handle delete access level by id
+  const handleDeleteAccessLevel = (_id) => {
+    // Open modal when user click trash icon
+    setOpenA(true);
+
+    // Set _id
+    setDeleteAccessLevel({ _id });
   };
 
   // Columns for reward
@@ -254,6 +328,79 @@ const Settings = () => {
           <Tooltip title="Delete this reward">
             <button
               onClick={() => handleDeleteReward(record._id, record.rewardName)}
+              className="bg-[#d9534f] border-[#d43f3a]"
+            >
+              <CgClose />
+            </button>
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
+
+  // Columns for access level
+  const columnsAccessLevel = [
+    {
+      title: "Mục",
+      dataIndex: "category",
+      key: "category",
+      render: (text) => <span className="font-bold capitalize">{text}</span>,
+    },
+    {
+      title: "Chi tiết",
+      dataIndex: "detail",
+      key: "detail",
+      render: (text) => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Vòng bảng",
+      dataIndex: "isGroupStage",
+      key: "isGroupStage",
+      render: (text) => (
+        <span
+          className={`rounded-full font-bold text-white capitalize font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+            text ? "bg-[#28a745]" : "bg-[#dc3545]"
+          }`}
+        >
+          {text ? "Có" : "Không"}
+        </span>
+      ),
+    },
+    {
+      title: "Vòng loại trực tiếp",
+      dataIndex: "isLiveGroupStage",
+      key: "isLiveGroupStage",
+      render: (text) => (
+        <span
+          className={`rounded-full font-bold text-white capitalize font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+            text ? "bg-[#28a745]" : "bg-[#dc3545]"
+          }`}
+        >
+          {text ? "Có" : "Không"}
+        </span>
+      ),
+    },
+    {
+      title: "-",
+      dataIndex: "actions",
+      render: (text, record) => (
+        <div className="flex items-center justify-center">
+          <Tooltip title="Update info">
+            <button
+              onClick={() => handleUpdateAccessLevel(record)}
+              className="bg-[#f0ad4e] border-[#eea236]"
+            >
+              <BsPencilFill />
+            </button>
+          </Tooltip>
+
+          <Tooltip title="Delete this access level">
+            <button
+              onClick={() => handleDeleteAccessLevel(record._id)}
               className="bg-[#d9534f] border-[#d43f3a]"
             >
               <CgClose />
@@ -2161,9 +2308,6 @@ const Settings = () => {
         // Reset form
         formR.current.resetFields();
       }
-
-      // Reset form
-      form.current.resetFields();
     } catch ({ response: { data } }) {
       // Check if name error is name and set error message after set fields to null
       if (data.name === "rewardName") {
@@ -2224,6 +2368,71 @@ const Settings = () => {
     }
   };
 
+  // Handle on finish
+  const onFinishA = async (values) => {
+    // Initial loading with true when user click create button
+    setIsFinishA(true);
+
+    try {
+      console.log({
+        ...values,
+        isGroupStage: gsCheckbox,
+        isLiveGroupStage: lgsCheckbox,
+      });
+      // Create new accessLevel
+      const res = await axios.post(
+        `/accessLevel`,
+        { ...values, isGroupStage: gsCheckbox, isLiveGroupStage: lgsCheckbox },
+        { headers: headers(accessToken) }
+      );
+
+      // Check if data is exists
+      if (res.data) {
+        // Then set is finish to false
+        setIsFinishA(false);
+
+        // Get all reward again
+        dispatch(getAllAccessLevelReducerAsync());
+
+        // Reset form
+        formA.current.resetFields();
+      }
+    } catch ({ response: { data } }) {
+      // Check if name error is name and set error message after set fields to null
+      if (data.name === "category") {
+        formA.current.setFields([
+          {
+            name: "category",
+            errors: [data.message],
+          },
+          {
+            name: "detail",
+            errors: null,
+          },
+        ]);
+      } else if (data.name === "detail") {
+        // Check if name error is fullName and set error message after set fields to null
+        formA.current.setFields([
+          {
+            name: "category",
+            errors: null,
+          },
+          {
+            name: "detail",
+            errors: [data.message],
+          },
+        ]);
+      }
+
+      if (data.statusCode === 498) {
+        dispatch(logoutReducerAsync(accessToken));
+      }
+
+      // Then set is finish to false
+      setIsFinishA(false);
+    }
+  };
+
   // Handle select password options
   const onChange = () => {
     setCheckedList([
@@ -2234,6 +2443,16 @@ const Settings = () => {
       settings?.isNumber && "Digit",
       settings?.isSymbols && "Symbols",
     ]);
+  };
+
+  // Handle change group stage
+  const onChangeGS = (e) => {
+    setGsCheckbox(e.target.checked);
+  };
+
+  // Handle change live group stage
+  const onChangeLGS = (e) => {
+    setLgsCheckbox(e.target.checked);
   };
 
   const items = [
@@ -2906,6 +3125,86 @@ const Settings = () => {
         </>
       ),
     },
+    {
+      key: "accessLevel",
+      label: `Access level`,
+      children: (
+        <>
+          <Form
+            name="accessLevel"
+            onFinish={onFinishA}
+            autoComplete="off"
+            ref={formA}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
+          >
+            {/* Category input */}
+            <Form.Item
+              label="Category"
+              name="category"
+              rules={[
+                {
+                  required: true,
+                  message: "Category can not be blank",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            {/* Detail input */}
+            <Form.Item
+              label="Detail"
+              name="detail"
+              rules={[
+                {
+                  required: true,
+                  message: "Detail can not be blank",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            {/* Group stage check box */}
+            <Form.Item wrapperCol={{ offset: 6 }}>
+              <Checkbox onChange={onChangeGS}>Group stage</Checkbox>
+            </Form.Item>
+
+            {/* Live group stage check box */}
+            <Form.Item wrapperCol={{ offset: 6 }}>
+              <Checkbox onChange={onChangeLGS}>Live group stage</Checkbox>
+            </Form.Item>
+
+            {/* Create button */}
+            <Form.Item wrapperCol={{ offset: 6 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="bg-black flex items-center gap-2"
+                disabled={isFinishA}
+              >
+                {isFinishA && (
+                  <AiOutlineLoading3Quarters className="animate-spin" />
+                )}
+                <span>Create</span>
+              </Button>
+            </Form.Item>
+          </Form>
+
+          {/* Table */}
+          <Table
+            rowKey="_id"
+            columns={columnsAccessLevel}
+            dataSource={[...accessLevel]}
+            className="pt-[25px] -mt-4"
+            scroll={{ x: "90vw" }}
+            loading={accessLevel ? false : true}
+            pagination={false}
+          />
+        </>
+      ),
+    },
   ];
 
   return (
@@ -2929,72 +3228,30 @@ const Settings = () => {
 
       <Tabs defaultActiveKey="password" items={items} onChange={onChange} />
 
-      <Modal
-        title="Refresh current settings"
+      {/* Refresh current setting modal */}
+      <ModalRefreshCurrentSettings
         open={open}
-        onOk={handleOk}
-        confirmLoading={isFinishRefresh}
-        onCancel={handleCancel}
-        keyboard={true}
-        footer={[
-          <Button
-            key="cancel"
-            onClick={handleCancel}
-            disabled={isFinishRefresh}
-          >
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={isFinishRefresh}
-            onClick={handleOk}
-            className="bg-black"
-            disabled={isFinishRefresh}
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>Are you sure you want to refresh current settings?</p>
-      </Modal>
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        isFinishRefresh={isFinishRefresh}
+      />
 
-      {/* Reward modal */}
-      <Modal
-        title="Delete reward"
-        open={openR}
-        onOk={handleOkR}
-        confirmLoading={confirmLoadingR}
-        onCancel={handleCancelR}
-        keyboard={true}
-        footer={[
-          <Button
-            key="cancel"
-            onClick={handleCancelR}
-            disabled={confirmLoadingR}
-          >
-            Cancel
-          </Button>,
-          <Button
-            key="ok"
-            type="primary"
-            loading={confirmLoadingR}
-            onClick={handleOkR}
-            className="bg-black"
-            disabled={confirmLoadingR}
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <p>
-          Are you sure you want to delete{" "}
-          <span className="capitalize font-semibold">
-            {deleteReward.rewardName}
-          </span>
-          ?
-        </p>
-      </Modal>
+      {/* Delete reward modal */}
+      <ModalDeleteReward
+        openR={openR}
+        handleOkR={handleOkR}
+        handleCancelR={handleCancelR}
+        confirmLoadingR={confirmLoadingR}
+        deleteReward={deleteReward}
+      />
+
+      {/* Access level modal */}
+      <ModalDeleteAccessLevel
+        openA={openA}
+        handleOkA={handleOkA}
+        handleCancelA={handleCancelA}
+        confirmLoadingA={confirmLoadingA}
+      />
     </div>
   );
 };

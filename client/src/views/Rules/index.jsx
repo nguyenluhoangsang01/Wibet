@@ -6,8 +6,12 @@ import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
-import { accessLevel, ruleRoutes } from "../../constants";
+import { ruleRoutes } from "../../constants";
 import { capitalize } from "../../helper";
+import {
+  getAllAccessLevelReducerAsync,
+  selectAccessLevel,
+} from "../../state/accessLevelSlice";
 import {
   getAllRewardsReducerAsync,
   selectReward,
@@ -33,6 +37,8 @@ const Rules = () => {
   const { accessToken } = useSelector(selectUser);
   // Get rewards from global state
   const { rewards } = useSelector(selectReward);
+  // Get access level from global state
+  const { accessLevel } = useSelector(selectAccessLevel);
 
   // Set title
   useEffect(() => {
@@ -47,6 +53,11 @@ const Rules = () => {
   // Get reward information
   useEffect(() => {
     dispatch(getAllRewardsReducerAsync());
+  }, [dispatch]);
+
+  // Get access level information
+  useEffect(() => {
+    dispatch(getAllAccessLevelReducerAsync());
   }, [dispatch]);
 
   useEffect(() => {
@@ -65,14 +76,12 @@ const Rules = () => {
       title: "Mục",
       dataIndex: "category",
       key: "category",
-      width: "1%",
-      render: (text) => <span className="font-bold">{text}</span>,
+      render: (text) => <span className="font-bold capitalize">{text}</span>,
     },
     {
       title: "Chi tiết",
-      dataIndex: "details",
-      key: "details",
-      width: "1%",
+      dataIndex: "detail",
+      key: "detail",
       render: (text) => (
         <Tooltip title={text}>
           <span>{text}</span>
@@ -81,12 +90,11 @@ const Rules = () => {
     },
     {
       title: "Vòng bảng",
-      dataIndex: "groupState",
-      key: "groupState",
-      width: "1%",
+      dataIndex: "isGroupStage",
+      key: "isGroupStage",
       render: (text) => (
         <span
-          className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+          className={`rounded-full font-bold text-white capitalize font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
             text ? "bg-[#28a745]" : "bg-[#dc3545]"
           }`}
         >
@@ -96,12 +104,11 @@ const Rules = () => {
     },
     {
       title: "Vòng loại trực tiếp",
-      dataIndex: "knockoutRound",
-      key: "knockoutRound",
-      width: "1%",
+      dataIndex: "isLiveGroupStage",
+      key: "isLiveGroupStage",
       render: (text) => (
         <span
-          className={`rounded-full font-bold text-white font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
+          className={`rounded-full font-bold text-white capitalize font-[calibri] text-[16px] inline-flex items-center justify-center px-[15px] py-[3px] h-[22px] ${
             text ? "bg-[#28a745]" : "bg-[#dc3545]"
           }`}
         >
@@ -411,7 +418,7 @@ const Rules = () => {
                   columns={columnsReward}
                   dataSource={rewards}
                   pagination={false}
-                  className="reward"
+                  className={rewards.length > 0 ? "reward" : ""}
                   scroll={{ x: "80vw" }}
                 />
                 <p className="text-[12px] mt-[20px]">
