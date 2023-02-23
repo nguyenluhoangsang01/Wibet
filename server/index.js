@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import accessLevelRoutes from "./routes/accessLevel.js";
 import betRoutes from "./routes/bet.js";
 import commentRoutes from "./routes/comment.js";
 import matchRoutes from "./routes/match.js";
@@ -76,6 +77,7 @@ app.use("/api/bet", betRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/setting", settingRoutes);
 app.use("/api/reward", rewardRoutes);
+app.use("/api/accessLevel", accessLevelRoutes);
 
 // Route not found
 app.use("/*", (_, res) => {
