@@ -1,10 +1,17 @@
 import { Button, Modal } from "antd";
 import React from "react";
 
-const ModalWithdraw = ({ open, confirmLoading, handleOk, handleCancel }) => {
+const Modals = ({
+  title,
+  open,
+  confirmLoading,
+  content,
+  handleOk,
+  handleCancel,
+}) => {
   return (
     <Modal
-      title="Withdraw match"
+      title={title}
       open={open}
       onOk={handleOk}
       confirmLoading={confirmLoading}
@@ -26,12 +33,9 @@ const ModalWithdraw = ({ open, confirmLoading, handleOk, handleCancel }) => {
         </Button>,
       ]}
     >
-      <p>
-        This action will affect all related bets!!! Are you sure you want to
-        WITHDRAW this match?
-      </p>
+      <p>{content}</p>
     </Modal>
   );
 };
 
-export default ModalWithdraw;
+export default Modals;

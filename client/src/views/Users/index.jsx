@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import ModalDeleteUser from "../../components/ModalDeleteUser";
+import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
@@ -120,7 +120,7 @@ const Users = () => {
       title: "#",
       dataIndex: "index",
       key: "index",
-			width: 50,
+      width: 50,
       render: (text, record) => (
         <span className={record?._id === user?._id ? "font-bold" : ""}>
           {[...users?.users].reverse().indexOf(record) + 1}
@@ -131,7 +131,7 @@ const Users = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-			width: 140,
+      width: 140,
       sorter: (a, b) => {
         if (a.username < b.username) return -1;
         if (a.username > b.username) return 1;
@@ -148,7 +148,7 @@ const Users = () => {
       title: "Role",
       dataIndex: "roleID",
       key: "roleID",
-			width: 70,
+      width: 70,
       sorter: (a, b) => {
         if (a.roleID < b.roleID) return -1;
         if (a.roleID > b.roleID) return 1;
@@ -163,7 +163,7 @@ const Users = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-			width: 160,
+      width: 160,
       sorter: (a, b) => {
         if (a.status < b.status) return -1;
         if (a.status > b.status) return 1;
@@ -202,7 +202,7 @@ const Users = () => {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
-			width: 200,
+      width: 200,
       sorter: (a, b) => {
         if (a.fullName < b.fullName) return -1;
         if (a.fullName > b.fullName) return 1;
@@ -230,7 +230,7 @@ const Users = () => {
       title: "Money",
       dataIndex: "money",
       key: "money",
-			width: 80,
+      width: 80,
       render: (text, record) => (
         <span className={record?._id === user?._id ? "font-bold" : ""}>
           {text}
@@ -241,7 +241,7 @@ const Users = () => {
       title: "Logged In At",
       dataIndex: "loggedInAt",
       key: "loggedInAt",
-			width: 200,
+      width: 200,
       render: (text, record) =>
         text ? (
           <Tooltip title={text}>
@@ -265,7 +265,7 @@ const Users = () => {
       title: "Banned At",
       dataIndex: "bannedAt",
       key: "bannedAt",
-			width: 200,
+      width: 200,
       render: (text, record) =>
         Boolean(record.bannedAt) ? (
           record.bannedAt === "false" ? (
@@ -389,11 +389,12 @@ const Users = () => {
         pagination={{ pageSize: 20 }}
       />
 
-      {/* Modal */}
-      <ModalDeleteUser
+      {/* Delete user modal */}
+      <Modals
+        title="Delete user"
         open={open}
         confirmLoading={confirmLoading}
-        user={deleteUser}
+        content={`Are you sure you want to delete ${deleteUser.username}?`}
         handleOk={handleOk}
         handleCancel={handleCancel}
       />

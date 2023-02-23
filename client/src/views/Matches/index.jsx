@@ -13,10 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import ModalDeleteBet from "../../components/ModalDeleteBet";
-import ModalDeleteMatch from "../../components/ModalDeleteMatch";
-import ModalHideMatch from "../../components/ModalHideMatch";
-import ModalWithdraw from "../../components/ModalWithdraw";
+import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { formatTime, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, headers } from "../../helper";
@@ -845,36 +842,48 @@ const Matches = () => {
         pagination={{ pageSize: 20 }}
       />
 
-      {/* Delete Modal */}
-      <ModalDeleteMatch
+      {/* Delete match modal */}
+      <Modals
+        title="Delete match"
         open={open}
         confirmLoading={confirmLoading}
-        match={deleteMatch}
+        content={`Are you sure you want to delete the match between ${
+          deleteMatch.team1 ? deleteMatch.team1 : "Team 1"
+        } and ${deleteMatch.team2 ? deleteMatch.team2 : "Team 2"}?`}
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
 
-      {/* Hide Modal */}
-      <ModalHideMatch
+      {/* Hide match modal */}
+      <Modals
+        title={`${record.isShow ? "Hide" : "Show"} match`}
         open={openHide}
         confirmLoading={confirmLoadingHide}
-        match={record}
+        content={`Are you sure you want to ${
+          record.isShow ? "hide" : "show"
+        } the match between ${record?.team1?.fullName} and ${
+          record?.team2?.fullName
+        }?`}
         handleOk={handleOkHide}
         handleCancel={handleCancelHide}
       />
 
-      {/* Delete Bet Modal */}
-      <ModalDeleteBet
+      {/* Delete bet modal */}
+      <Modals
+        title="Delete bet"
         open={openDeleteBet}
         confirmLoading={confirmLoadingDeleteBet}
+        content="Are you sure you want to delete this bet?"
         handleOk={handleOkDeleteBet}
         handleCancel={handleCancelDeleteBet}
       />
 
-      {/* Withdraw Bet Modal */}
-      <ModalWithdraw
+      {/* Withdraw bet modal */}
+      <Modals
+        title="Withdraw match"
         open={openWithdrawMatch}
         confirmLoading={confirmLoadingWithdrawMatch}
+        content="This action will affect all related bets!!! Are you sure you want to WITHDRAW this match?"
         handleOk={handleOkWithdrawMatch}
         handleCancel={handleCancelWithdrawMatch}
       />

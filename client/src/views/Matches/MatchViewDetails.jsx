@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import ModalDeleteMatch from "../../components/ModalDeleteMatch";
+import Modals from "../../components/Modals";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import { deleteMatchReducerAsync } from "../../state/matchSlice";
@@ -256,11 +256,14 @@ const MatchViewDetails = () => {
         </tbody>
       </table>
 
-      {/* Delete Modal */}
-      <ModalDeleteMatch
+      {/* Delete match modal */}
+      <Modals
+        title="Delete match"
         open={open}
         confirmLoading={confirmLoading}
-        match={match}
+        content={`Are you sure you want to delete the match between ${
+          match.team1 ? match.team1 : "Team 1"
+        } and ${match.team2 ? match.team2 : "Team 2"}?`}
         handleOk={handleOk}
         handleCancel={handleCancel}
       />

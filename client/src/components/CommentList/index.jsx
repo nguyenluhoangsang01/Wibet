@@ -9,7 +9,7 @@ import { formatTime } from "../../constants";
 import { headers } from "../../helper";
 import { getAllCommentsReducerAsync } from "../../state/commentSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
-import ModalDeleteComment from "../ModalDeleteComment";
+import Modals from "../Modals";
 import ModalUpdateComment from "../ModalUpdateComment";
 
 const CommentList = ({ comments, isShowAllComments }) => {
@@ -249,9 +249,11 @@ const CommentList = ({ comments, isShowAllComments }) => {
       )}
 
       {/* Delete comment modal */}
-      <ModalDeleteComment
+      <Modals
+        title="Delete comment"
         open={open}
         confirmLoading={confirmLoading}
+        content="Are you sure you want to delete this comment?"
         handleOk={handleOk}
         handleCancel={handleCancel}
       />

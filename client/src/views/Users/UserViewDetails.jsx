@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import ModalDeleteUser from "../../components/ModalDeleteUser";
+import Modals from "../../components/Modals";
 import { formatTime } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
@@ -305,10 +305,12 @@ const UserViewDetails = () => {
         </tbody>
       </table>
 
-      <ModalDeleteUser
+      {/* Delete user modal */}
+      <Modals
+        title="Delete user"
         open={open}
         confirmLoading={confirmLoading}
-        user={user}
+        content={`Are you sure you want to delete ${user.username}?`}
         handleOk={handleOk}
         handleCancel={handleCancel}
       />

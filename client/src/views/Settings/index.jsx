@@ -1,12 +1,12 @@
 import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  InputNumber,
-  Table,
-  Tabs,
-  Tooltip,
+	Button,
+	Checkbox,
+	Form,
+	Input,
+	InputNumber,
+	Table,
+	Tabs,
+	Tooltip
 } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -18,23 +18,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import ModalDeleteAccessLevel from "../../components/ModalDeleteAccessLevel";
-import ModalDeleteReward from "../../components/ModalDeleteReward";
-import ModalRefreshCurrentSettings from "../../components/ModalRefreshCurrentSettings";
+import Modals from "../../components/Modals";
 import { plainPasswordOptions, settingsRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
-  getAllAccessLevelReducerAsync,
-  selectAccessLevel,
+	getAllAccessLevelReducerAsync,
+	selectAccessLevel
 } from "../../state/accessLevelSlice";
 import {
-  getAllRewardsReducerAsync,
-  selectReward,
+	getAllRewardsReducerAsync,
+	selectReward
 } from "../../state/rewardSlice";
 import {
-  getTheLastSettingReducerAsync,
-  selectSetting,
-  updateSettingReducer,
+	getTheLastSettingReducerAsync,
+	selectSetting,
+	updateSettingReducer
 } from "../../state/settingSlice";
 import { logoutReducerAsync, selectUser } from "../../state/userSlice";
 
@@ -3229,28 +3227,33 @@ const Settings = () => {
       <Tabs defaultActiveKey="password" items={items} onChange={onChange} />
 
       {/* Refresh current setting modal */}
-      <ModalRefreshCurrentSettings
+      <Modals
+        title="Refresh current settings"
         open={open}
+        confirmLoading={isFinishRefresh}
+        content="Are you sure you want to refresh current settings?"
         handleOk={handleOk}
         handleCancel={handleCancel}
-        isFinishRefresh={isFinishRefresh}
       />
 
       {/* Delete reward modal */}
-      <ModalDeleteReward
-        openR={openR}
-        handleOkR={handleOkR}
-        handleCancelR={handleCancelR}
-        confirmLoadingR={confirmLoadingR}
-        deleteReward={deleteReward}
+      <Modals
+        title="Delete reward"
+        open={openR}
+        confirmLoading={confirmLoadingR}
+        content={`Are you sure you want to delete ${deleteReward.rewardName} reward?`}
+        handleOk={handleOkR}
+        handleCancel={handleCancelR}
       />
 
-      {/* Access level modal */}
-      <ModalDeleteAccessLevel
-        openA={openA}
-        handleOkA={handleOkA}
-        handleCancelA={handleCancelA}
-        confirmLoadingA={confirmLoadingA}
+      {/* Delete access level modal */}
+      <Modals
+        title="Delete access level"
+        open={openA}
+        confirmLoading={confirmLoadingA}
+        content="Are you sure you want to delete this access level?"
+        handleOk={handleOkA}
+        handleCancel={handleCancelA}
       />
     </div>
   );

@@ -6,15 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
-import ModalDeleteTeam from "../../components/ModalDeleteTeam";
+import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import { selectMatch } from "../../state/matchSlice";
 import {
-  deleteTeamReducerAsync,
-  getAllTeamsReducerAsync,
-  selectTeam,
+	deleteTeamReducerAsync,
+	getAllTeamsReducerAsync,
+	selectTeam
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -236,10 +236,11 @@ const Team = () => {
       />
 
       {/* Modal delete team */}
-      <ModalDeleteTeam
+      <Modals
+        title="Delete team"
         open={open}
         confirmLoading={confirmLoading}
-        team={deleteTeam}
+        content={`Are you sure you want to delete ${deleteTeam.fullName}?`}
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
