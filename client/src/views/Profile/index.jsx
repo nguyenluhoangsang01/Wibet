@@ -11,11 +11,11 @@ import NumberOfRows from "../../components/NumberOfRows";
 import SuccessMessage from "../../components/SuccessMessage";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { selectBet } from "../../state/betSlice";
+import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-  logoutReducerAsync,
-  selectUser,
-  updateProfileReducer,
+	logoutReducerAsync,
+	selectUser,
+	updateProfileReducer
 } from "../../state/userSlice";
 
 const Profile = () => {
@@ -55,6 +55,11 @@ const Profile = () => {
   useEffect(() => {
     if (!user) navigate("/");
   }, [navigate, user]);
+
+  // Get all bets
+  useEffect(() => {
+    dispatch(getAllBetsReducerAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   if (!isShow) return <span>Loading...</span>;
 
