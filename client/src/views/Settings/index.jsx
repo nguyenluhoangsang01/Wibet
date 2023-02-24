@@ -21,8 +21,8 @@ import { capitalize, headers } from "../../helper";
 import { getAllAccessLevelReducerAsync } from "../../state/accessLevelSlice";
 import { getAllRewardsReducerAsync } from "../../state/rewardSlice";
 import {
-	getTheLastSettingReducerAsync,
-	updateSettingReducer
+  getTheLastSettingReducerAsync,
+  updateSettingReducer,
 } from "../../state/settingSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -126,6 +126,31 @@ const Settings = () => {
 
   const items = [
     {
+      key: "accessLevel",
+      label: `Access level`,
+      children: <TabAccessLevel />,
+    },
+    {
+      key: "bank",
+      label: `Bank`,
+      children: <TabBank />,
+    },
+    {
+      key: "betMoney",
+      label: `Bet`,
+      children: <TabBet />,
+    },
+    {
+      key: "moMo",
+      label: `MoMo`,
+      children: <TabMoMo />,
+    },
+    {
+      key: "money",
+      label: `Money`,
+      children: <TabMoney />,
+    },
+    {
       key: "password",
       label: "Password",
       children: <TabPassword />,
@@ -136,9 +161,9 @@ const Settings = () => {
       children: <TabRate />,
     },
     {
-      key: "betMoney",
-      label: `Bet`,
-      children: <TabBet />,
+      key: "rewards",
+      label: `Rewards`,
+      children: <TabReward />,
     },
     {
       key: "score",
@@ -146,34 +171,9 @@ const Settings = () => {
       children: <TabScore />,
     },
     {
-      key: "money",
-      label: `Money`,
-      children: <TabMoney />,
-    },
-    {
-      key: "bank",
-      label: `Bank`,
-      children: <TabBank />,
-    },
-    {
-      key: "moMo",
-      label: `MoMo`,
-      children: <TabMoMo />,
-    },
-    {
       key: "skype",
       label: `Skype`,
       children: <TabSkype />,
-    },
-    {
-      key: "rewards",
-      label: `Rewards`,
-      children: <TabReward />,
-    },
-    {
-      key: "accessLevel",
-      label: `Access level`,
-      children: <TabAccessLevel />,
     },
   ];
 
@@ -196,7 +196,7 @@ const Settings = () => {
         </button>
       </div>
 
-      <Tabs defaultActiveKey="password" items={items} />
+      <Tabs defaultActiveKey="accessLevel" items={items} />
 
       {/* Refresh current setting modal */}
       <Modals

@@ -609,9 +609,10 @@ const Brackets = () => {
       </div>
 
       <div className="ml-16 flex flex-col items-center justify-center">
-        <p className="rounded bg-[#FFC107] text-[#333] text-[24px] px-[24px] flex items-center justify-center">
+        <p className="rounded bg-[#FFC107] text-[#333] text-[22px] px-[14px] flex items-center justify-center min-w-fit">
           {game[14]?.result || "Champion team"}
         </p>
+
         <p className="font-[calibri] text-[12px] text-[#999999]">Champion</p>
       </div>
     </div>
