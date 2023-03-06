@@ -1,4 +1,5 @@
 import { Image, Table, Tooltip } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
@@ -9,12 +10,12 @@ import Heading from "../../components/Heading";
 import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
-import { capitalize } from "../../helper";
-import { selectMatch } from "../../state/matchSlice";
+import { capitalize, headers } from "../../helper";
+import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
 import {
-	deleteTeamReducerAsync,
-	getAllTeamsReducerAsync,
-	selectTeam
+  deleteTeamReducerAsync,
+  getAllTeamsReducer,
+  selectTeam,
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -39,14 +40,6 @@ const Team = () => {
   const [deleteTeam, setDeleteTeam] = useState({ _id: null, fullName: null });
   const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -54,8 +47,29 @@ const Team = () => {
 
   // Get all teams
   useEffect(() => {
-    dispatch(getAllTeamsReducerAsync(accessToken));
+    (async () => {
+      try {
+        const { data } = await axios.get(`/team`, {
+          headers: headers(accessToken),
+        });
+
+        if (data) {
+          dispatch(getAllTeamsReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllTeamsReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
+
+  // Get all matches
+  useEffect(() => {
+    dispatch(getAllMatchesReducerAsync());
+  }, [dispatch]);
 
   // Check if user not exists
   useEffect(() => {

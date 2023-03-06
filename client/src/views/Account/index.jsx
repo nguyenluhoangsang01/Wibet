@@ -37,14 +37,6 @@ const Account = () => {
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -58,9 +50,11 @@ const Account = () => {
   // Get the last setting
   useEffect(() => {
     dispatch(getTheLastSettingReducerAsync(accessToken));
+
+    setIsShow(true);
   }, [accessToken, dispatch]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!isShow && !settings && !user) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {

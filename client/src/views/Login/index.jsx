@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -10,13 +11,12 @@ import Heading from "../../components/Heading";
 import { loginRoutes, REACT_TRANSFORM_SECRET_KEY } from "../../constants";
 import { capitalize, isValidEmail } from "../../helper";
 import {
-  loginReducer,
-  logoutReducerAsync,
-  selectUser,
-  updateRememberToFalse,
-  updateRememberToTrue,
+	loginReducer,
+	logoutReducerAsync,
+	selectUser,
+	updateRememberToFalse,
+	updateRememberToTrue
 } from "../../state/userSlice";
-import CryptoJS from "crypto-js";
 
 const Login = () => {
   // Get pathname from location
@@ -27,7 +27,6 @@ const Login = () => {
   const { user, remember, accessToken } = useSelector(selectUser);
   // Initial state
   const [isFinish, setIsFinish] = useState(false);
-  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Initial form ref
@@ -42,14 +41,6 @@ const Login = () => {
       ).toString(CryptoJS.enc.Utf8)
     );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -59,8 +50,6 @@ const Login = () => {
   useEffect(() => {
     if (user) navigate("/");
   }, [navigate, user]);
-
-  if (!isShow) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {

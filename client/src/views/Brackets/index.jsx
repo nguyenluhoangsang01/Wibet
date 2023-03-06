@@ -35,17 +35,11 @@ const Brackets = () => {
   // Initial dispatch
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Get all matches
   useEffect(() => {
     dispatch(getAllMatchesReducerAsync());
+
+    setIsShow(true);
   }, [dispatch]);
 
   // Set title
@@ -61,6 +55,8 @@ const Brackets = () => {
           ?.filter((match) => match.isShow && !match.isCanceled)
           ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
       );
+
+    setIsShow(true);
   }, [isShow, matches]);
 
   if (!isShow) return <span>Loading...</span>;

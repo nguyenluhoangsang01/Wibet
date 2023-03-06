@@ -10,13 +10,13 @@ import Heading from "../../components/Heading";
 import { ROLES, STATUS } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
-  getTheLastSettingReducerAsync,
-  selectSetting,
+	getTheLastSettingReducerAsync,
+	selectSetting
 } from "../../state/settingSlice";
 import {
-  logoutReducerAsync,
-  selectUser,
-  updateProfileReducer,
+	logoutReducerAsync,
+	selectUser,
+	updateProfileReducer
 } from "../../state/userSlice";
 
 const UserUpdate = () => {
@@ -40,14 +40,6 @@ const UserUpdate = () => {
   const dispatch = useDispatch();
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Check if user logged not exists
   useEffect(() => {
@@ -77,6 +69,8 @@ const UserUpdate = () => {
         if (data) {
           // Set team with data found
           setUser(data.data);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

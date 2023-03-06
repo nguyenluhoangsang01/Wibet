@@ -38,14 +38,6 @@ const MatchUpdateInfo = () => {
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = `${capitalize(match?.team1?.fullName)} - ${capitalize(
@@ -74,6 +66,8 @@ const MatchUpdateInfo = () => {
 
         if (data) {
           setMatch(data.data);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

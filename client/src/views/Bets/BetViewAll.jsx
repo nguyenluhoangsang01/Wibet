@@ -24,14 +24,6 @@ const BetViewAll = () => {
   // Initial dispatch
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = `${capitalize(match?.team1?.fullName)} - ${capitalize(
@@ -54,6 +46,8 @@ const BetViewAll = () => {
 
         if (data) {
           setMatch(data.data);
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {

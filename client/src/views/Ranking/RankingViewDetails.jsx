@@ -21,14 +21,6 @@ const RankingViewDetails = () => {
   // Initial dispatch
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = "Ranking";
@@ -42,6 +34,8 @@ const RankingViewDetails = () => {
 
         if (data) {
           setBets(data.data.bets);
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {

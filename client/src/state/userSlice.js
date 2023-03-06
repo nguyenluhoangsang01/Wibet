@@ -1,3 +1,4 @@
+import storage from "redux-persist/lib/storage";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -95,6 +96,17 @@ export const logoutReducerAsync = (accessToken) => async (dispatch) => {
 
     if (res.data) {
       dispatch(logoutReducer(res.data));
+
+      storage.removeItem("persist:root");
+      storage.removeItem("persist:user");
+      storage.removeItem("persist:match");
+      storage.removeItem("persist:bet");
+      storage.removeItem("persist:team");
+      storage.removeItem("persist:comment");
+      storage.removeItem("persist:setting");
+      storage.removeItem("persist:reward");
+      storage.removeItem("persist:accessLevel");
+      localStorage.removeItem("rememberMe");
     }
   } catch ({ response }) {
     if (response.data) {

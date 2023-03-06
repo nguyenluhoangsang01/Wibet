@@ -1,4 +1,5 @@
 import { Table, Tooltip } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
 import { GiReceiveMoney } from "react-icons/gi";
@@ -12,10 +13,10 @@ import NumberOfRows from "../../components/NumberOfRows";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-  deleteUserReducerAsync,
-  getAllUsersReducerAsync,
-  selectUser,
-  toggleIsShowHistory,
+	deleteUserReducerAsync,
+	getAllUsersReducer,
+	selectUser,
+	toggleIsShowHistory
 } from "../../state/userSlice";
 
 const Users = () => {
@@ -36,14 +37,6 @@ const Users = () => {
   });
   const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -51,7 +44,21 @@ const Users = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/user");
+
+        if (data) {
+          dispatch(getAllUsersReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllUsersReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   // Check if user not exists

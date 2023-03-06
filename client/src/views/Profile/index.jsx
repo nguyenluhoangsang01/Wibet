@@ -11,11 +11,11 @@ import NumberOfRows from "../../components/NumberOfRows";
 import SuccessMessage from "../../components/SuccessMessage";
 import { profileRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
+import { getAllBetsReducer, selectBet } from "../../state/betSlice";
 import {
-	logoutReducerAsync,
-	selectUser,
-	updateProfileReducer
+  logoutReducerAsync,
+  selectUser,
+  updateProfileReducer,
 } from "../../state/userSlice";
 
 const Profile = () => {
@@ -38,14 +38,6 @@ const Profile = () => {
   // Initial form ref
   const form = useRef(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -58,7 +50,21 @@ const Profile = () => {
 
   // Get all bets
   useEffect(() => {
-    dispatch(getAllBetsReducerAsync(accessToken));
+    (async () => {
+      try {
+        const res = await axios.get("/bet", { headers: headers(accessToken) });
+
+        if (res.data) {
+          dispatch(getAllBetsReducer(res.data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response) {
+          dispatch(getAllBetsReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   if (!isShow) return <span>Loading...</span>;

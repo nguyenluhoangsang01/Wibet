@@ -1,4 +1,5 @@
 import { Image } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CommentList from "../../components/CommentList";
 import Editor from "../../components/Editor";
 import { capitalize } from "../../helper";
-import {
-  getAllCommentsReducerAsync,
-  selectComment,
-} from "../../state/commentSlice";
+import { getAllCommentsReducer, selectComment } from "../../state/commentSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Comments = () => {
@@ -27,14 +25,6 @@ const Comments = () => {
   const [isShowAllComments, setIsShowAllComments] = useState(false);
   const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -42,7 +32,21 @@ const Comments = () => {
 
   // Get all comments
   useEffect(() => {
-    dispatch(getAllCommentsReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/comment");
+
+        if (data.data) {
+          dispatch(getAllCommentsReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response) {
+          dispatch(getAllCommentsReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   if (!isShow) return <span>Loading...</span>;

@@ -1,4 +1,5 @@
 import { Table, Tooltip } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaShare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +9,7 @@ import Heading from "../../components/Heading";
 import NumberOfRows from "../../components/NumberOfRows";
 import { rankingRoutes } from "../../constants";
 import { capitalize } from "../../helper";
-import { getAllUsersReducerAsync, selectUser } from "../../state/userSlice";
+import { getAllUsersReducer, selectUser } from "../../state/userSlice";
 
 const Ranking = () => {
   // Get pathname from location
@@ -22,14 +23,6 @@ const Ranking = () => {
   // Initial state
   const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = capitalize(pathname.slice(1));
@@ -37,7 +30,21 @@ const Ranking = () => {
 
   // Get all users
   useEffect(() => {
-    dispatch(getAllUsersReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/user");
+
+        if (data) {
+          dispatch(getAllUsersReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllUsersReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   if (!isShow) return <span>Loading...</span>;

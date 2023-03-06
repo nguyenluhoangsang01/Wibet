@@ -33,14 +33,6 @@ const BetUpdate = () => {
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Check if user not exists
   useEffect(() => {
     if (!user) navigate("/");
@@ -68,6 +60,8 @@ const BetUpdate = () => {
 
         if (data) {
           setMatch(data.data);
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {
@@ -89,6 +83,8 @@ const BetUpdate = () => {
 
         if (data.data) {
           setBet(data.data.bets[0]);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

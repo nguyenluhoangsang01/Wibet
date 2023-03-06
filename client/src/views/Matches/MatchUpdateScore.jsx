@@ -34,14 +34,6 @@ const MatchUpdateScore = () => {
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Check if user not exists
   useEffect(() => {
     if (!user) navigate("/");
@@ -69,6 +61,8 @@ const MatchUpdateScore = () => {
 
         if (data) {
           setMatch(data.data);
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {
@@ -83,7 +77,7 @@ const MatchUpdateScore = () => {
   if (!isShow) return <span>Loading...</span>;
 
   // Check if match had result
-  if (match.result) navigate("/matches");
+  if (match?.result) navigate("/matches");
 
   // Breadcrumbs
   const matchUpdateScore = [

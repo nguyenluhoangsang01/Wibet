@@ -1,4 +1,5 @@
 import { Image } from "antd";
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { GiPositionMarker } from "react-icons/gi";
@@ -6,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { formatTime } from "../../constants";
-import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
+import { getAllMatchesReducer, selectMatch } from "../../state/matchSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Home = () => {
@@ -14,21 +15,11 @@ const Home = () => {
   const [comingMatch, setComingMatch] = useState({});
   const [isShow, setIsShow] = useState(false);
   // Get all matches from global state
-  const {
-    matches: { matches },
-  } = useSelector(selectMatch);
+  const { matches } = useSelector(selectMatch);
   // Get user logged
   const { user } = useSelector(selectUser);
   // Initial dispatch
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Set title
   useEffect(() => {
@@ -37,13 +28,29 @@ const Home = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
+    (async () => {
+      try {
+        const res = await axios.get("/match");
+
+        if (res.data) {
+          dispatch(getAllMatchesReducer(res.data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllMatchesReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Get first match
   useEffect(() => {
-    isShow &&
-      [...matches]
+    !matches?.matches &&
+      !user &&
+      !comingMatch &&
+      [...matches?.matches]
         ?.filter((match) => match.isShow)
         ?.sort((a, b) => moment(b.matchDate) - moment(a.matchDate))
         ?.some(
@@ -53,7 +60,10 @@ const Home = () => {
             match.isShow &&
             setComingMatch(match)
         );
-  }, [isShow, matches, user?.roleID]);
+  }, [comingMatch, matches?.matches, user]);
+
+  if (!matches?.matches && !user && !comingMatch && !isShow)
+    return <span>Loading...</span>;
 
   return (
     <div className="min-h-[calc(100vh-50px-60px-40px)]">
@@ -72,7 +82,7 @@ const Home = () => {
           <div className="h-[120px] flex items-center lg:justify-center">
             {Object.keys(comingMatch).length === 0 || !user ? (
               <p className="text-[25px]">
-                {isShow ? "No matches coming up" : "Loading..."}
+                {matches?.matches ? "No matches coming up" : "Loading..."}
               </p>
             ) : (
               <div className="divide-y-2 divide-black font-[calibri] flex flex-col items-center justify-between">

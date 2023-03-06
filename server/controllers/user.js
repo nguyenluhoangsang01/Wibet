@@ -206,14 +206,14 @@ export const login = async (req, res, next) => {
     // Check if user is banned
     if (isExistingUser.banned)
       return sendError(res, "Account is banned", 400, "toastEmailOrUsername");
-    // Check if is logging is true
-    if (isExistingUser.isLogging)
-      return sendError(
-        res,
-        "Account is logged in on another device",
-        400,
-        "toastEmailOrUsername"
-      );
+    // // Check if is logging is true
+    // if (isExistingUser.isLogging)
+    //   return sendError(
+    //     res,
+    //     "Account is logged in on another device",
+    //     400,
+    //     "toastEmailOrUsername"
+    //   );
 
     // Compare password
     const comparedPassword = bcrypt.compareSync(
@@ -267,7 +267,7 @@ export const login = async (req, res, next) => {
     // if logging successfully set wrong password is default
     await User.findOneAndUpdate(
       { $or: [{ email }, { username }] },
-      { wrongPassword: 0, isLogging: true },
+      { wrongPassword: 0 /*, isLogging: true*/ },
       { new: true }
     );
 

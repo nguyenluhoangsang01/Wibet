@@ -20,6 +20,7 @@ const BetCreate = () => {
   // Initial state
   const [match, setMatch] = useState({});
   const [isFinish, setIsFinish] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Initial dispatch
   const dispatch = useDispatch();
   // Initial navigate
@@ -38,8 +39,8 @@ const BetCreate = () => {
 
   // Check if match had result or canceled
   useEffect(() => {
-    if (match.result || match.isCanceled) navigate("/matches");
-  }, [match.isCanceled, match.result, navigate]);
+    if (match?.result || match?.isCanceled) navigate("/matches");
+  }, [match?.isCanceled, match?.result, navigate]);
 
   // Set title
   useEffect(() => {
@@ -58,6 +59,8 @@ const BetCreate = () => {
 
         if (data) {
           setMatch(data.data);
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {
@@ -68,6 +71,8 @@ const BetCreate = () => {
       }
     })();
   }, [accessToken, dispatch, id, navigate]);
+
+  if (!isShow) return <span>Loading...</span>;
 
   // Routes for breadcrumbs
   const createBetRoutes = [
@@ -93,7 +98,7 @@ const BetCreate = () => {
     try {
       // Use post method to create a new match
       const res = await axios.post(
-        `/bet/${match._id}`,
+        `/bet/${match?._id}`,
         { ...values },
         { headers: headers(accessToken) }
       );

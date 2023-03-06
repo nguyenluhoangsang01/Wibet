@@ -31,23 +31,15 @@ const UserUpdateMoney = () => {
   // Initial dispatch
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Check if user logged not exists
   useEffect(() => {
-    if (!userLogged.user) navigate("/");
-  }, [navigate, userLogged.user]);
+    if (!userLogged?.user) navigate("/");
+  }, [navigate, userLogged?.user]);
 
   // Check if user logged role ID is difference Admin back to home page
   useEffect(() => {
-    if (userLogged.user?.roleID !== "Admin") navigate("/");
-  }, [navigate, userLogged.user?.roleID]);
+    if (userLogged?.user?.roleID !== "Admin") navigate("/");
+  }, [navigate, userLogged?.user?.roleID]);
 
   // Set title
   useEffect(() => {
@@ -67,6 +59,8 @@ const UserUpdateMoney = () => {
         if (data) {
           // Set team with data found
           setUser(data.data);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

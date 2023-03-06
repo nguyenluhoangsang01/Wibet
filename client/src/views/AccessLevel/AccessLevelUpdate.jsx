@@ -13,11 +13,11 @@ const AccessLevelUpdate = () => {
   // Get team id from params
   const { id } = useParams();
   // Initial state
-  const [isShow, setIsShow] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
   const [accessLevel, setAccessLevel] = useState({});
   const [gsCheckbox, setGsCheckbox] = useState(false);
   const [lgsCheckbox, setLgsCheckbox] = useState(false);
+  const [isShow, setIsShow] = useState(false);
   // Get user from global state
   const { user, accessToken } = useSelector(selectUser);
   // Initial form ref
@@ -26,14 +26,6 @@ const AccessLevelUpdate = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Set title
   useEffect(() => {
@@ -61,6 +53,8 @@ const AccessLevelUpdate = () => {
         if (data) {
           // Set access level with data found
           setAccessLevel(data.data);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

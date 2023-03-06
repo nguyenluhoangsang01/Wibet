@@ -1,4 +1,5 @@
 import { Table, Tooltip } from "antd";
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,18 +8,16 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import Heading from "../../components/Heading";
 import RuleWrappers from "../../components/RuleWrappers";
 import { ruleRoutes } from "../../constants";
-import { capitalize } from "../../helper";
+import { capitalize, headers } from "../../helper";
 import {
-  getAllAccessLevelReducerAsync,
-  selectAccessLevel,
+	getAllAccessLevelReducer,
+	selectAccessLevel
 } from "../../state/accessLevelSlice";
+import { getAllRewardsReducer, selectReward } from "../../state/rewardSlice";
 import {
-  getAllRewardsReducerAsync,
-  selectReward,
-} from "../../state/rewardSlice";
-import {
-  getTheLastSettingReducerAsync,
-  selectSetting,
+	getTheLastSettingReducerAsync,
+	selectSetting,
+	updateSettingReducer
 } from "../../state/settingSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -30,7 +29,9 @@ const Rules = () => {
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
   // Initial state
-  const [isShow, setIsShow] = useState(false);
+  const [isShow1, setIsShow1] = useState(false);
+  const [isShow2, setIsShow2] = useState(false);
+  const [isShow3, setIsShow3] = useState(false);
   // Initial dispatch
   const dispatch = useDispatch();
   // Get user and access token from global state
@@ -48,27 +49,65 @@ const Rules = () => {
   // Get the last settings
   useEffect(() => {
     dispatch(getTheLastSettingReducerAsync(accessToken));
+
+    (async () => {
+      try {
+        const { data } = await axios.get("/setting", {
+          headers: headers(accessToken),
+        });
+
+        if (data) {
+          dispatch(updateSettingReducer(data));
+
+          setIsShow1(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(updateSettingReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   // Get reward information
   useEffect(() => {
-    dispatch(getAllRewardsReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/reward");
+
+        if (data) {
+          dispatch(getAllRewardsReducer(data));
+
+          setIsShow2(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllRewardsReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Get access level information
   useEffect(() => {
-    dispatch(getAllAccessLevelReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/accessLevel");
+
+        if (data) {
+          dispatch(getAllAccessLevelReducer(data));
+
+          setIsShow3(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllAccessLevelReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!isShow) return <span>Loading...</span>;
+  if (!isShow1 && !isShow2 && !isShow3) return <span>Loading...</span>;
 
   // Columns for priority
   const columns = [

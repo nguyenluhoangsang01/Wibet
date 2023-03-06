@@ -25,14 +25,6 @@ const RewardUpdate = () => {
   // Initial navigate
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = "Update Reward";
@@ -62,6 +54,8 @@ const RewardUpdate = () => {
 
           // Reset form
           form.current.resetFields();
+
+          setIsShow(true);
         }
       } catch ({ response }) {
         if (response) {

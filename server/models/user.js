@@ -78,10 +78,10 @@ const userSchema = new Schema(
       default: 0,
     },
     accessToken: String,
-    isLogging: {
-      type: Boolean,
-      default: false,
-    },
+    // isLogging: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   {
     timestamps: true,

@@ -65,21 +65,12 @@ const Matches = () => {
   const [confirmLoadingWithdrawMatch, setConfirmLoadingWithdrawMatch] =
     useState(false);
   const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
-  const [isShow, setIsShow] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Get settings from global state
   const { settings } = useSelector(selectSetting);
   // Time to bet
   const [timeBet, setTimeBet] = useState(settings?.timeBet);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Get all matches
   useEffect(() => {
@@ -105,7 +96,7 @@ const Matches = () => {
     setTimeBet(moment().add(settings?.timeBet, "minutes"));
   }, [settings?.timeBet]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!matches?.matches && !bets) return <span>Loading...</span>;
 
   // Handle bet
   const handleBet = (record) => {
@@ -801,8 +792,7 @@ const Matches = () => {
 
       {/* Number of rows */}
       <NumberOfRows>
-        {isShow &&
-        [...matches?.matches]?.filter((match) =>
+        {[...matches?.matches]?.filter((match) =>
           user?.roleID === "Admin" ? match : match.isShow
         ).length < 1 ? (
           "No result found"
@@ -810,8 +800,7 @@ const Matches = () => {
           <span>
             Total{" "}
             <span className="font-bold">
-              {isShow &&
-              [...matches?.matches]?.filter((match) =>
+              {[...matches?.matches]?.filter((match) =>
                 user?.roleID === "Admin" ? match : match.isShow
               ).length < 20
                 ? [...matches.matches]?.filter((match) =>

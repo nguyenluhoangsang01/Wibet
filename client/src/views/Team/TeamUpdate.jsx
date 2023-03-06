@@ -29,14 +29,6 @@ const TeamUpdate = () => {
   // Initial form ref
   const form = useRef(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Set title
   useEffect(() => {
     document.title = "Update Team";
@@ -65,6 +57,8 @@ const TeamUpdate = () => {
         if (data) {
           // Set team with data found
           setTeam(data.data);
+
+          setIsShow(true);
 
           // Reset form
           form.current.resetFields();

@@ -18,12 +18,9 @@ import TabScore from "../../components/TabScore";
 import TabSkype from "../../components/TabSkype";
 import { settingsRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { getAllAccessLevelReducerAsync } from "../../state/accessLevelSlice";
-import { getAllRewardsReducerAsync } from "../../state/rewardSlice";
-import {
-  getTheLastSettingReducerAsync,
-  updateSettingReducer,
-} from "../../state/settingSlice";
+import { getAllAccessLevelReducer } from "../../state/accessLevelSlice";
+import { getAllRewardsReducer } from "../../state/rewardSlice";
+import { updateSettingReducer } from "../../state/settingSlice";
 import { selectUser } from "../../state/userSlice";
 
 const Settings = () => {
@@ -32,7 +29,9 @@ const Settings = () => {
   // Initial state
   const [open, setOpen] = useState(false);
   const [isFinishRefresh, setIsFinishRefresh] = useState(false);
-  const [isShow, setIsShow] = useState(false);
+  const [isShow1, setIsShow1] = useState(false);
+  const [isShow2, setIsShow2] = useState(false);
+  const [isShow3, setIsShow3] = useState(false);
   // Get user and access token from global state
   const { user, accessToken } = useSelector(selectUser);
 
@@ -40,14 +39,6 @@ const Settings = () => {
   const dispatch = useDispatch();
   // Initial navigate
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Set title
   useEffect(() => {
@@ -66,20 +57,64 @@ const Settings = () => {
 
   // Get the last settings
   useEffect(() => {
-    dispatch(getTheLastSettingReducerAsync(accessToken));
+    (async () => {
+      try {
+        const res = await axios.get("/setting", {
+          headers: headers(accessToken),
+        });
+
+        if (res.data) {
+          dispatch(updateSettingReducer(res.data));
+
+          setIsShow1(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(updateSettingReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   // Get reward information
   useEffect(() => {
-    dispatch(getAllRewardsReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/reward");
+
+        if (data) {
+          dispatch(getAllRewardsReducer(data));
+
+          setIsShow2(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllRewardsReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Get access level information
   useEffect(() => {
-    dispatch(getAllAccessLevelReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/accessLevel");
+
+        if (data) {
+          dispatch(getAllAccessLevelReducer(data));
+
+          setIsShow3(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllAccessLevelReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!isShow1 && !isShow2 && !isShow3) return <span>Loading...</span>;
 
   // Handle refresh setting action
   const handleRefresh = async () => {

@@ -31,39 +31,37 @@ const UserViewDetails = () => {
   const userLogged = useSelector(selectUser);
   const { accessToken } = useSelector(selectUser);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Check if user logged not exists
   useEffect(() => {
-    if (!userLogged.user) navigate("/");
-  }, [navigate, userLogged.user]);
+    if (!userLogged?.user) navigate("/");
+  }, [navigate, userLogged?.user]);
 
   // Check if user logged role ID is difference Admin back to home page
   useEffect(() => {
-    if (userLogged.user?.roleID !== "Admin") navigate("/");
-  }, [navigate, userLogged.user?.roleID]);
+    if (userLogged?.user?.roleID !== "Admin") navigate("/");
+  }, [navigate, userLogged?.user?.roleID]);
 
   // Set title
   useEffect(() => {
     document.title = capitalize(user?.username);
   });
 
+  // Get user by id
   useEffect(() => {
     (async () => {
       try {
-        // Get user by id
+        // Get user by id with get method
         const { data } = await axios.get(`/user/${id}`, {
           headers: headers(accessToken),
         });
 
-        // Set data
-        setUser(data.data);
+        // Check if data exists
+        if (data) {
+          // Set team with data found
+          setUser(data.data);
+
+          setIsShow(true);
+        }
       } catch ({ response }) {
         if (response) {
           dispatch(logoutReducerAsync(accessToken));
@@ -88,7 +86,7 @@ const UserViewDetails = () => {
     },
     {
       path: "",
-      name: user.username || "key",
+      name: user?.username || "key",
     },
   ];
 
