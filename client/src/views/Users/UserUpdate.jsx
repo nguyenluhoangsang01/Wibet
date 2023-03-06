@@ -321,7 +321,7 @@ const UserUpdate = () => {
 
           {/* Banned Reason input */}
           <Form.Item label="Banned Reason" name="bannedReason">
-            <Input />
+            <Input disabled={!isBanned} />
           </Form.Item>
         </div>
 

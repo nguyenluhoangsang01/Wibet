@@ -220,18 +220,19 @@ const Rules = () => {
               <ul>
                 <li>
                   Account cũ đã từng refill 01 lần được tặng thêm{" "}
-                  <b>{settings.minBetMoney} điểm</b> khởi đầu cho Vòng LTT
+                  <b>{settings?.minBetMoney} điểm</b> khởi đầu cho Vòng LTT
                 </li>
                 <li>
                   Account cũ đã từng refill 02 lần ở Vòng Bảng được tặng thêm{" "}
-                  <b>{settings.minBetMoney * 2} điểm</b> khởi đầu cho Vòng LTT
+                  <b>{settings?.minBetMoney * 2} điểm</b> khởi đầu cho Vòng LTT
                 </li>
                 <li>
                   <p>
                     Account cũ đã từng refill 03 lần ở Vòng Bảng được tặng thêm{" "}
-                    <b>{settings.minBetMoney * 2} điểm</b> khởi đầu cho Vòng LTT
+                    <b>{settings?.minBetMoney * 2} điểm</b> khởi đầu cho Vòng
+                    LTT
                   </p>{" "}
-                  Và sẽ được tặng thêm {settings.minBetMoney} điểm (chỉ 01 lần
+                  Và sẽ được tặng thêm {settings?.minBetMoney} điểm (chỉ 01 lần
                   duy nhất) cho lượt refill ở Vòng LTT này.
                 </li>
               </ul>
@@ -244,7 +245,7 @@ const Rules = () => {
                 </li>
                 <li>
                   Được nạp tiền lại ({settings?.defaultMoney}K) sau khi số điểm
-                  dưới <b>{settings.minBetMoney} điểm</b>
+                  dưới <b>{settings?.minBetMoney} điểm</b>
                 </li>
                 <li>
                   01 account được <b>nạp lại 03 lần cho Vòng Bảng</b> và{" "}
@@ -253,7 +254,7 @@ const Rules = () => {
                 <li>
                   Mỗi tài khoản phải tham gia đặt <b>ít nhất 04 trận</b>, với số
                   điểm tối thiểu đặt trong mỗi trận phải từ{" "}
-                  <b>{settings.minBetMoney} điểm trở lên</b>.
+                  <b>{settings?.minBetMoney} điểm trở lên</b>.
                 </li>
                 <li>
                   Các bạn dùng <b>Email TMA</b> để đăng ký nhưng không giới hạn
@@ -454,9 +455,9 @@ const Rules = () => {
                     <li>
                       Bet hợp lệ là bet được tính đến thời điểm{" "}
                       <b>
-                        {settings.timeBet < 10
-                          ? `0${settings.timeBet}`
-                          : settings.timeBet}{" "}
+                        {settings?.timeBet < 10
+                          ? `0${settings?.timeBet}`
+                          : settings?.timeBet}{" "}
                         PHÚT TRƯỚC LÚC TRỌNG TÀI THỔI CÒI BẮT ĐẦU TRẬN ĐẤU
                       </b>{" "}
                       (thời gian bắt đầu hiệp 01 của trận đấu đó)
