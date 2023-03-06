@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { plainPasswordOptions } from "../../constants";
 import { headers } from "../../helper";
 import {
-  getTheLastSettingReducerAsync,
-  selectSetting,
+	getTheLastSettingReducerAsync,
+	selectSetting,
+	updateSettingReducer
 } from "../../state/settingSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -27,12 +28,24 @@ const TabPassword = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
+    (async () => {
+      try {
+        const { data } = await axios.get("/setting", {
+          headers: headers(accessToken),
+        });
 
-    return () => clearTimeout(timer);
-  }, []);
+        if (data) {
+          dispatch(updateSettingReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(updateSettingReducer(response.data));
+        }
+      }
+    })();
+  }, [accessToken, dispatch]);
 
   // Default options selected
   useEffect(() => {
