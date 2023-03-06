@@ -17,18 +17,22 @@ import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { formatTime, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, headers } from "../../helper";
-import { getAllBetsReducerAsync, selectBet } from "../../state/betSlice";
 import {
-  deleteMatchReducerAsync,
-  getAllMatchesReducer,
-  getAllMatchesReducerAsync,
-  selectMatch,
+	getAllBetsReducer,
+	getAllBetsReducerAsync,
+	selectBet
+} from "../../state/betSlice";
+import {
+	deleteMatchReducerAsync,
+	getAllMatchesReducer,
+	getAllMatchesReducerAsync,
+	selectMatch
 } from "../../state/matchSlice";
 import { selectSetting } from "../../state/settingSlice";
 import {
-  selectUser,
-  updateProfileReducer,
-  updateUserAfterDeleteBet,
+	selectUser,
+	updateProfileReducer,
+	updateUserAfterDeleteBet
 } from "../../state/userSlice";
 
 const Matches = () => {
@@ -65,6 +69,8 @@ const Matches = () => {
   const [confirmLoadingWithdrawMatch, setConfirmLoadingWithdrawMatch] =
     useState(false);
   const [selectedBetWithdraw, setSelectedBetWithdraw] = useState(null);
+  const [isShow1, setIsShow1] = useState(false);
+  const [isShow2, setIsShow2] = useState(false);
   // Initial navigate
   const navigate = useNavigate();
   // Get settings from global state
@@ -74,12 +80,42 @@ const Matches = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
+    (async () => {
+      try {
+        const res = await axios.get("/match");
+
+        if (res.data) {
+          dispatch(getAllMatchesReducer(res.data));
+
+          setIsShow1(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllMatchesReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Get all bets
   useEffect(() => {
-    dispatch(getAllBetsReducerAsync(accessToken));
+    (async () => {
+      try {
+        const { data } = await axios.get("/bet", {
+          headers: headers(accessToken),
+        });
+
+        if (data) {
+          dispatch(getAllBetsReducer(data));
+
+          setIsShow2(true);
+        }
+      } catch ({ response }) {
+        if (response) {
+          dispatch(getAllBetsReducer(response.data));
+        }
+      }
+    })();
   }, [accessToken, dispatch]);
 
   // Set title
@@ -96,7 +132,7 @@ const Matches = () => {
     setTimeBet(moment().add(settings?.timeBet, "minutes"));
   }, [settings?.timeBet]);
 
-  if (!matches?.matches && !bets) return <span>Loading...</span>;
+  if (!isShow1 && !isShow2) return <span>Loading...</span>;
 
   // Handle bet
   const handleBet = (record) => {

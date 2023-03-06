@@ -54,7 +54,7 @@ const Account = () => {
     setIsShow(true);
   }, [accessToken, dispatch]);
 
-  if (!isShow && !settings && !user) return <span>Loading...</span>;
+  if (!isShow) return <span>Loading...</span>;
 
   // Handle submit finish
   const onFinish = async (values) => {

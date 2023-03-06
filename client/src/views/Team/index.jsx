@@ -11,11 +11,11 @@ import Modals from "../../components/Modals";
 import NumberOfRows from "../../components/NumberOfRows";
 import { teamRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
-import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
+import { getAllMatchesReducer, selectMatch } from "../../state/matchSlice";
 import {
-  deleteTeamReducerAsync,
   getAllTeamsReducer,
   selectTeam,
+  updateTeamReducer,
 } from "../../state/teamSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -38,7 +38,8 @@ const Team = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [deleteTeam, setDeleteTeam] = useState({ _id: null, fullName: null });
-  const [isShow, setIsShow] = useState(false);
+  const [isShow1, setIsShow1] = useState(false);
+  const [isShow2, setIsShow2] = useState(false);
 
   // Set title
   useEffect(() => {
@@ -56,7 +57,7 @@ const Team = () => {
         if (data) {
           dispatch(getAllTeamsReducer(data));
 
-          setIsShow(true);
+          setIsShow1(true);
         }
       } catch ({ response }) {
         if (response.data) {
@@ -68,7 +69,21 @@ const Team = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
+    (async () => {
+      try {
+        const res = await axios.get("/match");
+
+        if (res.data) {
+          dispatch(getAllMatchesReducer(res.data));
+
+          setIsShow2(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllMatchesReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Check if user not exists
@@ -81,29 +96,34 @@ const Team = () => {
     if (user?.roleID !== "Admin") navigate("/");
   }, [navigate, user?.roleID]);
 
-  if (!isShow) return <span>Loading...</span>;
+  if (!isShow1 && !isShow2) return <span>Loading...</span>;
 
   // Handle confirm ok when user delete
   const handleOk = () => {
     // Set loading to true first
     setConfirmLoading(true);
 
-    try {
-      // Dispatch delete user reducer async action
-      dispatch(deleteTeamReducerAsync(accessToken, deleteTeam._id));
+    (async () => {
+      try {
+        const { data } = await axios.delete(`/team/${deleteTeam._id}`, {
+          headers: headers(accessToken),
+        });
 
-      // After delete successfully hide modal
-      setOpen(false);
+        if (data) {
+          dispatch(updateTeamReducer(data));
 
-      // And set loading to false
-      setConfirmLoading(false);
-    } catch (error) {
-      // Set loading to false if have error
-      setConfirmLoading(false);
+          // After delete successfully hide modal
+          setOpen(false);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(updateTeamReducer(response.data));
 
-      // After delete successfully hide modal
-      setOpen(false);
-    }
+          // And set loading to false
+          setConfirmLoading(false);
+        }
+      }
+    })();
   };
 
   // Handle cancel when user no delete
