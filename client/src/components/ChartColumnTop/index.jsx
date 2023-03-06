@@ -8,7 +8,7 @@ import {
   SeriesDirective,
   Tooltip,
 } from "@syncfusion/ej2-react-charts";
-import React from "react";
+import React, { memo } from "react";
 
 const ChartColumnTop = ({ id, title, tooltip, primaryXAxis, data }) => {
   return (
@@ -33,4 +33,4 @@ const ChartColumnTop = ({ id, title, tooltip, primaryXAxis, data }) => {
   );
 };
 
-export default ChartColumnTop;
+export default memo(ChartColumnTop);

@@ -1,15 +1,15 @@
 import {
-	Category,
-	ChartComponent,
-	DataLabel,
-	Inject,
-	Legend,
-	SeriesCollectionDirective,
-	SeriesDirective,
-	StackingAreaSeries,
-	Tooltip
+  Category,
+  ChartComponent,
+  DataLabel,
+  Inject,
+  Legend,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  StackingAreaSeries,
+  Tooltip,
 } from "@syncfusion/ej2-react-charts";
-import React from "react";
+import React, { memo } from "react";
 
 const ChartStackingAreaWinBet = ({
   id,
@@ -63,4 +63,4 @@ const ChartStackingAreaWinBet = ({
   );
 };
 
-export default ChartStackingAreaWinBet;
+export default memo(ChartStackingAreaWinBet);

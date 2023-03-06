@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import React from "react";
+import React, { memo } from "react";
 
 const Modals = ({
   title,
@@ -38,4 +38,4 @@ const Modals = ({
   );
 };
 
-export default Modals;
+export default memo(Modals);

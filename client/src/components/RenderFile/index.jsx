@@ -1,5 +1,5 @@
 import { Image } from "antd";
-import React from "react";
+import React, { memo } from "react";
 import { sizeInMb } from "../../helper";
 
 const RenderFile = ({ file: { format, name, size } }) => {
@@ -20,4 +20,4 @@ const RenderFile = ({ file: { format, name, size } }) => {
   );
 };
 
-export default RenderFile;
+export default memo(RenderFile);

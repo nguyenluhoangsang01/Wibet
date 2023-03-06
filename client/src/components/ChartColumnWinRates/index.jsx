@@ -8,7 +8,7 @@ import {
   SeriesDirective,
   Tooltip,
 } from "@syncfusion/ej2-react-charts";
-import React from "react";
+import React, { memo } from "react";
 
 const ChartColumnsWinRates = ({
   id,
@@ -41,4 +41,4 @@ const ChartColumnsWinRates = ({
   );
 };
 
-export default ChartColumnsWinRates;
+export default memo(ChartColumnsWinRates);

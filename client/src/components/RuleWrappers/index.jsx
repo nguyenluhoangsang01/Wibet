@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const RuleWrappers = ({ heading, children }) => {
   return (
@@ -15,4 +15,4 @@ const RuleWrappers = ({ heading, children }) => {
   );
 };
 
-export default RuleWrappers;
+export default memo(RuleWrappers);

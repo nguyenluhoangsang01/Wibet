@@ -1,5 +1,5 @@
 import { Image } from "antd";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -229,4 +229,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

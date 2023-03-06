@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
 
@@ -29,4 +29,4 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
   );
 };
 
-export default ErrorFallback;
+export default memo(ErrorFallback);

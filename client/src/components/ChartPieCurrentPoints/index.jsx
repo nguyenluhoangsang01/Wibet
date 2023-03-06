@@ -8,7 +8,7 @@ import {
   Inject,
   PieSeries,
 } from "@syncfusion/ej2-react-charts";
-import React from "react";
+import React, { memo } from "react";
 
 const ChartPieCurrentPoints = ({
   id,
@@ -49,4 +49,4 @@ const ChartPieCurrentPoints = ({
   );
 };
 
-export default ChartPieCurrentPoints;
+export default memo(ChartPieCurrentPoints);

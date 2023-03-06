@@ -1,6 +1,6 @@
 import { Button, Form, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 const ModalUpdateComment = ({
   openUpdate,
@@ -87,4 +87,4 @@ const ModalUpdateComment = ({
   );
 };
 
-export default ModalUpdateComment;
+export default memo(ModalUpdateComment);

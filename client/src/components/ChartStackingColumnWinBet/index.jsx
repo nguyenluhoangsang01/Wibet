@@ -9,7 +9,7 @@ import {
   StackingColumnSeries,
   Tooltip,
 } from "@syncfusion/ej2-react-charts";
-import React from "react";
+import React, { memo } from "react";
 
 const ChartStackingColumnWinBet = ({
   id,
@@ -57,4 +57,4 @@ const ChartStackingColumnWinBet = ({
   );
 };
 
-export default ChartStackingColumnWinBet;
+export default memo(ChartStackingColumnWinBet);

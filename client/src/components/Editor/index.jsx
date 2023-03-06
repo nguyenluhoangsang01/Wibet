@@ -1,7 +1,7 @@
 import { Button, Form } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -115,4 +115,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default memo(Editor);

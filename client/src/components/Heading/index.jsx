@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const Heading = ({ title }) => {
   return (
@@ -8,4 +8,4 @@ const Heading = ({ title }) => {
   );
 };
 
-export default Heading;
+export default memo(Heading);

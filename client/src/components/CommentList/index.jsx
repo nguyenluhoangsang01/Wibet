@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsFillTrashFill, BsPencilFill } from "react-icons/bs";
 import { GiTimeBomb } from "react-icons/gi";
@@ -272,4 +272,4 @@ const CommentList = ({ comments, isShowAllComments }) => {
   );
 };
 
-export default CommentList;
+export default memo(CommentList);

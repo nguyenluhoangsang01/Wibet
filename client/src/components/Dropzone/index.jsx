@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const Dropzone = ({ setFile }) => {
@@ -38,4 +38,4 @@ const Dropzone = ({ setFile }) => {
   );
 };
 
-export default Dropzone;
+export default memo(Dropzone);

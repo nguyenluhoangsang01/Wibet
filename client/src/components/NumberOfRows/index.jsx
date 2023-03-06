@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const NumberOfRows = ({ children }) => {
   return (
@@ -8,4 +8,4 @@ const NumberOfRows = ({ children }) => {
   );
 };
 
-export default NumberOfRows;
+export default memo(NumberOfRows);

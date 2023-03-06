@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 const SuccessMessage = ({ isUpdated, setIsUpdated, children }) => {
@@ -16,4 +16,4 @@ const SuccessMessage = ({ isUpdated, setIsUpdated, children }) => {
   );
 };
 
-export default SuccessMessage;
+export default memo(SuccessMessage);
