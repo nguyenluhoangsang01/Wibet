@@ -306,7 +306,7 @@ const TabReward = () => {
         dataSource={[...rewards]}
         className="pt-[25px] -mt-4"
         scroll={{ x: "90vw" }}
-        loading={rewards ? false : true}
+        loading={!rewards}
         pagination={false}
       />
 

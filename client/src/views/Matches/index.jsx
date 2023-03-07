@@ -18,21 +18,21 @@ import NumberOfRows from "../../components/NumberOfRows";
 import { formatTime, matchesRoutes } from "../../constants";
 import { capitalize, formatNumber, headers } from "../../helper";
 import {
-	getAllBetsReducer,
-	getAllBetsReducerAsync,
-	selectBet
+  getAllBetsReducer,
+  getAllBetsReducerAsync,
+  selectBet,
 } from "../../state/betSlice";
 import {
-	deleteMatchReducerAsync,
-	getAllMatchesReducer,
-	getAllMatchesReducerAsync,
-	selectMatch
+  deleteMatchReducerAsync,
+  getAllMatchesReducer,
+  getAllMatchesReducerAsync,
+  selectMatch,
 } from "../../state/matchSlice";
 import { selectSetting } from "../../state/settingSlice";
 import {
-	selectUser,
-	updateProfileReducer,
-	updateUserAfterDeleteBet
+  selectUser,
+  updateProfileReducer,
+  updateUserAfterDeleteBet,
 } from "../../state/userSlice";
 
 const Matches = () => {
@@ -858,11 +858,16 @@ const Matches = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[...matches.matches]
-          ?.filter((match) => (user?.roleID === "Admin" ? match : match.isShow))
-          ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))}
+        dataSource={
+          matches?.matches &&
+          [...matches?.matches]
+            ?.filter((match) =>
+              user?.roleID === "Admin" ? match : match.isShow
+            )
+            ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+        }
         rowClassName={(record) => !record.isShow && "disabled-row"}
-        loading={matches.matches ? false : true}
+        loading={!matches?.matches}
         scroll={{ x: "100vw" }}
         pagination={{ pageSize: 20 }}
       />

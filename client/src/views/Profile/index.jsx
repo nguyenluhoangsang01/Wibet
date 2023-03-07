@@ -52,10 +52,12 @@ const Profile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get("/bet", { headers: headers(accessToken) });
+        const { data } = await axios.get("/bet", {
+          headers: headers(accessToken),
+        });
 
-        if (res.data) {
-          dispatch(getAllBetsReducer(res.data));
+        if (data) {
+          dispatch(getAllBetsReducer(data));
 
           setIsShow(true);
         }
@@ -76,13 +78,13 @@ const Profile = () => {
 
     try {
       // Update current user with values get from form
-      const res = await axios.patch("/user/update/profile", values, {
+      const { data } = await axios.patch("/user/update/profile", values, {
         headers: headers(accessToken),
       });
 
       // Check if data is true, dispatch update password reducer action to update new user information to global state, set is finish to false and navigate to home page
-      if (res.data) {
-        dispatch(updateProfileReducer(res.data));
+      if (data) {
+        dispatch(updateProfileReducer(data));
 
         setIsFinish(false);
 
@@ -333,7 +335,7 @@ const Profile = () => {
             rowKey="_id"
             columns={columns}
             dataSource={
-              isShow &&
+              bets?.bets &&
               [...bets?.bets]?.filter(
                 (bet) =>
                   bet?.user?._id?.toString() === user?._id?.toString() &&
@@ -342,7 +344,7 @@ const Profile = () => {
             }
             className="pt-[25px] -mt-4"
             scroll={{ x: "90vw" }}
-            loading={bets.bets ? false : true}
+            loading={!bets?.bets}
             pagination={false}
           />
         )}

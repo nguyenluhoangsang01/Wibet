@@ -203,11 +203,14 @@ const Ranking = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[...users?.users]
-          .filter((user) => user.betTimes > 0)
-          .sort((a, b) => a.money - b.money)
-          .reverse()}
-        loading={users?.users ? false : true}
+        dataSource={
+          users?.users &&
+          [...users?.users]
+            .filter((user) => user.betTimes > 0)
+            .sort((a, b) => a.money - b.money)
+            .reverse()
+        }
+        loading={!users?.users}
         scroll={{ x: "80vw" }}
         pagination={false}
       />

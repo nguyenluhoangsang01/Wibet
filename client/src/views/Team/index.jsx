@@ -71,10 +71,10 @@ const Team = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get("/match");
+        const { data } = await axios.get("/match");
 
-        if (res.data) {
-          dispatch(getAllMatchesReducer(res.data));
+        if (data) {
+          dispatch(getAllMatchesReducer(data));
 
           setIsShow2(true);
         }
@@ -263,8 +263,11 @@ const Team = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[...teams?.teams].sort((a, b) => a.fullName - b.fullName)}
-        loading={teams?.teams ? false : true}
+        dataSource={
+          teams?.teams &&
+          [...teams?.teams].sort((a, b) => a.fullName - b.fullName)
+        }
+        loading={!teams?.teams}
         scroll={{ x: "80vw" }}
         pagination={{ pageSize: 20 }}
       />

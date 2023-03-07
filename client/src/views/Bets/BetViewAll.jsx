@@ -233,11 +233,12 @@ const BetViewAll = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[
-          ...bets.bets.filter((bet) => bet.match?._id === id),
-        ]?.reverse()}
+        dataSource={
+          bets?.bets &&
+          [...bets?.bets?.filter((bet) => bet.match?._id === id)]?.reverse()
+        }
         className="pt-[25px] -mt-4"
-        loading={bets.bets ? false : true}
+        loading={!bets?.bets}
         scroll={{ x: "90vw" }}
         pagination={false}
       />

@@ -300,7 +300,7 @@ const TabAccessLevel = () => {
         dataSource={[...accessLevel]}
         className="pt-[25px] -mt-4"
         scroll={{ x: "90vw" }}
-        loading={accessLevel ? false : true}
+        loading={!accessLevel}
         pagination={false}
       />
 

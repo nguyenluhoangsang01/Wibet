@@ -13,10 +13,10 @@ import NumberOfRows from "../../components/NumberOfRows";
 import { usersRoutes } from "../../constants";
 import { capitalize } from "../../helper";
 import {
-	deleteUserReducerAsync,
-	getAllUsersReducer,
-	selectUser,
-	toggleIsShowHistory
+  deleteUserReducerAsync,
+  getAllUsersReducer,
+  selectUser,
+  toggleIsShowHistory,
 } from "../../state/userSlice";
 
 const Users = () => {
@@ -390,8 +390,8 @@ const Users = () => {
       <Table
         rowKey="_id"
         columns={columns}
-        dataSource={[...users?.users].reverse()}
-        loading={[...users?.users] ? false : true}
+        dataSource={users?.users && [...users?.users].reverse()}
+        loading={!users?.users}
         scroll={{ x: "100vw" }}
         pagination={{ pageSize: 20 }}
       />

@@ -1,10 +1,11 @@
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Bracket } from "react-tournament-bracket";
 import { capitalize } from "../../helper";
-import { getAllMatchesReducerAsync, selectMatch } from "../../state/matchSlice";
+import { getAllMatchesReducer, selectMatch } from "../../state/matchSlice";
 
 const Brackets = () => {
   // Get pathname from location
@@ -37,9 +38,21 @@ const Brackets = () => {
 
   // Get all matches
   useEffect(() => {
-    dispatch(getAllMatchesReducerAsync());
+    (async () => {
+      try {
+        const { data } = await axios.get("/match");
 
-    setIsShow(true);
+        if (data) {
+          dispatch(getAllMatchesReducer(data));
+
+          setIsShow(true);
+        }
+      } catch ({ response }) {
+        if (response.data) {
+          dispatch(getAllMatchesReducer(response.data));
+        }
+      }
+    })();
   }, [dispatch]);
 
   // Set title
@@ -49,15 +62,12 @@ const Brackets = () => {
 
   // Set game after filter
   useEffect(() => {
-    isShow &&
-      setGame(
-        [...matches]
-          ?.filter((match) => match.isShow && !match.isCanceled)
-          ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
-      );
-
-    setIsShow(true);
-  }, [isShow, matches]);
+    setGame(
+      matches
+        ?.filter((match) => match.isShow && !match.isCanceled)
+        ?.sort((a, b) => moment(a.matchDate) - moment(b.matchDate))
+    );
+  }, [matches]);
 
   if (!isShow) return <span>Loading...</span>;
 
