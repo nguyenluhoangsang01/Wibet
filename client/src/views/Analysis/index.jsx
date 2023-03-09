@@ -86,7 +86,7 @@ const Analysis = () => {
     .flat(1);
 
   return (
-    <>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       <div className="grid md:grid-cols-3 md:gap-6 md:h-[300px]">
         {/* Top 3 */}
         <ChartColumnTop
@@ -175,7 +175,7 @@ const Analysis = () => {
           data2={winBetDataSourceWithBetTimes}
         />
       </div>
-    </>
+    </div>
   );
 };
 

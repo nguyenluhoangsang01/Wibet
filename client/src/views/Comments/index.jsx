@@ -57,7 +57,7 @@ const Comments = () => {
   };
 
   return (
-    <div className="font-[calibri] divide-y-2">
+    <div className="font-[calibri] divide-y-2 min-h-[calc(100vh-50px-60px-40px)]">
       <div className="w-full pb-10">
         <div className="flex flex-col items-center justify-center mt-[70px]">
           <a

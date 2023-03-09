@@ -10,14 +10,14 @@ import RuleWrappers from "../../components/RuleWrappers";
 import { ruleRoutes } from "../../constants";
 import { capitalize, headers } from "../../helper";
 import {
-	getAllAccessLevelReducer,
-	selectAccessLevel
+  getAllAccessLevelReducer,
+  selectAccessLevel,
 } from "../../state/accessLevelSlice";
 import { getAllRewardsReducer, selectReward } from "../../state/rewardSlice";
 import {
-	getTheLastSettingReducerAsync,
-	selectSetting,
-	updateSettingReducer
+  getTheLastSettingReducerAsync,
+  selectSetting,
+  updateSettingReducer,
 } from "../../state/settingSlice";
 import { selectUser } from "../../state/userSlice";
 
@@ -186,7 +186,7 @@ const Rules = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-50px-60px-40px)]">
       {/* First section */}
       <div className="md:-mx-8 md:px-10">
         {/* Breadcrumbs */}
